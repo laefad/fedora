@@ -1,0 +1,45 @@
+let f a => +(a() 1)
+
+context:
+  functions:
+    f: 
+      args: 
+        - a
+      selfContext: null
+      context: (указатель на context)
+      returnable: 
+        //funcall
+	function: (указатель на +)
+	args: 
+	  - nullptr // на a, когда функцию вызовут тут будет конкретный указатель
+	  - 1 // просто число 1
+
+		  
+force f(1)
+
+//ИТЕРАЦИЯ
+
+funcall:
+  function : f
+  args: 
+    - 1
+  
+//ИТЕРАЦИЯ
+
+funcall: 
+  function: +
+  args: 
+    - a // a => 1 ну или просто число я тут пока не решил 
+    - 1
+	
+//ИТЕРАЦИЯ
+
+funcall: 
+  function: +
+  args: 
+    - 1
+    - 1
+	
+//ИТЕРАЦИЯ
+
+2
