@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include <string>
+#include "Parser.h"
 
 #include "Headers/Types/BasicType.h"
 namespace fedora {
@@ -26,7 +27,16 @@ namespace fedora {
 
 }
 
-int main()
-{
-    std::cout << "Hello World!\n";
+int main(int argc, char *argv[]) {
+    if (argc == 0) {
+        std::cout << "You have not entered any arguments";
+        return 0;
+    }
+
+    std::string path = argv[1];
+    std::cout << "Args count: "<<argc<<std::endl <<"Path to file: "<<path;
+
+    fedora::Parser parser = fedora::Parser();
+
+    return 0;
 }

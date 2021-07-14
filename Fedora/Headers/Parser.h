@@ -3,6 +3,6 @@ namespace fedora {
 
 	class Parser
 	{
-		static fedora::Context parse();
+		//static fedora::Context parse();
 	};
 }
