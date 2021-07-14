@@ -35,8 +35,11 @@ int main(int argc, char *argv[]) {
 
     std::string path = argv[1];
     std::cout << "Args count: "<<argc<<std::endl <<"Path to file: "<<path;
+    std::ifstream fin;
 
-    fedora::Parser parser = fedora::Parser();
+    fedora::Parser parser = fedora::Parser(path, fin);
+    parser.readFile();
+
 
     return 0;
 }
