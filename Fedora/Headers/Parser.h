@@ -30,6 +30,9 @@ namespace fedora {
 
         /// Игнорируем ли мы символ или нет
         static bool isIgnored(char&);
+
+        /// Является ли символ разделителем между докенами
+        static bool isDelimiter(char&);
     public:
         Parser(const std::string &fileName, std::ifstream &fin);
 
