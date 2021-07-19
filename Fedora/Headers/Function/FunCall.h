@@ -1,7 +1,7 @@
 #pragma once
 #include "Function.h"
 #include <vector>
-#include "BasicType.h"
+#include "Headers/Types/BasicType.h"
 
 namespace fedora {
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <BasicType.h>
+
 namespace fedora {
 namespace function {
 
