@@ -1,5 +1,5 @@
 .vs
 /cmake-build-debug/
 /.idea/
-.sln
-.vcxproj*
+*.sln
+*.vcxproj*
