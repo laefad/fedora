@@ -1,0 +1,35 @@
+let fib n where
+    let true_fib n where
+        let isBasic = or(
+            eq(n 1) # equal = #
+            eq(n 2)
+        )
+
+        let nextFib = +(
+            true_fib(-(n 1))
+            true_fib(-(n 2))
+        )
+
+    #функция без аргументов(да и в принципе любая функция, тогда она вернет саму себя, если аргументов недостаточно) может вызываться без указания скобок# 
+    = if(isBasic
+        #then# 1
+        #else# nextFib
+    )
+
+= if( le(n 0) # less equal <= #
+    #then# 0
+    #else# true_fib(n)
+)
+
+let main where 
+    let get_num = input("Введите число n: ") #input пока без понятия как правильно сделать и откуда он берет число, чисто для примера#
+    let result n = print(
+        +("Значение фибонначи для" n " = " fib(n)) 
+        #
+        сложение строкового типа и любого другого приводит к строковому
+        функция + принимает нограниченно кол-во аргументов
+        #
+    )
+= result(get_n())
+ 
+force main
