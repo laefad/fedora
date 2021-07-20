@@ -5,22 +5,17 @@
 #include <iostream>
 #include <string>
 #include "Context.h"
+#include "Token.h"
+#include "Analyzer.h"
 
 namespace fedora {
-    /// Токен, который мы прочитали и будем анализировать
-    /// В классе можно сохранять контекст распрашеного токена для анализа
-    class Token{
-    public:
-        Token(std::wstring& data);
-        std::wstring data;
-        bool isEmpty=false;
-    };
-
     /// Класс для парсинга файла на токены
     class Parser {
     private:
         /// Файловый поток
         std::ifstream& fin;
+
+        Analyzer& analyzer;
 
         /// Прочитать следующий токен
         Token readToken();
@@ -34,7 +29,7 @@ namespace fedora {
         /// Является ли символ разделителем между докенами
         static bool isDelimiter(wchar_t &);
     public:
-        Parser(const std::string &fileName, std::ifstream &fin);
+        Parser(const std::string &, std::ifstream &, Analyzer&);
 
         /// Прочитать весь файл и сохранить токены
         void readFile();
@@ -44,9 +39,4 @@ namespace fedora {
             fin.close();
         }
     };
-
-
-
-//    /// результат чтения
-//    typedef std::pair<Token, bool> tokenReadResult;
 }

@@ -2,7 +2,7 @@
 #include "vector"
 namespace fedora {
 
-    Parser::Parser(const std::string &fileName, std::ifstream &fin) : fin(fin) {
+    Parser::Parser(const std::string &fileName, std::ifstream &fin, Analyzer& analyzer1) : fin(fin), analyzer(analyzer1) {
         fin = std::ifstream(fileName, std::ios_base::in);
 
         if (!fin.is_open()) // если файл не открыт
@@ -49,6 +49,7 @@ namespace fedora {
 
     void Parser::analyzeToken(Token & token) {
         std::wcout<<token.data<<std::endl;
+        analyzer.analyzeNext(token);
     }
 
     bool Parser::isIgnored(wchar_t & tmp) {

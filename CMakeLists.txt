@@ -22,4 +22,4 @@ add_executable(fedora
         Fedora/Source/Number.cpp
         Fedora/Source/Parser.cpp
         Fedora/Source/String.cpp
-        Fedora/Fedora.cpp)
+        Fedora/Fedora.cpp Fedora/Headers/Analyzer.h Fedora/Source/Analyzer.cpp Fedora/Headers/Token.h)

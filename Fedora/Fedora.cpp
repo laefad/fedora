@@ -2,7 +2,6 @@
 #include <string>
 #include "Parser.h"
 
-#include "Headers/Types/BasicType.h"
 namespace fedora {
 
     //class Macros {
@@ -33,13 +32,19 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
+    // Получаем имя файла
     std::string path = argv[1];
     std::cout << "Args count: "<<argc<<std::endl <<"Path to file: "<<path<<std::endl;
+
+    // Создаём файловый поток
     std::ifstream fin;
 
-    fedora::Parser parser = fedora::Parser(path, fin);
-    parser.readFile();
+    // Инициализируем анализатор
+    fedora::Analyzer analyzer = fedora::Analyzer();
 
+    // Инициализируем парсер файла
+    fedora::Parser parser = fedora::Parser(path, fin, analyzer);
+    parser.readFile();
 
     return 0;
 }
