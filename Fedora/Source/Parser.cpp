@@ -10,13 +10,14 @@ namespace fedora {
     }
 
     void Parser::readFile() {
-        std::vector<Token> tokens = std::vector<Token>();
+        //std::vector<Token> tokens = std::vector<Token>();
+        bool noErrors = true;
 
-        while (!fin.eof()){
+        while (!fin.eof() && noErrors){
             Token tmp = readToken();
             if (!tmp.isEmpty) {
-                analyzeToken(tmp);
-                tokens.push_back(tmp);
+                noErrors = analyzeToken(tmp);
+                //tokens.push_back(tmp);
             }
         }
         int a = 1+1;
@@ -47,9 +48,9 @@ namespace fedora {
         return token;
     }
 
-    void Parser::analyzeToken(Token & token) {
+    bool Parser::analyzeToken(Token & token) {
         std::wcout<<token.data<<std::endl;
-        analyzer.analyzeNext(token);
+        return analyzer.analyzeNext(token);
     }
 
     bool Parser::isIgnored(wchar_t & tmp) {
@@ -60,7 +61,7 @@ namespace fedora {
 
     bool Parser::isDelimiter(wchar_t & tmp) {
         // Символы, которые мы считаем разделителями на токены
-        const std::wstring ignoredSymbols = L"()[]:#";
+        const std::wstring ignoredSymbols = L"()[]#";
         return ignoredSymbols.find(tmp) != std::wstring::npos;
     }
 

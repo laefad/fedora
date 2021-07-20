@@ -21,7 +21,8 @@ namespace fedora {
         Token readToken();
 
         /// Распознать токен
-        void analyzeToken(Token&);
+        /// @return True, если он встаёт в текущий контекст
+        bool analyzeToken(Token&);
 
         /// Игнорируем ли мы символ или нет
         static bool isIgnored(wchar_t &);

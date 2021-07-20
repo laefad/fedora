@@ -3,19 +3,18 @@
 #include <map>
 #include <string>
 #include <memory>
+#include "vector"
 
 namespace fedora {
 namespace function {
 
-    class Contex {
-    public: 
-        std::shared_ptr<Function> get(std::wstring wname) {
-            auto res = functions.find(wname);
-            return res == functions.end() ? std::shared_ptr<Function>(nullptr) : res->second;
-        }
+    // Контекст, где хранятся функции и их контексты
+    class Context {
+    public:
+
     private:
-        std::map<std::wstring, std::shared_ptr<Function>> functions;
-        std::shared_ptr<Contex> parent;
+        // Массив указателей на функции
+        std::vector<std::shared_ptr<Function>> functions = std::vector<std::shared_ptr<Function>>();
     };
 
 }

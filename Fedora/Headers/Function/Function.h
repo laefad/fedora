@@ -10,8 +10,8 @@ namespace function {
 
     class Function {
     private:
-//        std::shared_ptr<fedora::function::Contex> context;
-//        std::shared_ptr<Contex> selfContext;
+//        std::shared_ptr<fedora::function::Context> context;
+//        std::shared_ptr<Context> selfContext;
         std::unique_ptr<Returnable> returnable;
         std::unique_ptr<Arguments> args;
     };

@@ -6,7 +6,7 @@ namespace fedora {
 
     //class Macros {
     //private:
-    //    fedora::Contex* context;
+    //    fedora::Context* context;
     //    std::wstring pattern;
     //    fedora::Returnable* returnable;
     //    fedora::Arguments* args;
