@@ -11,8 +11,8 @@ namespace fedora {
     /// В классе можно сохранять контекст распрашеного токена для анализа
     class Token{
     public:
-        Token(std::string& data);
-        std::string data;
+        Token(std::wstring& data);
+        std::wstring data;
         bool isEmpty=false;
     };
 
@@ -29,10 +29,10 @@ namespace fedora {
         void analyzeToken(Token&);
 
         /// Игнорируем ли мы символ или нет
-        static bool isIgnored(char&);
+        static bool isIgnored(wchar_t &);
 
         /// Является ли символ разделителем между докенами
-        static bool isDelimiter(char&);
+        static bool isDelimiter(wchar_t &);
     public:
         Parser(const std::string &fileName, std::ifstream &fin);
 

@@ -23,8 +23,8 @@ namespace fedora {
     }
 
     Token Parser::readToken() {
-        std::string res;
-        char tmp = 'F';
+        std::wstring res;
+        wchar_t tmp = L'F';
         while(!isDelimiter(tmp) && !isIgnored(tmp) && !fin.eof()){
             tmp = fin.get();
             if (!isIgnored(tmp))
@@ -48,22 +48,22 @@ namespace fedora {
     }
 
     void Parser::analyzeToken(Token & token) {
-        std::cout<<token.data<<std::endl;
+        std::wcout<<token.data<<std::endl;
     }
 
-    bool Parser::isIgnored(char & tmp) {
+    bool Parser::isIgnored(wchar_t & tmp) {
         // Символы, которые мы игнорируем
-        const std::string ignoredSymbols = "\n\t\r ";
-        return ignoredSymbols.find(tmp) != std::string::npos;
+        const std::wstring ignoredSymbols = L"\n\t\r \377"; // Возможно, \377 - это символ окончания файла
+        return ignoredSymbols.find(tmp) != std::wstring::npos;
     }
 
-    bool Parser::isDelimiter(char & tmp) {
+    bool Parser::isDelimiter(wchar_t & tmp) {
         // Символы, которые мы считаем разделителями на токены
-        const std::string ignoredSymbols = "()[]:#";
-        return ignoredSymbols.find(tmp) != std::string::npos;
+        const std::wstring ignoredSymbols = L"()[]:#";
+        return ignoredSymbols.find(tmp) != std::wstring::npos;
     }
 
-    Token::Token(std::string& data) {
+    Token::Token(std::wstring& data) {
         this->data = data;
     }
 }
