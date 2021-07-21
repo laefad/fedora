@@ -1,1 +1,4 @@
 let my_int = 3
+let myFun arg1 where
+    let myVar = 3
+= my_int

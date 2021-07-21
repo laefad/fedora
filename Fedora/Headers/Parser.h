@@ -26,9 +26,6 @@ namespace fedora {
 
         /// Игнорируем ли мы символ или нет
         static bool isIgnored(wchar_t &);
-
-        /// Является ли символ разделителем между докенами
-        static bool isDelimiter(wchar_t &);
     public:
         Parser(const std::string &, std::ifstream &, Analyzer&);
 

@@ -1,5 +1,7 @@
 #include "Parser.h"
 #include "vector"
+#include "StaticUtils.h"
+
 namespace fedora {
 
     Parser::Parser(const std::string &fileName, std::ifstream &fin, Analyzer& analyzer1) : fin(fin), analyzer(analyzer1) {
@@ -26,14 +28,14 @@ namespace fedora {
     Token Parser::readToken() {
         std::wstring res;
         wchar_t tmp = L'F';
-        while(!isDelimiter(tmp) && !isIgnored(tmp) && !fin.eof()){
+        while(!fedora::StaticUtils::isDelimiter(tmp) && !isIgnored(tmp) && !fin.eof()){
             tmp = fin.get();
             if (!isIgnored(tmp))
                 res += tmp;
         }
 
         // Если на конце токена ()[], то выделим их как отдельный токен в следующей итерации
-        if (res.length() > 1 && isDelimiter(res.at(res.length()-1))) {
+        if (res.length() > 1 && fedora::StaticUtils::isDelimiter(res.at(res.length()-1))) {
             res = res.substr(0, res.size()-1);
             //res.pop_back();
             fin.seekg(fin.tellg().operator-(1));
@@ -56,12 +58,6 @@ namespace fedora {
     bool Parser::isIgnored(wchar_t & tmp) {
         // Символы, которые мы игнорируем
         const std::wstring ignoredSymbols = L"\n\t\r \377"; // Возможно, \377 - это символ окончания файла
-        return ignoredSymbols.find(tmp) != std::wstring::npos;
-    }
-
-    bool Parser::isDelimiter(wchar_t & tmp) {
-        // Символы, которые мы считаем разделителями на токены
-        const std::wstring ignoredSymbols = L"()[]#";
         return ignoredSymbols.find(tmp) != std::wstring::npos;
     }
 
