@@ -4,6 +4,7 @@
 
 #include "Token.h"
 #include "Context.h"
+#include "FException.h"
 
 namespace fedora {
     // Состояние анализа. Описывает то, что ожидает получит анализатор от парсера
@@ -18,14 +19,19 @@ namespace fedora {
     class Analyzer {
     private:
         ParsingState state;
-        function::Context context;
+        std::shared_ptr<function::Context> context;
         std::vector<Token> tmpTokens = std::vector<Token>();
 
-        bool waitingForFunction(Token &token);
+        bool waitingForFunction(Token &);
+        bool readName(Token &);
+        bool readArgs(Token&);
+        bool readFunBody(Token&);
+        bool readFunRes(Token&);
     public:
         /// Ключевые слова, которые мы ожидаем после завершения последней функции или при начале парсинга.
         /// Они должны начинать объявление новой функции или импорт
-        std::vector<std::wstring> keyWordsToWait = {L"let"};
+        std::vector<std::wstring> allKeyWords = {L"let"};
+
 
         Analyzer();
         bool analyzeNext(Token&);
