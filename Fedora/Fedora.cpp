@@ -27,14 +27,15 @@ namespace fedora {
 }
 
 int main(int argc, char *argv[]) {
-    if (argc == 0) {
-        std::cout << "You have not entered any arguments";
+    if (argc == 1) {
+        std::cout << "You have not entered any arguments" << std::endl;
         return 0;
     }
 
     // Получаем имя файла
     std::string path = argv[1];
-    std::cout << "Args count: "<<argc<<std::endl <<"Path to file: "<<path<<std::endl;
+    std::cout << "Args amount: " << argc <<std::endl
+            << "Path to file: " << path << std::endl;
 
     // Создаём файловый поток
     std::ifstream fin;
