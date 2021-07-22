@@ -1,9 +1,7 @@
 //
 // Created by mi on 21.07.2021.
 //
-
-#ifndef FEDORA_FEXCEPTION_H
-#define FEDORA_FEXCEPTION_H
+#pragma once
 
 #include <locale>
 #include <codecvt>
@@ -30,4 +28,3 @@ namespace fedora {
         const char *what() const throw() { return s.c_str(); }
     };
 }
-#endif //FEDORA_FEXCEPTION_H

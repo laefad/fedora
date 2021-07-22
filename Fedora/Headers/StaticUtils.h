@@ -1,6 +1,7 @@
 //
 // Created on 21.07.2021.
 //
+#pragma once
 
 namespace fedora{
     class StaticUtils{

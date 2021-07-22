@@ -1,9 +1,11 @@
 #pragma once
-#include "Function.h"
+
 #include <map>
 #include <string>
 #include <memory>
-#include "vector"
+#include <vector>
+
+#include "Function.h"
 
 namespace fedora {
 namespace function {

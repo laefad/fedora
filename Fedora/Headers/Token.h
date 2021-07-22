@@ -1,10 +1,10 @@
 //
 // Created on 20.07.2021.
 //
-#include "string"
+#pragma once
 
-#ifndef FEDORA_TOKEN_H
-#define FEDORA_TOKEN_H
+#include <string>
+
 namespace fedora {
     /// Токен, который мы прочитали и будем анализировать
     /// В классе можно сохранять контекст распрашеного токена для анализа
@@ -16,4 +16,3 @@ namespace fedora {
         bool isEmpty = false;
     };
 }
-#endif //FEDORA_TOKEN_H

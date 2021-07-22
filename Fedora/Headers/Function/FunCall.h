@@ -1,7 +1,9 @@
 #pragma once
-#include "Function.h"
+
 #include <vector>
-#include "Headers/Types/BasicType.h"
+
+#include "Function.h"
+#include "BasicType.h"
 
 namespace fedora {
 
@@ -17,7 +19,7 @@ namespace fedora {
 			: funct(funct), args(args)
 		{}
 
-		fedora::types::BasicType execute() {
+		std::unique_ptr<fedora::types::BasicType> execute() {
 			
 		}
 	};
