@@ -1,17 +1,16 @@
 //
-// Created by mi on 21.07.2021.
+// Created on 21.07.2021.
 //
 
-#ifndef FEDORA_FEXCEPTION_H
-#define FEDORA_FEXCEPTION_H
-
+#pragma once
 #include <locale>
 #include <codecvt>
+#include <utility>
 
 namespace fedora {
     struct FException : public std::exception {
     private:
-        std::string ws2s(const std::wstring& wstr){
+        static std::string ws2s(const std::wstring& wstr){
             using convert_typeX = std::codecvt_utf8<wchar_t>;
             std::wstring_convert<convert_typeX, wchar_t> converterX;
 
@@ -20,14 +19,13 @@ namespace fedora {
     public:
         std::string s;
 
-        FException(std::wstring ss) {
+        explicit FException(const std::wstring& ss) {
             s = ws2s(ss);
         }
 
-        FException(std::string ss):s(ss){}
+        explicit FException(std::string ss):s(std::move(ss)){}
 
-        ~FException() throw() {} // Updated
-        const char *what() const throw() { return s.c_str(); }
+        ~FException() noexcept override = default;
+        const char *what() const noexcept override { return s.c_str(); }
     };
 }
-#endif //FEDORA_FEXCEPTION_H
