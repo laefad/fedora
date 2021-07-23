@@ -15,7 +15,7 @@ namespace fedora {
         /// Файловый поток
         std::ifstream& fin;
 
-        Analyzer& analyzer;
+        analytic::Analyzer& analyzer;
 
         /// Прочитать следующий токен
         Token readToken();
@@ -27,7 +27,7 @@ namespace fedora {
         /// Игнорируем ли мы символ или нет
         static bool isIgnored(wchar_t &);
     public:
-        Parser(const std::string &, std::ifstream &, Analyzer&);
+        Parser(const std::string &, std::ifstream &, analytic::Analyzer&);
 
         /// Прочитать весь файл и сохранить токены
         void readFile();

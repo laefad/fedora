@@ -10,7 +10,7 @@ namespace fedora {
     /// В классе можно сохранять контекст распрашеного токена для анализа
     class Token {
     public:
-        Token(std::wstring &data);
+        Token(std::wstring data);
 
         std::wstring data;
         bool isEmpty = false;

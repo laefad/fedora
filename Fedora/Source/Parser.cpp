@@ -4,7 +4,7 @@
 
 namespace fedora {
 
-    Parser::Parser(const std::string &fileName, std::ifstream &fin, Analyzer& analyzer1) : fin(fin), analyzer(analyzer1) {
+    Parser::Parser(const std::string &fileName, std::ifstream &fin, analytic::Analyzer& analyzer1) : fin(fin), analyzer(analyzer1) {
         fin = std::ifstream(fileName, std::ios_base::in);
 
         if (!fin.is_open()) // если файл не открыт
@@ -61,7 +61,7 @@ namespace fedora {
         return ignoredSymbols.find(tmp) != std::wstring::npos;
     }
 
-    Token::Token(std::wstring& data) {
+    Token::Token(std::wstring data) {
         this->data = data;
     }
 }
