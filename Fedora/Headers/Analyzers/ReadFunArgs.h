@@ -6,6 +6,9 @@
 
 namespace fedora{
     namespace analytic{
+        /**
+         * Класс чтения аргументов при объявлении функции
+         */
         class ReadFunArgs:public AnalyticBasic{
         public:
             bool analyzeToken(Token&) override;

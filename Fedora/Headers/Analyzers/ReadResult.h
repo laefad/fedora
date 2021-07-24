@@ -6,8 +6,12 @@
 
 namespace fedora{
     namespace analytic{
+        /**
+         * Прочитать возвращаемое значение функции
+         */
         class ReadResult:AnalyticBasic{
-
+        public:
+            bool analyzeToken(Token&) override;
         };
     }
 }

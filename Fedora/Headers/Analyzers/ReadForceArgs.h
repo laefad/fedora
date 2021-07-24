@@ -6,6 +6,10 @@
 
 namespace fedora{
     namespace analytic{
+        /**
+         * Класс чтения аргументов для force вызова функции
+         * @see Keywords.force
+         */
         class ReadForceArgs:public AnalyticBasic{
         public:
             bool analyzeToken(Token&) override;

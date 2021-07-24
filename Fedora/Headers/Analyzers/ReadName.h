@@ -6,8 +6,12 @@
 
 namespace fedora{
     namespace analytic{
+        /**
+         * Прочитать имя функции
+         */
         class ReadName:AnalyticBasic{
-
+        public:
+            bool analyzeToken(Token&) override;
         };
     }
 }

@@ -5,6 +5,7 @@
 #include "Analyzer.h"
 #include "StaticUtils.h"
 #include <iostream>
+#include <Exceptions/AnalyzerException.h>
 
 namespace fedora {
     namespace analytic {
@@ -35,6 +36,8 @@ namespace fedora {
 
         bool Analyzer::waitingForFunction(Token &token) {
             bool res = false;
+
+            //throw AnalyzerException(L"Analyzer.h waitingForFunction()data = " + token.data, L"Analyzer.h", L"waitingForFunction");
 
             // TODO Брать токены не как строки, а откуда-то
             if (token.data == L"pure" || token.data == L"force") {

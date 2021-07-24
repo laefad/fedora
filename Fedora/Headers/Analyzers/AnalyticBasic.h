@@ -6,6 +6,7 @@
 
 namespace fedora{
     namespace analytic {
+        /// Базовый класс анализатора токена
         class AnalyticBasic {
         public:
             virtual bool analyzeToken(Token&)=0;
