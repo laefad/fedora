@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.19)
+cmake_minimum_required(VERSION 3.10)
 project(fedora)
 
 set(CMAKE_CXX_STANDARD 14)
@@ -23,3 +23,4 @@ add_executable(fedora
         Fedora/Source/Parser.cpp
         Fedora/Source/String.cpp
         Fedora/Fedora.cpp Fedora/Headers/Analyzer.h Fedora/Source/Analyzer.cpp Fedora/Headers/Token.h Fedora/Headers/Exceptions/FException.h Fedora/Headers/StaticUtils.h Fedora/Source/StaticUtils.cpp Fedora/Headers/Analyzers/AnalyticBasic.h Fedora/Headers/Analyzers/AnalyticUtils.h Fedora/Headers/Analyzers/ReadKeyWord.h Fedora/Headers/Analyzers/ReadName.h Fedora/Headers/Analyzers/ReadForceArgs.h Fedora/Headers/Analyzers/ReadFunArgs.h Fedora/Headers/Analyzers/ReadResult.h Fedora/Source/Analyzers/ReadForceArgs.cpp Fedora/Headers/Analyzers/AnalyzerStrategy.h Fedora/Source/Analyzers/AnalyticUtils.cpp Fedora/Source/Analyzers/AnalyzerStrategy.cpp Fedora/Source/Analyzers/ReadFunArgs.cpp Fedora/Source/Analyzers/ReadKeyWord.cpp Fedora/Source/Analyzers/ReadName.cpp Fedora/Source/Analyzers/ReadResult.cpp Fedora/Headers/Exceptions/AnalyzerException.h Fedora/Headers/KeyWords.h)
+

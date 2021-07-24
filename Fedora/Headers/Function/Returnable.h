@@ -1,13 +1,13 @@
 #pragma once
 
-#include <BasicType.h>
+#include "BasicType.h"
 
 namespace fedora {
 namespace function {
 
     class Returnable {
     public:
-        virtual fedora::types::BasicType get() = 0;
+        virtual std::unique_ptr<fedora::types::BasicType> get() = 0;
     private:
 
     };

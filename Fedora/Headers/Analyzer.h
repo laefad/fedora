@@ -1,6 +1,7 @@
 //
 // Created on 20.07.2021.
 //
+#pragma once
 
 #include "Token.h"
 #include "Context.h"
