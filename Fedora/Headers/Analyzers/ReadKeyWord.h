@@ -2,6 +2,8 @@
 // Created on 23.07.2021.
 //
 #pragma once
+
+#include <memory>
 #include "AnalyticBasic.h"
 
 namespace fedora{
@@ -9,9 +11,10 @@ namespace fedora{
         /**
          * Прочитать ключевые слова при объявлении функции
          */
-        class ReadKeyWord:AnalyticBasic{
+        class ReadKeyWord:public AnalyticBasic{
         public:
-            bool analyzeToken(Token&) override;
+            std::shared_ptr<AnalyticBasic> analyzeToken(Token&) override;
+            void throwException(const std::wstring& msg, const std::string& funcName) override;
         };
     }
 }

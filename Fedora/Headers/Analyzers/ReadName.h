@@ -9,9 +9,10 @@ namespace fedora{
         /**
          * Прочитать имя функции
          */
-        class ReadName:AnalyticBasic{
+        class ReadName:public AnalyticBasic{
         public:
-            bool analyzeToken(Token&) override;
+            std::shared_ptr<AnalyticBasic> analyzeToken(Token&) override;
+            void throwException(const std::wstring& msg, const std::string& funcName) override;
         };
     }
 }

@@ -32,6 +32,7 @@ namespace fedora {
                     res = readFunRes(token);
                     break;
             }
+            return res;
         }
 
         bool Analyzer::waitingForFunction(Token &token) {

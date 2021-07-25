@@ -35,7 +35,7 @@ namespace fedora {
         }
 
         // Если на конце токена ()[], то выделим их как отдельный токен в следующей итерации
-        if (res.length() > 1 && fedora::StaticUtils::isDelimiter(res.at(res.length()-1))) {
+        if (res.length() > 1 && StaticUtils::isDelimiter(res.at(res.length()-1))) {
             res = res.substr(0, res.size()-1);
             //res.pop_back();
             fin.seekg(fin.tellg().operator-(1));

@@ -2,6 +2,8 @@
 // Created on 23.07.2021.
 //
 #pragma once
+
+#include <memory>
 #include "AnalyticBasic.h"
 
 namespace fedora{
@@ -11,7 +13,7 @@ namespace fedora{
          */
         class ReadFunArgs:public AnalyticBasic{
         public:
-            bool analyzeToken(Token&) override;
+            std::shared_ptr<AnalyticBasic> analyzeToken(Token&) override;
         };
     }
 }

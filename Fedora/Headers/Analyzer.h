@@ -3,6 +3,7 @@
 //
 #pragma once
 
+#include <Analyzers/ReadKeyWord.h>
 #include "Token.h"
 #include "Context.h"
 #include "Exceptions/FException.h"
@@ -41,7 +42,7 @@ namespace fedora {
             ParsingState state;
             std::shared_ptr<function::Context> context;
             std::vector<Token> tmpTokens = std::vector<Token>();
-            std::shared_ptr<AnalyticBasic> analyticObj = std::make_shared<ReadForceArgs>();
+            std::shared_ptr<AnalyticBasic> analyticObj = std::make_shared<ReadKeyWord>();
 
             // TODO Все функции зарефакторить как отдельные классы с наследованием от базового
             // TODO Проверять валидность имён переменных!!!!!!!!
