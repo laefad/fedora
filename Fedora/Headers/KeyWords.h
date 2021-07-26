@@ -3,16 +3,17 @@
 //
 
 #pragma once
+
 #include <utility>
 #include <vector>
 #include <string>
 #include "Token.h"
 
-namespace fedora{
+namespace fedora {
     // TODO Объявить ключевое слово как Token и перегрузить оператор == у токена
-    class KeyWord:public Token{
+    class KeyWord : public Token {
     public:
-        explicit KeyWord(std::wstring value1): Token(std::move(value1)){}
+        explicit KeyWord(std::wstring value1) : Token(std::move(value1)) {}
     };
 
     static KeyWord pure = KeyWord(L"pure");
@@ -24,9 +25,10 @@ namespace fedora{
     static KeyWord import = KeyWord(L"import"); // TODO Пока не используется
     static KeyWord using_ = KeyWord(L"using");  // TODO Пока не используется
 
-    class KeyWords{
+    class KeyWords {
     public:
         static std::vector<KeyWord> getAllKeyWords();
+
         static std::vector<KeyWord> getPreFunKeyWords();
     };
 }

@@ -22,11 +22,7 @@ namespace fedora {
         /// Прочитать следующий токен
         Token readToken();
 
-        /// Распознать токен
-        /// @return True, если он встаёт в текущий контекст
-        bool analyzeToken(Token&);
-
-        /// Игнорируем ли мы символ или нет
+        /// Игнорируем ли мы символ или нет // TODO Вынести в [StaticUtils]
         static bool isIgnored(wchar_t &);
     public:
         Parser(const std::string &, std::ifstream &, AnalyzerStrategy&);

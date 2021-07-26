@@ -7,11 +7,11 @@
 #include <codecvt>
 #include <utility>
 
-namespace fedora{
-    class StaticUtils{
+namespace fedora {
+    class StaticUtils {
     public:
         /// wstring to string
-        static std::string ws2s(const std::wstring& wstr){
+        static std::string ws2s(const std::wstring &wstr) {
             using convert_typeX = std::codecvt_utf8<wchar_t>;
             std::wstring_convert<convert_typeX, wchar_t> converterX;
 
@@ -19,8 +19,7 @@ namespace fedora{
         }
 
         /// string to wstring
-        static std::wstring s2ws(const std::string& str)
-        {
+        static std::wstring s2ws(const std::string &str) {
             using convert_typeX = std::codecvt_utf8<wchar_t>;
             std::wstring_convert<convert_typeX, wchar_t> converterX;
 

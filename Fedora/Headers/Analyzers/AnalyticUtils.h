@@ -6,12 +6,12 @@
 #include <string>
 #include <Token.h>
 
-namespace fedora{
+namespace fedora {
     namespace analytic {
         class AnalyticUtils {
         public:
             /// Валидно ли имя функции или переменной
-            static bool isValidName(std::wstring&);
+            static bool isValidName(std::wstring &);
 
             /// Являеится ли строка ключевым словом
             static bool isValueAKeyWord(std::wstring &);
@@ -23,7 +23,7 @@ namespace fedora{
             static bool isValueAString(std::wstring &);
 
             /// Является ли строка ключевым словом перед функцией
-            static bool isTokenAPreFunKeyWord(std::wstring&);
+            static bool isTokenAPreFunKeyWord(std::wstring &);
         };
     }
 }

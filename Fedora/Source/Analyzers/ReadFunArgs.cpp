@@ -20,19 +20,19 @@ namespace fedora {
             // 3. Мы прочитали равно, значит закончилось описание функции и начинается описание возвращаемого типа
 
             // Если получили знак равно
-            if (token == returns){
+            if (token == returns) {
                 return std::make_shared<ReadResult>(std::vector<Token>());
             }
 
             // Читаем внутренний контекст функции, если встретили where
             if (token == where) {
                 return std::make_shared<ReadKeyWord>(std::vector<Token>());
-            }else{
+            } else {
                 // Читаем список аргументов
-                if (AnalyticUtils::isValidName(token.data)){
+                if (AnalyticUtils::isValidName(token.data)) {
                     // Имя аргумента корректно
                     return shared_from_this();
-                }else{
+                } else {
                     // Имя аргумента некорректно
                     throwException(L"Invalid argument name", "analyzeToken(Token&)");
                 }
@@ -45,7 +45,7 @@ namespace fedora {
         }
 
         void ReadFunArgs::throwException(const std::wstring &msg, const std::string &funcName) {
-            throw AnalyzerException(msg,"ReadFunArgs.h",funcName);
+            throw AnalyzerException(msg, "ReadFunArgs.h", funcName);
         }
     }
 }

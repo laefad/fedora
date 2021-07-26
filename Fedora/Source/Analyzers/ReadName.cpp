@@ -14,25 +14,26 @@ namespace fedora {
     namespace analytic {
         std::shared_ptr<AnalyticBasic> ReadName::analyzeToken(fedora::Token &t) {
             if (!AnalyticUtils::isValidName(t.data))
-                throwException(L"Expected a function name, but founded name is invalid. Token = "+t.data, "analyzeToken(Token&)");
+                throwException(L"Expected a function name, but founded name is invalid. Token = " + t.data,
+                               "analyzeToken(Token&)");
 
             // Если [force] есть среди ключевых слов, считать аргументы для вызова функции
-            if (areTokensIncludeForce()){
+            if (areTokensIncludeForce()) {
                 return std::make_shared<ReadForceArgs>(std::vector<Token>());
             }
-            // Иначе считать имена аргументов для объявления функции
-            else{
+                // Иначе считать имена аргументов для объявления функции
+            else {
                 return std::make_shared<ReadFunArgs>(std::vector<Token>());
             }
         }
 
         void ReadName::throwException(const std::wstring &msg, const std::string &funcName) {
-            throw AnalyzerException(msg,"ReadName.h",funcName);
+            throw AnalyzerException(msg, "ReadName.h", funcName);
         }
 
         bool ReadName::areTokensIncludeForce() {
             bool hasForce = false;
-            for (auto& token:getTokens()){
+            for (auto &token:getTokens()) {
                 if (token == force)
                     hasForce = true;
             }

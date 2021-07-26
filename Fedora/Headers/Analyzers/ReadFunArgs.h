@@ -6,17 +6,18 @@
 #include <memory>
 #include "AnalyticBasic.h"
 
-namespace fedora{
-    namespace analytic{
+namespace fedora {
+    namespace analytic {
         /**
          * Класс чтения аргументов при объявлении функции
          */
-        class ReadFunArgs:public AnalyticBasic{
+        class ReadFunArgs : public AnalyticBasic {
         public:
-            explicit ReadFunArgs(std::vector<Token> t): AnalyticBasic(std::move(t)){}
+            explicit ReadFunArgs(std::vector<Token> t) : AnalyticBasic(std::move(t)) {}
 
-            std::shared_ptr<AnalyticBasic> analyzeToken(Token&) override;
-            void throwException(const std::wstring& msg, const std::string& funcName) override;
+            std::shared_ptr<AnalyticBasic> analyzeToken(Token &) override;
+
+            void throwException(const std::wstring &msg, const std::string &funcName) override;
         };
     }
 }

@@ -19,36 +19,37 @@ namespace fedora {
                 // 2. Получено Pure или другое ключевое слово и мы должны считывать ключевые слова дальше
 
                 // Получено force
-                if (t == force){
+                if (t == force) {
                     // 2 пути:
                     // 1. Других ключевых слов нет (верный синтаксис) ((getTokens() пустой))
                     // 2. Объявлены другие ключевые слова. Можно их игнорировать и скомпилить без них,
                     //    а можно выдать ошибку. В данном случае будем выдавать ошибку
                     // TODO Мб продолжать компилить не смотря на избыточность синтаксиса и просто выводить WARNING в консоль?
-                    if (getTokens().empty()){
+                    if (getTokens().empty()) {
                         std::vector<Token> tokens = std::vector<Token>();
                         tokens.push_back(t);
                         return std::make_shared<ReadName>(tokens);
-                    }else{
+                    } else {
                         throwException(L"Do not declare the keyword FORCE with the others", "analyzeToken(Token &");
                     }
-                }else{
+                } else {
                     // Продолжаем считывать
                     return shared_from_this();
                     return std::make_shared<ReadKeyWord>(getTokens());
                 }
-            }else {
+            } else {
                 // Получено let
-                if (t == let){
+                if (t == let) {
                     // Передаём все наши накопленные данные в [ReadName]
                     return std::make_shared<ReadName>(getTokens());
-                }else
-                    throwException(L"Expected a pre-function key word, but got token = " + t.data, "analyzeToken(Token &)");
+                } else
+                    throwException(L"Expected a pre-function key word, but got token = " + t.data,
+                                   "analyzeToken(Token &)");
             }
         }
 
         void ReadKeyWord::throwException(const std::wstring &msg, const std::string &funcName) {
-            throw AnalyzerException(msg,"ReadKeyWord.h",funcName);
+            throw AnalyzerException(msg, "ReadKeyWord.h", funcName);
         }
     }
 }

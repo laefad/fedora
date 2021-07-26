@@ -3,6 +3,7 @@
 //
 
 #include "Analyzers/ReadResult.h"
+
 namespace fedora{
     namespace analytic{
         std::shared_ptr<AnalyticBasic> ReadResult::analyzeToken(Token &) {
