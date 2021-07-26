@@ -13,20 +13,21 @@ namespace fedora{
         /// Базовый класс анализатора токена
         class AnalyticBasic {
         private:
-            std::vector<Token> tokensFromPreviousStep;
+            std::vector<Token> tokens;
         public:
-            explicit AnalyticBasic(std::vector<Token>);
+            explicit AnalyticBasic(std::vector<Token> tokens): tokens(std::move(tokens)){};
 
             virtual std::shared_ptr<AnalyticBasic> analyzeToken(Token&)=0;
             virtual void throwException(const std::wstring& msg, const std::string& funcName)=0;
 
-            std::vector<Token>& getTokens();
-        };
-        // ? TODO Вынести реализацию в cpp файл??
-        std::vector<Token> &AnalyticBasic::getTokens() {
-            return tokensFromPreviousStep;
-        }
+            // TODO Вынести все функции в cpp файл
+            std::vector<Token>& getTokens(){
+                return tokens;
+            }
 
-        AnalyticBasic::AnalyticBasic(std::vector<Token> tokens) :tokensFromPreviousStep(std::move(tokens)){}
+            void addToken(const Token& token){
+                tokens.push_back(token);
+            }
+        };
     }
 }
