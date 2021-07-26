@@ -13,6 +13,7 @@ namespace fedora{
          * @see https://drive.google.com/file/d/1cfkN4fvaYokVqT0LpK5N6XwFGFjbHzKF/view?usp=sharing
         */
         // TODO Обеспечить доступ к последним прочитаным токенам для отображения ошибок
+        // TODO Обеспечить проброс ссылки на сам экземпляр класса внутрь его класса
         class AnalyzerStrategy {
 
         };

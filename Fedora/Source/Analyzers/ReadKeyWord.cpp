@@ -12,6 +12,7 @@ namespace fedora {
     namespace analytic {
         std::shared_ptr<AnalyticBasic> ReadKeyWord::analyzeToken(Token &t) {
             addToken(t); // Запомнить считаный токен
+            // TODO рефакторить на enum-ы и функции
 
             if (AnalyticUtils::isTokenAPreFunKeyWord(t.data)) {
                 // 3 пути:

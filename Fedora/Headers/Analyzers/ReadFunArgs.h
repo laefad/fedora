@@ -13,7 +13,10 @@ namespace fedora{
          */
         class ReadFunArgs:public AnalyticBasic{
         public:
+            explicit ReadFunArgs(std::vector<Token> t): AnalyticBasic(std::move(t)){}
+
             std::shared_ptr<AnalyticBasic> analyzeToken(Token&) override;
+            void throwException(const std::wstring& msg, const std::string& funcName) override;
         };
     }
 }

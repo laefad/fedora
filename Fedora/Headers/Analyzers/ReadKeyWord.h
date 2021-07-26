@@ -16,7 +16,10 @@ namespace fedora{
         public:
             explicit ReadKeyWord(std::vector<Token> t): AnalyticBasic(std::move(t)){}
 
+            /// Определение родительского метода анализа токена
             std::shared_ptr<AnalyticBasic> analyzeToken(Token&) override;
+
+            /// Переопределение метода выброса ошибки
             void throwException(const std::wstring& msg, const std::string& funcName) override;
         };
     }
