@@ -9,7 +9,7 @@
 
 namespace fedora {
 
-    Parser::Parser(const std::string &fileName, std::ifstream &fin, analytic::Analyzer& analyzer1) : fin(fin), analyzer(analyzer1) {
+    Parser::Parser(const std::string &fileName, std::ifstream &fin, AnalyzerStrategy& analyzer1) : fin(fin), analyzerStrategy(analyzer1) {
         fin = std::ifstream(fileName, std::ios_base::in);
 
         if (!fin.is_open()) // если файл не открыт
@@ -20,10 +20,11 @@ namespace fedora {
         //std::vector<Token> tokens = std::vector<Token>();
         bool noErrors = true;
 
-        while (!fin.eof() && noErrors){
+        while (!fin.eof()){
             Token tmp = readToken();
             if (!tmp.isEmpty) {
-                noErrors = analyzeToken(tmp);
+                analyzerStrategy.analyzeNext(tmp);
+                //noErrors = analyzeToken(tmp);
                 //tokens.push_back(tmp);
             }
         }
@@ -55,10 +56,10 @@ namespace fedora {
         return token;
     }
 
-    bool Parser::analyzeToken(Token & token) {
-        std::wcout<<token.data<<std::endl;
-        return analyzer.analyzeNext(token);
-    }
+//    bool Parser::analyzeToken(Token & token) {
+//        std::wcout<<token.data<<std::endl;
+//        return analyzer.analyzeNext(token);
+//    }
 
     bool Parser::isIgnored(wchar_t & tmp) {
         // Символы, которые мы игнорируем

@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <Analyzers/AnalyzerStrategy.h>
 
 #include "Context.h"
 #include "Token.h"
@@ -16,7 +17,7 @@ namespace fedora {
         /// Файловый поток
         std::ifstream& fin;
 
-        analytic::Analyzer& analyzer;
+        AnalyzerStrategy& analyzerStrategy;
 
         /// Прочитать следующий токен
         Token readToken();
@@ -28,7 +29,7 @@ namespace fedora {
         /// Игнорируем ли мы символ или нет
         static bool isIgnored(wchar_t &);
     public:
-        Parser(const std::string &, std::ifstream &, analytic::Analyzer&);
+        Parser(const std::string &, std::ifstream &, AnalyzerStrategy&);
 
         /// Прочитать весь файл и сохранить токены
         //TODO Читать файл через getLine, чтобы сохранять номера строк для каждого токена. Это поможет выдавать пользователям ошибку с указанием на какой строке они ошиблись

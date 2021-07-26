@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
     std::ifstream fin;
 
     // Инициализируем анализатор
-    fedora::analytic::Analyzer analyzer = fedora::analytic::Analyzer();
+    fedora::AnalyzerStrategy analyzer = fedora::AnalyzerStrategy();
 
     // Инициализируем парсер файла
     fedora::Parser parser = fedora::Parser(path, fin, analyzer);
