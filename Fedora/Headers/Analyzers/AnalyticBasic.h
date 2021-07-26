@@ -11,7 +11,7 @@
 namespace fedora{
     namespace analytic {
         /// Базовый класс анализатора токена
-        class AnalyticBasic {
+        class AnalyticBasic:public std::enable_shared_from_this<AnalyticBasic> {
         private:
             /// Храним токены, которые нужны для обработки текущей ситуации
             std::vector<Token> tokens;

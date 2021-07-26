@@ -10,7 +10,7 @@ namespace fedora{
     namespace analytic {
         class AnalyticUtils {
         public:
-            /// Валидно ли имя функции
+            /// Валидно ли имя функции или переменной
             static bool isValidName(std::wstring&);
 
             /// Являеится ли строка ключевым словом
