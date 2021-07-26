@@ -8,7 +8,6 @@
 
 #include "Context.h"
 #include "Token.h"
-#include "Analyzer.h"
 
 namespace fedora {
     /// Класс для парсинга файла на токены

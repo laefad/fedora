@@ -20,6 +20,9 @@ namespace fedora {
 
             /// Переопределение метода выброса ошибки
             void throwException(const std::wstring &msg, const std::string &funcName) override;
+
+            /// Является ли токен открытой квадратной скобкой ("[")
+            static bool isTokenALeftSquareBracket(std::wstring&);
         };
     }
 }

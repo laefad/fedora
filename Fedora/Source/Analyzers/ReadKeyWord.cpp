@@ -13,6 +13,8 @@ namespace fedora {
         std::shared_ptr<AnalyticBasic> ReadKeyWord::analyzeToken(Token &t) {
             addToken(t); // Запомнить считаный токен
 
+            // TODO Проверка на то, что будет получено равно
+
             if (AnalyticUtils::isTokenAPreFunKeyWord(t.data)) {
                 // 2 пути:
                 // 1. Получено Force и мы должны считать имя функции, аргументы и перейти к выполнению

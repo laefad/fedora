@@ -29,10 +29,18 @@ namespace fedora {
         }
 
         bool AnalyticUtils::isValueANumber(std::wstring &name) {
-            bool f = true;
-            for (auto &chr :name) {
-                if (!isdigit(chr))
+            bool hasDot = false; // Имеет ли число точку в записи (если число дробное)
+            bool f = true; // Все ли символы токена корректны
+
+            // TODO Оптимизировать if-ы
+            // Пройдёмся по всем символам и проверим, все ли онц цифры.
+            // Также позволено поставить точку в середине числа, чтобы сделать дробь
+            for (int i=0;i<name.length();++i) {
+                wchar_t chr = name.at(i);
+                if (!isdigit(chr) && !(chr == L'.' && i!=0 && i!=name.length()-1 && !hasDot))
                     f = false;
+                if (chr == L'.' && i!=0 && i!=name.length()-1 && !hasDot)
+                    hasDot = true;
             }
             return f;
         }
