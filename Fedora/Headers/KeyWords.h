@@ -6,16 +6,13 @@
 #include <utility>
 #include <vector>
 #include <string>
+#include "Token.h"
 
 namespace fedora{
-
-    class KeyWord{
-        std::wstring value;
+    // TODO Объявить ключевое слово как Token и перегрузить оператор == у токена
+    class KeyWord:public Token{
     public:
-        explicit KeyWord(std::wstring value1):value(std::move(value1)){}
-        std::wstring& getValue(){
-            return value;
-        }
+        explicit KeyWord(std::wstring value1): Token(std::move(value1)){}
     };
 
     static KeyWord pure = KeyWord(L"pure");

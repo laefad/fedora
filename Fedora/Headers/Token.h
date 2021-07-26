@@ -14,5 +14,7 @@ namespace fedora {
 
         std::wstring data;
         bool isEmpty = false;
+
+        friend bool operator== (Token &lhs, Token &rhs);
     };
 }

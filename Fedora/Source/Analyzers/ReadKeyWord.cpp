@@ -4,15 +4,36 @@
 
 #include <Analyzers/ReadName.h>
 #include <Exceptions/AnalyzerException.h>
+#include <KeyWords.h>
 #include "Analyzers/ReadKeyWord.h"
 #include "Analyzers/AnalyticUtils.h"
 
 namespace fedora {
     namespace analytic {
         std::shared_ptr<AnalyticBasic> ReadKeyWord::analyzeToken(Token &t) {
-            if (AnalyticUtils::isTokenAPreFunKeyWord(t.data))
-                return std::make_shared<ReadName>();
-            else
+            if (AnalyticUtils::isTokenAPreFunKeyWord(t.data)) {
+                // 3 пути:
+                // 1. Получено Force и мы должны считать имя функции, аргументы и перейти к выполнению
+                // 2. Получено Pure или другое ключевое слово и мы должны считывать ключевые слова дальше
+                // 3. Получено let и мы должны считать имя функции, аргументы и перейти к объявлению
+
+                // Получено force
+                if (t == force){
+                    // 2 пути:
+                    // 1. Других ключевых слов нет (верный синтаксис) ((getTokens() пустой))
+                    // 2. Объявлены другие ключевые слова. Можно их игнорировать и скомпилить без них,
+                    //    а можно выдать ошибку. В данном случае будем выдавать ошибку
+                    // TODO Мб продолжать компилить не смотря на ошибки и просто выводить WARNING в консоль?
+                    if (getTokens().empty()){
+                        std::vector<Token> tokens = std::vector<Token>();
+                        tokens.push_back(t);
+                        return std::make_shared<ReadName>(tokens);
+                    }else{
+                        throwException(L"Do not declare the keyword FORCE with the others", "analyzeToken(Token &");
+                    }
+                }
+                throwException(L"unimplemented", "analyzeToken(Token&)");
+            }else
                 throwException(L"Expected a pre-function key word, but got token.data = "+t.data, "analyzeToken(Token &)");
         }
 

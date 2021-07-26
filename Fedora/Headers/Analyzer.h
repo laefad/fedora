@@ -42,7 +42,7 @@ namespace fedora {
             ParsingState state;
             std::shared_ptr<function::Context> context;
             std::vector<Token> tmpTokens = std::vector<Token>();
-            std::shared_ptr<AnalyticBasic> analyticObj = std::make_shared<ReadKeyWord>();
+            std::shared_ptr<AnalyticBasic> analyticObj = std::make_shared<ReadKeyWord>(std::vector<Token>());
 
             // TODO Все функции зарефакторить как отдельные классы с наследованием от базового
             // TODO Проверять валидность имён переменных!!!!!!!!

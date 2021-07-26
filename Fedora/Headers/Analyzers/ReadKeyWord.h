@@ -4,6 +4,7 @@
 #pragma once
 
 #include <memory>
+#include <utility>
 #include "AnalyticBasic.h"
 
 namespace fedora{
@@ -13,6 +14,8 @@ namespace fedora{
          */
         class ReadKeyWord:public AnalyticBasic{
         public:
+            explicit ReadKeyWord(std::vector<Token> t): AnalyticBasic(std::move(t)){}
+
             std::shared_ptr<AnalyticBasic> analyzeToken(Token&) override;
             void throwException(const std::wstring& msg, const std::string& funcName) override;
         };

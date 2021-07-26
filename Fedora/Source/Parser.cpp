@@ -1,3 +1,8 @@
+
+#include <Token.h>
+
+#include <utility>
+
 #include "Parser.h"
 #include "vector"
 #include "StaticUtils.h"
@@ -57,11 +62,15 @@ namespace fedora {
 
     bool Parser::isIgnored(wchar_t & tmp) {
         // Символы, которые мы игнорируем
-        const std::wstring ignoredSymbols = L"\n\t\r \377"; // Возможно, \377 - это символ окончания файла
+        const std::wstring ignoredSymbols = L"\n\t\r \377"; // Возможно, \377 - это символ окончания файла // TODO Вынести во внушнюю константу
         return ignoredSymbols.find(tmp) != std::wstring::npos;
     }
 
     Token::Token(std::wstring data) {
-        this->data = data;
+        this->data = std::move(data);
+    }
+
+    bool operator==(Token &lhs, Token &rhs) {
+        return lhs.data == rhs.data || (lhs.isEmpty && rhs.isEmpty);
     }
 }
