@@ -15,9 +15,11 @@ namespace fedora {
         private:
             /// Храним токены, которые нужны для обработки текущей ситуации
             std::vector<Token> tokens;
+
         protected:
             /// Бросить ошибку в случае ошибки синтаксиса
             void throwException(const std::wstring &msg, const std::string &funcName);
+
         public:
             explicit AnalyticBasic(std::vector<Token> tokens) : tokens(std::move(tokens)) {};
 

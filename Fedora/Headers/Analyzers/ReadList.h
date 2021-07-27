@@ -10,8 +10,12 @@
 namespace fedora {
     namespace analytic {
         namespace readList {
+            // TODO Организовать фабрику на основе enum
             enum readMode {
+                /// @example main([1 2 3])
                 READ_FUNCTION_ARG,
+
+                /// @example let main = [1 2 3]
                 READ_FUNCTION_RETURN
             };
         }
@@ -29,6 +33,12 @@ namespace fedora {
             std::shared_ptr<AnalyticBasic> analyzeToken(Token &) override;
 
             std::string getFileName() override;
+
+            /// Вернуть указатель на экземпляр класса для следующего этапа
+            std::shared_ptr<AnalyticBasic> chooseReturn(Token&);
+
+            /// Является ли токен закрытой квадратной скобкой ("]")
+            static bool isTokenARightSquareBracket(std::wstring&);
         };
     }
 }

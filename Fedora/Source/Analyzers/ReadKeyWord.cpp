@@ -37,7 +37,6 @@ namespace fedora {
                 } else {
                     // Продолжаем считывать
                     return shared_from_this();
-                    return std::make_shared<ReadKeyWord>(getTokens());
                 }
             } else {
                 // Получено let

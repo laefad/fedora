@@ -7,6 +7,7 @@
 
 namespace fedora {
     namespace analytic {
+        // TODO Избавиться от этого лкасса в пользу readFunArgs
         /**
          * Класс чтения аргументов для force вызова функции
          * @see Keywords.force

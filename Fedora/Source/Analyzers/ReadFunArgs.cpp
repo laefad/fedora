@@ -11,6 +11,23 @@
 
 namespace fedora {
     namespace analytic {
+        namespace funArgs{
+            // TODO Организовать фабрику на основе enum
+            enum mode {
+                /**
+                 * @example
+                 * let a = b(1 2 3)
+                 */
+                READ_ARGS_TO_DEFINE,
+
+                /**
+                 * @example
+                 * force main(1 2 3)
+                 */
+                READ_ARGS_TO_FORCE,
+            };
+        }
+
         std::shared_ptr<AnalyticBasic> ReadFunArgs::analyzeToken(fedora::Token &token) {
             addToken(token);  // Запомнить считаный токен
 
