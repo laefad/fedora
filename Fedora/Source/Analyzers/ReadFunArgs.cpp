@@ -44,8 +44,8 @@ namespace fedora {
             return nullptr;
         }
 
-        void ReadFunArgs::throwException(const std::wstring &msg, const std::string &funcName) {
-            throw AnalyzerException(msg, "ReadFunArgs.h", funcName);
+        std::string ReadFunArgs::getFileName() {
+            return "ReadFunArgs.h";
         }
     }
 }

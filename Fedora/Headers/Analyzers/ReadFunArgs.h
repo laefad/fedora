@@ -17,7 +17,7 @@ namespace fedora {
 
             std::shared_ptr<AnalyticBasic> analyzeToken(Token &) override;
 
-            void throwException(const std::wstring &msg, const std::string &funcName) override;
+            std::string getFileName() override;
         };
     }
 }

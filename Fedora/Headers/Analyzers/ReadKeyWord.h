@@ -19,8 +19,7 @@ namespace fedora {
             /// Определение родительского метода анализа токена
             std::shared_ptr<AnalyticBasic> analyzeToken(Token &) override;
 
-            /// Переопределение метода выброса ошибки
-            void throwException(const std::wstring &msg, const std::string &funcName) override;
+            std::string getFileName() override;
         };
     }
 }

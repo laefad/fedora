@@ -4,6 +4,8 @@
 
 #include <Analyzers/ReadKeyWord.h>
 #include <Analyzers/ReadForceArgs.h>
+#include <Analyzers/ReadList.h>
+#include <Exceptions/AnalyzerException.h>
 #include "Analyzers/ReadResult.h"
 #include "Analyzers/AnalyticUtils.h"
 
@@ -31,7 +33,7 @@ namespace fedora {
 
             // Если Список
             if (isTokenALeftSquareBracket(t.data)) {
-                return std::make_shared<ReadKeyWord>(std::vector<Token>());
+                return std::make_shared<ReadList>(std::vector<Token>(), readList::READ_FUNCTION_RETURN);
             }
 
             // Если функция
@@ -53,8 +55,8 @@ namespace fedora {
             return data.length() == 1 && data.at(0) == L'[';
         }
 
-        void ReadResult::throwException(const std::wstring &msg, const std::string &funcName) {
-
+        std::string ReadResult::getFileName() {
+            return "ReadResult.h";
         }
     }
 }

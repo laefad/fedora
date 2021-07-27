@@ -11,8 +11,8 @@ namespace fedora {
             return std::shared_ptr<AnalyticBasic>();
         }
 
-        void ReadForceArgs::throwException(const std::wstring &msg, const std::string &funcName) {
-
+        std::string ReadForceArgs::getFileName() {
+            return "ReadForceArgs.h";
         }
     }
 }

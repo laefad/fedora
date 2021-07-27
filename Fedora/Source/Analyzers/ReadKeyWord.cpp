@@ -50,8 +50,8 @@ namespace fedora {
             }
         }
 
-        void ReadKeyWord::throwException(const std::wstring &msg, const std::string &funcName) {
-            throw AnalyzerException(msg, "ReadKeyWord.h", funcName);
+        std::string ReadKeyWord::getFileName() {
+            return "ReadKeyWord.h";
         }
     }
 }

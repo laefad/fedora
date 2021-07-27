@@ -12,14 +12,12 @@ namespace fedora {
          */
         class ReadName : public AnalyticBasic {
         public:
-            // Этот класс отработает 1 раз, ему не нужна ссылка на себя
             explicit ReadName(std::vector<Token> t) : AnalyticBasic(std::move(t)) {}
 
             /// Определение родительского метода анализа токена
             std::shared_ptr<AnalyticBasic> analyzeToken(Token &) override;
 
-            /// Переопределение метода выброса ошибки
-            void throwException(const std::wstring &msg, const std::string &funcName) override;
+            std::string getFileName() override;
 
             /// Есть ли [force] среди ключевых слов функции
             bool areTokensIncludeForce();

@@ -27,9 +27,6 @@ namespace fedora {
             }
         }
 
-        void ReadName::throwException(const std::wstring &msg, const std::string &funcName) {
-            throw AnalyzerException(msg, "ReadName.h", funcName);
-        }
 
         bool ReadName::areTokensIncludeForce() {
             bool hasForce = false;
@@ -38,6 +35,10 @@ namespace fedora {
                     hasForce = true;
             }
             return hasForce;
+        }
+
+        std::string ReadName::getFileName() {
+            return "ReadName.h";
         }
     }
 }

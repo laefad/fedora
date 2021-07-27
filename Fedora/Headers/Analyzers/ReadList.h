@@ -4,14 +4,18 @@
 
 #pragma once
 
+#include "AnalyticBasic.h"
+
+
 namespace fedora {
     namespace analytic {
-        namespace readList{
-            enum readMode{
+        namespace readList {
+            enum readMode {
                 READ_FUNCTION_ARG,
                 READ_FUNCTION_RETURN
             };
         }
+
         /**
          * Прочитать ключевые слова при объявлении функции
          */
@@ -24,8 +28,7 @@ namespace fedora {
             /// Определение родительского метода анализа токена
             std::shared_ptr<AnalyticBasic> analyzeToken(Token &) override;
 
-            /// Переопределение метода выброса ошибки
-            void throwException(const std::wstring &msg, const std::string &funcName) override;
+            std::string getFileName() override;
         };
     }
 }
