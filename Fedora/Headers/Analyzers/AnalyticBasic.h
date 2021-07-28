@@ -8,6 +8,7 @@
 #include <vector>
 #include <iostream>
 #include "Token.h"
+#include "Utils/SettingsSingleton.h"
 
 namespace fedora {
     namespace analytic {
@@ -21,6 +22,9 @@ namespace fedora {
             /// Бросить ошибку в случае ошибки синтаксиса
             void throwException(const std::wstring &msg, const std::string &funcName);
 
+            /// Log something
+            static void log(const std::string& msg, fedora::settings::LogLevel level);
+            static void log(const std::wstring& msg, fedora::settings::LogLevel level);
         public:
             explicit AnalyticBasic(std::vector<Token> tokens) : tokens(std::move(tokens)) {};
 

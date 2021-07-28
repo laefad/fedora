@@ -13,8 +13,8 @@ namespace fedora {
     namespace analytic {
 
         std::shared_ptr<AnalyticBasic> ReadFunArgs::analyzeToken(fedora::Token &token) {
-            std::cout<<"Class: "<<getFileName()<<std::endl;
-            std::wcout<<L"Token: "<<token.data<<std::endl;
+            log("Class: "+getFileName(),fedora::settings::LOG_VERBOSE);
+            log(L"Token: "+token.data,fedora::settings::LOG_VERBOSE);
 
             addToken(token);  // Запомнить считаный токен
 

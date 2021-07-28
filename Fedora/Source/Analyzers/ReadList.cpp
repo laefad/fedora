@@ -14,8 +14,8 @@ namespace fedora{
     namespace analytic{
 
         std::shared_ptr<AnalyticBasic> ReadList::analyzeToken(Token &t) {
-            std::cout<<"Class: "<<getFileName()<<std::endl;
-            std::wcout<<L"Token: "<<t.data<<std::endl;
+            log("Class: "+getFileName(),fedora::settings::LOG_VERBOSE);
+            log(L"Token: "+t.data,fedora::settings::LOG_VERBOSE);
 
             addToken(t); // Запомнить прочитаный токен
 

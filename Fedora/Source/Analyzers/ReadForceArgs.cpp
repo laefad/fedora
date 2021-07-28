@@ -9,8 +9,8 @@ namespace fedora {
     namespace analytic {
         std::shared_ptr<AnalyticBasic> ReadForceArgs::analyzeToken(Token &t) {
             // TODO Сделать синглтон с настройками уровней дебаг вывода VERBOSE, WARNING, ERROR
-            std::cout<<"Class: "<<getFileName()<<std::endl;
-            std::wcout<<L"Token: "<<t.data<<std::endl;
+            log("Class: "+getFileName(),fedora::settings::LOG_VERBOSE);
+            log(L"Token: "+t.data,fedora::settings::LOG_VERBOSE);
 
             throwException(L"ForceArgs unimplemented", "");
             return std::shared_ptr<AnalyticBasic>();

@@ -1,8 +1,9 @@
 ﻿#include <iostream>
 #include <string>
-#include <TokensHolder.h>
+#include <Utils/TokensHolder.h>
 #include <Analyzers/AnalyticUtils.h>
 #include "Parser.h"
+#include "Utils/SettingsSingleton.h"
 
 namespace fedora {
 
@@ -34,6 +35,10 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
+    // Инициализируем настройки
+    fedora::Settings * settings = fedora::Settings::GetInstance();
+    settings->setLogLevel(fedora::settings::LOG_VERBOSE);
+
     // Получаем имя файла
     std::string path = argv[1];
     std::cout << "Args amount: " << argc <<std::endl
@@ -52,6 +57,9 @@ int main(int argc, char *argv[]) {
     // Очищаем синглтон токенхолдера, чтобы не было течки
     fedora::TokensHolder* a = fedora::TokensHolder::GetInstance();
     delete a;
+
+    // Очищаем синглтон настроек
+    delete settings;
 
     return 0;
 }
