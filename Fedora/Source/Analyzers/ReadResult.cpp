@@ -12,6 +12,9 @@
 namespace fedora {
     namespace analytic {
         std::shared_ptr<AnalyticBasic> ReadResult::analyzeToken(Token &t) {
+            std::cout<<"Class: "<<getFileName()<<std::endl;
+            std::wcout<<L"Token: "<<t.data<<std::endl;
+            
             addToken(t);    // Записать прочитаный токен
 
             // 4 Варианта, что можно вернуть из функции:

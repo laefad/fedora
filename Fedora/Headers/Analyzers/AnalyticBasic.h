@@ -6,6 +6,7 @@
 #include <memory>
 #include <utility>
 #include <vector>
+#include <iostream>
 #include "Token.h"
 
 namespace fedora {
@@ -33,8 +34,8 @@ namespace fedora {
             /// Добавить токен в список прочитаных
             void addToken(const Token &token);
 
-            /// Получить имя файла с кодом. Используется для вывода сообщения об ошибке
-            virtual std::string getFileName()=0;
+             /// Получить имя файла с кодом. Используется для вывода сообщения об ошибке
+             virtual std::string getFileName()=0;
         };
     }
 }

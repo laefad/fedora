@@ -8,6 +8,21 @@
 
 namespace fedora {
     namespace analytic {
+//        namespace funArgs{
+//            enum mode {
+//                /**
+//                 * @example
+//                 * let a = b(1 2 3)
+//                 */
+//                READ_ARGS_TO_DEFINE,
+//
+//                /**
+//                 * @example
+//                 * force main(1 2 3)
+//                 */
+//                READ_ARGS_TO_FORCE,
+//            };
+//        }
         /**
          * Класс чтения аргументов при объявлении функции
          */

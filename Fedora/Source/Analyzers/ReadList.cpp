@@ -8,11 +8,15 @@
 #include "Analyzers/AnalyticUtils.h"
 #include <Analyzers/ReadFunArgs.h>
 #include <Analyzers/ReadKeyWord.h>
+#include <Analyzers/ReadForceArgs.h>
 
 namespace fedora{
     namespace analytic{
 
         std::shared_ptr<AnalyticBasic> ReadList::analyzeToken(Token &t) {
+            std::cout<<"Class: "<<getFileName()<<std::endl;
+            std::wcout<<L"Token: "<<t.data<<std::endl;
+
             addToken(t); // Запомнить прочитаный токен
 
             // Мы можем получить:
@@ -25,9 +29,12 @@ namespace fedora{
                 throwException(L"Expected a list value, but got a keyword.", "analyzeToken(Token&)");
 
             // Если функция, то перейдём на этап чтения аргументов
+            if (AnalyticUtils::isValidName(t.data) && !isTokenARightSquareBracket(t.data)){
+                return std::make_shared<ReadForceArgs>(std::vector<Token>());
+            }
 
             // Если строка, число, список или закрытая скобка
-            return chooseReturn();
+            return chooseReturn(t);
         }
 
         std::string ReadList::getFileName() {

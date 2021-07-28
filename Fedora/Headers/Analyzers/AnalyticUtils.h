@@ -24,6 +24,9 @@ namespace fedora {
 
             /// Является ли строка ключевым словом перед функцией
             static bool isTokenAPreFunKeyWord(std::wstring &);
+
+            /// Является ли строка ключевым словом перед функцией
+            static bool isBracket(std::wstring &);
         };
     }
 }

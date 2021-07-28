@@ -16,6 +16,8 @@ namespace fedora {
                 ++checks;
             if (!isdigit(name.at(0)))
                 ++checks;
+            if (!isBracket(name))
+                ++checks;
             return checks == checksNeed;
         }
 
@@ -56,6 +58,10 @@ namespace fedora {
                     res = true;
             }
             return res;
+        }
+
+        bool AnalyticUtils::isBracket(std::wstring & n) {
+            return n.length() == 1 && (n.at(0) == L'(' || n.at(0) == L')' || n.at(0) == L'['|| n.at(0) == L']');
         }
     }
 }

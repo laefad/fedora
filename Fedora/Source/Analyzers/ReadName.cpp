@@ -13,6 +13,9 @@
 namespace fedora {
     namespace analytic {
         std::shared_ptr<AnalyticBasic> ReadName::analyzeToken(fedora::Token &t) {
+            std::cout<<"Class: "<<getFileName()<<std::endl;
+            std::wcout<<L"Token: "<<t.data<<std::endl;
+
             if (!AnalyticUtils::isValidName(t.data))
                 throwException(L"Expected a function name, but founded name is invalid. Token = " + t.data,
                                "analyzeToken(Token&)");

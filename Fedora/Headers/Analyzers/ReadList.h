@@ -10,7 +10,6 @@
 namespace fedora {
     namespace analytic {
         namespace readList {
-            // TODO Организовать фабрику на основе enum
             enum readMode {
                 /// @example main([1 2 3])
                 READ_FUNCTION_ARG,
@@ -30,8 +29,10 @@ namespace fedora {
             explicit ReadList(std::vector<Token> t, readList::readMode m) : AnalyticBasic(std::move(t)), mode(m) {}
 
             /// Определение родительского метода анализа токена
+            /// @brief По факту является фабричным методом
             std::shared_ptr<AnalyticBasic> analyzeToken(Token &) override;
 
+            /// Определение метода получения файла
             std::string getFileName() override;
 
             /// Вернуть указатель на экземпляр класса для следующего этапа
