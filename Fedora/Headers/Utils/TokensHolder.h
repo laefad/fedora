@@ -41,21 +41,15 @@ namespace fedora {
          */
         static TokensHolder *GetInstance();
 
-        void add(const Token &a) {
-            tokens.push_back(a);
-        }
+        /// Number of tokens we expect to return
+        static const int lastNum = 10;
 
-        std::vector<Token> &getAll() {
-            return tokens;
-        }
+        void add(const Token &a);
+
+//        std::vector<Token> &getAll() {
+//            return tokens;
+//        }
+
+        std::vector<Token> getLast();
     };
-
-    TokensHolder *TokensHolder::singleton_ = nullptr;
-
-    TokensHolder *TokensHolder::GetInstance() {
-        if (singleton_ == nullptr) {
-            singleton_ = new TokensHolder();
-        }
-        return singleton_;
-    }
 }

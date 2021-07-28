@@ -4,7 +4,6 @@
 #include <utility>
 
 #include "Parser.h"
-#include "vector"
 #include "StaticUtils.h"
 
 namespace fedora {
@@ -17,15 +16,17 @@ namespace fedora {
     }
 
     void Parser::readFile() {
-        //std::vector<Token> tokens = std::vector<Token>();
-        bool noErrors = true;
+        // Write tokens to use them in exceptions
+        fedora::TokensHolder* tokensHolder = fedora::TokensHolder::GetInstance();
 
         while (!fin.eof()){
             Token tmp = readToken();
+            // TODO Добавить в токен функцию, которая будет возвращать, что длина равна единице? Это нужно для красоты. Типа bool isChar(){return data.length()==1;}
+            if (!tmp.isEmpty || (tmp.data.length() == 1 && tmp.data == L"\n"))
+                tokensHolder->add(tmp);
+
             if (!tmp.isEmpty) {
                 analyzerStrategy.analyzeNext(tmp);
-                //noErrors = analyzeToken(tmp);
-                //tokens.push_back(tmp);
             }
         }
         int a = 1+1;
@@ -50,7 +51,7 @@ namespace fedora {
         Token token = Token(res);
 
         // Если данные пусты, значит токен пустой
-        if (res.length() == 0)
+        if (res.length() == 0 || (res.length() == 1 && res.at(0) == L'\n'))
             token.isEmpty = true;
 
         return token;
@@ -63,7 +64,7 @@ namespace fedora {
 
     bool Parser::isIgnored(wchar_t & tmp) {
         // Символы, которые мы игнорируем
-        const std::wstring ignoredSymbols = L"\n\t\r \377"; // Возможно, \377 - это символ окончания файла // TODO Вынести во внушнюю константу
+        const std::wstring ignoredSymbols = L"\t\r \377"; // Возможно, \377 - это символ окончания файла // TODO Вынести во внушнюю константу
         return ignoredSymbols.find(tmp) != std::wstring::npos;
     }
 

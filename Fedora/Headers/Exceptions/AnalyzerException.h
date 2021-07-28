@@ -8,6 +8,7 @@
 
 namespace fedora {
 
+    // TODO Сделать наследование от FException
     class AnalyzerException {
 
     public:

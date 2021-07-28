@@ -49,9 +49,11 @@ namespace fedora {
             std::wstring text = L"";
             // TODO Вынести тексты всех ошибок в единый файл и пронумеровать их
             throwException(L"You have to return something from function, but nothing valid found.\n" + text +
-                           L"Possible variants:\n" + text + L"1. Number\n2. String\n3. List\n 4. Another function\n" +
+                           L"Possible variants:\n" + text + L"1. Number\n2. String\n3. List\n4. Another function\n" +
                            text + L"Found: token = " + t.data, "analyzeToken(Token&)");
-            return std::shared_ptr<AnalyticBasic>();
+
+            // TODO Я не хочу здесь return. Программа должна остановить выполнение
+            //return std::shared_ptr<AnalyticBasic>();
         }
 
         bool ReadResult::isTokenALeftSquareBracket(std::wstring &data) {
