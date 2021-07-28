@@ -8,7 +8,7 @@
 namespace fedora {
     namespace analytic {
         bool AnalyticUtils::isValidName(std::wstring &name) {
-            const int checksNeed = 3;
+            const int checksNeed = 4;
             int checks = 0;
             if (!isValueAKeyWord(name))
                 ++checks;

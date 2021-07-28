@@ -18,7 +18,7 @@ namespace fedora {
 
             if (!AnalyticUtils::isValidName(t.data))
                 throwException(L"Expected a function name, but founded name is invalid. Token = " + t.data,
-                               "analyzeToken(Token&)");
+                               "analyzeToken(Token&) <- AnalyticUtils::isValidName(std::wstring&)");
 
             // Если [force] есть среди ключевых слов, считать аргументы для вызова функции
             if (areTokensIncludeForce()) {
