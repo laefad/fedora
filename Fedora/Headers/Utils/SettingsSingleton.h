@@ -25,7 +25,7 @@ namespace fedora {
     class Settings {
     private:
         /// Classic private singleton constructor
-        Settings() {}
+        Settings() = default;
 
         /// Main instance
         static Settings *instance;
@@ -43,27 +43,9 @@ namespace fedora {
         /// Singleton instance getter
         static Settings *GetInstance();
 
-        /// Set log level
+        /// Log level Setter
         void setLogLevel(settings::LogLevel l);
-        /// Get log level
+        /// Log level Getter
         settings::LogLevel getLogLevel();
     };
-
-    Settings *Settings::instance = nullptr;
-
-    /// Simple instance getter
-    Settings *Settings::GetInstance() {
-        if (instance == nullptr) {
-            instance = new Settings();
-        }
-        return instance;
-    }
-
-    void Settings::setLogLevel(settings::LogLevel l) {
-        logLevel = l;
-    }
-
-    settings::LogLevel Settings::getLogLevel() {
-        return logLevel;
-    }
 }
