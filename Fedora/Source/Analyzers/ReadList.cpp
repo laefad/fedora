@@ -29,7 +29,7 @@ namespace fedora{
                 throwException(L"Expected a list value, but got a keyword.", "analyzeToken(Token&)");
 
             // Если функция, то перейдём на этап чтения аргументов
-            if (AnalyticUtils::isValidName(t.data) && !isTokenARightSquareBracket(t.data)){
+            if (AnalyticUtils::isValidName(t.data) && !AnalyticUtils::isTokenARightSquareBracket(t.data)){
                 return std::make_shared<ReadForceArgs>(std::vector<Token>());
             }
 
@@ -41,13 +41,9 @@ namespace fedora{
             return "ReadList.h";
         }
 
-        bool ReadList::isTokenARightSquareBracket(std::wstring &data) {
-            return data.length() == 1 && data.at(0) == L']';
-        }
-
         std::shared_ptr<AnalyticBasic> ReadList::chooseReturn(Token& t) {
             // Если закончился ввод списка
-            if (isTokenARightSquareBracket(t.data)){
+            if (AnalyticUtils::isTokenARightSquareBracket(t.data)){
                 switch (mode) {
                     // Если мы читаем список внутри аргументов функции
                     case readList::READ_FUNCTION_ARG:

@@ -20,8 +20,7 @@ namespace fedora {
 
             std::string getFileName() override;
 
-            /// Является ли токен открытой квадратной скобкой ("[")
-            static bool isTokenALeftSquareBracket(std::wstring&);
+
         };
     }
 }

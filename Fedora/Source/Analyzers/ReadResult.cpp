@@ -35,7 +35,7 @@ namespace fedora {
             }
 
             // Если Список
-            if (isTokenALeftSquareBracket(t.data)) {
+            if (AnalyticUtils::isTokenALeftSquareBracket(t.data)) {
                 return std::make_shared<ReadList>(std::vector<Token>(), readList::READ_FUNCTION_RETURN);
             }
 
@@ -53,11 +53,7 @@ namespace fedora {
                            text + L"Found: token = " + t.data, "analyzeToken(Token&)");
 
             // TODO Я не хочу здесь return. Программа должна остановить выполнение
-            //return std::shared_ptr<AnalyticBasic>();
-        }
-
-        bool ReadResult::isTokenALeftSquareBracket(std::wstring &data) {
-            return data.length() == 1 && data.at(0) == L'[';
+            return std::shared_ptr<AnalyticBasic>();
         }
 
         std::string ReadResult::getFileName() {

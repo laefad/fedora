@@ -5,6 +5,7 @@
 #include <Analyzers/ReadName.h>
 #include <Exceptions/AnalyzerException.h>
 #include <KeyWords.h>
+#include <Analyzers/ReadResult.h>
 #include "Analyzers/ReadKeyWord.h"
 #include "Analyzers/AnalyticUtils.h"
 
@@ -16,7 +17,10 @@ namespace fedora {
 
             addToken(t); // Запомнить считаный токен
 
-            // TODO Проверка на то, что будет получено равно
+            // if we got an "equals"
+            if (t == returns){
+                return std::make_shared<ReadResult>(std::vector<Token>());
+            }
 
             if (AnalyticUtils::isTokenAPreFunKeyWord(t.data)) {
                 // 2 пути:

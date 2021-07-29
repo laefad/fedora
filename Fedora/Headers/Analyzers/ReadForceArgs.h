@@ -12,7 +12,6 @@ namespace fedora {
 
             };
         }
-        // TODO Избавиться от этого лкасса в пользу readFunArgs
         /**
          * Класс чтения аргументов для force вызова функции
          * @see [Keywords.force]
@@ -26,6 +25,7 @@ namespace fedora {
          */
         class ReadForceArgs : public AnalyticBasic {
         public:
+            // TODO Если токены не используются, можно в базовый конструктор посылать пустой массив, а в конструкторе класса убрать аргумент
             explicit ReadForceArgs(std::vector<Token> t) : AnalyticBasic(std::move(t)) {}
 
             std::shared_ptr<AnalyticBasic> analyzeToken(Token &) override;

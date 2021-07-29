@@ -32,7 +32,6 @@ namespace fedora {
             virtual std::shared_ptr<AnalyticBasic> analyzeToken(Token &) = 0;
 
             /// Получить текущие токены
-            // TODO Вынести все функции в cpp файл
             std::vector<Token> &getTokens();
 
             /// Добавить токен в список прочитаных

@@ -63,5 +63,21 @@ namespace fedora {
         bool AnalyticUtils::isBracket(std::wstring & n) {
             return n.length() == 1 && (n.at(0) == L'(' || n.at(0) == L')' || n.at(0) == L'['|| n.at(0) == L']');
         }
+
+        bool AnalyticUtils::isTokenALeftSquareBracket(std::wstring &data) {
+            return data.length() == 1 && data.at(0) == L'[';
+        }
+
+        bool AnalyticUtils::isTokenARightSquareBracket(std::wstring &data) {
+            return data.length() == 1 && data.at(0) == L']';
+        }
+
+        bool AnalyticUtils::isTokenALeftCircleBracket(std::wstring &data) {
+            return data.length() == 1 && data.at(0) == L'(';
+        }
+
+        bool AnalyticUtils::isTokenARightCircleBracket(std::wstring &data) {
+            return data.length() == 1 && data.at(0) == L')';
+        }
     }
 }
