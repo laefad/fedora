@@ -4,20 +4,21 @@
 #pragma once
 
 #include "Token.h"
+#include "BasicSingleton.h"
 #include <vector>
 
 /**
  * @brief Это класс, который будет хранить в себе все спаршеные токены. Реализован через паттерн Singleton
  */
 namespace fedora {
-    class TokensHolder {
+    class TokensHolder: public BasicSingleton{
 
         /**
          * Конструктор Одиночки всегда должен быть скрытым, чтобы предотвратить
          * создание объекта через оператор new.
          */
-    protected:
-        TokensHolder() {}
+    private:
+        TokensHolder() = default;
 
         static TokensHolder *singleton_;
         std::vector<Token> tokens;

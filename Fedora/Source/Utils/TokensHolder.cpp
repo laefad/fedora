@@ -11,6 +11,7 @@ namespace fedora{
     TokensHolder *TokensHolder::GetInstance() {
         if (singleton_ == nullptr) {
             singleton_ = new TokensHolder();
+            singleton_->addToCleaner();
         }
         return singleton_;
     }

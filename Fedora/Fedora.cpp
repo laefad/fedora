@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
 
     // Инициализируем настройки
     fedora::Settings * settings = fedora::Settings::GetInstance();
-    settings->setLogLevel(fedora::settings::LOG_VERBOSE);
+    settings->setLogLevel(fedora::settings::LOG_ERROR);
 
     // Получаем имя файла
     std::string path = argv[1];
@@ -56,6 +56,8 @@ int main(int argc, char *argv[]) {
     parser.readFile();
 
     // Clean singleton utils
-    fedora::Utils::SingletonsCleaner::cleanThemAll();
+    fedora::Utils::SingletonsCleaner* cleaner = fedora::Utils::SingletonsCleaner::GetInstance();
+    cleaner->cleanThemAll();
+
     return 0;
 }

@@ -12,6 +12,7 @@ namespace fedora{
     Settings *Settings::GetInstance() {
         if (instance == nullptr) {
             instance = new Settings();
+            instance->addToCleaner();
         }
         return instance;
     }

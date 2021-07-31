@@ -3,6 +3,9 @@
 //
 
 #pragma once
+
+#include <vector>
+
 #include "Utils/SettingsSingleton.h"
 #include "Utils/TokensHolder.h"
 
@@ -18,23 +21,30 @@ namespace fedora{
          * We need to update [cleanThemAll] method every time we add new global singleton
          *
          */
-        class SingletonsCleaner{
+        class SingletonsCleaner:public BasicSingleton{
+        private:
+            /// Classic private singleton constructor
+            SingletonsCleaner() = default;
+
+            /// Main instance
+            static SingletonsCleaner *instance;
+
+            std::vector<BasicSingleton*> singletons = std::vector<BasicSingleton*> ();
         public:
-            static void cleanThemAll();
+            /// Singleton can't be copied
+            SingletonsCleaner(SingletonsCleaner &other) = delete;
+
+            /// Singletons should not be assignable.
+            void operator=(const SingletonsCleaner &) = delete;
+
+            /// Singleton instance getter
+            static SingletonsCleaner *GetInstance();
+
+            void cleanThemAll();
+
+            void addToSingletons(BasicSingleton*);
         };
 
-        void SingletonsCleaner::cleanThemAll() {
-            // TODO Можем ли мы наследовать все синглтоны от одного предка, добавлять их в массив синглтон клинера в их конструкторах, а здесь только очищать, проходя по массиву?
 
-            // Init settings singleton
-            fedora::Settings * settings = fedora::Settings::GetInstance();
-            // clean it
-            delete settings;
-
-            // Init tokens singleton
-            fedora::TokensHolder * a = fedora::TokensHolder::GetInstance();
-            // clean it
-            delete a;
-        }
     }
 }

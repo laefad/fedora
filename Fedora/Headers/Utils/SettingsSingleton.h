@@ -7,6 +7,7 @@
 #include "Token.h"
 #include <vector>
 #include "Exceptions/SettingsException.h"
+#include "BasicSingleton.h"
 
 /**
  * Settings class
@@ -22,7 +23,7 @@ namespace fedora {
         };
     }
 
-    class Settings {
+    class Settings: public BasicSingleton{
     private:
         /// Classic private singleton constructor
         Settings() = default;
