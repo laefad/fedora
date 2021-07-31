@@ -20,7 +20,6 @@ namespace fedora {
 
             std::string getFileName() override;
 
-
         };
     }
 }

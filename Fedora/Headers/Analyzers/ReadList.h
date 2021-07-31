@@ -27,7 +27,7 @@ namespace fedora {
             readList::readMode mode;
         public:
             explicit ReadList(std::vector<Token> t, readList::readMode m) : AnalyticBasic(std::move(t)), mode(m) {}
-            explicit ReadList(std::vector<Token> t) : AnalyticBasic(std::move(t)) { throwException(L"Нерабочий конструктор, убрать его, когда завезут моды для всех классов","");}
+            explicit ReadList(std::vector<Token> t) : AnalyticBasic(std::move(t)) {std::wcout<<L"Нерабочий конструктор, убрать его, когда завезут моды для всех классов";}
 
             /// Определение родительского метода анализа токена
             /// @brief По факту является фабричным методом

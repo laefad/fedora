@@ -12,9 +12,9 @@
 namespace fedora {
     namespace analytic {
         std::shared_ptr<AnalyticBasic> ReadResult::analyzeToken(Token &t) {
-            log("Class: "+getFileName(),fedora::settings::LOG_VERBOSE);
-            log(L"Token: "+t.data,fedora::settings::LOG_VERBOSE);
-            
+            log("Class: " + getFileName(), fedora::settings::LOG_VERBOSE);
+            log(L"Token: " + t.data, fedora::settings::LOG_VERBOSE);
+
             addToken(t);    // Записать прочитаный токен
 
             // 4 Варианта, что можно вернуть из функции:

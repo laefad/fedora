@@ -3,4 +3,9 @@ let my_str = "lol"
 let my_list = [1 2 "3" my_str]
 let myFun arg1 where
     let myVar = 3
+    let a = [my_str]
+    pure let b where
+        let b = []
 = my_int(my_str() my_str)
+
+let shit = [ [1] [2] [my_str]]

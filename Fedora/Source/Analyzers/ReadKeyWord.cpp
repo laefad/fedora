@@ -12,13 +12,13 @@
 namespace fedora {
     namespace analytic {
         std::shared_ptr<AnalyticBasic> ReadKeyWord::analyzeToken(Token &t) {
-            log("Class: "+getFileName(),fedora::settings::LOG_VERBOSE);
-            log(L"Token: "+t.data,fedora::settings::LOG_VERBOSE);
+            log("Class: " + getFileName(), fedora::settings::LOG_VERBOSE);
+            log(L"Token: " + t.data, fedora::settings::LOG_VERBOSE);
 
             addToken(t); // Запомнить считаный токен
 
             // if we got an "equals"
-            if (t == returns){
+            if (t == returns) {
                 return std::make_shared<ReadResult>(std::vector<Token>());
             }
 
