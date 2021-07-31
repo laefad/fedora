@@ -4,6 +4,7 @@
 #include <Analyzers/AnalyticUtils.h>
 #include "Parser.h"
 #include "Utils/SettingsSingleton.h"
+#include "Utils/SingletonsCleaner.h"
 
 namespace fedora {
 
@@ -54,12 +55,7 @@ int main(int argc, char *argv[]) {
     fedora::Parser parser = fedora::Parser(path, fin, analyzer);
     parser.readFile();
 
-    // Очищаем синглтон токенхолдера, чтобы не было течки
-    fedora::TokensHolder* a = fedora::TokensHolder::GetInstance();
-    delete a;
-
-    // Очищаем синглтон настроек
-    delete settings;
-
+    // Clean singleton utils
+    fedora::Utils::SingletonsCleaner::cleanThemAll();
     return 0;
 }
