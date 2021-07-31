@@ -9,8 +9,8 @@
 #include "Utils/SettingsSingleton.h"
 #include "Utils/TokensHolder.h"
 
-namespace fedora{
-    namespace Utils{
+namespace fedora {
+    namespace Utils {
         /**
          * Clean singletons by their pointers
          *
@@ -21,7 +21,7 @@ namespace fedora{
          * We need to update [cleanThemAll] method every time we add new global singleton
          *
          */
-        class SingletonsCleaner:public BasicSingleton{
+        class SingletonsCleaner : public BasicSingleton {
         private:
             /// Classic private singleton constructor
             SingletonsCleaner() = default;
@@ -29,7 +29,7 @@ namespace fedora{
             /// Main instance
             static SingletonsCleaner *instance;
 
-            std::vector<BasicSingleton*> singletons = std::vector<BasicSingleton*> ();
+            std::vector<BasicSingleton *> singletons = std::vector<BasicSingleton *>();
         public:
             /// Singleton can't be copied
             SingletonsCleaner(SingletonsCleaner &other) = delete;
@@ -42,7 +42,7 @@ namespace fedora{
 
             void cleanThemAll();
 
-            void addToSingletons(BasicSingleton*);
+            void addToSingletons(BasicSingleton *);
         };
 
 

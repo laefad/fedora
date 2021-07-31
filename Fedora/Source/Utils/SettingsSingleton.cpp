@@ -4,7 +4,7 @@
 
 #include "Utils/SettingsSingleton.h"
 
-namespace fedora{
+namespace fedora {
     /// Initializing
     Settings *Settings::instance = nullptr;
 

@@ -18,12 +18,12 @@ namespace fedora {
             return instance;
         }
 
-        void SingletonsCleaner::addToSingletons(BasicSingleton * b) {
+        void SingletonsCleaner::addToSingletons(BasicSingleton *b) {
             singletons.push_back(b);
         }
 
         void SingletonsCleaner::cleanThemAll() {
-            for(auto& a:singletons)
+            for (auto &a:singletons)
                 delete a;
         }
     }

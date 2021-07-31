@@ -15,15 +15,15 @@
  * @brief Singleton pattern implementation
  */
 namespace fedora {
-    namespace settings{
-        enum LogLevel{
+    namespace settings {
+        enum LogLevel {
             LOG_VERBOSE,
             LOG_WARNING,
             LOG_ERROR,
         };
     }
 
-    class Settings: public BasicSingleton{
+    class Settings : public BasicSingleton {
     private:
         /// Classic private singleton constructor
         Settings() = default;
@@ -46,6 +46,7 @@ namespace fedora {
 
         /// Log level Setter
         void setLogLevel(settings::LogLevel l);
+
         /// Log level Getter
         settings::LogLevel getLogLevel();
     };

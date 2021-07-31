@@ -4,12 +4,12 @@
 
 #pragma once
 
-namespace fedora{
+namespace fedora {
     /**
      * Use this class to make singleton auto-deletable
      *
      * @example @code
-     * class MySingleton : public BasicSingleton{
+     * class MySingleton : public BasicSingleton {
      *     private:
      *     MySingleton() = default;
      *
@@ -30,10 +30,11 @@ namespace fedora{
      *      return instance;
      * }
      */
-    class BasicSingleton{
+    class BasicSingleton {
     protected:
         /// Here we need a protected constructor, so derived classes will be able to create instances
         BasicSingleton() = default;
+
     public:
         /// Singleton can't be copied
         BasicSingleton(BasicSingleton &other) = delete;

@@ -11,7 +11,7 @@
  * @brief Это класс, который будет хранить в себе все спаршеные токены. Реализован через паттерн Singleton
  */
 namespace fedora {
-    class TokensHolder: public BasicSingleton{
+    class TokensHolder : public BasicSingleton {
 
         /**
          * Конструктор Одиночки всегда должен быть скрытым, чтобы предотвратить
@@ -45,12 +45,16 @@ namespace fedora {
         /// Number of tokens we expect to return
         static const int lastNum = 10;
 
+        /**
+         * Add token to tokens list
+         *
+         * @param a - token to add
+         */
         void add(const Token &a);
 
-//        std::vector<Token> &getAll() {
-//            return tokens;
-//        }
-
+        /**
+         * @return vector of last @see lastNum Tokens
+         */
         std::vector<Token> getLast();
     };
 }

@@ -4,7 +4,7 @@
 
 #include "Utils/TokensHolder.h"
 
-namespace fedora{
+namespace fedora {
     /// Initialization
     TokensHolder *TokensHolder::singleton_ = nullptr;
 
@@ -26,7 +26,7 @@ namespace fedora{
             return tokens;
         else {
             std::vector<Token> res = std::vector<Token>();
-            for (size_t i=tokens.size()-lastNum;i<tokens.size();++i)
+            for (size_t i = tokens.size() - lastNum; i < tokens.size(); ++i)
                 res.push_back(tokens[i]);
             return res;
         }

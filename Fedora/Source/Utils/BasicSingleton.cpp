@@ -5,24 +5,9 @@
 #include "Utils/BasicSingleton.h"
 #include "Utils/SingletonsCleaner.h"
 
-namespace fedora{
-    namespace Utils{
-//        void BasicSingleton::addToCleaner() {
-//            //SingletonsCleaner * settings = fedora::Settings::GetInstance();
-//        }
-    }
-    /// Initializing
-    //BasicSingleton *BasicSingleton::instance = nullptr;
-
-//    BasicSingleton *BasicSingleton::GetInstance() {
-//        if (instance == nullptr) {
-//            instance = new BasicSingleton();
-//        }
-//        return instance;
-//    }
-
+namespace fedora {
     void BasicSingleton::addToCleaner() {
-        Utils::SingletonsCleaner* cleaner = Utils::SingletonsCleaner::GetInstance();
+        Utils::SingletonsCleaner *cleaner = Utils::SingletonsCleaner::GetInstance();
         cleaner->addToSingletons(this);
     }
 }
