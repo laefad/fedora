@@ -18,6 +18,13 @@ namespace fedora{
          */
         static void log(const std::string& msg, fedora::settings::LogLevel logLevel);
         static void log(const std::wstring& msg, fedora::settings::LogLevel logLevel);
+
+        /// Log verbose
+        static void logV(const std::wstring& msg);
+        /// Log warnings
+        static void logW(const std::wstring& msg);
+        /// Log errors
+        static void logE(const std::wstring& msg);
     };
 
     void Logger::log(const std::string& msg, fedora::settings::LogLevel logLevel) {
@@ -37,5 +44,17 @@ namespace fedora{
             // print it
             std::wcout<<msg<<std::endl;
         }
+    }
+
+    void Logger::logV(const std::wstring &msg) {
+        log(msg, fedora::settings::LOG_VERBOSE);
+    }
+
+    void Logger::logW(const std::wstring &msg) {
+        log(msg, fedora::settings::LOG_WARNING);
+    }
+
+    void Logger::logE(const std::wstring &msg) {
+        log(msg, fedora::settings::LOG_ERROR);
     }
 }

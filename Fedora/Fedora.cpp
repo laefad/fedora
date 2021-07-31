@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
 
     // Инициализируем настройки
     fedora::Settings * settings = fedora::Settings::GetInstance();
-    settings->setLogLevel(fedora::settings::LOG_ERROR);
+    settings->setLogLevel(fedora::settings::LOG_VERBOSE);
 
     // Получаем имя файла
     std::string path = argv[1];
