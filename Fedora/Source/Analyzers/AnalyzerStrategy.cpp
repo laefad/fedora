@@ -6,6 +6,7 @@ bool fedora::AnalyzerStrategy::analyzeNext(fedora::Token &t) {
         analyticObj = analyticObj->analyzeToken(t);
         return true;
     }catch(FException& e){
+        // TODO Сделать вывод красного цвета (в консоли)
         std::cout<<"Error:"<<std::endl<<e.what();
         return false;
     }

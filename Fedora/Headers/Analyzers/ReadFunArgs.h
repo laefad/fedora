@@ -24,7 +24,13 @@ namespace fedora {
 //            };
 //        }
         /**
-         * Класс чтения аргументов при объявлении функции
+         * Read function arg names
+         *
+         * @example case 1: Has args
+         * let fun arg1 arg2 = ...
+         *
+         * @example case 2: Does not have args
+         * let fun = ...
          */
         class ReadFunArgs : public AnalyticBasic {
         public:

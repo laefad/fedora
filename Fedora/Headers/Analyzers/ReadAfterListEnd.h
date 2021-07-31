@@ -14,7 +14,7 @@ namespace fedora {
          * @example case 1: List inside list
          * let a = [ [1] [2] ]
          *
-         * @example case 2: List in returnable
+         * @example case 2: List in returnable, so waiting a key word
          * let a = [1 2 3]
          * let b ...
          *
@@ -27,6 +27,14 @@ namespace fedora {
          * let a list = ...
          * force a([1 2 3])
          *
+         * @example case 5: Combination of list and int
+         * let a = main( [1 2] 3 )
+         *
+         * @example case 6: Combination of list and str
+         * let a = main( [1 2] "lmao" )
+         *
+         * @example case 7: Combination of list and function
+         * let a = main ( [1 2] fun)
          */
         class ReadAfterListEnd : public AnalyticBasic {
         public:
