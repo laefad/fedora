@@ -18,7 +18,7 @@ namespace fedora {
 			) 
 			: funct(funct), args(args)
 		{}
-
+        /// Я Аянами Рей, а кто ты?
 		std::unique_ptr<fedora::types::BasicType> execute() {
 			
 		}

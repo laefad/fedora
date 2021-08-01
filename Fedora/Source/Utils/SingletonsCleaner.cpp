@@ -13,7 +13,6 @@ namespace fedora {
         SingletonsCleaner *SingletonsCleaner::GetInstance() {
             if (instance == nullptr) {
                 instance = new SingletonsCleaner();
-                instance->addToCleaner();
             }
             return instance;
         }
@@ -25,6 +24,8 @@ namespace fedora {
         void SingletonsCleaner::cleanThemAll() {
             for (auto &a:singletons)
                 delete a;
+            // Suicide :(
+            delete this;
         }
     }
 }
