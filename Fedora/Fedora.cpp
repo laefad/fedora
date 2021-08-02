@@ -6,6 +6,8 @@
 #include "Utils/SettingsSingleton.h"
 #include "Utils/SingletonsCleaner.h"
 
+#include "test/Test.h"
+
 namespace fedora {
 
     //class Macros {
@@ -30,34 +32,43 @@ namespace fedora {
 
 }
 
+const bool is_test = true;
+
 int main(int argc, char *argv[]) {
-    if (argc == 1) {
-        std::cout << "You have not entered any arguments" << std::endl;
+    // Режим тестирования
+    if (is_test) {
+
+        ContextBuildTester::test();
+        return 0;
+    } else {
+        if (argc == 1) {
+            std::cout << "You have not entered any arguments" << std::endl;
+            return 0;
+        }
+
+        // Инициализируем настройки
+        fedora::Settings *settings = fedora::Settings::GetInstance();
+        settings->setLogLevel(fedora::settings::LOG_VERBOSE);
+
+        // Получаем имя файла
+        std::string path = argv[1];
+        std::cout << "Args amount: " << argc << std::endl
+                  << "Path to file: " << path << std::endl;
+
+        // Создаём файловый поток
+        std::ifstream fin;
+
+        // Инициализируем анализатор
+        fedora::AnalyzerStrategy analyzer = fedora::AnalyzerStrategy();
+
+        // Инициализируем парсер файла
+        fedora::Parser parser = fedora::Parser(path, fin, analyzer);
+        parser.readFile();
+
+        // Clean singleton utils
+        fedora::Utils::SingletonsCleaner *cleaner = fedora::Utils::SingletonsCleaner::GetInstance();
+        cleaner->cleanThemAll();
+
         return 0;
     }
-
-    // Инициализируем настройки
-    fedora::Settings * settings = fedora::Settings::GetInstance();
-    settings->setLogLevel(fedora::settings::LOG_VERBOSE);
-
-    // Получаем имя файла
-    std::string path = argv[1];
-    std::cout << "Args amount: " << argc <<std::endl
-            << "Path to file: " << path << std::endl;
-
-    // Создаём файловый поток
-    std::ifstream fin;
-
-    // Инициализируем анализатор
-    fedora::AnalyzerStrategy analyzer = fedora::AnalyzerStrategy();
-
-    // Инициализируем парсер файла
-    fedora::Parser parser = fedora::Parser(path, fin, analyzer);
-    parser.readFile();
-
-    // Clean singleton utils
-    fedora::Utils::SingletonsCleaner* cleaner = fedora::Utils::SingletonsCleaner::GetInstance();
-    cleaner->cleanThemAll();
-
-    return 0;
 }
