@@ -8,9 +8,10 @@ namespace fedora {
         class List : public BasicType {
         private:
             BasicType *value;
+            // TODO Мб внутрянку списка сделать вектором? Это будет простое и хорошо оптимизированное решение
             List *next;
         public:
-            std::wstring eval();
+            std::wstring eval() override;
         };
 
     }

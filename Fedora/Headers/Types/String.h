@@ -9,7 +9,7 @@ namespace fedora {
         private:
             std::wstring value;
         public:
-            std::wstring eval();
+            std::wstring eval() override;
         };
 
     }
