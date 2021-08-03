@@ -14,12 +14,18 @@ namespace fedora {
     class Logger {
     public:
         /**
-         * Log message
-         * @param msg - text you want to log
-         * @param logLevel - message logLevel that compares to settings logLevel
+        * Log message
+        * @param msg - text you want to log
+        * @param logLevel - message logLevel that compares to settings logLevel
+        */
+        static void log(const std::wstring &msg, fedora::settings::LogLevel logLevel);
+
+        /**
+         * @overload log method, but for std::string
+         * @param msg is a std::string
          */
         static void log(const std::string &msg, fedora::settings::LogLevel logLevel);
-        static void log(const std::wstring &msg, fedora::settings::LogLevel logLevel);
+
 
         /// Log verbose
         static void logV(const std::wstring &msg);

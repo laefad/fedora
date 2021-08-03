@@ -30,7 +30,7 @@ private:
         Token mReturn = Token(L"=");
         Token mOne = Token(L"1");
 
-        builder->declareNewFunction();
+        builder->declareNewFunction(mLet);
         clean();
     }
 

@@ -9,26 +9,58 @@
 #include "Utils/BasicSingleton.h"
 #include "Function/Function.h"
 #include "Utils/Logger.h"
+#include "Token.h"
+#include "FunctionDeclarator.h"
 
 namespace fedora {
     /**
      * Context builder
      *
-     * @brief Singleton pattern
+     * @brief Singleton pattern.
+     * Does 2 things:
+     * 1. Declares function
+     * 2. Declares funCall
+     *
+     * You need funCalls in 2 cases:
+     * 1. force call
+     * @example
+     * force main()             <- "main" is a funCall
+     *
+     * 2. returnable funCall
+     * @example
+     * let a = main(1 2 3)      <- "main" is a funCall
+     *
+     * @note FunCall declaration is possible inside Function. But Function declaration inside FunCall is NOT possible
      */
     class ContextBuilder : public BasicSingleton {
     private:
+        /**
+         * @static Singleton instance
+         */
         static ContextBuilder *instance;
 
+        /**
+         * Constructor that initializes private stuff
+         */
         ContextBuilder() {
-            currentFun = std::make_shared<function::Function>(nullptr);
+            currentContext = std::make_shared<function::Context>(nullptr);
+            // TODO Declare new function
         }
 
         ~ContextBuilder() {
             fedora::Logger::logW(L"ContextBuilder instance is destroyed");
         }
 
-        std::shared_ptr<function::Function> currentFun;
+        /**
+         * Pointer to current context
+         *
+         * @note redeclare utilities each time we get new context //TODO ВЫнести утилиты и контекст в приват абстрактного билдера и наследовать этот класс от него
+         */
+        std::shared_ptr<function::Context> currentContext;
+
+        /// Function declaration utility
+        builder::FunctionDeclarator functionDeclarator;//builder::FunctionDeclarator(nullptr);
+
     public:
         static ContextBuilder *GetInstance();
 
@@ -50,7 +82,7 @@ namespace fedora {
          * @example
          * force
          */
-        void declareNewFunction();
+        void declareNewFunction(Token &);
 
         void addKeyWordToCurrent();
 

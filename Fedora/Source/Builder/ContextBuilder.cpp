@@ -16,4 +16,8 @@ namespace fedora {
         }
         return instance;
     }
+
+    void ContextBuilder::declareNewFunction(Token &t) {
+        currentContext.
+    }
 }
