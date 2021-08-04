@@ -20,7 +20,6 @@ private:
          * let a = 1
          */
     static void test1() {
-        std::cout << "ok";
 
         ContextBuilder *builder = ContextBuilder::GetInstance();
 

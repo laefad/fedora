@@ -49,7 +49,7 @@ namespace fedora {
          * // TODO Стоит ли объявить пустой дефолтный конструктор, чтобы мы могли убрать functionDeclarator(nullptr) из конструктора? Текущее решение выглядит уродливо, зато работает явно. Скрытие плохого кода через дефолтный конструктор я считаю небезопасным. ИМХО пусть лучше будет некрасиво, но безопасно
          */
         ContextBuilder() : functionDeclarator(nullptr) {
-            currentContext = std::make_shared<function::Context>(nullptr);
+            currentContext = std::make_shared<function::Function>(nullptr);
         }
 
         ~ContextBuilder() {
@@ -61,7 +61,7 @@ namespace fedora {
          *
          * @note redeclare utilities each time we get new context //TODO ВЫнести утилиты и контекст в приват абстрактного билдера и наследовать этот класс от него. Но мб это не нужно делать. Посмотрим, как будет выглядеть сборщик без этого
          */
-        std::shared_ptr<function::Context> currentContext;
+        std::shared_ptr<function::Function> currentContext;
 
         /// Function declaration utility
         builder::FunctionDeclarator functionDeclarator;//builder::FunctionDeclarator(nullptr);
@@ -77,7 +77,7 @@ namespace fedora {
 
         void addFunctionDeclarationToken(Token &);
 
-        void addFunctionName(Token &);
+        //void addFunctionName(Token &);
 
 //        /**
 //         * Add new function in context

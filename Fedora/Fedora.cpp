@@ -34,10 +34,20 @@ namespace fedora {
 
 const bool is_test = true;
 
+//std::shared_ptr<function::Function> a_test(){
+//    return std::make_shared<function::Function>(nullptr);
+//}
+//
+//std::shared_ptr<analytic::ReadName> b_test(){
+//    return std::make_shared<analytic::ReadName>(std::vector<Token>());
+//}
+
 int main(int argc, char *argv[]) {
     // Режим тестирования
     if (is_test) {
-
+        std::cout << "lol" << std::endl;
+//        std::cout<<b_test()->getFileName()<<std::endl;
+//        std::cout<<a_test()->isNameDeclared();
         ContextBuildTester::test();
         return 0;
     } else {

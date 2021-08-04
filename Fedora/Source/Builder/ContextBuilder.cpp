@@ -13,6 +13,7 @@ namespace fedora {
     ContextBuilder *fedora::ContextBuilder::GetInstance() {
         if (instance == nullptr) {
             instance = new ContextBuilder();
+            // TODO Clion пишет "Pointer may be null", имея ввиду, что инстанс может быть нулёвым
             instance->addToCleaner();
         }
         return instance;
@@ -26,6 +27,7 @@ namespace fedora {
         } else {
             // Continue to build function
         }
+
 
         // If t == let -> we don't need anything special, cause function is already declared
         if (t.data != let.data) {
