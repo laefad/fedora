@@ -3,6 +3,7 @@
 //
 
 #include <Builder/ContextBuilder.h>
+#include <KeyWords.h>
 
 namespace fedora {
     /// Initializing
@@ -17,7 +18,18 @@ namespace fedora {
         return instance;
     }
 
-    void ContextBuilder::declareNewFunction(Token &t) {
-        currentContext.
+    void ContextBuilder::addFunctionDeclarationToken(Token &t) {
+        if (functionDeclarator.isNull()) {
+            // Need to declare new blank function
+
+            createFunctionAndBuilder();
+        } else {
+            // Continue to build function
+        }
+
+        // If t == let -> we don't need anything special, cause function is already declared
+        if (t.data != let.data) {
+            //functionDeclarator.
+        }
     }
 }

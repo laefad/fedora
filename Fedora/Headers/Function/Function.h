@@ -26,6 +26,8 @@ namespace fedora {
         public:
             explicit Function(std::shared_ptr<Context> parent) : outsideContext(std::move(parent)) {}
 
+            Function() {}
+
             bool isNameDeclared() {
                 return !name.empty();
             }

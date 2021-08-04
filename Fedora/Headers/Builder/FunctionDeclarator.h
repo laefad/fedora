@@ -70,6 +70,7 @@ namespace fedora {
          * takes @param context and manages Function building process
          */
         class FunctionDeclarator {
+            // TODO Если проиходит несвоевременное изменение, бросаем ошибку
         private:
             /**
              * Function we are building
@@ -82,6 +83,10 @@ namespace fedora {
             FunctionDeclarationMode funMode;
         public:
             explicit FunctionDeclarator(std::shared_ptr<function::Function> f) : function(std::move(f)) {
+            }
+
+            bool isNull() {
+                return function == nullptr;
             }
         };
     }

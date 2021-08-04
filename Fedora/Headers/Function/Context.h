@@ -8,6 +8,8 @@
 
 #include "Function.h"
 
+#include "Analyzers/ReadName.h"
+
 
 namespace fedora {
     namespace function {
@@ -31,10 +33,14 @@ namespace fedora {
 
             /**
              * Start function declaration
-             * // TODO Класс объявления функции. Этапы: ключевые слова, имя, аргументы, контекст, ретурн. Если проиходит несвоевременное изменение, бросаем ошибку
+             *
              */
-            void addFunction() {
-
+            std::shared_ptr<function::Function> addFunction() {
+                std::shared_ptr<analytic::ReadName> a = std::make_shared<analytic::ReadName>(std::vector<Token>());
+                std::shared_ptr<function::Function> newFunction = std::make_shared<function::Function>(
+                        shared_from_this());
+//                functions.push_back(newFunction);
+//                return newFunction;
             }
 
         private:
