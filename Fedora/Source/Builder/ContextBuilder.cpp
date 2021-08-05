@@ -44,4 +44,8 @@ namespace fedora {
     void ContextBuilder::setFunctionName(std::wstring &s) {
         functionDeclarator.setFunctionName(s);
     }
+
+    void ContextBuilder::notifyWeSetReturnable() {
+        functionDeclarator.setReturnableMode();
+    }
 }

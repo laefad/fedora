@@ -72,7 +72,6 @@ namespace fedora {
             functionDeclarator = builder::FunctionDeclarator(newFunction);
         }
 
-
     public:
         static ContextBuilder *GetInstance();
 
@@ -81,6 +80,8 @@ namespace fedora {
         void notifyWeGotLetToken();
 
         void setFunctionName(std::wstring &);
+
+        void notifyWeSetReturnable();
 
         //void addFunctionName(Token &);
 

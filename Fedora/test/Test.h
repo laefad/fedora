@@ -38,6 +38,7 @@ private:
         builder->addFunctionDeclarationToken(mPure2);
         builder->notifyWeGotLetToken();
         builder->setFunctionName(mA.getData());
+        builder->notifyWeSetReturnable();
 
         clean();
     }

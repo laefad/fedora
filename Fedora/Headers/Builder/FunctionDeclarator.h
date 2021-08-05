@@ -72,7 +72,6 @@ namespace fedora {
          * takes @param context and manages Function building process
          */
         class FunctionDeclarator {
-            // TODO Если проиходит несвоевременное изменение, бросаем ошибку
             // TODO У нас есть контекст, в который добавляются функции, а манипулирует функцией этот класс. Это паттерн Посетитель?
             // TODO Вынести в .cpp
         private:
@@ -118,6 +117,10 @@ namespace fedora {
 
             void setFunctionName(std::wstring &s) {
                 function->setName(s);
+            }
+
+            void setReturnableMode() {
+                function->setContextFinished();
             }
         };
 
