@@ -10,6 +10,14 @@ namespace fedora {
             double value;
         public:
             std::wstring eval() override;
+
+            Number() : value(0.0) {}
+
+            explicit Number(double v) : value(v) {}
+
+            double getValue() const {
+                return value;
+            };
         };
 
     }

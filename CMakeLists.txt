@@ -12,7 +12,7 @@ add_executable(fedora
         Fedora/Headers/Function/Context.h
         Fedora/Headers/Types/FunCall.h
         Fedora/Headers/Function/Function.h
-        Fedora/Headers/Function/Returnable.h
+        Fedora/Headers/Function/Returnable/Returnable.h
         Fedora/Headers/Types/BasicType.h
         Fedora/Headers/Types/List.h
         Fedora/Headers/Types/Number.h
@@ -69,5 +69,5 @@ add_executable(fedora
         Fedora/Headers/Types/Null.h
         Fedora/Source/Types/Null.cpp
         Fedora/Headers/Builder/FunctionDeclarator.h
-        Fedora/Headers/Builder/FunCallDeclarator.h)
+        Fedora/Headers/Builder/FunCallDeclarator.h Fedora/Headers/Function/Returnable/ReturnableNumber.h)
 
