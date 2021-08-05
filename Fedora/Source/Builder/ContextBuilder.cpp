@@ -48,4 +48,8 @@ namespace fedora {
     void ContextBuilder::notifyWeSetReturnable() {
         functionDeclarator.setReturnableMode();
     }
+
+    void ContextBuilder::addReturnableNumber() {
+
+    }
 }

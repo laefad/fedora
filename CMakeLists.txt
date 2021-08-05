@@ -69,5 +69,6 @@ add_executable(fedora
         Fedora/Headers/Types/Null.h
         Fedora/Source/Types/Null.cpp
         Fedora/Headers/Builder/FunctionDeclarator.h
-        Fedora/Headers/Builder/FunCallDeclarator.h Fedora/Headers/Function/Returnable/ReturnableNumber.h)
+        Fedora/Headers/Builder/FunCallDeclarator.h
+        Fedora/Headers/Function/Returnable/ReturnableNumber.h Fedora/Headers/Function/BasicFunction.h Fedora/Headers/Function/FunctionCall.h)
 

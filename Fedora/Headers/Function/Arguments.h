@@ -1,11 +1,15 @@
 #pragma once
 
 namespace fedora {
-namespace function {
+    namespace function {
 
-    class Arguments {
-    private:
+        class CallableArguments {
+        private:
 
-    };
-}
+        };
+
+        class NamesOfArguments {
+
+        };
+    }
 }

@@ -83,6 +83,8 @@ namespace fedora {
 
         void notifyWeSetReturnable();
 
+        void addReturnableNumber();
+
         //void addFunctionName(Token &);
 
 //        /**

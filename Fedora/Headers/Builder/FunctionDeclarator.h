@@ -94,12 +94,14 @@ namespace fedora {
              */
             FunctionDeclarationMode setFunMode() const {
                 FunctionDeclarationMode result = SET_INITIAL;
-                if (!function->isContextEmpty()) {
-                    result = SET_CONTEXT;
-                }
+                if (function != nullptr) {
+                    if (!function->isContextEmpty()) {
+                        result = SET_CONTEXT;
+                    }
 
-                if (function->isContextFinished())
-                    result = SET_RETURNABLE;
+                    if (function->isContextFinished())
+                        result = SET_RETURNABLE;
+                }
 
                 return result;
             };

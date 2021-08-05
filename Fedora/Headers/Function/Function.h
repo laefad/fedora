@@ -6,9 +6,10 @@
 #include <Token.h>
 #include <KeyWords.h>
 
-#include "Context.h"
+#include "Function/Context.h"
 #include "Function/Returnable/Returnable.h"
-#include "Arguments.h"
+#include "Function/Arguments.h"
+#include "Function/BasicFunction.h"
 
 
 namespace fedora {
@@ -21,7 +22,7 @@ namespace fedora {
 
             std::shared_ptr<Function> parent;
             std::unique_ptr<Returnable> returnable = nullptr;
-            std::unique_ptr<Arguments> args = std::make_unique<Arguments>();
+            std::unique_ptr<NamesOfArguments> args = std::make_unique<NamesOfArguments>();
             std::wstring name = L"";
             std::vector<KeyWord> keyWords = std::vector<KeyWord>();
 
@@ -53,6 +54,10 @@ namespace fedora {
                 return contextIsReady;
             }
 
+            static FunctionEntityType getType() {
+                return DECLARATION_FUNCTION;
+            }
+
             /**
              * Start function declaration
              */
@@ -62,7 +67,6 @@ namespace fedora {
                 children.push_back(newFunction);
                 return newFunction;
             }
-
         };
     }
 }
