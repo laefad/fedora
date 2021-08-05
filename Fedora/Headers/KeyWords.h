@@ -10,16 +10,18 @@
 #include "Token.h"
 
 namespace fedora {
-    // TODO Объявить ключевое слово как Token и перегрузить оператор == у токена
     class KeyWord : public Token {
     public:
         explicit KeyWord(std::wstring value1) : Token(std::move(value1)) {}
 
+        explicit KeyWord(Token &t) : Token(t.getData()) {}
+
         friend bool operator==(Token &lhs, KeyWord &rhs);
 
-        friend bool operator==(KeyWord &lhs, Token &rhs);
-
+        //friend bool operator==(KeyWord &lhs, Token &rhs);
         friend bool operator==(KeyWord &lhs, KeyWord &rhs);
+
+        friend bool operator!=(KeyWord &lhs, KeyWord &rhs);
     };
 
     static KeyWord pure = KeyWord(L"pure");

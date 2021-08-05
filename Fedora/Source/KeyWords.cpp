@@ -5,7 +5,7 @@
 #include "KeyWords.h"
 
 namespace fedora {
-    // TODO OPTIMIZATION. Можно передавать ссылку на vector, а не его копию
+    // TODO OPTIMIZATION. Можно передавать ссылку на vector, а не его копию?
     std::vector<KeyWord> KeyWords::getPreFunKeyWords() {
         std::vector<KeyWord> res = std::vector<KeyWord>();
         res.push_back(pure);
@@ -13,7 +13,7 @@ namespace fedora {
         return res;
     }
 
-    // TODO OPTIMIZATION. Можно передавать ссылку на vector, а не его копию
+    // TODO OPTIMIZATION. Можно передавать ссылку на vector, а не его копию?
     std::vector<KeyWord> KeyWords::getAllKeyWords() {
         std::vector<KeyWord> res = std::vector<KeyWord>();
         res.push_back(pure);
@@ -27,14 +27,22 @@ namespace fedora {
     }
 
     bool operator==(Token &lhs, KeyWord &rhs) {
-        return lhs.getData() == rhs.getData() || (lhs.isEmpty && rhs.isEmpty);
+        return lhs.getData() == rhs.getData() || (lhs.isEmpty() && rhs.isEmpty());
     }
 
-    bool operator==(KeyWord &lhs, Token &rhs) {
-        return lhs.getData() == rhs.getData() || (lhs.isEmpty && rhs.isEmpty);
-    }
+//    bool operator==(KeyWord &lhs, Token &rhs) {
+//        return lhs.getData() == rhs.getData() || (lhs.isEmpty() && rhs.isEmpty());
+//    }
 
     bool operator==(KeyWord &lhs, KeyWord &rhs) {
-        return lhs.getData() == rhs.getData() || (lhs.isEmpty && rhs.isEmpty);
+        return lhs.getData() == rhs.getData() || (lhs.isEmpty() && rhs.isEmpty());
+    }
+
+    bool operator!=(KeyWord &lhs, KeyWord &rhs) {
+        return !(lhs == rhs);
+    }
+
+    bool operator==(Token lhs, KeyWord rhs) {
+        return lhs.getData() == rhs.getData() || (lhs.isEmpty() && rhs.isEmpty());
     }
 }

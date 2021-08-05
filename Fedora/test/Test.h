@@ -20,7 +20,6 @@ private:
          * let a = 1
          */
     static void test1() {
-
         ContextBuilder *builder = ContextBuilder::GetInstance();
 
         Token mPure = Token(L"pure");
@@ -30,6 +29,7 @@ private:
         Token mOne = Token(L"1");
 
         KeyWord mPure2 = KeyWord(L"pure");
+        KeyWord mPure3 = KeyWord(mPure);
 
         bool a = mPure == mPure2;
         bool b = mPure2 == mPure;

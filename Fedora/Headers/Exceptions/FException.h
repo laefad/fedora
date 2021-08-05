@@ -15,7 +15,7 @@ namespace fedora {
             std::string tokens;
             // TODO Заменить на for i и перед первым не ставить пробел
             for (auto& token:a->getLast()){
-                if (!token.isEmpty){
+                if (!token.isEmpty()) {
                     tokens += " ";
                 }
                 tokens += StaticUtils::ws2s(token.getData());
