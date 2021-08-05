@@ -18,7 +18,7 @@ namespace fedora {
                 if (!token.isEmpty){
                     tokens += " ";
                 }
-                tokens +=  StaticUtils::ws2s(token.data);
+                tokens += StaticUtils::ws2s(token.getData());
             }
             // TODO Мы можем показывать кол-во последних токенов в сообщении об ошибке в той части, где мы показываем токены. Кол-во токенов = min(fedora::TokensHolder::lastNum - кол-во пустых токенов, tokensHolder->getLast().length)
             //std::string num = std::to_string(fedora::TokensHolder::lastNum);

@@ -13,7 +13,7 @@ namespace fedora {
     namespace analytic {
         std::shared_ptr<AnalyticBasic> ReadResult::analyzeToken(Token &t) {
             log("Class: " + getFileName(), fedora::settings::LOG_VERBOSE);
-            log(L"Token: " + t.data, fedora::settings::LOG_VERBOSE);
+            log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
 
             addToken(t);    // Записать прочитаный токен
 
@@ -24,23 +24,23 @@ namespace fedora {
             // 4. Функция
 
             // Если число
-            if (AnalyticUtils::isValueANumber(t.data)) {
+            if (AnalyticUtils::isValueANumber(t.getData())) {
                 // TODO Выделить во внешнюю константу пустой вектор токенов ( std::vector<Token>() )
                 return std::make_shared<ReadKeyWord>(std::vector<Token>());
             }
 
             // Если строка
-            if (AnalyticUtils::isValueAString(t.data)) {
+            if (AnalyticUtils::isValueAString(t.getData())) {
                 return std::make_shared<ReadKeyWord>(std::vector<Token>());
             }
 
             // Если Список
-            if (AnalyticUtils::isTokenALeftSquareBracket(t.data)) {
+            if (AnalyticUtils::isTokenALeftSquareBracket(t.getData())) {
                 return std::make_shared<ReadList>(std::vector<Token>(), readList::READ_FUNCTION_RETURN);
             }
 
             // Если функция
-            if (AnalyticUtils::isValidName(t.data)) {
+            if (AnalyticUtils::isValidName(t.getData())) {
                 // TODO Внедрить режим чтения для force вызова и ретурна из функции
                 return std::make_shared<ReadForceArgs>(std::vector<Token>());
             }
@@ -50,7 +50,7 @@ namespace fedora {
             // TODO Вынести тексты всех ошибок в единый файл и пронумеровать их
             throwException(L"You have to return something from function, but nothing valid found.\n" + text +
                            L"Possible variants:\n" + text + L"1. Number\n2. String\n3. List\n4. Another function\n" +
-                           text + L"Found: token = " + t.data, "analyzeToken(Token&)");
+                           text + L"Found: token = " + t.getData(), "analyzeToken(Token&)");
 
             // TODO Я не хочу здесь return. Программа должна остановить выполнение
             return std::shared_ptr<AnalyticBasic>();

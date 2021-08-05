@@ -24,7 +24,7 @@ namespace fedora {
         bool AnalyticUtils::isValueAKeyWord(std::wstring &name) {
             bool isKey = false;
             for (auto &key :  KeyWords::getAllKeyWords()) {
-                if (key.data == name)
+                if (key.getData() == name)
                     isKey = true;
             }
             return isKey;
@@ -54,7 +54,7 @@ namespace fedora {
         bool AnalyticUtils::isTokenAPreFunKeyWord(std::wstring &data) {
             bool res = false;
             for (auto &key : KeyWords::getPreFunKeyWords()) {
-                if (key.data == data)
+                if (key.getData() == data)
                     res = true;
             }
             return res;

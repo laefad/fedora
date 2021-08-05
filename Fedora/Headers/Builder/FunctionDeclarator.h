@@ -71,6 +71,8 @@ namespace fedora {
          */
         class FunctionDeclarator {
             // TODO Если проиходит несвоевременное изменение, бросаем ошибку
+            // TODO У нас есть контекст, в который добавляются функции, а манипулирует функцией этот класс. Это паттерн Посетитель?
+            // TODO Вынести в .cpp
         private:
             /**
              * Function we are building
@@ -87,6 +89,10 @@ namespace fedora {
 
             bool isNull() {
                 return function == nullptr;
+            }
+
+            void addPreFunKeyWord(KeyWord &t) {
+                function->addKeyWord(t);
             }
         };
     }

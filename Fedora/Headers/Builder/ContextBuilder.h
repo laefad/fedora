@@ -72,10 +72,13 @@ namespace fedora {
             functionDeclarator = builder::FunctionDeclarator(newFunction);
         }
 
+
     public:
         static ContextBuilder *GetInstance();
 
-        void addFunctionDeclarationToken(Token &);
+        void addFunctionDeclarationToken(KeyWord &);
+
+        void notifyWeGotLetToken();
 
         //void addFunctionName(Token &);
 

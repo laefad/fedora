@@ -15,7 +15,7 @@ namespace fedora {
         // TODO !!!!!!!!! Мне не нравится, что мы приходим в этот класс и во время начала чтения аргументов, и в середине. Это нормально из-за того, что функции с аргументами могут выступать как аргументы для других функций с аргументами. Возможно, следует внедрить дополнительные переменные состояния, чтобы адекватно оценивать контекст
         std::shared_ptr<AnalyticBasic> ReadForceArgs::analyzeToken(Token &t) {
             log("Class: " + getFileName(), fedora::settings::LOG_VERBOSE);
-            log(L"Token: " + t.data, fedora::settings::LOG_VERBOSE);
+            log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
 
             // TODO if-ы размансить
 
@@ -32,27 +32,27 @@ namespace fedora {
             // let my_list = [ 1 2 "3" my_str ]
 
             // "(" Открвающая скобка. Начало чтения аргументов
-            if (AnalyticUtils::isTokenALeftCircleBracket(t.data)) {
+            if (AnalyticUtils::isTokenALeftCircleBracket(t.getData())) {
                 return shared_from_this();
             }
 
             // Число
-            if (AnalyticUtils::isValueANumber(t.data)) {
+            if (AnalyticUtils::isValueANumber(t.getData())) {
                 return shared_from_this();
             }
 
             // Строка
-            if (AnalyticUtils::isValueANumber(t.data)) {
+            if (AnalyticUtils::isValueANumber(t.getData())) {
                 return shared_from_this();
             }
 
             // "[" A List
-            if (AnalyticUtils::isTokenALeftSquareBracket(t.data)) {
+            if (AnalyticUtils::isTokenALeftSquareBracket(t.getData())) {
                 return std::make_shared<ReadList>(std::vector<Token>());
             }
 
             // Если функция
-            if (AnalyticUtils::isValidName(t.data)) {
+            if (AnalyticUtils::isValidName(t.getData())) {
                 // Начинаем новое чтение аргументов
                 return std::make_shared<ReadForceArgs>(std::vector<Token>());
             }
@@ -66,26 +66,26 @@ namespace fedora {
             }
 
             // "]"
-            if (AnalyticUtils::isTokenARightSquareBracket(t.data)) {
+            if (AnalyticUtils::isTokenARightSquareBracket(t.getData())) {
                 // TODO Либо мы читаем следующий аргумент функции (если список играет роль одного из аргументов), либо переходим к чтению следующей функции
                 return shared_from_this();
             }
 
             // ")"
-            if (AnalyticUtils::isTokenARightCircleBracket(t.data)) {
+            if (AnalyticUtils::isTokenARightCircleBracket(t.getData())) {
                 // Заканчиваем чтение аргументов
                 // TODO Внедрить mode и начать здесь исполнение функции иначе переходим к чтению дальнейшего контекста
                 return shared_from_this();
             }
 
             // Pure force Если идут ключевые слова для следующей функции, т.е. начинается её объявление
-            if (AnalyticUtils::isTokenAPreFunKeyWord(t.data)){
+            if (AnalyticUtils::isTokenAPreFunKeyWord(t.getData())) {
                 // TODO Понять, когда объявление функции валидно.
                 // Оно валидно внутри контекста where ^ = или после завершения returnable (т.е. текущий токен должен корретно завершать рретурнабл, иначе оформлять вкид)
                 return std::make_shared<ReadKeyWord>(std::vector<Token>());
             }
 
-            if (AnalyticUtils::isValueAKeyWord(t.data)) {
+            if (AnalyticUtils::isValueAKeyWord(t.getData())) {
                 throwException(L"Got a keyword when a function argument expected", "analyzeToken(Token &)");
             }
 

@@ -16,7 +16,7 @@ namespace fedora {
 
         std::shared_ptr<AnalyticBasic> ReadList::analyzeToken(Token &t) {
             log("Class: " + getFileName(), fedora::settings::LOG_VERBOSE);
-            log(L"Token: " + t.data, fedora::settings::LOG_VERBOSE);
+            log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
 
             addToken(t); // Запомнить прочитаный токен
 
@@ -27,34 +27,34 @@ namespace fedora {
             // 4. Функцию (с аргументами или без)
             // 5. ] Закрытие списка
 
-            if (AnalyticUtils::isValueAKeyWord(t.data))
+            if (AnalyticUtils::isValueAKeyWord(t.getData()))
                 throwException(L"Expected a list value, but got a keyword.", "analyzeToken(Token&)");
 
             // Если функция, то перейдём на этап чтения аргументов
-            if (AnalyticUtils::isValidName(t.data) && !AnalyticUtils::isTokenARightSquareBracket(t.data)) {
+            if (AnalyticUtils::isValidName(t.getData()) && !AnalyticUtils::isTokenARightSquareBracket(t.getData())) {
                 return std::make_shared<ReadForceArgs>(std::vector<Token>());
             }
 
             // if number
-            if (AnalyticUtils::isValueANumber(t.data)){
+            if (AnalyticUtils::isValueANumber(t.getData())) {
                 return shared_from_this();
             }
 
             // if string
-            if (AnalyticUtils::isValueAString(t.data)){
+            if (AnalyticUtils::isValueAString(t.getData())) {
                 return shared_from_this();
             }
 
             // "[" if list start
-            if (AnalyticUtils::isTokenALeftSquareBracket(t.data)){
+            if (AnalyticUtils::isTokenALeftSquareBracket(t.getData())) {
                 return shared_from_this();
             }
 
             // "]" if list end
-            if (AnalyticUtils::isTokenARightSquareBracket(t.data)){
+            if (AnalyticUtils::isTokenARightSquareBracket(t.getData())) {
                 return std::make_shared<ReadAfterListEnd>(std::vector<Token>());
-            }else{
-                throwException(L"Expected a list member, but got token = "+t.data,"analyzeToken(Token&)");
+            } else {
+                throwException(L"Expected a list member, but got token = " + t.getData(), "analyzeToken(Token&)");
                 // TODO Вызывать сервис очистки синглтонов перед экстренным завершением программы
             }
             // Если строка, число, список или закрытая скобка
@@ -67,7 +67,7 @@ namespace fedora {
 
         std::shared_ptr<AnalyticBasic> ReadList::chooseReturn(Token &t) {
             // Если закончился ввод списка
-            if (AnalyticUtils::isTokenARightSquareBracket(t.data)) {
+            if (AnalyticUtils::isTokenARightSquareBracket(t.getData())) {
                 switch (mode) {
                     // Если мы читаем список внутри аргументов функции
                     case readList::READ_FUNCTION_ARG:

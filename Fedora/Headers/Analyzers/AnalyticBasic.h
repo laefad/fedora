@@ -22,8 +22,10 @@ namespace fedora {
             /// Бросить ошибку в случае ошибки синтаксиса
             void throwException(const std::wstring &msg, const std::string &funcName);
 
-            /// Log something
+            /// Log something as string
             static void log(const std::string& msg, fedora::settings::LogLevel level);
+
+            /// @overload log for wstring
             static void log(const std::wstring& msg, fedora::settings::LogLevel level);
         public:
             explicit AnalyticBasic(std::vector<Token> tokens) : tokens(std::move(tokens)) {};

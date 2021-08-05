@@ -25,12 +25,12 @@ namespace fedora{
             // 8. Let Новая функция объявлена
 
             // "]"
-            if (AnalyticUtils::isTokenARightSquareBracket(t.data)){
+            if (AnalyticUtils::isTokenARightSquareBracket(t.getData())) {
                 return shared_from_this();
             }
 
             // ")"
-            if (AnalyticUtils::isTokenARightCircleBracket(t.data)){
+            if (AnalyticUtils::isTokenARightCircleBracket(t.getData())) {
                 return std::make_shared<ReadKeyWord>(std::vector<Token>());
             }
 
@@ -42,18 +42,18 @@ namespace fedora{
              * @example case 2: List and num in force args
              * force main ( [1 2] 3 )
              */
-            if (AnalyticUtils::isValueANumber(t.data)){
+            if (AnalyticUtils::isValueANumber(t.getData())) {
                 // TODO Возвращать в чтегие списка или в force args по необходимости
                 return shared_from_this();
             }
 
             // TODO Examples аналогичны Number
-            if (AnalyticUtils::isValueAString(t.data)){
+            if (AnalyticUtils::isValueAString(t.getData())) {
                 return shared_from_this();
             }
 
             // "["
-            if (AnalyticUtils::isTokenALeftSquareBracket(t.data)){
+            if (AnalyticUtils::isTokenALeftSquareBracket(t.getData())) {
                 return std::make_shared<ReadList>(std::vector<Token>());
             }
 
@@ -61,7 +61,7 @@ namespace fedora{
                 return std::make_shared<ReadResult>(std::vector<Token>());
             }
 
-            if (AnalyticUtils::isTokenAPreFunKeyWord(t.data)){
+            if (AnalyticUtils::isTokenAPreFunKeyWord(t.getData())) {
                 return std::make_shared<ReadKeyWord>(std::vector<Token>());
             }
 
@@ -69,7 +69,7 @@ namespace fedora{
                 return std::make_shared<ReadName>(std::vector<Token>());
             }
 
-            throwException(L"Got something unexpected. Token = "+t.data,"ReadAfterListEnd");
+            throwException(L"Got something unexpected. Token = " + t.getData(), "ReadAfterListEnd");
             return std::shared_ptr<AnalyticBasic>();
         }
 

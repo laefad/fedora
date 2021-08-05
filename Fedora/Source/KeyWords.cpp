@@ -25,4 +25,16 @@ namespace fedora {
         res.push_back(using_);
         return res;
     }
+
+    bool operator==(Token &lhs, KeyWord &rhs) {
+        return lhs.getData() == rhs.getData() || (lhs.isEmpty && rhs.isEmpty);
+    }
+
+    bool operator==(KeyWord &lhs, Token &rhs) {
+        return lhs.getData() == rhs.getData() || (lhs.isEmpty && rhs.isEmpty);
+    }
+
+    bool operator==(KeyWord &lhs, KeyWord &rhs) {
+        return lhs.getData() == rhs.getData() || (lhs.isEmpty && rhs.isEmpty);
+    }
 }

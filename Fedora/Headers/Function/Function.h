@@ -4,6 +4,7 @@
 #include <utility>
 #include <vector>
 #include <Token.h>
+#include <KeyWords.h>
 
 #include "Context.h"
 #include "Returnable.h"
@@ -19,7 +20,7 @@ namespace fedora {
             std::unique_ptr<Returnable> returnable = nullptr;
             std::unique_ptr<Arguments> args = std::make_unique<Arguments>();
             std::wstring name = L"";
-            std::vector<Token> keyWords = std::vector<Token>();
+            std::vector<KeyWord> keyWords = std::vector<KeyWord>();
 
             std::vector<std::shared_ptr<Function>> children = std::vector<std::shared_ptr<Function>>();
         public:
@@ -31,6 +32,10 @@ namespace fedora {
 
             bool isContextEmpty() {
                 return children.empty();
+            }
+
+            void addKeyWord(KeyWord &t) {
+                keyWords.push_back(t);
             }
 
             /**

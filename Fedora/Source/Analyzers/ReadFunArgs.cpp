@@ -14,7 +14,7 @@ namespace fedora {
 
         std::shared_ptr<AnalyticBasic> ReadFunArgs::analyzeToken(fedora::Token &token) {
             log("Class: " + getFileName(), fedora::settings::LOG_VERBOSE);
-            log(L"Token: " + token.data, fedora::settings::LOG_VERBOSE);
+            log(L"Token: " + token.getData(), fedora::settings::LOG_VERBOSE);
 
             addToken(token);  // Запомнить считаный токен
 
@@ -33,7 +33,7 @@ namespace fedora {
                 return std::make_shared<ReadKeyWord>(std::vector<Token>());
             } else {
                 // Читаем список аргументов
-                if (AnalyticUtils::isValidName(token.data)) {
+                if (AnalyticUtils::isValidName(token.getData())) {
                     // Имя аргумента корректно
                     return shared_from_this();
                 } else {

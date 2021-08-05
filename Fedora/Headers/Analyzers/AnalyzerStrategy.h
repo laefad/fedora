@@ -17,7 +17,6 @@ namespace fedora {
      * Предусмотрен ряд состояний, в которых мы можем находиться при чтении файлов
      * @see https://drive.google.com/file/d/1cfkN4fvaYokVqT0LpK5N6XwFGFjbHzKF/view?usp=sharing
     */
-    // TODO Обеспечить доступ к последним прочитаным токенам для отображения ошибок
     class AnalyzerStrategy {
     private:
         std::shared_ptr<analytic::AnalyticBasic> analyticObj = std::make_shared<analytic::ReadKeyWord>(

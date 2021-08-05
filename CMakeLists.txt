@@ -22,7 +22,8 @@ add_executable(fedora
         Fedora/Source/Types/Number.cpp
         Fedora/Source/Parser.cpp
         Fedora/Source/Types/String.cpp
-        Fedora/Fedora.cpp Fedora/Headers/Token.h
+        Fedora/Fedora.cpp
+        Fedora/Headers/Token.h
         Fedora/Headers/Exceptions/FException.h
         Fedora/Headers/StaticUtils.h
         Fedora/Source/StaticUtils.cpp

@@ -13,7 +13,7 @@ namespace fedora {
     namespace analytic {
         std::shared_ptr<AnalyticBasic> ReadKeyWord::analyzeToken(Token &t) {
             log("Class: " + getFileName(), fedora::settings::LOG_VERBOSE);
-            log(L"Token: " + t.data, fedora::settings::LOG_VERBOSE);
+            log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
 
             addToken(t); // Запомнить считаный токен
 
@@ -22,7 +22,7 @@ namespace fedora {
                 return std::make_shared<ReadResult>(std::vector<Token>());
             }
 
-            if (AnalyticUtils::isTokenAPreFunKeyWord(t.data)) {
+            if (AnalyticUtils::isTokenAPreFunKeyWord(t.getData())) {
                 // 2 пути:
                 // 1. Получено Force и мы должны считать имя функции, аргументы и перейти к выполнению
                 // 2. Получено Pure или другое ключевое слово и мы должны считывать ключевые слова дальше
@@ -51,7 +51,7 @@ namespace fedora {
                     // Передаём все наши накопленные данные в [ReadName]
                     return std::make_shared<ReadName>(getTokens());
                 } else
-                    throwException(L"Expected a pre-function key word, but got token = " + t.data,
+                    throwException(L"Expected a pre-function key word, but got token = " + t.getData(),
                                    "analyzeToken(Token &)");
             }
         }

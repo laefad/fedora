@@ -9,11 +9,23 @@ namespace fedora {
     /// Токен, который мы прочитали и будем анализировать
     /// В классе можно сохранять контекст распрашеного токена для анализа
     class Token {
-    public:
-        Token(std::wstring data);
-
+        bool empty = false;
         std::wstring data;
-        bool isEmpty = false;
+    public:
+        explicit Token(std::wstring data);
+
+        // TODO Корректно ли возвращать референс, а не саму строку, чтобы получить буст производительности?
+        std::wstring &getData() {
+            return data;
+        }
+
+        bool isEmpty() const {
+            return empty;
+        }
+
+        void setEmpty(bool b) {
+            empty = b;
+        }
 
         friend bool operator==(Token &lhs, Token &rhs);
     };

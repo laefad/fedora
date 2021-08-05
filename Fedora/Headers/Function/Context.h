@@ -1,3 +1,5 @@
+// ФАЙЛ ЗАКОНСЕРВИРОВАН
+
 //#pragma once
 //
 //#include <map>

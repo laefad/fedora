@@ -23,13 +23,20 @@ private:
 
         ContextBuilder *builder = ContextBuilder::GetInstance();
 
-
+        Token mPure = Token(L"pure");
         Token mLet = Token(L"let");
         Token mA = Token(L"a");
         Token mReturn = Token(L"=");
         Token mOne = Token(L"1");
 
-        builder->addFunctionDeclarationToken(mLet);
+        KeyWord mPure2 = KeyWord(L"pure");
+
+        bool a = mPure == mPure2;
+        bool b = mPure2 == mPure;
+        bool c = mPure2 == mPure2;
+
+        builder->addFunctionDeclarationToken(mPure2);
+        builder->notifyWeGotLetToken();
         clean();
     }
 
