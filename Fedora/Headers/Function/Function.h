@@ -16,6 +16,8 @@ namespace fedora {
         class Function : public std::enable_shared_from_this<Function> {
             // TODO Вынести в .cpp реализации И инициализации
         private:
+            bool contextIsReady = false;
+
             std::shared_ptr<Function> parent;
             std::unique_ptr<Returnable> returnable = nullptr;
             std::unique_ptr<Arguments> args = std::make_unique<Arguments>();
@@ -36,6 +38,18 @@ namespace fedora {
 
             void addKeyWord(KeyWord &t) {
                 keyWords.push_back(t);
+            }
+
+            void setName(std::wstring &s) {
+                name = s;
+            }
+
+            void setContextFinished() {
+                contextIsReady = true;
+            }
+
+            bool isContextFinished() const {
+                return contextIsReady;
             }
 
             /**

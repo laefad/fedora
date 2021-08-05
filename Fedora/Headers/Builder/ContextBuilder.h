@@ -80,6 +80,8 @@ namespace fedora {
 
         void notifyWeGotLetToken();
 
+        void setFunctionName(std::wstring &);
+
         //void addFunctionName(Token &);
 
 //        /**

@@ -32,7 +32,7 @@ namespace fedora {
 
 }
 
-const bool is_test = true;
+const bool is_test = false;
 
 //std::shared_ptr<function::Function> a_test(){
 //    return std::make_shared<function::Function>(nullptr);

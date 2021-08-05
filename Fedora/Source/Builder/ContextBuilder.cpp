@@ -40,4 +40,8 @@ namespace fedora {
             createFunctionAndBuilder();
         }
     }
+
+    void ContextBuilder::setFunctionName(std::wstring &s) {
+        functionDeclarator.setFunctionName(s);
+    }
 }

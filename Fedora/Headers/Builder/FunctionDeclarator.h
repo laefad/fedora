@@ -15,33 +15,35 @@ namespace fedora {
          * Steps of function declaration
          */
         enum FunctionDeclarationMode {
-            /**
-             * @example
-             * pure, force
-             *
-             * pure let a = 1
-             */
-            SET_KEYWORDS,
+//            /**
+//             * @example
+//             * pure, force
+//             *
+//             * pure let a = 1
+//             */
+//            SET_KEYWORDS,
+//
+//            /**
+//             * Must be a valid not-keyword name
+//             *
+//             * @example
+//             * main
+//             *
+//             * let main = 1
+//             */
+//            SET_NAME,
+//
+//            /**
+//             * Must be a valid not-keyword name
+//             *
+//             * @example
+//             * a b c
+//             *
+//             * let main a = +(a 1) # Adds 1 to a and returns result #
+//             */
+//            SET_ARGS,
 
-            /**
-             * Must be a valid not-keyword name
-             *
-             * @example
-             * main
-             *
-             * let main = 1
-             */
-            SET_NAME,
-
-            /**
-             * Must be a valid not-keyword name
-             *
-             * @example
-             * a b c
-             *
-             * let main a = +(a 1) # Adds 1 to a and returns result #
-             */
-            SET_ARGS,
+            SET_INITIAL,
 
             /**
              * "Where" part declaration. Function context is a sub-functions container
@@ -83,9 +85,28 @@ namespace fedora {
              * Step of building process we are on
              */
             FunctionDeclarationMode funMode;
+
+            /**
+             * let a where
+             *  let b = 1
+             *              <- Here we set SET_CONTEXT mode
+             * = # <- Here we set SET_RETURNABLE # 2
+             * @return
+             */
+            FunctionDeclarationMode setFunMode() const {
+                FunctionDeclarationMode result = SET_INITIAL;
+                if (!function->isContextEmpty()) {
+                    result = SET_CONTEXT;
+                }
+
+                if (function->isContextFinished())
+                    result = SET_RETURNABLE;
+
+                return result;
+            };
         public:
-            explicit FunctionDeclarator(std::shared_ptr<function::Function> f) : function(std::move(f)) {
-            }
+            explicit FunctionDeclarator(std::shared_ptr<function::Function> f) : function(std::move(f)),
+                                                                                 funMode(setFunMode()) {}
 
             bool isNull() {
                 return function == nullptr;
@@ -94,6 +115,11 @@ namespace fedora {
             void addPreFunKeyWord(KeyWord &t) {
                 function->addKeyWord(t);
             }
+
+            void setFunctionName(std::wstring &s) {
+                function->setName(s);
+            }
         };
+
     }
 }

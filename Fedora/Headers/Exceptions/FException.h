@@ -10,11 +10,11 @@
 namespace fedora {
     class FException : public std::exception {
     private:
-        std::string addTokens(const std::string t) const {
-            fedora::TokensHolder* a = fedora::TokensHolder::GetInstance();
+        static std::string addTokens(const std::string &t) {
+            fedora::TokensHolder *a = fedora::TokensHolder::GetInstance();
             std::string tokens;
             // TODO Заменить на for i и перед первым не ставить пробел
-            for (auto& token:a->getLast()){
+            for (auto &token:a->getLast()) {
                 if (!token.isEmpty()) {
                     tokens += " ";
                 }
@@ -31,7 +31,7 @@ namespace fedora {
             text = addTokens(StaticUtils::ws2s(ss));
         }
 
-        explicit FException(std::string ss) noexcept(false) : text(addTokens(std::move(ss))){}
+        explicit FException(const std::string &ss) noexcept(false): text(addTokens(ss)) {}
 
         ~FException() noexcept override = default;
         // TODO Заменить text в этой переменной на функцию, которая будет переопределяться в child классах
