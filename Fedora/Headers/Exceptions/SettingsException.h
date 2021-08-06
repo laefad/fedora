@@ -13,7 +13,7 @@ namespace fedora {
     class SettingsException: public FException{
 
     public:
-        explicit SettingsException(std::string s):FException(std::move(s)){
+        explicit SettingsException(std::string s) : FException(s) {
             // TODO Изменить text на SettingsException...
         }
 

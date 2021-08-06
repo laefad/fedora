@@ -4,6 +4,8 @@
 
 #include <Builder/ContextBuilder.h>
 #include <KeyWords.h>
+#include "Types/Number.h"
+#include "Exceptions/BuilderException.h"
 
 namespace fedora {
     /// Initializing
@@ -22,17 +24,18 @@ namespace fedora {
     void ContextBuilder::addFunctionDeclarationToken(KeyWord &t) {
         if (functionDeclarator.isNull()) {
             // Need to declare new blank function
-
             createFunctionAndBuilder();
-        } else {
-            // Continue to build function
         }
-
 
         // If t == let -> we don't need anything special, cause function is already declared
         if (t != let) {
             functionDeclarator.addPreFunKeyWord(t);
         }
+
+        if (t == let)
+            throw exception::BuilderException(
+                    "A \"let\" token should not be pushed to context. Use ContextBuilder::notifyWeGotLetToken() instead.",
+                    "ContextBuilder::addFunctionDeclarationToken");
     }
 
     void ContextBuilder::notifyWeGotLetToken() {
@@ -49,7 +52,9 @@ namespace fedora {
         functionDeclarator.setReturnableMode();
     }
 
-    void ContextBuilder::addReturnableNumber() {
-
+    void ContextBuilder::addReturnableNumber(std::wstring &s) {
+        // TODO Перегнать wstring в double в конструкторе Number
+        std::shared_ptr<types::Number> n = std::make_shared<types::Number>();
+        functionDeclarator.setNumberAsReturnable(n);
     }
 }

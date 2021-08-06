@@ -12,6 +12,10 @@ namespace fedora {
             List *next;
         public:
             std::wstring eval() override;
+
+            Type type() override {
+                return types::LIST;
+            }
         };
 
     }

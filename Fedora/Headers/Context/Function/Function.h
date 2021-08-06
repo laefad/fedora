@@ -6,10 +6,10 @@
 #include <Token.h>
 #include <KeyWords.h>
 
-#include "Context.h"
 #include "Context/Function/Returnable/Returnable.h"
+#include "Context/Function/Returnable/ReturnableNumber.h"
+#include "Types/BasicType.h"
 #include "Arguments.h"
-#include "BasicFunction.h"
 
 
 namespace fedora {
@@ -54,9 +54,10 @@ namespace fedora {
                 return contextIsReady;
             }
 
-            static FunctionEntityType getType() {
-                return DECLARATION_FUNCTION;
+            void setReturnable(Returnable &r) {
+                returnable = std::make_unique<Returnable>(r);
             }
+
 
             /**
              * Start context declaration

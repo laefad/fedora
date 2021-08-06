@@ -10,6 +10,10 @@ namespace fedora {
             std::wstring value;
         public:
             std::wstring eval() override;
+
+            Type type() override {
+                return types::STRING;
+            }
         };
 
     }

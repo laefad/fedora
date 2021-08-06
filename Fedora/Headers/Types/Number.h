@@ -11,6 +11,10 @@ namespace fedora {
         public:
             std::wstring eval() override;
 
+            Type type() override {
+                return types::NUMBER;
+            }
+
             Number() : value(0.0) {}
 
             explicit Number(double v) : value(v) {}

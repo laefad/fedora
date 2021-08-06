@@ -5,6 +5,8 @@
 #pragma once
 
 #include <utility>
+#include "Types/Number.h"
+#include "Context/Function/Returnable/Returnable.h"
 
 namespace fedora {
     namespace builder {
@@ -107,6 +109,7 @@ namespace fedora {
             explicit FunctionDeclarator(std::shared_ptr<context::Function> f) : function(std::move(f)),
                                                                                 funMode(setFunMode()) {}
 
+            // TODO Стоит ли внедрять в каждую функцию проверку на Nullptr?
             bool isNull() {
                 return function == nullptr;
             }
@@ -121,6 +124,11 @@ namespace fedora {
 
             void setReturnableMode() {
                 function->setContextFinished();
+            }
+
+            void setNumberAsReturnable(const std::shared_ptr<types::Number> &n) {
+                context::Returnable r = context::Returnable(n);
+                function->setReturnable(r);
             }
         };
 

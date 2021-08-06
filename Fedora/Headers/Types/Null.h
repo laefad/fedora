@@ -16,7 +16,12 @@ namespace fedora {
          * if arg == null -> false;
          */
         class Null : public BasicType {
+        public:
             std::wstring eval() override;
+
+            Type type() override {
+                return types::NULL_;
+            }
         };
     }
 }
