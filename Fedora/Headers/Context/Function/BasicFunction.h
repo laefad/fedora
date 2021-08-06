@@ -5,7 +5,7 @@
 #pragma once
 
 namespace fedora {
-    namespace function {
+    namespace context {
 
         enum FunctionEntityType {
             DECLARATION_FUNCTION,

@@ -8,7 +8,7 @@
 #include "Function/Returnable/Returnable.h"
 
 namespace fedora {
-    namespace function {
+    namespace context {
 
         /**
          *  Force function call
@@ -20,7 +20,7 @@ namespace fedora {
         class ForceCall {
             ForceArgs forceArgs = ForceArgs();
         public:
-            function::Returnable execute() {
+            context::Returnable execute() {
 
             }
         };

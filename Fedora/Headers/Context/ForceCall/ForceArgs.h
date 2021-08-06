@@ -8,7 +8,7 @@
 #include "Types/BasicType.h"
 
 namespace fedora {
-    namespace function {
+    namespace context {
         /**
          * Arguments for force function call
          *

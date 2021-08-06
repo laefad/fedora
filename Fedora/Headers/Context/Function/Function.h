@@ -6,15 +6,15 @@
 #include <Token.h>
 #include <KeyWords.h>
 
-#include "Function/Context.h"
-#include "Function/Returnable/Returnable.h"
-#include "Function/Arguments.h"
-#include "Function/BasicFunction.h"
+#include "Context.h"
+#include "Context/Function/Returnable/Returnable.h"
+#include "Arguments.h"
+#include "BasicFunction.h"
 
 
 namespace fedora {
-    namespace function {
-        // TODO Использовать buildable function
+    namespace context {
+        // TODO Использовать buildable context
         class Function : public std::enable_shared_from_this<Function> {
             // TODO Вынести в .cpp реализации И инициализации
         private:
@@ -59,10 +59,10 @@ namespace fedora {
             }
 
             /**
-             * Start function declaration
+             * Start context declaration
              */
-            std::shared_ptr<function::Function> addFunction() {
-                std::shared_ptr<function::Function> newFunction = std::make_shared<function::Function>(
+            std::shared_ptr<context::Function> addFunction() {
+                std::shared_ptr<context::Function> newFunction = std::make_shared<context::Function>(
                         shared_from_this());
                 children.push_back(newFunction);
                 return newFunction;

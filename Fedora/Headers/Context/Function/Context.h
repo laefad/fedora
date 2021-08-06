@@ -16,7 +16,7 @@
 //
 //
 //namespace fedora {
-//    namespace function {
+//    namespace context {
 //
 //        // Контекст, где хранятся функции и их контексты
 //        class Context : public std::enable_shared_from_this<Context> {

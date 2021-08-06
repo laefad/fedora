@@ -9,7 +9,7 @@ context:
       context: (указатель на context)
       returnable: 
         //funcall
-	function: (указатель на +)
+	context: (указатель на +)
 	args: 
 	  - nullptr // на a, когда функцию вызовут тут будет конкретный указатель
 	  - 1 // просто число 1
@@ -20,14 +20,14 @@ force f(1)
 //ИТЕРАЦИЯ
 
 funcall:
-  function : f
+  context : f
   args: 
     - 1
   
 //ИТЕРАЦИЯ
 
 funcall: 
-  function: +
+  context: +
   args: 
     - a // a => 1 ну или просто число я тут пока не решил 
     - 1
@@ -35,7 +35,7 @@ funcall:
 //ИТЕРАЦИЯ
 
 funcall: 
-  function: +
+  context: +
   args: 
     - 1
     - 1

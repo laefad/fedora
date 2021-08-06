@@ -8,7 +8,7 @@
 #include "Types/Number.h"
 
 namespace fedora {
-    class ReturnableNumber : public function::Returnable, public types::Number {
+    class ReturnableNumber : public context::Returnable, public types::Number {
     public:
         explicit ReturnableNumber(double v) : types::Number(v) {}
 

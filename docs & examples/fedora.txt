@@ -8,7 +8,7 @@ let magic => a <-> b <-> c 10 11 +
 
 
 """" TYPES
-string, int, list, function, null
+string, int, list, context, null
 
 """" BASIC
 
@@ -23,7 +23,7 @@ macros **args = <pattern_to_replace> => <thing_to_set>
 *UNICODE*
 "+ - * /"
 log - fun to print
-force - executes function immidiately
+force - executes context immidiately
 head - get first element of list
 tail - get list without first
 
@@ -31,7 +31,7 @@ if - condition
 
 syntax: 
 	log <entity>
-	force <function>
+	force <context>
 	head <list>
 	tail <list>	
 	

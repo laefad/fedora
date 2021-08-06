@@ -34,8 +34,8 @@ namespace fedora {
 
 const bool is_test = true;
 
-//std::shared_ptr<function::Function> a_test(){
-//    return std::make_shared<function::Function>(nullptr);
+//std::shared_ptr<context::Function> a_test(){
+//    return std::make_shared<context::Function>(nullptr);
 //}
 //
 //std::shared_ptr<analytic::ReadName> b_test(){

@@ -4,15 +4,13 @@ project(fedora)
 set(CMAKE_CXX_STANDARD 14)
 
 include_directories(Fedora/Headers)
-include_directories(Fedora/Headers/Function)
-include_directories(Fedora/Headers/Types)
 
 add_executable(fedora
-        Fedora/Headers/Function/Arguments.h
-        Fedora/Headers/Function/Context.h
+        Fedora/Headers/Context/Function/Arguments.h
+        Fedora/Headers/Context/Function/Context.h
         Fedora/Headers/Types/FunCall.h
-        Fedora/Headers/Function/Function.h
-        Fedora/Headers/Function/Returnable/Returnable.h
+        Fedora/Headers/Context/Function/Function.h
+        Fedora/Headers/Context/Function/Returnable/Returnable.h
         Fedora/Headers/Types/BasicType.h
         Fedora/Headers/Types/List.h
         Fedora/Headers/Types/Number.h
@@ -64,11 +62,13 @@ add_executable(fedora
         Fedora/Source/Builder/ContextBuilder.cpp
         Fedora/test/Test.h
         Fedora/Source/Utils/Logger.cpp
-        Fedora/Headers/ForceCall/ForceCall.h
-        Fedora/Headers/ForceCall/ForceArgs.h
+        Fedora/Headers/Context/ForceCall/ForceCall.h
+        Fedora/Headers/Context/ForceCall/ForceArgs.h
         Fedora/Headers/Types/Null.h
         Fedora/Source/Types/Null.cpp
         Fedora/Headers/Builder/FunctionDeclarator.h
         Fedora/Headers/Builder/FunCallDeclarator.h
-        Fedora/Headers/Function/Returnable/ReturnableNumber.h Fedora/Headers/Function/BasicFunction.h Fedora/Headers/Function/FunctionCall.h)
+        Fedora/Headers/Context/Function/Returnable/ReturnableNumber.h
+        Fedora/Headers/Context/Function/BasicFunction.h
+        Fedora/Headers/Context/Function/FunctionCall.h Fedora/Headers/Context/Package.h)
 

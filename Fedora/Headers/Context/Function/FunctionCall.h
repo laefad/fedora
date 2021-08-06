@@ -5,10 +5,10 @@
 #pragma once
 
 #include <memory>
-#include "Function/Function.h"
+#include "Function.h"
 
 namespace fedora {
-    namespace function {
+    namespace context {
         class FunctionCall : public Function {
         public:
             static FunctionEntityType getType() {

@@ -6,7 +6,6 @@
 #include <string>
 #include <Analyzers/AnalyzerStrategy.h>
 
-#include "Context.h"
 #include "Token.h"
 
 namespace fedora {

@@ -6,13 +6,11 @@
 
 #include <utility>
 
-#include "Function/Context.h"
-
 namespace fedora {
     namespace builder {
 
         /**
-         * Steps of function declaration
+         * Steps of context declaration
          */
         enum FunctionDeclarationMode {
 //            /**
@@ -58,8 +56,8 @@ namespace fedora {
             SET_CONTEXT,
 
             /**
-             * Stuff function returns
-             * @see ReadResult.h analyzeToken(Token&) function docs
+             * Stuff context returns
+             * @see ReadResult.h analyzeToken(Token&) context docs
              *
              * @example
              * let a = 1    <- "= 1" is returnable part. "1" is a value to be returned
@@ -78,7 +76,7 @@ namespace fedora {
             /**
              * Function we are building
              */
-            std::shared_ptr<function::Function> function;
+            std::shared_ptr<context::Function> function;
 
             /**
              * Step of building process we are on
@@ -106,8 +104,8 @@ namespace fedora {
                 return result;
             };
         public:
-            explicit FunctionDeclarator(std::shared_ptr<function::Function> f) : function(std::move(f)),
-                                                                                 funMode(setFunMode()) {}
+            explicit FunctionDeclarator(std::shared_ptr<context::Function> f) : function(std::move(f)),
+                                                                                funMode(setFunMode()) {}
 
             bool isNull() {
                 return function == nullptr;
