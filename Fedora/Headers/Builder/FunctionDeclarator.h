@@ -15,34 +15,7 @@ namespace fedora {
          * Steps of context declaration
          */
         enum FunctionDeclarationMode {
-//            /**
-//             * @example
-//             * pure, force
-//             *
-//             * pure let a = 1
-//             */
-//            SET_KEYWORDS,
-//
-//            /**
-//             * Must be a valid not-keyword name
-//             *
-//             * @example
-//             * main
-//             *
-//             * let main = 1
-//             */
-//            SET_NAME,
-//
-//            /**
-//             * Must be a valid not-keyword name
-//             *
-//             * @example
-//             * a b c
-//             *
-//             * let main a = +(a 1) # Adds 1 to a and returns result #
-//             */
-//            SET_ARGS,
-
+            /// Declare function keywords, name and arg names
             SET_INITIAL,
 
             /**
@@ -114,18 +87,39 @@ namespace fedora {
                 return function == nullptr;
             }
 
+            /**
+             * Add function keyword
+             * @example
+             * pure let a = null <- "pure" keyword should be added via this method
+             */
             void addPreFunKeyWord(KeyWord &t) {
                 function->addKeyWord(t);
             }
 
+            /**
+             * Add function keyword
+             * @example
+             * pure let main = 1 <- name "name" should be set via this method
+             */
             void setFunctionName(std::wstring &s) {
                 function->setName(s);
             }
 
+            /**
+             * Add function keyword
+             * @example
+             * pure let main arg1 = 1 <- after you added "arg1",
+             *                              you should notify builder that context declaration has finished
+             */
             void setReturnableMode() {
                 function->setContextFinished();
             }
 
+            /**
+             * Add function keyword
+             * @example
+             * pure let main arg1 = 1 <- set "1" as returnable
+             */
             void setNumberAsReturnable(const std::shared_ptr<types::Number> &n) {
                 context::Returnable r = context::Returnable(n);
                 function->setReturnable(r);

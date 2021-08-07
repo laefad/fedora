@@ -6,6 +6,7 @@
 #include <KeyWords.h>
 #include "Types/Number.h"
 #include "Exceptions/BuilderException.h"
+#include "Stack/StackHolder.h"
 
 namespace fedora {
     /// Initializing
@@ -56,5 +57,15 @@ namespace fedora {
         // TODO Перегнать wstring в double в конструкторе Number
         std::shared_ptr<types::Number> n = std::make_shared<types::Number>();
         functionDeclarator.setNumberAsReturnable(n);
+    }
+
+    void ContextBuilder::setForceName(std::wstring &s) {
+        forceCallDeclarator.setName(s);
+    }
+
+    void ContextBuilder::notifyWeStartForceCall() {
+        StackHolder *stackHolder = StackHolder::GetInstance();
+        std::shared_ptr<context::ForceCall> newForce = stackHolder->addForceCall();
+        forceCallDeclarator = builder::ForceCallDeclarator(newForce);
     }
 }

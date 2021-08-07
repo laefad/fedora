@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include <string>
+#include <memory>
 #include <Utils/TokensHolder.h>
 #include <Analyzers/AnalyticUtils.h>
 #include "Parser.h"
@@ -42,12 +43,12 @@ const bool is_test = true;
 //    return std::make_shared<analytic::ReadName>(std::vector<Token>());
 //}
 
+
 int main(int argc, char *argv[]) {
     // Режим тестирования
     if (is_test) {
-        std::cout << "lol" << std::endl;
-//        std::cout<<b_test()->getFileName()<<std::endl;
-//        std::cout<<a_test()->isNameDeclared();
+        Logger::logV("lol");
+
         ContextBuildTester::test();
         return 0;
     } else {

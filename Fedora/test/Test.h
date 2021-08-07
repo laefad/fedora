@@ -6,6 +6,7 @@
 #define FEDORA_TEST_H
 
 #include <Builder/ContextBuilder.h>
+#include "Stack/StackHolder.h"
 
 using namespace fedora;
 
@@ -13,13 +14,15 @@ class ContextBuildTester {
 public:
     static void test() {
         test1();
+        test2();
     }
 
 private:
     /**
-         * let a = 1
-         */
+     * let a = 1
+     */
     static void test1() {
+        Logger::logV("test1 started");
         ContextBuilder *builder = ContextBuilder::GetInstance();
 
         Token mPure = Token(L"pure");
@@ -40,6 +43,19 @@ private:
         builder->setFunctionName(mA.getData());
         builder->notifyWeSetReturnable();
         builder->addReturnableNumber(mOne.getData());
+        clean();
+        Logger::logV("test1 completed");
+    }
+
+    static void test2() {
+        ContextBuilder *builder = ContextBuilder::GetInstance();
+
+        Token mName = Token(L"main");
+        Token mOne = Token(L"1");
+
+        builder->notifyWeStartForceCall();
+        builder->setForceName(mName.getData());
+        StackHolder *s = StackHolder::GetInstance();
         clean();
     }
 

@@ -35,4 +35,16 @@ namespace fedora {
     void Logger::logE(const std::wstring &msg) {
         log(msg, fedora::settings::LOG_ERROR);
     }
+
+    void Logger::logV(const std::string &msg) {
+        log(msg, fedora::settings::LOG_VERBOSE);
+    }
+
+    void Logger::logW(const std::string &msg) {
+        log(msg, fedora::settings::LOG_WARNING);
+    }
+
+    void Logger::logE(const std::string &msg) {
+        log(msg, fedora::settings::LOG_ERROR);
+    }
 }

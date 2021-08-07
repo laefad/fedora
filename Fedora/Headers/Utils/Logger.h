@@ -30,10 +30,16 @@ namespace fedora {
         /// Log verbose
         static void logV(const std::wstring &msg);
 
+        static void logV(const std::string &msg);
+
         /// Log warnings
         static void logW(const std::wstring &msg);
 
+        static void logW(const std::string &msg);
+
         /// Log errors
         static void logE(const std::wstring &msg);
+
+        static void logE(const std::string &msg);
     };
 }

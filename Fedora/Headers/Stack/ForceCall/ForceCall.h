@@ -4,8 +4,11 @@
 
 #pragma once
 
+#include <memory>
+#include <iostream>
+#include <utility>
 #include "ForceArgs.h"
-#include "Function/Returnable/Returnable.h"
+#include "Context/Function/Returnable/Returnable.h"
 
 namespace fedora {
     namespace context {
@@ -17,11 +20,12 @@ namespace fedora {
          *  let a = ...
          *  force a
          */
-        class ForceCall {
+        class ForceCall : public std::enable_shared_from_this<ForceCall> {
             ForceArgs forceArgs = ForceArgs();
+            std::wstring rawFunToCallName;
         public:
-            context::Returnable execute() {
-
+            void setRawName(std::wstring s) {
+                rawFunToCallName = std::move(s);
             }
         };
     }

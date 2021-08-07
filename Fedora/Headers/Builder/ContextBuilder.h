@@ -11,6 +11,7 @@
 #include "Utils/Logger.h"
 #include "Token.h"
 #include "FunctionDeclarator.h"
+#include "ForceCallDeclarator.h"
 
 namespace fedora {
     /**
@@ -47,7 +48,7 @@ namespace fedora {
          * That's why we init it with functionDeclarator(nullptr).
          * // TODO Стоит ли объявить пустой дефолтный конструктор, чтобы мы могли убрать functionDeclarator(nullptr) из конструктора? Текущее решение выглядит уродливо, зато работает явно. Скрытие плохого кода через дефолтный конструктор я считаю небезопасным. ИМХО пусть лучше будет некрасиво, но безопасно
          */
-        ContextBuilder() : functionDeclarator(nullptr) {
+        ContextBuilder() : functionDeclarator(nullptr), forceCallDeclarator(nullptr) {
             currentContext = std::make_shared<context::Function>(nullptr);
         }
 
@@ -65,7 +66,9 @@ namespace fedora {
         std::shared_ptr<context::Function> currentContext;
 
         /// Function declaration utility
-        builder::FunctionDeclarator functionDeclarator;//builder::FunctionDeclarator(nullptr);
+        builder::FunctionDeclarator functionDeclarator;
+
+        builder::ForceCallDeclarator forceCallDeclarator;
 
         // TODO Стоит ли разбить объявление функции и создание билдера на 2 функции? Или не стоит упоминать в имени 2 действия? Мне не нравится нарушение принципа единой ответственности
         void createFunctionAndBuilder() {
@@ -85,5 +88,10 @@ namespace fedora {
         void notifyWeSetReturnable();
 
         void addReturnableNumber(std::wstring &);
+
+        void notifyWeStartForceCall();
+
+        void setForceName(std::wstring &);
+        // TODO Добавить режим заполнения: функция, фанколл и проверять, своевременно ли вызван метод
     };
 }
