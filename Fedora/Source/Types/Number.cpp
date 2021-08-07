@@ -1,4 +1,5 @@
 #include "Types/Number.h"
+
 namespace fedora {
     namespace types {
 

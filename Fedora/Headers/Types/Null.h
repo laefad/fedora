@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "Types/BasicType.h"
+#include "BasicType.h"
 
 namespace fedora {
     namespace types {
