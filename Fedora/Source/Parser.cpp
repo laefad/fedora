@@ -27,9 +27,7 @@ namespace fedora {
             // Это нужно для красоты. Типа bool isChar(){return data.length()==1;}
 
             // if token is a carriage return -> push it to tokens holder 
-            // TODO Мб стоит убрать из этого услования !tmp.isEmpty()? 
-            // Это условие избыточно и при будущих изменениях, вероятно, оно перестанет работать
-            if (!tmp.isEmpty() || (tmp.getData().length() == 1 && tmp.getData() == L"\n"))
+            if (tmp.getData().length() == 1 && tmp.getData() == L"\n")
                 tokensHolder->add(tmp);
 
             if (!tmp.isEmpty()) {
