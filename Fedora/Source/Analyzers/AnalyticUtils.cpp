@@ -7,44 +7,47 @@
 
 namespace fedora {
     namespace analytic {
+
+        // TODO у нас вроде были запрещены скобочки посреди имени ?? 
+        // имя f(x) пройдет же проверку 
+        // или это где-то до обрабатывается?
         bool AnalyticUtils::isValidName(std::wstring &name) {
-            const int checksNeed = 4;
-            int checks = 0;
-            if (!isValueAKeyWord(name))
-                ++checks;
-            if (!isValueAString(name))
-                ++checks;
-            if (!isdigit(name.at(0)))
-                ++checks;
-            if (!isBracket(name))
-                ++checks;
-            return checks == checksNeed;
+            return 
+                !isValueAKeyWord(name) &&
+                !isValueAString(name) &&
+                !isdigit(name.at(0)) &&
+                !isBracket(name);
         }
 
         bool AnalyticUtils::isValueAKeyWord(std::wstring &name) {
-            bool isKey = false;
-            for (auto &key :  KeyWords::getAllKeyWords()) {
+            for (auto &key : KeyWords::getAllKeyWords()) {
                 if (key.getData() == name)
-                    isKey = true;
+                    return true;
             }
-            return isKey;
+            return false;
         }
 
-        bool AnalyticUtils::isValueANumber(std::wstring &name) {
-            bool hasDot = false; // Имеет ли число точку в записи (если число дробное)
-            bool f = true; // Все ли символы токена корректны
+        // Числом является [-+]?[0-9]+.?[0-9]+
+        // Поддержки +/- раньше не было, поэтому могут возникать ошибки, если код на них не рассчитан
+        bool AnalyticUtils::isValueANumber(std::wstring & name) {
+            bool hasDot = false;
 
-            // TODO Оптимизировать if-ы
-            // Пройдёмся по всем символам и проверим, все ли онц цифры.
-            // Также позволено поставить точку в середине числа, чтобы сделать дробь
-            for (int i=0;i<name.length();++i) {
-                wchar_t chr = name.at(i);
-                if (!isdigit(chr) && !(chr == L'.' && i!=0 && i!=name.length()-1 && !hasDot))
-                    f = false;
-                if (chr == L'.' && i!=0 && i!=name.length()-1 && !hasDot)
-                    hasDot = true;
+            for (int i = 0, len = name.length(); i < len; ++i) {
+                const wchar_t chr = name.at(i);
+                
+                if (isdigit(chr)) 
+                    continue;
+
+                if (chr != L'.') {
+                    if (i != 0 || (chr != L'+' && chr != L'-')) 
+                    return false;
+                } else 
+                    if (hasDot || i == 0 || i == len - 1)
+                        return false;
+                    else 
+                        hasDot = true;
             }
-            return f;
+            return true;
         }
 
         bool AnalyticUtils::isValueAString(std::wstring &name) {

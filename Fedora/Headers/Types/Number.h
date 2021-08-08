@@ -19,6 +19,7 @@ namespace fedora {
 
             explicit Number(double v) : value(v) {}
 
+            // TODO убрать в .cpp и добавить не const вариант
             double getValue() const {
                 return value;
             };
@@ -26,4 +27,3 @@ namespace fedora {
 
     }
 }
-
