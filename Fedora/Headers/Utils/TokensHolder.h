@@ -56,5 +56,9 @@ namespace fedora {
          * @return vector of last @see lastNum Tokens
          */
         std::vector<Token> getLast();
+
+        void cleanFields() override {
+            tokens.clear();
+        }
     };
 }

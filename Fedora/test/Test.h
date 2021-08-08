@@ -22,7 +22,6 @@ private:
      * let a = 1
      */
     static void test1() {
-        Logger::logV("test1 started");
         ContextBuilder *builder = ContextBuilder::GetInstance();
 
         Token mPure = Token(L"pure");
@@ -57,6 +56,7 @@ private:
         builder->setForceName(mName.getData());
         StackHolder *s = StackHolder::GetInstance();
         clean();
+        Logger::logV("test2 completed");
     }
 
     static void clean() {

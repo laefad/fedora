@@ -43,6 +43,11 @@ namespace fedora {
             void cleanThemAll();
 
             void addToSingletons(BasicSingleton *);
+
+            /// Does nothing
+            void cleanFields() override {
+                // Если я умру, меня заменят
+            }
         };
 
 

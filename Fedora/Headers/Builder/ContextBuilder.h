@@ -62,7 +62,7 @@ namespace fedora {
          *
          * @note redeclare utilities each time we get new context //TODO ВЫнести утилиты и контекст в приват абстрактного билдера и наследовать этот класс от него. Но мб это не нужно делать. Посмотрим, как будет выглядеть сборщик без этого
          */
-        // TODO Заменить Function на Package?
+        // TODO Заменить Function на Package с unique_ptr
         std::shared_ptr<context::Function> currentContext;
 
         /// Function declaration utility
@@ -78,6 +78,12 @@ namespace fedora {
 
     public:
         static ContextBuilder *GetInstance();
+
+        void cleanFields() override {
+            currentContext.reset();
+            functionDeclarator = builder::FunctionDeclarator(nullptr);
+            forceCallDeclarator = builder::ForceCallDeclarator(nullptr);
+        }
 
         void addFunctionDeclarationToken(KeyWord &);
 

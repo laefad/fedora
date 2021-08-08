@@ -5,6 +5,7 @@
 #include <vector>
 #include <Token.h>
 #include <KeyWords.h>
+#include <Utils/Logger.h>
 
 #include "Context/Function/Returnable/Returnable.h"
 #include "Context/Function/Returnable/ReturnableNumber.h"

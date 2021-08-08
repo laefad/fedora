@@ -42,6 +42,8 @@ namespace fedora {
         /// Singletons should not be assignable.
         void operator=(const BasicSingleton &) = delete;
 
+        virtual void cleanFields() = 0;
+
         // TODO Хорошо бы в бейсик впихнуть getInstance()
 
         /**

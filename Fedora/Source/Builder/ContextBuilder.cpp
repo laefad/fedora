@@ -35,7 +35,7 @@ namespace fedora {
 
         if (t == let)
             throw exception::BuilderException(
-                    "A \"let\" token should not be pushed to context. Use ContextBuilder::notifyWeGotLetToken() instead.",
+                    "A \"let\" token must not be pushed to the context. Use ContextBuilder::notifyWeGotLetToken() instead.",
                     "ContextBuilder::addFunctionDeclarationToken");
     }
 

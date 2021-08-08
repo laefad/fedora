@@ -9,6 +9,8 @@
 
 #include "test/Test.h"
 
+#include "Utils/BasicSingleton.h"
+
 namespace fedora {
 
     //class Macros {
@@ -43,12 +45,42 @@ const bool is_test = true;
 //    return std::make_shared<analytic::ReadName>(std::vector<Token>());
 //}
 
+//            instance->addToCleaner();           // <- Here we add our new instance to cleaner
+
+class Test : public BasicSingleton {
+    Test() {
+        Logger::logV("Constructor");
+    }
+
+    static Test *instance;
+    int value = 3;
+public:
+    ~Test() {
+        Logger::logV("Destructor");
+    }
+
+    void setValue() {
+        value = 4;
+    }
+
+    static Test *GetInstance() {
+        if (instance == nullptr) {
+            instance = new Test();
+        }
+        return instance;
+    }
+
+    void cleanFields() override {
+    }
+};
+
+Test *Test::instance = nullptr;
+
 
 int main(int argc, char *argv[]) {
     // Режим тестирования
     if (is_test) {
         Logger::logV("lol");
-
         ContextBuildTester::test();
         return 0;
     } else {

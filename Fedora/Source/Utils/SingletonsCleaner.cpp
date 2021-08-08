@@ -23,9 +23,7 @@ namespace fedora {
 
         void SingletonsCleaner::cleanThemAll() {
             for (auto &a:singletons)
-                delete a;
-            // Suicide :(
-            delete this;
+                a->cleanFields();
         }
     }
 }

@@ -28,5 +28,9 @@ namespace fedora {
             return newForceCall;
         }
 
+        void cleanFields() override {
+            calls.clear();
+        }
+
     };
 }

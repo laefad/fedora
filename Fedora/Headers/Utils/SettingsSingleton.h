@@ -26,13 +26,20 @@ namespace fedora {
     class Settings : public BasicSingleton {
     private:
         /// Classic private singleton constructor
-        Settings() = default;
+        Settings() {
+            toDefaults();
+        }
 
         /// Main instance
         static Settings *instance;
 
         /// How logs are detailed
-        settings::LogLevel logLevel = settings::LOG_VERBOSE;
+        settings::LogLevel logLevel;
+
+        void toDefaults() {
+            logLevel = settings::LOG_VERBOSE;
+        }
+
     public:
 
         /// Singleton can't be copied
@@ -49,5 +56,9 @@ namespace fedora {
 
         /// Log level Getter
         settings::LogLevel getLogLevel();
+
+        void cleanFields() override {
+            toDefaults();
+        }
     };
 }
