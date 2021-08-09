@@ -2,8 +2,9 @@
 
 namespace fedora {
 
-    Token::Token(std::wstring data) 
-        : data(std::move(data)) 
+    Token::Token(std::wstring data, uint32_t line): 
+        data(std::move(data)), 
+        line(line)
     {}
 
     std::wstring & Token::getData() {

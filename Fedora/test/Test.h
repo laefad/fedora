@@ -24,11 +24,11 @@ private:
     static void test1() {
         ContextBuilder *builder = ContextBuilder::GetInstance();
 
-        Token mPure = Token(L"pure");
-        Token mLet = Token(L"let");
-        Token mA = Token(L"a");
-        Token mReturn = Token(L"=");
-        Token mOne = Token(L"1");
+        Token mPure = Token(L"pure", -1);
+        Token mLet = Token(L"let", -1);
+        Token mA = Token(L"a", -1);
+        Token mReturn = Token(L"=", -1);
+        Token mOne = Token(L"1", -1);
 
         KeyWord mPure2 = KeyWord(L"pure");
         KeyWord mPure3 = KeyWord(mPure);
@@ -49,8 +49,8 @@ private:
     static void test2() {
         ContextBuilder *builder = ContextBuilder::GetInstance();
 
-        Token mName = Token(L"main");
-        Token mOne = Token(L"1");
+        Token mName = Token(L"main", -1);
+        Token mOne = Token(L"1", -1);
 
         builder->notifyWeStartForceCall();
         builder->setForceName(mName.getData());

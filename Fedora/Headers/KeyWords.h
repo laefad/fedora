@@ -12,9 +12,9 @@
 namespace fedora {
     class KeyWord : public Token {
     public:
-        explicit KeyWord(std::wstring value1) : Token(std::move(value1)) {}
+        explicit KeyWord(std::wstring value1) : Token(std::move(value1), -1) {}
 
-        explicit KeyWord(Token &t) : Token(t.getData()) {}
+        explicit KeyWord(Token &t) : Token(t.getData(), -1) {}
 
         friend bool operator==(Token &lhs, KeyWord &rhs);
 

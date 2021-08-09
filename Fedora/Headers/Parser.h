@@ -2,10 +2,9 @@
 
 #include <iostream>
 #include <fstream>
-#include <iostream>
 #include <string>
-#include <Analyzers/AnalyzerStrategy.h>
 
+#include "Analyzers/AnalyzerStrategy.h"
 #include "Token.h"
 
 namespace fedora {
@@ -13,24 +12,29 @@ namespace fedora {
     class Parser {
     private:
         /// Файловый поток
-        std::ifstream& fin;
-
-        AnalyzerStrategy& analyzerStrategy;
+        std::ifstream fin;
+        /// Хранилище обработанных токенов
+        TokensHolder & tokensHolder;
+        /// Номер строки, на которой был расположен текущий токен
+        uint32_t line;
 
         /// Прочитать следующий токен
         Token readToken();
 
-        /// Игнорируем ли мы символ или нет // TODO Вынести в [StaticUtils]
-        static bool isIgnored(wchar_t &);
+        Token readString();
+
+        Token readComment();
     public:
-        Parser(const std::string &, std::ifstream &, AnalyzerStrategy&);
+        //TODO заменить на wifstream
+        //TODO можем ли мы использовать константную ссылку на TokensHolder ?
+        Parser(std::string const& fileName, TokensHolder & tokensHolder);
 
         /// Прочитать весь файл и сохранить токены
-        //TODO Читать файл через getLine, чтобы сохранять номера строк для каждого токена. Это поможет выдавать пользователям ошибку с указанием на какой строке они ошиблись
         void readFile();
 
         // Деструкт
         ~Parser() {
+            // TODO Лишний код, поток закрывается при уничтожении объекта
             fin.close();
         }
     };
