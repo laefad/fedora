@@ -12,6 +12,7 @@
 #include "Token.h"
 #include "FunctionDeclarator.h"
 #include "ForceCallDeclarator.h"
+#include "Builder/BuildableFunction.h"
 
 namespace fedora {
     /**
@@ -72,7 +73,9 @@ namespace fedora {
 
         // TODO Стоит ли разбить объявление функции и создание билдера на 2 функции? Или не стоит упоминать в имени 2 действия? Мне не нравится нарушение принципа единой ответственности
         void createFunctionAndBuilder() {
-            std::shared_ptr<context::Function> newFunction = currentContext->addFunction();
+            std::shared_ptr<builder::BuildableFunction> newFunction = std::make_shared<builder::BuildableFunction>(
+                    nullptr);
+            currentContext->addChildFunction(newFunction);
             functionDeclarator = builder::FunctionDeclarator(newFunction);
         }
 

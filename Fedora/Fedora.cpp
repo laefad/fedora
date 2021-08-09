@@ -10,6 +10,8 @@
 #include "test/Test.h"
 
 #include "Utils/BasicSingleton.h"
+#include "Context/Function/Function.h"
+#include "Builder/BuildableFunction.h"
 
 namespace fedora {
 
@@ -47,40 +49,20 @@ const bool is_test = true;
 
 //            instance->addToCleaner();           // <- Here we add our new instance to cleaner
 
-class Test : public BasicSingleton {
-    Test() {
-        Logger::logV("Constructor");
-    }
 
-    static Test *instance;
-    int value = 3;
-public:
-    ~Test() {
-        Logger::logV("Destructor");
-    }
-
-    void setValue() {
-        value = 4;
-    }
-
-    static Test *GetInstance() {
-        if (instance == nullptr) {
-            instance = new Test();
-        }
-        return instance;
-    }
-
-    void cleanFields() override {
-    }
-};
-
-Test *Test::instance = nullptr;
 
 
 int main(int argc, char *argv[]) {
     // Режим тестирования
     if (is_test) {
         Logger::logV("lol");
+//        fedora::builder::BuildableFunction b = fedora::builder::BuildableFunction(nullptr);
+//        b.setContextFinished();
+//        fedora::context::Function *a = &b;
+//
+//        fedora::builder::BuildableFunction* c = static_cast<fedora::builder::BuildableFunction*>(a);
+//        bool t = c->isContextFinished();
+//        std::wcout<<t;
         ContextBuildTester::test();
         return 0;
     } else {

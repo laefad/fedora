@@ -28,10 +28,12 @@ namespace fedora {
             createFunctionAndBuilder();
         }
 
+
         // If t == let -> we don't need anything special, cause function is already declared
         if (t != let) {
             functionDeclarator.addPreFunKeyWord(t);
         }
+
 
         if (t == let)
             throw exception::BuilderException(

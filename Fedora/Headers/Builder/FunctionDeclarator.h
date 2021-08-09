@@ -7,6 +7,7 @@
 #include <utility>
 #include "Types/Number.h"
 #include "Context/Function/Returnable/Returnable.h"
+#include "Builder/BuildableFunction.h"
 
 namespace fedora {
     namespace builder {
@@ -51,36 +52,36 @@ namespace fedora {
             /**
              * Function we are building
              */
-            std::shared_ptr<context::Function> function;
+            std::shared_ptr<builder::BuildableFunction> function;
 
-            /**
-             * Step of building process we are on
-             */
-            FunctionDeclarationMode funMode;
-
-            /**
-             * let a where
-             *  let b = 1
-             *              <- Here we set SET_CONTEXT mode
-             * = # <- Here we set SET_RETURNABLE # 2
-             * @return
-             */
-            FunctionDeclarationMode setFunMode() const {
-                FunctionDeclarationMode result = SET_INITIAL;
-                if (function != nullptr) {
-                    if (!function->isContextEmpty()) {
-                        result = SET_CONTEXT;
-                    }
-
-                    if (function->isContextFinished())
-                        result = SET_RETURNABLE;
-                }
-
-                return result;
-            };
+//            /**
+//             * Step of building process we are on
+//             */
+//            FunctionDeclarationMode funMode;
+//
+//            /**
+//             * let a where
+//             *  let b = 1
+//             *              <- Here we set SET_CONTEXT mode
+//             * = # <- Here we set SET_RETURNABLE # 2
+//             * @return
+//             */
+//            FunctionDeclarationMode setFunMode() const {
+//                FunctionDeclarationMode result = SET_INITIAL;
+//                if (function != nullptr) {
+//                    if (!function->isContextEmpty()) {
+//                        result = SET_CONTEXT;
+//                    }
+//
+//                    if (function->isContextFinished())
+//                        result = SET_RETURNABLE;
+//                }
+//
+//                return result;
+//            };
         public:
-            explicit FunctionDeclarator(std::shared_ptr<context::Function> f) : function(std::move(f)),
-                                                                                funMode(setFunMode()) {}
+            explicit FunctionDeclarator(std::shared_ptr<builder::BuildableFunction> f) : function(std::move(f)) {}
+            //funMode(setFunMode()) {}
 
             // TODO Стоит ли внедрять в каждую функцию проверку на Nullptr?
             bool isNull() {
