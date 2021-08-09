@@ -8,8 +8,12 @@
 
 namespace fedora {
     namespace builder {
+        /**
+         * BuildableForceCall is an extension for ForceCall to build it and make original ForceCall clear
+         */
         class BuildableForceCall : public context::ForceCall {
         public:
+            /// remember function name user want to call as raw string
             void setRawName(std::wstring s) {
                 rawFunToCallName = std::move(s);
             }

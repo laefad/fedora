@@ -31,7 +31,7 @@ namespace fedora {
             explicit Function(std::shared_ptr<Function> parent) : parent(std::move(parent)) {}
 
             /**
-            * Start context declaration
+            * add another function to function context
             */
             std::shared_ptr<context::Function> addChildFunction(std::shared_ptr<context::Function> newFunction) {
                 children.push_back(newFunction);

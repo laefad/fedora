@@ -7,7 +7,6 @@ include_directories(Fedora/Headers)
 
 add_executable(fedora
         Fedora/Headers/Context/Function/Arguments.h
-        Fedora/Headers/Context/Function/Context.h
         Fedora/Headers/Types/FunCall.h
         Fedora/Headers/Context/Function/Function.h
         Fedora/Headers/Context/Function/Returnable/Returnable.h

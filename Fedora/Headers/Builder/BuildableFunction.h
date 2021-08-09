@@ -10,7 +10,20 @@
 
 namespace fedora {
     namespace builder {
+        /**
+         * BuildableFunction is an extension for Function to build it and make original Function clear
+         */
         class BuildableFunction : public context::Function {
+            /**
+             * flag, that says function context is fully declared
+             *
+             * @example
+             * let a where
+             *                  # contextIsReady == false #
+             *  let b = null
+             *                  # contextIsReady == false #
+             * = # contextIsReady == true # null
+             */
             bool contextIsReady = false;
         public:
             explicit BuildableFunction(std::shared_ptr<Function> parent) : context::Function(std::move(parent)) {}
@@ -23,14 +36,32 @@ namespace fedora {
                 return children.empty();
             }
 
+            /**
+             * Add pre-fun keyword
+             *
+             * @example
+             * pure let a = null    # <- "pure" has to be added via this method #
+             */
             void addKeyWord(KeyWord &t) {
                 keyWords.push_back(t);
             }
 
+            /**
+             * Remember raw function name
+             */
             void setName(std::wstring &s) {
                 name = s;
             }
 
+            /**
+             * Notify that function context has finished
+             *
+             * @example
+             * let a where
+             *  let b = null
+             * = # setContextFinished() is called after "=" is read #
+             * null
+             */
             void setContextFinished() {
                 contextIsReady = true;
             }
@@ -39,7 +70,9 @@ namespace fedora {
                 return contextIsReady;
             }
 
-
+            /**
+             * Set returnable value to function
+             */
             void setReturnable(context::Returnable &r) {
                 returnable = std::make_unique<context::Returnable>(r);
             }
