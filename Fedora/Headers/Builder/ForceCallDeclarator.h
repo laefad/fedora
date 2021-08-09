@@ -6,7 +6,7 @@
 
 #include <utility>
 
-#include "Stack/ForceCall/ForceCall.h"
+#include "Builder/BuildableForceCall.h"
 #include "Exceptions/BuilderException.h"
 
 namespace fedora {
@@ -17,9 +17,9 @@ namespace fedora {
         };
 
         class ForceCallDeclarator {
-            std::shared_ptr<context::ForceCall> forceCall;
+            std::shared_ptr<builder::BuildableForceCall> forceCall;
         public:
-            explicit ForceCallDeclarator(std::shared_ptr<context::ForceCall> forceCall) : forceCall(
+            explicit ForceCallDeclarator(std::shared_ptr<builder::BuildableForceCall> forceCall) : forceCall(
                     std::move(forceCall)) {}
 
             void setName(std::wstring &s) {

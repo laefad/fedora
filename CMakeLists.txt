@@ -69,5 +69,10 @@ add_executable(fedora
         Fedora/Headers/Builder/FunctionDeclarator.h
         Fedora/Headers/Builder/ForceCallDeclarator.h
         Fedora/Headers/Context/Function/Returnable/ReturnableNumber.h
-        Fedora/Headers/Context/Package.h Fedora/Headers/Exceptions/BuilderException.h Fedora/Headers/Stack/StackHolder.h Fedora/Source/Stack/StackHolder.cpp Fedora/Headers/Builder/BuildableFunction.h)
+        Fedora/Headers/Context/Package.h
+        Fedora/Headers/Exceptions/BuilderException.h
+        Fedora/Headers/Stack/StackHolder.h
+        Fedora/Source/Stack/StackHolder.cpp
+        Fedora/Headers/Builder/BuildableFunction.h
+        Fedora/Headers/Builder/BuildableForceCall.h)
 

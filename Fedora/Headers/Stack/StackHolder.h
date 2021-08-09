@@ -22,10 +22,8 @@ namespace fedora {
         /// Singleton instance getter
         static StackHolder *GetInstance();
 
-        std::shared_ptr<context::ForceCall> addForceCall() {
-            std::shared_ptr<context::ForceCall> newForceCall = std::make_shared<context::ForceCall>();
+        void addForceCall(const std::shared_ptr<context::ForceCall> &newForceCall) {
             calls.push_back(newForceCall);
-            return newForceCall;
         }
 
         void cleanFields() override {

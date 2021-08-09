@@ -21,12 +21,10 @@ namespace fedora {
          *  force a
          */
         class ForceCall : public std::enable_shared_from_this<ForceCall> {
+        protected:
             ForceArgs forceArgs = ForceArgs();
             std::wstring rawFunToCallName;
         public:
-            void setRawName(std::wstring s) {
-                rawFunToCallName = std::move(s);
-            }
         };
     }
 }
