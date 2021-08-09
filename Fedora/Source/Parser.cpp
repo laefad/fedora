@@ -23,10 +23,11 @@ namespace fedora {
 
         while (!fin.eof() && noErrors) {
             Token tmp = readToken();
-            // TODO Добавить в токен функцию, которая будет возвращать, что длина равна единице? Это нужно для красоты. Типа bool isChar(){return data.length()==1;}
+            // TODO Добавить в токен функцию, которая будет возвращать, что длина равна единице? 
+            // Это нужно для красоты. Типа bool isChar(){return data.length()==1;}
 
-            // if token is a carriage return -> push it to tokens holder // TODO Мб стоит убрать из этого услования !tmp.isEmpty()? Это условие избыточно и при будущих изменениях, вероятно, оно перестанет работать
-            if (!tmp.isEmpty() || (tmp.getData().length() == 1 && tmp.getData() == L"\n"))
+            // if token is a carriage return -> push it to tokens holder 
+            if (tmp.getData().length() == 1 && tmp.getData() == L"\n")
                 tokensHolder->add(tmp);
 
             if (!tmp.isEmpty()) {
@@ -54,10 +55,6 @@ namespace fedora {
 
         Token token = Token(res);
 
-        // Если данные пусты, значит токен пустой
-        if (res.length() == 0 || (res.length() == 1 && res.at(0) == L'\n') || res.at(0) < 0)
-            token.setEmpty(true);
-
         return token;
     }
 
@@ -65,14 +62,6 @@ namespace fedora {
         // Символы, которые мы игнорируем
         const std::wstring ignoredSymbols = L"\t\r \377"; // Возможно, \377 - это символ окончания файла // TODO Вынести во внушнюю константу
         return ignoredSymbols.find(tmp) != std::wstring::npos;
-    }
-
-    Token::Token(std::wstring data) {
-        this->data = std::move(data);
-    }
-
-    bool operator==(Token &lhs, Token &rhs) {
-        return lhs.data == rhs.data || (lhs.isEmpty() && rhs.isEmpty());
     }
 
 }
