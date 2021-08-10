@@ -8,34 +8,28 @@
 #include "Token.h"
 
 namespace fedora {
+
+    /// TODO сделать чтение как из строки, так и из файла
     /// Класс для парсинга файла на токены
     class Parser {
     private:
         /// Файловый поток
-        std::ifstream fin;
-        /// Хранилище обработанных токенов
-        TokensHolder & tokensHolder;
+        std::wifstream wif;
         /// Номер строки, на которой был расположен текущий токен
         uint32_t line;
 
         /// Прочитать следующий токен
         Token readToken();
 
+        /// Прочитать токен строки
         Token readString();
 
-        Token readComment();
+        /// Пропускать символы, пока не встретим символ комментария
+        void readComment();
     public:
-        //TODO заменить на wifstream
-        //TODO можем ли мы использовать константную ссылку на TokensHolder ?
-        Parser(std::string const& fileName, TokensHolder & tokensHolder);
+        Parser();
 
         /// Прочитать весь файл и сохранить токены
-        void readFile();
-
-        // Деструкт
-        ~Parser() {
-            // TODO Лишний код, поток закрывается при уничтожении объекта
-            fin.close();
-        }
+        void readFile(std::string const& fileName, TokensHolder & tokensHolder);
     };
 }

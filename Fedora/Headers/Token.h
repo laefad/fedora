@@ -11,10 +11,12 @@ namespace fedora {
     class Token {
     private:
         std::wstring data;
-        uint32_t line; ///< Номер строки, на которой был расположен токен
+        /// Номер строки, на которой был расположен токен
+        uint32_t line;
     public:
 
         explicit Token(std::wstring data, uint32_t line);
+        explicit Token(std::wstring data);
 
         // TODO Корректно ли возвращать референс, а не саму строку, чтобы получить буст производительности?
         // Но сделай тогда его неизменяемым(если я правильно const понимаю): std::wstring const & 

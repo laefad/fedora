@@ -7,6 +7,10 @@ namespace fedora {
         line(line)
     {}
 
+    Token::Token(std::wstring data):
+        Token(data, -1)
+    {}
+
     std::wstring & Token::getData() {
         return data;
     }

@@ -1,7 +1,3 @@
-//
-// Created on 21.07.2021.
-//
-
 #pragma once
 
 #include "Utils/TokensHolder.h"
@@ -10,28 +6,17 @@
 namespace fedora {
     class FException : public std::exception {
     private:
-        static std::string addTokens(const std::string &t) {
-            fedora::TokensHolder *a = fedora::TokensHolder::GetInstance();
-            std::string tokens;
-            // TODO Заменить на for i и перед первым не ставить пробел
-            for (auto &token:a->getLast()) {
-                if (!token.isEmpty()) {
-                    tokens += " ";
-                }
-                tokens += StaticUtils::ws2s(token.getData());
-            }
-            // TODO Мы можем показывать кол-во последних токенов в сообщении об ошибке в той части, где мы показываем токены. Кол-во токенов = min(fedora::TokensHolder::lastNum - кол-во пустых токенов, tokensHolder->getLast().length)
-            //std::string num = std::to_string(fedora::TokensHolder::lastNum);
-            return t+"\n\nLast "+" tokens:\n"+tokens;
-        }
+        ;
     protected:
         std::string text;
     public:
-        explicit FException(const std::wstring& ss) noexcept(false){
-            text = addTokens(StaticUtils::ws2s(ss));
-        }
+        explicit FException(std::wstring const& ws) noexcept(false):
+            text(StaticUtils::ws2s(ws))
+        {}
 
-        explicit FException(const std::string &ss) noexcept(false): text(addTokens(ss)) {}
+        explicit FException(std::string const& s) noexcept(false):
+            text(std::move(s))
+        {}
 
         ~FException() noexcept override = default;
         // TODO Заменить text в этой переменной на функцию, которая будет переопределяться в child классах

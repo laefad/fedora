@@ -4,7 +4,7 @@
 namespace fedora {
 
     const std::wstring StaticUtils::ignoredSymbols = L"\n\t\r \377";
-    const std::wstring StaticUtils::delimiterSymbols = L"()[]";
+    const std::wstring StaticUtils::delimiterSymbols = L"()[]=";
 
     std::string StaticUtils::ws2s(const std::wstring &wstr) {
         using convert_typeX = std::codecvt_utf8<wchar_t>;

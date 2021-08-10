@@ -5,8 +5,10 @@
 #ifndef FEDORA_TEST_H
 #define FEDORA_TEST_H
 
-#include <Builder/ContextBuilder.h>
+#include "Builder/ContextBuilder.h"
 #include "Stack/StackHolder.h"
+#include "Parser.h"
+#include "Utils/TokensHolder.h"
 
 using namespace fedora;
 
@@ -15,6 +17,7 @@ public:
     static void test() {
         test1();
         test2();
+        test3();
     }
 
 private:
@@ -57,6 +60,20 @@ private:
         StackHolder *s = StackHolder::GetInstance();
         clean();
         Logger::logV("test2 completed");
+    }
+
+    static void test3() {
+        Parser parser = Parser();
+        TokensHolder tokensHolder = TokensHolder();
+        parser.readFile("./../programs/tokensTest.fe", tokensHolder);
+
+        Logger::logV(L"amount of tokens = " + std::to_wstring(tokensHolder.size()));
+        for (Token t : tokensHolder.getData())
+        {
+            Logger::logV(t.getData());
+        }
+        
+        Logger::logV("test3 completed");
     }
 
     static void clean() {

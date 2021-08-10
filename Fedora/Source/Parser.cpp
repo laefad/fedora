@@ -4,25 +4,25 @@
 #include "Token.h"
 #include "Parser.h"
 #include "StaticUtils.h"
+#include "Utils/Logger.h"
 
 namespace fedora {
 
-    // TODO а нам нужна инициализация и открытие потока прям сразу ? может разумнее сделать это в readFile ? 
-    // TODO подумать над структурой риспользуемого парсера
-    Parser::Parser(std::string const& fileName, TokensHolder & tokensHolder):
-        fin(std::ifstream(fileName, std::ios_base::in)),
-        tokensHolder(tokensHolder) 
-    {
+    Parser::Parser()
+    {}
 
-        // fin = std::ifstream(fileName, std::ios_base::in);
+    // TODO создавать токенхолдер тут илил принимать по ссылке?
+    void Parser::readFile(std::string const& fileName, TokensHolder & tokensHolder) {
 
-        if (!fin.is_open()) // если файл не открыт
-            // TODO заменить на логгер, а так же необходимо залочить выполнение своих методов
-            std::cout << "File " << fileName << " can not be opened!"; // сообщить об этом
-    }
+        wif = std::wifstream(fileName, std::ios_base::in);
 
-    void Parser::readFile() {
-        while (!fin.eof()) {
+        if (!wif.is_open()) {
+            fedora::Logger::logE("File " + fileName + " can not be opened!");
+            //TODO error ??
+            return;
+        }
+
+        while (!wif.eof()) {
             Token tmp = readToken();
             tokensHolder.add(tmp);
         }
@@ -34,53 +34,52 @@ namespace fedora {
         wchar_t tmp;
 
         do {
-            tmp = fin.get();
+            tmp = wif.get();
             res += tmp;
             if (StaticUtils::isNewLine(tmp))
                 ++line;
-        } while (!StaticUtils::isQuote(tmp) && !fin.eof());
+        } while (!StaticUtils::isQuote(tmp) && !wif.eof());
 
-        if (!StaticUtils::isQuote(tmp) && fin.eof())
+        if (!StaticUtils::isQuote(tmp) && wif.eof())
+            ;
             // TODO add error 
             //throw error
 
         return Token(L'\"' + res, initLine);
     }
 
-    //TODO не возвращать токен комментов, а возвращаться в основной while для дальнейшего чтения
-    Token Parser::readComment() {
-        std::wstring res;
-        uint32_t initLine = line;
+    void Parser::readComment() {
         wchar_t tmp;
 
         do {
-            tmp = fin.get();
-            res += tmp;
+            tmp = wif.get();
             if (StaticUtils::isNewLine(tmp))
                 ++line;
-        } while (!StaticUtils::isComment(tmp) && !fin.eof());
+        } while (!StaticUtils::isComment(tmp) && !wif.eof());
 
-        if (!StaticUtils::isComment(tmp) && fin.eof())
+        if (!StaticUtils::isComment(tmp) && wif.eof())
+            ;
             // TODO add error 
             //throw error
-
-        return Token(L'#' + res, initLine);
     }
 
     Token Parser::readToken() {
         std::wstring res; // token data
         wchar_t tmp; // current symbol
 
-        while(!fin.eof()) {
-            tmp = fin.get();
+        while(!wif.eof()) {
+            tmp = wif.get();
+            fedora::Logger::logE(L"" + tmp);
 
             if (!StaticUtils::isIgnored(tmp)) 
                 res += tmp;
             else if (StaticUtils::isNewLine(tmp))
                 ++line;
 
-            if (StaticUtils::isComment(tmp))
-                return readComment();
+            if (StaticUtils::isComment(tmp)) {
+                readComment();
+                continue;
+            }
             
             if (StaticUtils::isQuote(tmp))
                 return readString();
@@ -88,7 +87,7 @@ namespace fedora {
             if (StaticUtils::isDelimiter(tmp))
                 return Token(res, line);
 
-            tmp = fin.peek();
+            tmp = wif.peek();
 
             // TODO eof check тут нужен или нет?
             if ( (StaticUtils::isDelimiter(tmp) ||

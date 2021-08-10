@@ -1,36 +1,34 @@
-//
-// Created on 28.07.2021.
-//
 
 #include "Utils/TokensHolder.h"
 
 namespace fedora {
-    /// Initialization
-    TokensHolder *TokensHolder::singleton_ = nullptr;
 
-    TokensHolder *TokensHolder::GetInstance() {
-        if (singleton_ == nullptr) {
-            singleton_ = new TokensHolder();
-            singleton_->addToCleaner();
-        }
-        return singleton_;
-    }
+    TokensHolder::TokensHolder() 
+    {}
 
+    //TODO а корректно использовать ссылку константную ??? 
     void TokensHolder::add(const Token &a) {
-        // TODO Мб стоит очищать массив и убирать лишние токены?
         tokens.push_back(a);
     }
 
-    std::vector<Token> TokensHolder::getLast() {
-        if (tokens.size() <= lastNum)
-            return tokens;
-        else {
-            std::vector<Token> res = std::vector<Token>();
-            for (size_t i = tokens.size() - lastNum; i < tokens.size(); ++i)
-                res.push_back(tokens[i]);
-            return res;
-        }
-
+    std::vector<Token> & TokensHolder::getData() {
+        return tokens;
     }
+
+    size_t TokensHolder::size() {
+        return tokens.size();
+    }
+
+    // std::vector<Token> TokensHolder::getLast() {
+    //     // if (tokens.size() <= lastNum)
+    //     //     return tokens;
+    //     // else {
+    //     //     std::vector<Token> res = std::vector<Token>();
+    //     //     for (size_t i = tokens.size() - lastNum; i < tokens.size(); ++i)
+    //     //         res.push_back(tokens[i]);
+    //     //     return res;
+    //     // }
+
+    // }
 }
 
