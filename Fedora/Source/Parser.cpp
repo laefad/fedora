@@ -69,17 +69,13 @@ namespace fedora {
 
         while(!wif.eof()) {
             tmp = wif.get();
-            fedora::Logger::logE(L"" + tmp);
 
-            if (!StaticUtils::isIgnored(tmp)) 
+            if (!StaticUtils::isIgnored(tmp) && !StaticUtils::isComment(tmp)) 
                 res += tmp;
             else if (StaticUtils::isNewLine(tmp))
                 ++line;
-
-            if (StaticUtils::isComment(tmp)) {
+            else if (StaticUtils::isComment(tmp))
                 readComment();
-                continue;
-            }
             
             if (StaticUtils::isQuote(tmp))
                 return readString();
@@ -92,7 +88,7 @@ namespace fedora {
             // TODO eof check тут нужен или нет?
             if ( (StaticUtils::isDelimiter(tmp) ||
                   StaticUtils::isQuote(tmp) ||
-                  StaticUtils::isComment(tmp)) &&
+                  StaticUtils::isIgnored(tmp)) &&
                   !res.empty() )
                 return Token(res, line);
         }
