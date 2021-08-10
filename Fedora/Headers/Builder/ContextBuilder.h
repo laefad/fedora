@@ -88,6 +88,13 @@ namespace fedora {
             forceCallDeclarator = builder::ForceCallDeclarator(nullptr);
         }
 
+        /**
+         * Add keyword to function
+         *
+         * @example
+         * pure let a = 1 <- "pure" will be added via this method
+         *
+         */
         void addFunctionDeclarationToken(KeyWord &);
 
         void notifyWeGotLetToken();
