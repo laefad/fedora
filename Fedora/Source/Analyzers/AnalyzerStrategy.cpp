@@ -3,7 +3,7 @@
 
 bool fedora::AnalyzerStrategy::analyzeNext(fedora::Token &t) {
     try {
-        analyticObj = analyticObj->analyzeToken(t);
+        analyticObj = analyticObj->analyzeToken(t, contextBuilder);
         return true;
     }catch(FException& e){
         // TODO Сделать вывод красного цвета (в консоли)

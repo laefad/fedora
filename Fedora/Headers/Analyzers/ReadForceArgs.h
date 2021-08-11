@@ -29,9 +29,9 @@ namespace fedora {
         class ReadForceArgs : public AnalyticBasic {
         public:
             // TODO Если токены не используются, можно в базовый конструктор посылать пустой массив, а в конструкторе класса убрать аргумент
-            explicit ReadForceArgs(std::vector<Token> t) : AnalyticBasic(std::move(t)) {}
+            //explicit ReadForceArgs(std::vector<Token> t) : AnalyticBasic(std::move(t)) {}
 
-            std::shared_ptr<AnalyticBasic> analyzeToken(Token &) override;
+            std::shared_ptr<AnalyticBasic> analyzeToken(Token &, ContextBuilder &) override;
 
             std::string getFileName() override;
         };

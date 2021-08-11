@@ -34,9 +34,9 @@ namespace fedora {
          */
         class ReadFunArgs : public AnalyticBasic {
         public:
-            explicit ReadFunArgs(std::vector<Token> t) : AnalyticBasic(std::move(t)) {}
+            //explicit ReadFunArgs(std::vector<Token> t) : AnalyticBasic(std::move(t)) {}
 
-            std::shared_ptr<AnalyticBasic> analyzeToken(Token &) override;
+            std::shared_ptr<AnalyticBasic> analyzeToken(Token &, ContextBuilder &) override;
 
             std::string getFileName() override;
         };

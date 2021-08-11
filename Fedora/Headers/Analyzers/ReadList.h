@@ -26,18 +26,19 @@ namespace fedora {
         private:
             readList::readMode mode;
         public:
-            explicit ReadList(std::vector<Token> t, readList::readMode m) : AnalyticBasic(std::move(t)), mode(m) {}
-            explicit ReadList(std::vector<Token> t) : AnalyticBasic(std::move(t)) {std::wcout<<L"Нерабочий конструктор, убрать его, когда завезут моды для всех классов";}
+            ReadList() : mode(readList::READ_FUNCTION_ARG) {}
+//            explicit ReadList(std::vector<Token> t, readList::readMode m) : AnalyticBasic(std::move(t)), mode(m) {}
+//            explicit ReadList(std::vector<Token> t) : AnalyticBasic(std::move(t)) {std::wcout<<L"Нерабочий конструктор, убрать его, когда завезут моды для всех классов";}
 
             /// Определение родительского метода анализа токена
             /// @brief По факту является фабричным методом
-            std::shared_ptr<AnalyticBasic> analyzeToken(Token &) override;
+            std::shared_ptr<AnalyticBasic> analyzeToken(Token &, ContextBuilder &) override;
 
             /// Определение метода получения файла
             std::string getFileName() override;
 
             /// Вернуть указатель на экземпляр класса для следующего этапа
-            std::shared_ptr<AnalyticBasic> chooseReturn(Token&);
+            std::shared_ptr<AnalyticBasic> chooseReturn(Token &);
 
         };
     }

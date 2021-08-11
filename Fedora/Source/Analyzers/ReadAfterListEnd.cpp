@@ -13,7 +13,7 @@
 namespace fedora{
     namespace analytic{
 
-        std::shared_ptr<AnalyticBasic> ReadAfterListEnd::analyzeToken(Token &t) {
+        std::shared_ptr<AnalyticBasic> ReadAfterListEnd::analyzeToken(Token &t, ContextBuilder &b) {
             // Ожидаются:
             // 1. "]" Закрытие списка
             // 2. ")" Завершение функции
@@ -31,7 +31,7 @@ namespace fedora{
 
             // ")"
             if (AnalyticUtils::isTokenARightCircleBracket(t.getData())) {
-                return std::make_shared<ReadKeyWord>(std::vector<Token>());
+                return std::make_shared<ReadKeyWord>();
             }
 
             // Number
@@ -54,19 +54,19 @@ namespace fedora{
 
             // "["
             if (AnalyticUtils::isTokenALeftSquareBracket(t.getData())) {
-                return std::make_shared<ReadList>(std::vector<Token>());
+                return std::make_shared<ReadList>();
             }
 
             if (t == returns){
-                return std::make_shared<ReadResult>(std::vector<Token>());
+                return std::make_shared<ReadResult>();
             }
 
             if (AnalyticUtils::isTokenAPreFunKeyWord(t.getData())) {
-                return std::make_shared<ReadKeyWord>(std::vector<Token>());
+                return std::make_shared<ReadKeyWord>();
             }
 
             if (t == let){
-                return std::make_shared<ReadName>(std::vector<Token>());
+                return std::make_shared<ReadName>();
             }
 
             throwException(L"Got something unexpected. Token = " + t.getData(), "ReadAfterListEnd");

@@ -109,5 +109,9 @@ namespace fedora {
 
         void setForceName(std::wstring &);
         // TODO Добавить режим заполнения: функция, фанколл и проверять, своевременно ли вызван метод
+
+        bool isCurrentFunctionForced() {
+            return true;
+        }
     };
 }

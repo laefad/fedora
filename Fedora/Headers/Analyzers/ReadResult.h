@@ -13,10 +13,10 @@ namespace fedora {
          */
         class ReadResult : public AnalyticBasic {
         public:
-            explicit ReadResult(std::vector<Token> t) : AnalyticBasic(std::move(t)) {}
+            //explicit ReadResult(std::vector<Token> t) : AnalyticBasic(std::move(t)) {}
 
             /// Определение родительского метода анализа токена
-            std::shared_ptr<AnalyticBasic> analyzeToken(Token &) override;
+            std::shared_ptr<AnalyticBasic> analyzeToken(Token &, ContextBuilder &) override;
 
             std::string getFileName() override;
 

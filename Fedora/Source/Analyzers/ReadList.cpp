@@ -14,11 +14,11 @@
 namespace fedora {
     namespace analytic {
 
-        std::shared_ptr<AnalyticBasic> ReadList::analyzeToken(Token &t) {
+        std::shared_ptr<AnalyticBasic> ReadList::analyzeToken(Token &t, ContextBuilder &b) {
             log("Class: " + getFileName(), fedora::settings::LOG_VERBOSE);
             log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
 
-            addToken(t); // Запомнить прочитаный токен
+            //addToken(t); // Запомнить прочитаный токен
 
             // Мы можем получить:
             // 1. Число
@@ -32,7 +32,7 @@ namespace fedora {
 
             // Если функция, то перейдём на этап чтения аргументов
             if (AnalyticUtils::isValidName(t.getData()) && !AnalyticUtils::isTokenARightSquareBracket(t.getData())) {
-                return std::make_shared<ReadForceArgs>(std::vector<Token>());
+                return std::make_shared<ReadForceArgs>();
             }
 
             // if number
@@ -52,7 +52,7 @@ namespace fedora {
 
             // "]" if list end
             if (AnalyticUtils::isTokenARightSquareBracket(t.getData())) {
-                return std::make_shared<ReadAfterListEnd>(std::vector<Token>());
+                return std::make_shared<ReadAfterListEnd>();
             } else {
                 throwException(L"Expected a list member, but got token = " + t.getData(), "analyzeToken(Token&)");
                 // TODO Вызывать сервис очистки синглтонов перед экстренным завершением программы
@@ -71,11 +71,11 @@ namespace fedora {
                 switch (mode) {
                     // Если мы читаем список внутри аргументов функции
                     case readList::READ_FUNCTION_ARG:
-                        return std::make_shared<ReadFunArgs>(std::vector<Token>());
+                        return std::make_shared<ReadFunArgs>();
 
                         // Если мы читаем список как возвращаемое значение
                     case readList::READ_FUNCTION_RETURN:
-                        return std::make_shared<ReadKeyWord>(std::vector<Token>());
+                        return std::make_shared<ReadKeyWord>();
                 }
             } else {
                 // Если список не закончился

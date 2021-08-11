@@ -13,7 +13,7 @@
 namespace fedora {
     namespace analytic {
         // TODO !!!!!!!!! Мне не нравится, что мы приходим в этот класс и во время начала чтения аргументов, и в середине. Это нормально из-за того, что функции с аргументами могут выступать как аргументы для других функций с аргументами. Возможно, следует внедрить дополнительные переменные состояния, чтобы адекватно оценивать контекст
-        std::shared_ptr<AnalyticBasic> ReadForceArgs::analyzeToken(Token &t) {
+        std::shared_ptr<AnalyticBasic> ReadForceArgs::analyzeToken(Token &t, ContextBuilder &b) {
             log("Class: " + getFileName(), fedora::settings::LOG_VERBOSE);
             log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
 
@@ -48,13 +48,13 @@ namespace fedora {
 
             // "[" A List
             if (AnalyticUtils::isTokenALeftSquareBracket(t.getData())) {
-                return std::make_shared<ReadList>(std::vector<Token>());
+                return std::make_shared<ReadList>();
             }
 
             // Если функция
             if (AnalyticUtils::isValidName(t.getData())) {
                 // Начинаем новое чтение аргументов
-                return std::make_shared<ReadForceArgs>(std::vector<Token>());
+                return std::make_shared<ReadForceArgs>();
             }
 
             // let
@@ -62,7 +62,7 @@ namespace fedora {
                 // Произошло обьявление новой функции? Нужно прочитать название
                 // TODO Понять, когда объявление функции валидно.
                 // Оно валидно внутри контекста where ^ = или после завершения returnable (т.е. текущий токен должен корретно завершать рретурнабл, иначе оформлять вкид)
-                return std::make_shared<ReadName>(std::vector<Token>());
+                return std::make_shared<ReadName>();
             }
 
             // "]"
@@ -82,7 +82,7 @@ namespace fedora {
             if (AnalyticUtils::isTokenAPreFunKeyWord(t.getData())) {
                 // TODO Понять, когда объявление функции валидно.
                 // Оно валидно внутри контекста where ^ = или после завершения returnable (т.е. текущий токен должен корретно завершать рретурнабл, иначе оформлять вкид)
-                return std::make_shared<ReadKeyWord>(std::vector<Token>());
+                return std::make_shared<ReadKeyWord>();
             }
 
             if (AnalyticUtils::isValueAKeyWord(t.getData())) {

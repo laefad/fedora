@@ -7,6 +7,7 @@
 #include "Token.h"
 #include "AnalyticBasic.h"
 #include "ReadKeyWord.h"
+#include "Builder/ContextBuilder.h"
 
 namespace fedora {
     /**
@@ -16,12 +17,15 @@ namespace fedora {
      *
      * Предусмотрен ряд состояний, в которых мы можем находиться при чтении файлов
      * @see https://drive.google.com/file/d/1cfkN4fvaYokVqT0LpK5N6XwFGFjbHzKF/view?usp=sharing
+     *
     */
     class AnalyzerStrategy {
     private:
-        std::shared_ptr<analytic::AnalyticBasic> analyticObj = std::make_shared<analytic::ReadKeyWord>(
-                std::vector<Token>());
+        std::shared_ptr<analytic::AnalyticBasic> analyticObj = std::make_shared<analytic::ReadKeyWord>();
+        ContextBuilder &contextBuilder;
     public:
+        explicit AnalyzerStrategy(ContextBuilder &contextBuilder1) : contextBuilder(contextBuilder1) {}
+
         bool analyzeNext(Token &);
     };
 

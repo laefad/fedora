@@ -14,10 +14,10 @@ namespace fedora {
          */
         class ReadKeyWord : public AnalyticBasic {
         public:
-            explicit ReadKeyWord(std::vector<Token> t) : AnalyticBasic(std::move(t)) {}
+            ReadKeyWord() = default;
 
             /// Определение родительского метода анализа токена
-            std::shared_ptr<AnalyticBasic> analyzeToken(Token &) override;
+            std::shared_ptr<AnalyticBasic> analyzeToken(Token &, ContextBuilder &) override;
 
             std::string getFileName() override;
         };

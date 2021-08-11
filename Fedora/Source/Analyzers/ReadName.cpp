@@ -12,7 +12,7 @@
 
 namespace fedora {
     namespace analytic {
-        std::shared_ptr<AnalyticBasic> ReadName::analyzeToken(fedora::Token &t) {
+        std::shared_ptr<AnalyticBasic> ReadName::analyzeToken(fedora::Token &t, ContextBuilder &b) {
             log("Class: " + getFileName(), fedora::settings::LOG_VERBOSE);
             log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
 
@@ -21,24 +21,24 @@ namespace fedora {
                                "analyzeToken(Token&) <- AnalyticUtils::isValidName(std::wstring&)");
 
             // Если [force] есть среди ключевых слов, считать аргументы для вызова функции
-            if (areTokensIncludeForce()) {
-                return std::make_shared<ReadForceArgs>(std::vector<Token>());
+            if (b.isCurrentFunctionForced()) {
+                return std::make_shared<ReadForceArgs>();
             }
                 // Иначе считать имена аргументов для объявления функции
             else {
-                return std::make_shared<ReadFunArgs>(std::vector<Token>());
+                return std::make_shared<ReadFunArgs>();
             }
         }
 
 
-        bool ReadName::areTokensIncludeForce() {
-            bool hasForce = false;
-            for (auto &token:getTokens()) {
-                if (token == force)
-                    hasForce = true;
-            }
-            return hasForce;
-        }
+//        bool ReadName::areTokensIncludeForce() {
+//            bool hasForce = false;
+//            for (auto &token:getTokens()) {
+//                if (token == force)
+//                    hasForce = true;
+//            }
+//            return hasForce;
+//        }
 
         std::string ReadName::getFileName() {
             return "ReadName.h";

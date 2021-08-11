@@ -12,11 +12,11 @@
 namespace fedora {
     namespace analytic {
 
-        std::shared_ptr<AnalyticBasic> ReadFunArgs::analyzeToken(fedora::Token &token) {
+        std::shared_ptr<AnalyticBasic> ReadFunArgs::analyzeToken(fedora::Token &token, ContextBuilder &b) {
             log("Class: " + getFileName(), fedora::settings::LOG_VERBOSE);
             log(L"Token: " + token.getData(), fedora::settings::LOG_VERBOSE);
 
-            addToken(token);  // Запомнить считаный токен
+            //addToken(token);  // Запомнить считаный токен
 
             // 3 пути:
             // 1. Мы прочитали [where] и начинается контекст функции
@@ -25,12 +25,12 @@ namespace fedora {
 
             // Если получили знак равно
             if (token == returns) {
-                return std::make_shared<ReadResult>(std::vector<Token>());
+                return std::make_shared<ReadResult>();
             }
 
             // Читаем внутренний контекст функции, если встретили where
             if (token == where) {
-                return std::make_shared<ReadKeyWord>(std::vector<Token>());
+                return std::make_shared<ReadKeyWord>();
             } else {
                 // Читаем список аргументов
                 if (AnalyticUtils::isValidName(token.getData())) {

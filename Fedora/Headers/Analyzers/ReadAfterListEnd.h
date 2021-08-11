@@ -42,10 +42,10 @@ namespace fedora {
          */
         class ReadAfterListEnd : public AnalyticBasic {
         public:
-            explicit ReadAfterListEnd(std::vector <Token> t) : AnalyticBasic(std::move(t)) {}
+            //explicit ReadAfterListEnd(std::vector <Token> t) : AnalyticBasic(std::move(t)) {}
 
             /// override parent method
-            std::shared_ptr <AnalyticBasic> analyzeToken(Token &) override;
+            std::shared_ptr<AnalyticBasic> analyzeToken(Token &, ContextBuilder &) override;
 
             /// override parent method
             std::string getFileName() override;
