@@ -10,15 +10,16 @@ namespace fedora {
     /// В классе можно сохранять контекст распрашеного токена для анализа
     class Token {
     private:
-        std::wstring data;
+        std::wstring const data;
     public:
 
         explicit Token(std::wstring data);
 
         // TODO Корректно ли возвращать референс, а не саму строку, чтобы получить буст производительности?
         // Но сделай тогда его неизменяемым(если я правильно const понимаю): std::wstring const & 
-        // Иначе сейчас можно менять содержимое по ссылке 
-        std::wstring & getData();
+        // Иначе сейчас можно менять содержимое по ссылке
+        // UPD. Сделал конст
+        std::wstring const &getData();
 
         bool isEmpty() const;
 

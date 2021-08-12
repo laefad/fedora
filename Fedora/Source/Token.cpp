@@ -6,7 +6,7 @@ namespace fedora {
         : data(std::move(data)) 
     {}
 
-    std::wstring & Token::getData() {
+    std::wstring const &Token::getData() {
         return data;
     }
 
