@@ -74,5 +74,5 @@ add_executable(fedora
         Fedora/Headers/Stack/StackHolder.h
         Fedora/Source/Stack/StackHolder.cpp
         Fedora/Headers/Builder/BuildableFunction.h
-        Fedora/Headers/Builder/BuildableForceCall.h)
+        Fedora/Headers/Builder/BuildableForceCall.h Fedora/Headers/Analyzers/ReadForceName.h Fedora/Source/Analyzers/ReadForceName.cpp)
 
