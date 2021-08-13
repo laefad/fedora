@@ -1,12 +1,8 @@
-//
-// Created on 23.07.2021.
-//
 #pragma once
 
 #include <memory>
-#include <utility>
 #include <vector>
-#include <iostream>
+
 #include "Token.h"
 #include "Utils/SettingsSingleton.h"
 
@@ -28,16 +24,16 @@ namespace fedora {
             /// @overload log for wstring
             static void log(const std::wstring& msg, fedora::settings::LogLevel level);
         public:
-            explicit AnalyticBasic(std::vector<Token> tokens) : tokens(std::move(tokens)) {};
+            explicit AnalyticBasic(std::vector<Token> tokens);
 
             /// Проанализировать прочитаный токен
-            virtual std::shared_ptr<AnalyticBasic> analyzeToken(Token &) = 0;
+            virtual std::shared_ptr<AnalyticBasic> analyzeToken(Token const&) = 0;
 
             /// Получить текущие токены
             std::vector<Token> &getTokens();
 
             /// Добавить токен в список прочитаных
-            void addToken(const Token &token);
+            void addToken(Token const& token);
 
              /// Получить имя файла с кодом. Используется для вывода сообщения об ошибке
              virtual std::string getFileName()=0;

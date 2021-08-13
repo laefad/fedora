@@ -1,11 +1,7 @@
-//
-// Created on 26.07.2021.
-//
 
 #pragma once
 
 #include "AnalyticBasic.h"
-
 
 namespace fedora {
     namespace analytic {
@@ -26,18 +22,19 @@ namespace fedora {
         private:
             readList::readMode mode;
         public:
-            explicit ReadList(std::vector<Token> t, readList::readMode m) : AnalyticBasic(std::move(t)), mode(m) {}
-            explicit ReadList(std::vector<Token> t) : AnalyticBasic(std::move(t)) {std::wcout<<L"Нерабочий конструктор, убрать его, когда завезут моды для всех классов";}
+            explicit ReadList(std::vector<Token>, readList::readMode);
+            explicit ReadList(std::vector<Token>);
+
 
             /// Определение родительского метода анализа токена
             /// @brief По факту является фабричным методом
-            std::shared_ptr<AnalyticBasic> analyzeToken(Token &) override;
+            std::shared_ptr<AnalyticBasic> analyzeToken(Token const&) override;
 
             /// Определение метода получения файла
             std::string getFileName() override;
 
             /// Вернуть указатель на экземпляр класса для следующего этапа
-            std::shared_ptr<AnalyticBasic> chooseReturn(Token&);
+            std::shared_ptr<AnalyticBasic> chooseReturn(Token const&);
 
         };
     }

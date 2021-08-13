@@ -1,19 +1,21 @@
-//
-// Created on 31.07.2021.
-//
 
-#include <Analyzers/ReadKeyWord.h>
-#include <Analyzers/ReadList.h>
-#include <KeyWords.h>
-#include <Analyzers/ReadResult.h>
-#include <Analyzers/ReadName.h>
+#include "KeyWords.h"
+
+#include "Analyzers/ReadKeyWord.h"
+#include "Analyzers/ReadList.h"
+#include "Analyzers/ReadResult.h"
+#include "Analyzers/ReadName.h"
 #include "Analyzers/ReadAfterListEnd.h"
 #include "Analyzers/AnalyticUtils.h"
 
 namespace fedora{
     namespace analytic{
 
-        std::shared_ptr<AnalyticBasic> ReadAfterListEnd::analyzeToken(Token &t) {
+        ReadAfterListEnd::ReadAfterListEnd(std::vector<Token> vec):
+            AnalyticBasic(std::move(vec))
+        {}
+
+        std::shared_ptr<AnalyticBasic> ReadAfterListEnd::analyzeToken(Token const& t) {
             // Ожидаются:
             // 1. "]" Закрытие списка
             // 2. ")" Завершение функции
@@ -25,12 +27,12 @@ namespace fedora{
             // 8. Let Новая функция объявлена
 
             // "]"
-            if (AnalyticUtils::isTokenARightSquareBracket(t.getData())) {
+            if (AnalyticUtils::isTokenARightSquareBracket(t)) {
                 return shared_from_this();
             }
 
             // ")"
-            if (AnalyticUtils::isTokenARightCircleBracket(t.getData())) {
+            if (AnalyticUtils::isTokenARightCircleBracket(t)) {
                 return std::make_shared<ReadKeyWord>(std::vector<Token>());
             }
 
@@ -42,26 +44,26 @@ namespace fedora{
              * @example case 2: List and num in force args
              * force main ( [1 2] 3 )
              */
-            if (AnalyticUtils::isValueANumber(t.getData())) {
+            if (AnalyticUtils::isTokenANumber(t)) {
                 // TODO Возвращать в чтегие списка или в force args по необходимости
                 return shared_from_this();
             }
 
             // TODO Examples аналогичны Number
-            if (AnalyticUtils::isValueAString(t.getData())) {
+            if (AnalyticUtils::isTokenAString(t)) {
                 return shared_from_this();
             }
 
             // "["
-            if (AnalyticUtils::isTokenALeftSquareBracket(t.getData())) {
+            if (AnalyticUtils::isTokenALeftSquareBracket(t)) {
                 return std::make_shared<ReadList>(std::vector<Token>());
             }
 
-            if (t == returns){
+            if (t == returns) {
                 return std::make_shared<ReadResult>(std::vector<Token>());
             }
 
-            if (AnalyticUtils::isTokenAPreFunKeyWord(t.getData())) {
+            if (AnalyticUtils::isTokenAPreFunKeyWord(t)) {
                 return std::make_shared<ReadKeyWord>(std::vector<Token>());
             }
 

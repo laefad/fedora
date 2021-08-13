@@ -1,20 +1,26 @@
-//
-// Created on 27.07.2021.
-//
 
-#include <memory>
-
-#include <Analyzers/ReadList.h>
+#include "Analyzers/ReadList.h"
 #include "Analyzers/AnalyticUtils.h"
-#include <Analyzers/ReadFunArgs.h>
-#include <Analyzers/ReadKeyWord.h>
-#include <Analyzers/ReadForceArgs.h>
-#include <Analyzers/ReadAfterListEnd.h>
+#include "Analyzers/ReadFunArgs.h"
+#include "Analyzers/ReadKeyWord.h"
+#include "Analyzers/ReadForceArgs.h"
+#include "Analyzers/ReadAfterListEnd.h"
 
 namespace fedora {
     namespace analytic {
 
-        std::shared_ptr<AnalyticBasic> ReadList::analyzeToken(Token &t) {
+        ReadList::ReadList(std::vector<Token> vec, readList::readMode m):
+            AnalyticBasic(std::move(vec)), mode(m)
+        {}
+
+        ReadList::ReadList(std::vector<Token> vec):
+            AnalyticBasic(std::move(vec))
+        {
+            log(L"Нерабочий конструктор, убрать его, когда завезут моды для всех классов", 
+                fedora::settings::LOG_ERROR);
+        }
+
+        std::shared_ptr<AnalyticBasic> ReadList::analyzeToken(Token const& t) {
             log("Class: " + getFileName(), fedora::settings::LOG_VERBOSE);
             log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
 
@@ -27,31 +33,31 @@ namespace fedora {
             // 4. Функцию (с аргументами или без)
             // 5. ] Закрытие списка
 
-            if (AnalyticUtils::isValueAKeyWord(t.getData()))
+            if (AnalyticUtils::isTokenAKeyWord(t))
                 throwException(L"Expected a list value, but got a keyword.", "analyzeToken(Token&)");
 
             // Если функция, то перейдём на этап чтения аргументов
-            if (AnalyticUtils::isValidName(t.getData()) && !AnalyticUtils::isTokenARightSquareBracket(t.getData())) {
+            if (AnalyticUtils::isTokenAName(t) && !AnalyticUtils::isTokenARightSquareBracket(t)) {
                 return std::make_shared<ReadForceArgs>(std::vector<Token>());
             }
 
             // if number
-            if (AnalyticUtils::isValueANumber(t.getData())) {
+            if (AnalyticUtils::isTokenANumber(t)) {
                 return shared_from_this();
             }
 
             // if string
-            if (AnalyticUtils::isValueAString(t.getData())) {
+            if (AnalyticUtils::isTokenAString(t)) {
                 return shared_from_this();
             }
 
             // "[" if list start
-            if (AnalyticUtils::isTokenALeftSquareBracket(t.getData())) {
+            if (AnalyticUtils::isTokenALeftSquareBracket(t)) {
                 return shared_from_this();
             }
 
             // "]" if list end
-            if (AnalyticUtils::isTokenARightSquareBracket(t.getData())) {
+            if (AnalyticUtils::isTokenARightSquareBracket(t)) {
                 return std::make_shared<ReadAfterListEnd>(std::vector<Token>());
             } else {
                 throwException(L"Expected a list member, but got token = " + t.getData(), "analyzeToken(Token&)");
@@ -65,9 +71,9 @@ namespace fedora {
             return "ReadList.h";
         }
 
-        std::shared_ptr<AnalyticBasic> ReadList::chooseReturn(Token &t) {
+        std::shared_ptr<AnalyticBasic> ReadList::chooseReturn(Token const& t) {
             // Если закончился ввод списка
-            if (AnalyticUtils::isTokenARightSquareBracket(t.getData())) {
+            if (AnalyticUtils::isTokenARightSquareBracket(t)) {
                 switch (mode) {
                     // Если мы читаем список внутри аргументов функции
                     case readList::READ_FUNCTION_ARG:
@@ -82,7 +88,7 @@ namespace fedora {
                 return shared_from_this();
             }
         }
+
+        //TODO no return compiler warning
     }
 }
-
-

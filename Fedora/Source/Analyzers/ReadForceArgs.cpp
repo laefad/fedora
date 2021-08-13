@@ -1,19 +1,26 @@
-//
-// Created on 23.07.2021.
-//
 
-#include <memory>
-#include <Analyzers/ReadKeyWord.h>
-#include <Analyzers/ReadList.h>
-#include <KeyWords.h>
-#include <Analyzers/ReadName.h>
+#include "KeyWords.h"
+
+#include "Analyzers/ReadKeyWord.h"
+#include "Analyzers/ReadList.h"
+#include "Analyzers/ReadName.h"
 #include "Analyzers/ReadForceArgs.h"
 #include "Analyzers/AnalyticUtils.h"
 
 namespace fedora {
     namespace analytic {
-        // TODO !!!!!!!!! Мне не нравится, что мы приходим в этот класс и во время начала чтения аргументов, и в середине. Это нормально из-за того, что функции с аргументами могут выступать как аргументы для других функций с аргументами. Возможно, следует внедрить дополнительные переменные состояния, чтобы адекватно оценивать контекст
-        std::shared_ptr<AnalyticBasic> ReadForceArgs::analyzeToken(Token &t) {
+
+        ReadForceArgs::ReadForceArgs(std::vector<Token> vec):
+            AnalyticBasic(std::move(vec))
+        {}
+
+        // TODO !!!!!!!!! Мне не нравится, что мы приходим в этот класс и 
+        // во время начала чтения аргументов, и в середине.
+        // Это нормально из-за того, что функции с аргументами могут выступать 
+        // как аргументы для других функций с аргументами. 
+        // Возможно, следует внедрить дополнительные переменные состояния, 
+        // чтобы адекватно оценивать контекст
+        std::shared_ptr<AnalyticBasic> ReadForceArgs::analyzeToken(Token const& t) {
             log("Class: " + getFileName(), fedora::settings::LOG_VERBOSE);
             log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
 
@@ -32,27 +39,27 @@ namespace fedora {
             // let my_list = [ 1 2 "3" my_str ]
 
             // "(" Открвающая скобка. Начало чтения аргументов
-            if (AnalyticUtils::isTokenALeftCircleBracket(t.getData())) {
+            if (AnalyticUtils::isTokenALeftCircleBracket(t)) {
                 return shared_from_this();
             }
 
             // Число
-            if (AnalyticUtils::isValueANumber(t.getData())) {
+            if (AnalyticUtils::isTokenANumber(t)) {
                 return shared_from_this();
             }
 
             // Строка
-            if (AnalyticUtils::isValueANumber(t.getData())) {
+            if (AnalyticUtils::isTokenAString(t)) {
                 return shared_from_this();
             }
 
             // "[" A List
-            if (AnalyticUtils::isTokenALeftSquareBracket(t.getData())) {
+            if (AnalyticUtils::isTokenALeftSquareBracket(t)) {
                 return std::make_shared<ReadList>(std::vector<Token>());
             }
 
             // Если функция
-            if (AnalyticUtils::isValidName(t.getData())) {
+            if (AnalyticUtils::isTokenAName(t)) {
                 // Начинаем новое чтение аргументов
                 return std::make_shared<ReadForceArgs>(std::vector<Token>());
             }
@@ -66,26 +73,26 @@ namespace fedora {
             }
 
             // "]"
-            if (AnalyticUtils::isTokenARightSquareBracket(t.getData())) {
+            if (AnalyticUtils::isTokenARightSquareBracket(t)) {
                 // TODO Либо мы читаем следующий аргумент функции (если список играет роль одного из аргументов), либо переходим к чтению следующей функции
                 return shared_from_this();
             }
 
             // ")"
-            if (AnalyticUtils::isTokenARightCircleBracket(t.getData())) {
+            if (AnalyticUtils::isTokenARightCircleBracket(t)) {
                 // Заканчиваем чтение аргументов
                 // TODO Внедрить mode и начать здесь исполнение функции иначе переходим к чтению дальнейшего контекста
                 return shared_from_this();
             }
 
             // Pure force Если идут ключевые слова для следующей функции, т.е. начинается её объявление
-            if (AnalyticUtils::isTokenAPreFunKeyWord(t.getData())) {
+            if (AnalyticUtils::isTokenAPreFunKeyWord(t)) {
                 // TODO Понять, когда объявление функции валидно.
                 // Оно валидно внутри контекста where ^ = или после завершения returnable (т.е. текущий токен должен корретно завершать рретурнабл, иначе оформлять вкид)
                 return std::make_shared<ReadKeyWord>(std::vector<Token>());
             }
 
-            if (AnalyticUtils::isValueAKeyWord(t.getData())) {
+            if (AnalyticUtils::isTokenAKeyWord(t)) {
                 throwException(L"Got a keyword when a function argument expected", "analyzeToken(Token &)");
             }
 

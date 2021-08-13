@@ -1,9 +1,5 @@
-//
-// Created on 23.07.2021.
-//
 #pragma once
 
-#include <memory>
 #include "AnalyticBasic.h"
 
 namespace fedora {
@@ -13,10 +9,10 @@ namespace fedora {
          */
         class ReadResult : public AnalyticBasic {
         public:
-            explicit ReadResult(std::vector<Token> t) : AnalyticBasic(std::move(t)) {}
+            explicit ReadResult(std::vector<Token>);
 
             /// Определение родительского метода анализа токена
-            std::shared_ptr<AnalyticBasic> analyzeToken(Token &) override;
+            std::shared_ptr<AnalyticBasic> analyzeToken(Token const&) override;
 
             std::string getFileName() override;
 

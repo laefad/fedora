@@ -1,22 +1,24 @@
-//
-// Created on 23.07.2021.
-//
 
-#include <memory>
-#include <KeyWords.h>
-#include <Analyzers/ReadForceArgs.h>
-#include <Analyzers/ReadFunArgs.h>
+#include "KeyWords.h"
+#include "Exceptions/AnalyzerException.h"
+
+#include "Analyzers/ReadForceArgs.h"
+#include "Analyzers/ReadFunArgs.h"
 #include "Analyzers/ReadName.h"
 #include "Analyzers/AnalyticUtils.h"
-#include "Exceptions/AnalyzerException.h"
 
 namespace fedora {
     namespace analytic {
-        std::shared_ptr<AnalyticBasic> ReadName::analyzeToken(fedora::Token &t) {
+
+        ReadName::ReadName(std::vector<Token> vec): 
+            AnalyticBasic(std::move(vec))
+        {}
+
+        std::shared_ptr<AnalyticBasic> ReadName::analyzeToken(Token const& t) {
             log("Class: " + getFileName(), fedora::settings::LOG_VERBOSE);
             log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
 
-            if (!AnalyticUtils::isValidName(t.getData()))
+            if (!AnalyticUtils::isTokenAName(t))
                 throwException(L"Expected a function name, but founded name is invalid. Token = " + t.getData(),
                                "analyzeToken(Token&) <- AnalyticUtils::isValidName(std::wstring&)");
 

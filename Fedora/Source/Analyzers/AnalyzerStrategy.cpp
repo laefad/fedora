@@ -7,6 +7,7 @@ bool fedora::AnalyzerStrategy::analyzeNext(fedora::Token &t) {
         return true;
     }catch(FException& e){
         // TODO Сделать вывод красного цвета (в консоли)
+        // TODO У НАС ЛОГГЕР ЕСТЬ
         std::cout<<"Error:"<<std::endl<<e.what();
         return false;
     }

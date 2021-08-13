@@ -1,17 +1,20 @@
-//
-// Created on 23.07.2021.
-//
 
-#include <Analyzers/ReadName.h>
-#include <Exceptions/AnalyzerException.h>
-#include <KeyWords.h>
-#include <Analyzers/ReadResult.h>
+#include "Exceptions/AnalyzerException.h"
+#include "KeyWords.h"
+
+#include "Analyzers/ReadName.h"
+#include "Analyzers/ReadResult.h"
 #include "Analyzers/ReadKeyWord.h"
 #include "Analyzers/AnalyticUtils.h"
 
 namespace fedora {
     namespace analytic {
-        std::shared_ptr<AnalyticBasic> ReadKeyWord::analyzeToken(Token &t) {
+
+        ReadKeyWord::ReadKeyWord(std::vector<Token> vec):
+            AnalyticBasic(std::move(vec))
+        {}
+
+        std::shared_ptr<AnalyticBasic> ReadKeyWord::analyzeToken(Token const& t) {
             log("Class: " + getFileName(), fedora::settings::LOG_VERBOSE);
             log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
 
@@ -22,7 +25,7 @@ namespace fedora {
                 return std::make_shared<ReadResult>(std::vector<Token>());
             }
 
-            if (AnalyticUtils::isTokenAPreFunKeyWord(t.getData())) {
+            if (AnalyticUtils::isTokenAPreFunKeyWord(t)) {
                 // 2 пути:
                 // 1. Получено Force и мы должны считать имя функции, аргументы и перейти к выполнению
                 // 2. Получено Pure или другое ключевое слово и мы должны считывать ключевые слова дальше
@@ -54,6 +57,8 @@ namespace fedora {
                     throwException(L"Expected a pre-function key word, but got token = " + t.getData(),
                                    "analyzeToken(Token &)");
             }
+
+            //TODO no return compiler warning
         }
 
         std::string ReadKeyWord::getFileName() {

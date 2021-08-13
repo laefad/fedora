@@ -1,6 +1,3 @@
-//
-// Created on 23.07.2021.
-//
 #pragma once
 
 #include "AnalyticBasic.h"
@@ -29,9 +26,9 @@ namespace fedora {
         class ReadForceArgs : public AnalyticBasic {
         public:
             // TODO Если токены не используются, можно в базовый конструктор посылать пустой массив, а в конструкторе класса убрать аргумент
-            explicit ReadForceArgs(std::vector<Token> t) : AnalyticBasic(std::move(t)) {}
+            explicit ReadForceArgs(std::vector<Token>);
 
-            std::shared_ptr<AnalyticBasic> analyzeToken(Token &) override;
+            std::shared_ptr<AnalyticBasic> analyzeToken(Token const&) override;
 
             std::string getFileName() override;
         };

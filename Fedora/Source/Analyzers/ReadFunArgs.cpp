@@ -1,22 +1,24 @@
-//
-// Created on 23.07.2021.
-//
 
-#include <KeyWords.h>
-#include <Analyzers/ReadKeyWord.h>
-#include <Exceptions/AnalyzerException.h>
-#include <Analyzers/ReadResult.h>
+#include "KeyWords.h"
+#include "Exceptions/AnalyzerException.h"
+
+#include "Analyzers/ReadKeyWord.h"
+#include "Analyzers/ReadResult.h"
 #include "Analyzers/ReadFunArgs.h"
 #include "Analyzers/AnalyticUtils.h"
 
 namespace fedora {
     namespace analytic {
 
-        std::shared_ptr<AnalyticBasic> ReadFunArgs::analyzeToken(fedora::Token &token) {
-            log("Class: " + getFileName(), fedora::settings::LOG_VERBOSE);
-            log(L"Token: " + token.getData(), fedora::settings::LOG_VERBOSE);
+        ReadFunArgs::ReadFunArgs(std::vector<Token> vec): 
+            AnalyticBasic(std::move(vec))
+        {}
 
-            addToken(token);  // Запомнить считаный токен
+        std::shared_ptr<AnalyticBasic> ReadFunArgs::analyzeToken(fedora::Token const& t) {
+            log("Class: " + getFileName(), fedora::settings::LOG_VERBOSE);
+            log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
+
+            addToken(t);  // Запомнить считаный токен
 
             // 3 пути:
             // 1. Мы прочитали [where] и начинается контекст функции
@@ -24,16 +26,16 @@ namespace fedora {
             // 3. Мы прочитали равно, значит закончилось описание функции и начинается описание возвращаемого типа
 
             // Если получили знак равно
-            if (token == returns) {
+            if (t == returns) {
                 return std::make_shared<ReadResult>(std::vector<Token>());
             }
 
             // Читаем внутренний контекст функции, если встретили where
-            if (token == where) {
+            if (t == where) {
                 return std::make_shared<ReadKeyWord>(std::vector<Token>());
             } else {
                 // Читаем список аргументов
-                if (AnalyticUtils::isValidName(token.getData())) {
+                if (AnalyticUtils::isTokenAName(t)) {
                     // Имя аргумента корректно
                     return shared_from_this();
                 } else {

@@ -1,15 +1,15 @@
-//
-// Created on 20.07.2021.
-//
 #pragma once
 
 #include <string>
+
+#include "Token.h"
 
 namespace fedora {
     /// Токен, который мы прочитали и будем анализировать
     /// В классе можно сохранять контекст распрашеного токена для анализа
     class Token {
     private:
+        /// Содержимое токена
         std::wstring data;
         /// Номер строки, на которой был расположен токен
         uint32_t line;
@@ -18,17 +18,21 @@ namespace fedora {
         explicit Token(std::wstring data, uint32_t line);
         explicit Token(std::wstring data);
 
-        // TODO Корректно ли возвращать референс, а не саму строку, чтобы получить буст производительности?
-        // Но сделай тогда его неизменяемым(если я правильно const понимаю): std::wstring const & 
-        // Иначе сейчас можно менять содержимое по ссылке 
-        std::wstring & getData();
+        // TODO можем возвращать и ссылку, но тогда данные внутри токена можно менять
+        // Можно возвращать const &, но тогда надо менять половину сигнатур функций в программе
+        // Да и сомневаюсь я, что это прирост какой-то дает
+        /// Возвращает содержимое токена
+        std::wstring getData() const;
 
-        // TODO Добавить в токен функцию, которая будет возвращать, что длина равна единице? 
-        // Это нужно для красоты. Типа bool isChar(){return data.length()==1;}
+        /// Возвращает номер строки, на которой был расположн токен
+        uint32_t getLine() const;
 
-        // TODO DEPRECATED
-        bool isEmpty() const;
+        /// Если токен состоит из 1 символа, то возвращает true
+        bool isChar() const;
 
-        friend bool operator==(Token &lhs, Token &rhs);
+        /// Если токен состоит из 1 символа и этот символ равен wchar, то возвращает true
+        bool isChar(wchar_t wchr) const;
+
+        friend bool operator==(Token const& lhs, Token const& rhs);
     };
 }

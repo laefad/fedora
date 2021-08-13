@@ -1,19 +1,20 @@
-//
-// Created on 27.07.2021.
-//
 
-#include <Exceptions/AnalyzerException.h>
+#include "Exceptions/AnalyzerException.h"
 #include "Analyzers/AnalyticBasic.h"
 #include "Utils/Logger.h"
 
 namespace fedora{
     namespace analytic{
 
+        AnalyticBasic::AnalyticBasic(std::vector<Token> tokens): 
+            tokens(std::move(tokens)) 
+        {};
+
         std::vector<Token> &AnalyticBasic::getTokens()  {
             return tokens;
         }
 
-        void AnalyticBasic::addToken(const Token &token) {
+        void AnalyticBasic::addToken(Token const& token) {
             tokens.push_back(token);
         }
 

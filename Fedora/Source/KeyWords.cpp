@@ -1,10 +1,20 @@
-//
-// Created on 24.07.2021.
-//
 
 #include "KeyWords.h"
 
 namespace fedora {
+
+    KeyWord::KeyWord(std::wstring wstr, uint32_t line):
+        Token(std::move(wstr), line)
+    {}
+
+    KeyWord::KeyWord(std::wstring wstr):
+        Token(std::move(wstr), 0)
+    {}
+
+    KeyWord::KeyWord(Token &t): 
+        Token(t.getData(), t.getLine()) 
+    {}
+
     // TODO OPTIMIZATION. Можно передавать ссылку на vector, а не его копию?
     std::vector<KeyWord> KeyWords::getPreFunKeyWords() {
         std::vector<KeyWord> res = std::vector<KeyWord>();
@@ -27,7 +37,7 @@ namespace fedora {
     }
 
     bool operator==(Token &lhs, KeyWord &rhs) {
-        return lhs.getData() == rhs.getData() || (lhs.isEmpty() && rhs.isEmpty());
+        return lhs.getData() == rhs.getData();
     }
 
 //    bool operator==(KeyWord &lhs, Token &rhs) {
@@ -35,7 +45,7 @@ namespace fedora {
 //    }
 
     bool operator==(KeyWord &lhs, KeyWord &rhs) {
-        return lhs.getData() == rhs.getData() || (lhs.isEmpty() && rhs.isEmpty());
+        return lhs.getData() == rhs.getData();
     }
 
     bool operator!=(KeyWord &lhs, KeyWord &rhs) {
@@ -43,6 +53,6 @@ namespace fedora {
     }
 
     bool operator==(Token lhs, KeyWord rhs) {
-        return lhs.getData() == rhs.getData() || (lhs.isEmpty() && rhs.isEmpty());
+        return lhs.getData() == rhs.getData();
     }
 }

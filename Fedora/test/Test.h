@@ -27,11 +27,11 @@ private:
     static void test1() {
         ContextBuilder *builder = ContextBuilder::GetInstance();
 
-        Token mPure = Token(L"pure", -1);
-        Token mLet = Token(L"let", -1);
-        Token mA = Token(L"a", -1);
-        Token mReturn = Token(L"=", -1);
-        Token mOne = Token(L"1", -1);
+        Token mPure = Token(L"pure");
+        Token mLet = Token(L"let");
+        Token mA = Token(L"a");
+        Token mReturn = Token(L"=");
+        Token mOne = Token(L"1");
 
         KeyWord mPure2 = KeyWord(L"pure");
         KeyWord mPure3 = KeyWord(mPure);
@@ -42,9 +42,11 @@ private:
 
         builder->addFunctionDeclarationToken(mPure2);
         builder->notifyWeGotLetToken();
-        builder->setFunctionName(mA.getData());
+        auto funName = mA.getData();
+        builder->setFunctionName(funName);
         builder->notifyWeSetReturnable();
-        builder->addReturnableNumber(mOne.getData());
+        auto num = mOne.getData();
+        builder->addReturnableNumber(num);
         clean();
         Logger::logV("test1 completed");
     }
@@ -52,11 +54,12 @@ private:
     static void test2() {
         ContextBuilder *builder = ContextBuilder::GetInstance();
 
-        Token mName = Token(L"main", -1);
-        Token mOne = Token(L"1", -1);
+        Token mName = Token(L"main");
+        Token mOne = Token(L"1");
 
         builder->notifyWeStartForceCall();
-        builder->setForceName(mName.getData());
+        auto forceName = mOne.getData();
+        builder->setForceName(forceName);
         StackHolder *s = StackHolder::GetInstance();
         clean();
         Logger::logV("test2 completed");
@@ -67,13 +70,16 @@ private:
         TokensHolder tokensHolder = TokensHolder();
         parser.readFile("./../programs/tokensTest.fe", tokensHolder);
 
-        Logger::logV(L"amount of tokens = " + std::to_wstring(tokensHolder.size()));
-        for (Token t : tokensHolder.getData())
-        {
-            Logger::logV(t.getData());
-        }
-        
-        Logger::logV("test3 completed");
+        if (tokensHolder.size() != 29)
+            Logger::logV("test3 failed");
+        else 
+            Logger::logV("test3 completed");
+
+        // Logger::logV(L"amount of tokens = " + std::to_wstring(tokensHolder.size()));
+        // for (Token t : tokensHolder.getData())
+        // {
+        //     Logger::logV(t.getData());
+        // }
     }
 
     static void clean() {
