@@ -8,19 +8,43 @@
 namespace fedora {
     namespace analytic {
         /**
-         * Прочитать имя функции
+         * Read function or funCall name
          */
         class ReadName : public AnalyticBasic {
         public:
-            //explicit ReadName(std::vector<Token> t) : AnalyticBasic(std::move(t)) {}
+            /// @see analyzeToken docs
+            enum ReadNameMode {
+                FUNCTION_DECLARATION,
+                RETURNABLE_FUN_CALL,
+                FORCE_CALL,
+                LIST_VALUE,
+                FUNCTION_ARGUMENT,
+            };
+        private:
+            ReadNameMode mode;
+        public:
+            explicit ReadName(ReadNameMode mode) : mode(mode) {}
 
-            /// Определение родительского метода анализа токена
+            /// Fabric method
             std::shared_ptr<AnalyticBasic> analyzeToken(Token &, ContextBuilder &) override;
 
-            std::string getFileName() override;
+            std::string getClassFileName() override;
 
-            /// Есть ли [force] среди ключевых слов функции
-            bool areTokensIncludeForce();
+            /**
+             * Read name during function declaration process
+             */
+            static std::shared_ptr<AnalyticBasic> functionDeclaration(Token &, ContextBuilder &);
+
+            /**
+             * Read [Returnable] funcCall name
+             */
+            std::shared_ptr<AnalyticBasic> returnableFunCall(Token &, ContextBuilder &);
+
+            std::shared_ptr<AnalyticBasic> forceCall(Token &, ContextBuilder &);
+
+            std::shared_ptr<AnalyticBasic> listValue(Token &, ContextBuilder &);
+
+            std::shared_ptr<AnalyticBasic> functionArgument(Token &, ContextBuilder &);
         };
     }
 }

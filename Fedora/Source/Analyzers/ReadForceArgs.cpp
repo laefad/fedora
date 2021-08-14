@@ -14,7 +14,7 @@ namespace fedora {
     namespace analytic {
         // TODO !!!!!!!!! Мне не нравится, что мы приходим в этот класс и во время начала чтения аргументов, и в середине. Это нормально из-за того, что функции с аргументами могут выступать как аргументы для других функций с аргументами. Возможно, следует внедрить дополнительные переменные состояния, чтобы адекватно оценивать контекст
         std::shared_ptr<AnalyticBasic> ReadForceArgs::analyzeToken(Token &t, ContextBuilder &b) {
-            log("Class: " + getFileName(), fedora::settings::LOG_VERBOSE);
+            log("Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
             log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
 
             // TODO if-ы размансить
@@ -94,7 +94,7 @@ namespace fedora {
             return std::shared_ptr<AnalyticBasic>();
         }
 
-        std::string ReadForceArgs::getFileName() {
+        std::string ReadForceArgs::getClassFileName() {
             return "ReadForceArgs.h";
         }
     }

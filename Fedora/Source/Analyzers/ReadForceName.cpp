@@ -11,7 +11,7 @@ namespace fedora {
             return std::shared_ptr<AnalyticBasic>();
         }
 
-        std::string ReadForceName::getFileName() {
+        std::string ReadForceName::getClassFileName() {
             return "ReadForceName.h";
         }
     }

@@ -13,7 +13,7 @@ namespace fedora {
     namespace analytic {
 
         std::shared_ptr<AnalyticBasic> ReadFunArgs::analyzeToken(fedora::Token &token, ContextBuilder &b) {
-            log("Class: " + getFileName(), fedora::settings::LOG_VERBOSE);
+            log("Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
             log(L"Token: " + token.getData(), fedora::settings::LOG_VERBOSE);
 
             //addToken(token);  // Запомнить считаный токен
@@ -33,7 +33,7 @@ namespace fedora {
                 return std::make_shared<ReadKeyWord>();
             } else {
                 // Читаем список аргументов
-                if (AnalyticUtils::isValidName(token.getData())) {
+                if (AnalyticUtils::isValidName(token)) {
                     // Имя аргумента корректно
                     return shared_from_this();
                 } else {
@@ -48,7 +48,7 @@ namespace fedora {
             return nullptr;
         }
 
-        std::string ReadFunArgs::getFileName() {
+        std::string ReadFunArgs::getClassFileName() {
             return "ReadFunArgs.h";
         }
     }

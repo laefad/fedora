@@ -42,7 +42,7 @@ namespace fedora {
 //            void addToken(const Token &token);
 
             /// Получить имя файла с кодом. Используется для вывода сообщения об ошибке
-            virtual std::string getFileName() = 0;
+            virtual std::string getClassFileName() = 0;
         };
     }
 }

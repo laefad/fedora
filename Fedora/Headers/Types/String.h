@@ -14,6 +14,8 @@ namespace fedora {
             Type type() override {
                 return types::STRING;
             }
+
+            std::wstring getImportantQuestion();
         };
 
     }

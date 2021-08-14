@@ -47,8 +47,8 @@ namespace fedora {
         }
     }
 
-    void ContextBuilder::setFunctionName(std::wstring &s) {
-        functionDeclarator.setFunctionName(s);
+    void ContextBuilder::setFunctionName(Token &t) {
+        functionDeclarator.setFunctionName(t.getData());
     }
 
     void ContextBuilder::notifyWeSetReturnable() {

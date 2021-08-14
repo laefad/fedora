@@ -49,7 +49,7 @@ namespace fedora {
             /**
              * Remember raw function name
              */
-            void setName(std::wstring &s) {
+            void setName(std::wstring const &s) {
                 name = s;
             }
 

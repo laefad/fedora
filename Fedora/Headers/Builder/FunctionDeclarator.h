@@ -102,7 +102,7 @@ namespace fedora {
              * @example
              * pure let main = 1 <- name "name" should be set via this method
              */
-            void setFunctionName(std::wstring &s) {
+            void setFunctionName(std::wstring const &s) {
                 function->setName(s);
             }
 

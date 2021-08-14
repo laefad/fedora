@@ -73,7 +73,7 @@ namespace fedora{
             return std::shared_ptr<AnalyticBasic>();
         }
 
-        std::string ReadAfterListEnd::getFileName() {
+        std::string ReadAfterListEnd::getClassFileName() {
             return "ReadAfterListEnd.h";
         }
     }

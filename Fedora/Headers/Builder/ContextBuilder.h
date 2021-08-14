@@ -99,7 +99,7 @@ namespace fedora {
 
         void notifyWeGotLetToken();
 
-        void setFunctionName(std::wstring &);
+        void setFunctionName(Token &);
 
         void notifyWeSetReturnable();
 
@@ -110,7 +110,7 @@ namespace fedora {
         void setForceName(std::wstring &);
         // TODO Добавить режим заполнения: функция, фанколл и проверять, своевременно ли вызван метод
 
-        bool isCurrentFunctionForced() {
+        bool isCurrentFunctionForced(Token &) {
             return true;
         }
     };

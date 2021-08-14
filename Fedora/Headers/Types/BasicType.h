@@ -6,7 +6,7 @@
 namespace fedora {
     namespace types {
 
-        enum Type { // TODO Перенести это в BasicType!!!!!!!!!!!
+        enum Type {
             NUMBER,
             STRING,
             LIST,
@@ -14,11 +14,15 @@ namespace fedora {
             NULL_,
         };
 
+        /**
+         * Base class for data type
+         */
         class BasicType : public std::enable_shared_from_this<BasicType> {
         public:
-            // Преобразование в строку
+            /// ToString() stuff
             virtual std::wstring eval() = 0;
 
+            /// Get type of basic function-object
             virtual Type type() = 0;
         };
 

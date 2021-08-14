@@ -35,7 +35,7 @@ namespace fedora {
             std::shared_ptr<AnalyticBasic> analyzeToken(Token &, ContextBuilder &) override;
 
             /// Определение метода получения файла
-            std::string getFileName() override;
+            std::string getClassFileName() override;
 
             /// Вернуть указатель на экземпляр класса для следующего этапа
             std::shared_ptr<AnalyticBasic> chooseReturn(Token &);
