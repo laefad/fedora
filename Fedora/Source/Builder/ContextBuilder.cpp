@@ -9,19 +9,6 @@
 #include "Stack/StackHolder.h"
 
 namespace fedora {
-    /// Initializing
-    ContextBuilder *ContextBuilder::instance = nullptr;
-
-    /// Simple instance getter
-    ContextBuilder *fedora::ContextBuilder::GetInstance() {
-        if (instance == nullptr) {
-            instance = new ContextBuilder();
-            // TODO Clion пишет "Pointer may be null", имея ввиду, что инстанс может быть нулёвым. Не понимаю, как это возможно?
-            instance->addToCleaner();
-        }
-        return instance;
-    }
-
     void ContextBuilder::addFunctionDeclarationToken(KeyWord &t) {
         if (functionDeclarator.isNull()) {
             // Need to declare new blank function

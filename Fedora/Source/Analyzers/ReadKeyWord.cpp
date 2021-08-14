@@ -1,12 +1,9 @@
-
-#include "Exceptions/AnalyzerException.h"
 #include "KeyWords.h"
 
 #include "Analyzers/ReadName.h"
 #include "Analyzers/ReadResult.h"
 #include "Analyzers/ReadKeyWord.h"
 #include "Analyzers/AnalyticUtils.h"
-#include "Analyzers/ReadForceName.h"
 
 namespace fedora {
     namespace analytic {

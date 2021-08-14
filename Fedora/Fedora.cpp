@@ -12,6 +12,7 @@
 #include "Utils/BasicSingleton.h"
 #include "Context/Function/Function.h"
 #include "Builder/BuildableFunction.h"
+#include "Builder/ContextBuilder.h"
 
 namespace fedora {
 
@@ -80,8 +81,10 @@ int main(int argc, char *argv[]) {
         std::cout << "Args amount: " << argc << std::endl
                   << "Path to file: " << path << std::endl;
 
+        fedora::ContextBuilder builder = fedora::ContextBuilder();
+
         // Инициализируем анализатор
-        fedora::AnalyzerStrategy analyzer = fedora::AnalyzerStrategy();
+        fedora::AnalyzerStrategy analyzer = fedora::AnalyzerStrategy(builder);
 
         // Инициализируем парсер файла
         //fedora::Parser parser = fedora::Parser(path, TokensHolder());

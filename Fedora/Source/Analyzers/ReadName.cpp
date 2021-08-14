@@ -66,6 +66,22 @@ namespace fedora {
         }
 
         std::shared_ptr<AnalyticBasic> ReadName::returnableFunCall(Token const &, ContextBuilder &) {
+            throwException("unimplemented", "ReadName::returnableFunCall");
+            return std::shared_ptr<AnalyticBasic>();
+        }
+
+        std::shared_ptr<AnalyticBasic> ReadName::forceCall(const Token &, ContextBuilder &) {
+            throwException("unimplemented", "ReadName::forceCall");
+            return std::shared_ptr<AnalyticBasic>();
+        }
+
+        std::shared_ptr<AnalyticBasic> ReadName::listValue(const Token &, ContextBuilder &) {
+            throwException("unimplemented", "ReadName::listValue");
+            return std::shared_ptr<AnalyticBasic>();
+        }
+
+        std::shared_ptr<AnalyticBasic> ReadName::functionArgument(const Token &, ContextBuilder &) {
+            throwException("unimplemented", "ReadName::functionArgument");
             return std::shared_ptr<AnalyticBasic>();
         }
     }

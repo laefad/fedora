@@ -25,7 +25,7 @@ private:
      * let a = 1
      */
     static void test1() {
-        ContextBuilder *builder = ContextBuilder::GetInstance();
+        ContextBuilder builder = ContextBuilder();
 
         Token mPure = Token(L"pure");
         Token mLet = Token(L"let");
@@ -40,26 +40,25 @@ private:
         bool b = mPure2 == mPure;
         bool c = mPure2 == mPure2;
 
-        builder->addFunctionDeclarationToken(mPure2);
-        builder->notifyWeGotLetToken();
-        auto funName = mA.getData();
-        builder->setFunctionName(funName);
-        builder->notifyWeSetReturnable();
+        builder.addFunctionDeclarationToken(mPure2);
+        builder.notifyWeGotLetToken();
+        builder.setFunctionName(mA);
+        builder.notifyWeSetReturnable();
         auto num = mOne.getData();
-        builder->addReturnableNumber(num);
+        builder.addReturnableNumber(num);
         clean();
         Logger::logV("test1 completed");
     }
 
     static void test2() {
-        ContextBuilder *builder = ContextBuilder::GetInstance();
+        ContextBuilder builder = ContextBuilder();
 
         Token mName = Token(L"main");
         Token mOne = Token(L"1");
 
-        builder->notifyWeStartForceCall();
+        builder.notifyWeStartForceCall();
         auto forceName = mOne.getData();
-        builder->setForceName(forceName);
+        builder.setForceName(forceName);
         StackHolder *s = StackHolder::GetInstance();
         clean();
         Logger::logV("test2 completed");

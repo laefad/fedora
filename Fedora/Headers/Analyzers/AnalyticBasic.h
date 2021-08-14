@@ -15,6 +15,8 @@ namespace fedora {
             /// Бросить ошибку в случае ошибки синтаксиса
             void throwException(const std::wstring &msg, const std::string &funcName);
 
+            void throwException(const std::string &msg, const std::string &funcName);
+
             /// Log something as string
             static void log(const std::string &msg, fedora::settings::LogLevel level);
 

@@ -18,7 +18,7 @@ namespace fedora {
     /**
      * Context builder
      *
-     * @brief Singleton pattern.
+     * @brief
      * Does 2 things:
      * 1. Declares function
      * 2. Declares funCall
@@ -34,28 +34,8 @@ namespace fedora {
      *
      * @note FunCall declaration is possible inside Function. But Function declaration inside FunCall is NOT possible
      */
-    class ContextBuilder : public BasicSingleton {
+    class ContextBuilder {
     private:
-        /**
-         * @static Singleton instance
-         */
-        static ContextBuilder *instance;
-
-        /**
-         * Constructor that initializes private stuff
-         *
-         * @note
-         * We have to explicitly initialize the member 'functionDeclarator' which does not have a default constructor.
-         * That's why we init it with functionDeclarator(nullptr).
-         * // TODO Стоит ли объявить пустой дефолтный конструктор, чтобы мы могли убрать functionDeclarator(nullptr) из конструктора? Текущее решение выглядит уродливо, зато работает явно. Скрытие плохого кода через дефолтный конструктор я считаю небезопасным. ИМХО пусть лучше будет некрасиво, но безопасно
-         */
-        ContextBuilder() : functionDeclarator(nullptr), forceCallDeclarator(nullptr) {
-            currentContext = std::make_shared<context::Function>(nullptr);
-        }
-
-        ~ContextBuilder() {
-            fedora::Logger::logW(L"ContextBuilder instance is destroyed");
-        }
 
         // TODO Переписать документацию
         /**
@@ -80,13 +60,11 @@ namespace fedora {
         }
 
     public:
-        static ContextBuilder *GetInstance();
-
-        void cleanFields() override {
-            currentContext.reset();
-            functionDeclarator = builder::FunctionDeclarator(nullptr);
-            forceCallDeclarator = builder::ForceCallDeclarator(nullptr);
+        ContextBuilder() : functionDeclarator(nullptr), forceCallDeclarator(nullptr) {
+            currentContext = std::make_shared<context::Function>(nullptr);
         }
+
+        ~ContextBuilder() = default;
 
         /**
          * Add keyword to function
