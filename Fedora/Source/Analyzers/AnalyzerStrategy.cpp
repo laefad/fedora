@@ -1,13 +1,13 @@
 #include "Analyzers/AnalyzerStrategy.h"
-#include <iostream>
+#include "Utils/Logger.h"
 
 bool fedora::AnalyzerStrategy::analyzeNext(fedora::Token &t) {
     try {
         analyticObj = analyticObj->analyzeToken(t, contextBuilder);
         return true;
-    }catch(FException& e){
+    } catch (FException &e) {
         // TODO Сделать вывод красного цвета (в консоли)
-        std::cout<<"Error:"<<std::endl<<e.what();
+        Logger::logE(e.what());
         return false;
     }
 }

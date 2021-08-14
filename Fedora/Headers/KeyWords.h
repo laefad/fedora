@@ -1,20 +1,20 @@
-//
-// Created on 24.07.2021.
-//
-
 #pragma once
 
-#include <utility>
 #include <vector>
 #include <string>
+
 #include "Token.h"
 
 namespace fedora {
     class KeyWord : public Token {
     public:
-        explicit KeyWord(std::wstring value1) : Token(std::move(value1)) {}
+        explicit KeyWord(std::wstring wstr, uint32_t line);
 
-        explicit KeyWord(Token &t) : Token(t.getData()) {}
+        explicit KeyWord(std::wstring wstr);
+
+        explicit KeyWord(Token &t);
+
+        explicit KeyWord(Token const &t);
 
         friend bool operator==(Token &lhs, KeyWord &rhs);
 

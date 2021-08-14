@@ -1,28 +1,22 @@
-//
-// Created on 23.07.2021.
-//
 
-#include <KeyWords.h>
+#include "KeyWords.h"
 #include "Analyzers/AnalyticUtils.h"
 
 namespace fedora {
     namespace analytic {
 
-        // TODO у нас вроде были запрещены скобочки посреди имени ?? 
-        // имя f(x) пройдет же проверку 
-        // или это где-то до обрабатывается?
-        bool AnalyticUtils::isValidName(Token &t) {
+
+        bool AnalyticUtils::isTokenAName(Token const &t) {
             return
-                    !isValueAKeyWord(t) &&
-                    !isValueAString(t) &&
-                    !isdigit(t.getData().at(0)) &&
-                    !isBracket(t);
+                    !isTokenAKeyWord(t) &&
+                    !isTokenAString(t) &&
+                    !isTokenANumber(t) &&
+                    !isTokenABracket(t);
         }
 
-        bool AnalyticUtils::isValueAKeyWord(Token &t) {
-            std::wstring name = t.getData();
-            for (auto &key : KeyWords::getAllKeyWords()) {
-                if (key.getData() == name)
+        bool AnalyticUtils::isTokenAKeyWord(Token const &t) {
+            for (auto const &key : KeyWords::getAllKeyWords()) {
+                if (key == t)
                     return true;
             }
             return false;
@@ -30,12 +24,12 @@ namespace fedora {
 
         // Числом является [-+]?[0-9]+.?[0-9]+
         // Поддержки +/- раньше не было, поэтому могут возникать ошибки, если код на них не рассчитан
-        bool AnalyticUtils::isValueANumber(Token &t) {
-            std::wstring name = t.getData();
+        bool AnalyticUtils::isTokenANumber(Token const &t) {
+            auto data = t.getData();
             bool hasDot = false;
 
-            for (int i = 0, len = name.length(); i < len; ++i) {
-                const wchar_t chr = name.at(i);
+            for (unsigned i = 0, len = data.length(); i < len; ++i) {
+                auto chr = data.at(i);
 
                 if (isdigit(chr))
                     continue;
@@ -51,44 +45,45 @@ namespace fedora {
             return true;
         }
 
-        bool AnalyticUtils::isValueAString(Token &t) {
-            std::wstring name = t.getData();
-            return name.at(0) == L'\"' && name.at(name.length() - 1) == L'\"';
+
+        bool AnalyticUtils::isTokenAString(Token const &t) {
+            auto data = t.getData();
+            return data.at(0) == L'\"' && data.at(data.length() - 1) == L'\"';
         }
 
-        bool AnalyticUtils::isTokenAPreFunKeyWord(Token &t) {
-            std::wstring name = t.getData();
-            bool res = false;
-            for (auto &key : KeyWords::getPreFunKeyWords()) {
-                if (key.getData() == name)
-                    res = true;
+        bool AnalyticUtils::isTokenAPreFunKeyWord(Token const &t) {
+            // todo заменить на std::any_of()
+            for (auto const &key : KeyWords::getPreFunKeyWords()) {
+                if (key == t)
+                    return true;
             }
-            return res;
+            return false;
         }
 
-        bool AnalyticUtils::isBracket(Token &t) {
-            std::wstring n = t.getData();
-            return n.length() == 1 && (n.at(0) == L'(' || n.at(0) == L')' || n.at(0) == L'[' || n.at(0) == L']');
+        bool AnalyticUtils::isTokenABracket(Token const &t) {
+            auto data = t.getData();
+            return t.isChar() && (
+                    data.at(0) == L'(' ||
+                    data.at(0) == L')' ||
+                    data.at(0) == L'[' ||
+                    data.at(0) == L']'
+            );
         }
 
-        bool AnalyticUtils::isTokenALeftSquareBracket(Token &t) {
-            std::wstring data = t.getData();
-            return data.length() == 1 && data.at(0) == L'[';
+        bool AnalyticUtils::isTokenALeftSquareBracket(Token const &t) {
+            return t.isChar(L'[');
         }
 
-        bool AnalyticUtils::isTokenARightSquareBracket(Token &t) {
-            std::wstring data = t.getData();
-            return data.length() == 1 && data.at(0) == L']';
+        bool AnalyticUtils::isTokenARightSquareBracket(Token const &t) {
+            return t.isChar(L']');
         }
 
-        bool AnalyticUtils::isTokenALeftCircleBracket(Token &t) {
-            std::wstring data = t.getData();
-            return data.length() == 1 && data.at(0) == L'(';
+        bool AnalyticUtils::isTokenALeftCircleBracket(Token const &t) {
+            return t.isChar(L'(');
         }
 
-        bool AnalyticUtils::isTokenARightCircleBracket(Token &t) {
-            std::wstring data = t.getData();
-            return data.length() == 1 && data.at(0) == L')';
+        bool AnalyticUtils::isTokenARightCircleBracket(Token const &t) {
+            return t.isChar(L')');
         }
     }
 }

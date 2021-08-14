@@ -1,18 +1,17 @@
-//
-// Created on 23.07.2021.
-//
 
-#include <Analyzers/ReadName.h>
-#include <Exceptions/AnalyzerException.h>
-#include <KeyWords.h>
-#include <Analyzers/ReadResult.h>
+#include "Exceptions/AnalyzerException.h"
+#include "KeyWords.h"
+
+#include "Analyzers/ReadName.h"
+#include "Analyzers/ReadResult.h"
 #include "Analyzers/ReadKeyWord.h"
 #include "Analyzers/AnalyticUtils.h"
 #include "Analyzers/ReadForceName.h"
 
 namespace fedora {
     namespace analytic {
-        std::shared_ptr<AnalyticBasic> ReadKeyWord::analyzeToken(Token &t, ContextBuilder &b) {
+
+        std::shared_ptr<AnalyticBasic> ReadKeyWord::analyzeToken(Token const &t, ContextBuilder &b) {
             log("Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
             log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
 
@@ -31,7 +30,7 @@ namespace fedora {
             } else if (t == force) {
                 // if is "force", read forceCall name
                 b.notifyWeStartForceCall();
-                return std::make_shared<ReadForceName>();
+                return std::make_shared<ReadName>(ReadName::FORCE_CALL);
 
             } else if (t == let) {
                 // if is let, read fun name
@@ -43,6 +42,7 @@ namespace fedora {
                                "analyzeToken(Token &)");
                 return std::shared_ptr<AnalyticBasic>();
             }
+
         }
 
         std::string ReadKeyWord::getClassFileName() {

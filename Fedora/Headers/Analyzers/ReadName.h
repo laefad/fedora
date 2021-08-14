@@ -1,6 +1,3 @@
-//
-// Created on 23.07.2021.
-//
 #pragma once
 
 #include "AnalyticBasic.h"
@@ -26,25 +23,25 @@ namespace fedora {
             explicit ReadName(ReadNameMode mode) : mode(mode) {}
 
             /// Fabric method
-            std::shared_ptr<AnalyticBasic> analyzeToken(Token &, ContextBuilder &) override;
+            std::shared_ptr<AnalyticBasic> analyzeToken(Token const &, ContextBuilder &) override;
 
             std::string getClassFileName() override;
 
             /**
              * Read name during function declaration process
              */
-            static std::shared_ptr<AnalyticBasic> functionDeclaration(Token &, ContextBuilder &);
+            static std::shared_ptr<AnalyticBasic> functionDeclaration(Token const &, ContextBuilder &);
 
             /**
              * Read [Returnable] funcCall name
              */
-            std::shared_ptr<AnalyticBasic> returnableFunCall(Token &, ContextBuilder &);
+            std::shared_ptr<AnalyticBasic> returnableFunCall(Token const &, ContextBuilder &);
 
-            std::shared_ptr<AnalyticBasic> forceCall(Token &, ContextBuilder &);
+            std::shared_ptr<AnalyticBasic> forceCall(Token const &, ContextBuilder &);
 
-            std::shared_ptr<AnalyticBasic> listValue(Token &, ContextBuilder &);
+            std::shared_ptr<AnalyticBasic> listValue(Token const &, ContextBuilder &);
 
-            std::shared_ptr<AnalyticBasic> functionArgument(Token &, ContextBuilder &);
+            std::shared_ptr<AnalyticBasic> functionArgument(Token const &, ContextBuilder &);
         };
     }
 }

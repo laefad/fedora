@@ -5,8 +5,10 @@
 #ifndef FEDORA_TEST_H
 #define FEDORA_TEST_H
 
-#include <Builder/ContextBuilder.h>
+#include "Builder/ContextBuilder.h"
 #include "Stack/StackHolder.h"
+#include "Parser.h"
+#include "Utils/TokensHolder.h"
 
 using namespace fedora;
 
@@ -15,6 +17,7 @@ public:
     static void test() {
         test1();
         test2();
+        test3();
     }
 
 private:
@@ -39,9 +42,11 @@ private:
 
         builder->addFunctionDeclarationToken(mPure2);
         builder->notifyWeGotLetToken();
-        builder->setFunctionName(mA.getData());
+        auto funName = mA.getData();
+        builder->setFunctionName(funName);
         builder->notifyWeSetReturnable();
-        builder->addReturnableNumber(mOne.getData());
+        auto num = mOne.getData();
+        builder->addReturnableNumber(num);
         clean();
         Logger::logV("test1 completed");
     }
@@ -53,10 +58,28 @@ private:
         Token mOne = Token(L"1");
 
         builder->notifyWeStartForceCall();
-        builder->setForceName(mName.getData());
+        auto forceName = mOne.getData();
+        builder->setForceName(forceName);
         StackHolder *s = StackHolder::GetInstance();
         clean();
         Logger::logV("test2 completed");
+    }
+
+    static void test3() {
+        Parser parser = Parser();
+        TokensHolder tokensHolder = TokensHolder();
+        parser.readFile("./../programs/tokensTest.fe", tokensHolder);
+
+        if (tokensHolder.size() != 29)
+            Logger::logV("test3 failed");
+        else
+            Logger::logV("test3 completed");
+
+        // Logger::logV(L"amount of tokens = " + std::to_wstring(tokensHolder.size()));
+        // for (Token t : tokensHolder.getData())
+        // {
+        //     Logger::logV(t.getData());
+        // }
     }
 
     static void clean() {

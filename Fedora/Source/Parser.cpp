@@ -1,67 +1,96 @@
 
 #include <utility>
 
-#include <Token.h>
+#include "Token.h"
 #include "Parser.h"
 #include "StaticUtils.h"
+#include "Utils/Logger.h"
 
 namespace fedora {
 
-    Parser::Parser(const std::string &fileName, std::ifstream &fin, AnalyzerStrategy &analyzer1)
-    : fin(fin), analyzerStrategy(analyzer1) {
-        fin = std::ifstream(fileName, std::ios_base::in);
+    Parser::Parser() {}
 
-        if (!fin.is_open()) // если файл не открыт
-            std::cout << "File " << fileName << " can not be opened!"; // сообщить об этом
+    // TODO создавать токенхолдер тут илил принимать по ссылке?
+    void Parser::readFile(std::string const &fileName, TokensHolder &tokensHolder) {
+
+        wif = std::wifstream(fileName, std::ios_base::in);
+
+        if (!wif.is_open()) {
+            fedora::Logger::logE("File " + fileName + " can not be opened!");
+            //TODO error ??
+            return;
+        }
+
+        while (!wif.eof()) {
+            Token tmp = readToken();
+            tokensHolder.add(tmp);
+        }
     }
 
-    void Parser::readFile() {
-        bool noErrors = true;
+    Token Parser::readString() {
+        std::wstring res;
+        uint32_t initLine = line;
+        wchar_t tmp;
 
-        // Write tokens to use them in exceptions
-        fedora::TokensHolder *tokensHolder = fedora::TokensHolder::GetInstance();
+        do {
+            tmp = wif.get();
+            res += tmp;
+            if (StaticUtils::isNewLine(tmp))
+                ++line;
+        } while (!StaticUtils::isQuote(tmp) && !wif.eof());
 
-        while (!fin.eof() && noErrors) {
-            Token tmp = readToken();
-            // TODO Добавить в токен функцию, которая будет возвращать, что длина равна единице? 
-            // Это нужно для красоты. Типа bool isChar(){return data.length()==1;}
+        if (!StaticUtils::isQuote(tmp) && wif.eof());
+        // TODO add error
+        //throw error
 
-            // if token is a carriage return -> push it to tokens holder 
-            if (tmp.getData().length() == 1 && tmp.getData() == L"\n")
-                tokensHolder->add(tmp);
+        return Token(L'\"' + res, initLine);
+    }
 
-            if (!tmp.isEmpty()) {
-                noErrors = analyzerStrategy.analyzeNext(tmp);
-            }
-        }
-        int a = 1 + 1;
+    void Parser::readComment() {
+        wchar_t tmp;
+
+        do {
+            tmp = wif.get();
+            if (StaticUtils::isNewLine(tmp))
+                ++line;
+        } while (!StaticUtils::isComment(tmp) && !wif.eof());
+
+        if (!StaticUtils::isComment(tmp) && wif.eof());
+        // TODO add error
+        //throw error
     }
 
     Token Parser::readToken() {
         std::wstring res; // token data
-        wchar_t tmp = L'F'; // current symbol
-        while (!fedora::StaticUtils::isDelimiter(tmp) && !isIgnored(tmp) && !fin.eof()) {
-            tmp = fin.get();
-            if (!isIgnored(tmp))
+        wchar_t tmp; // current symbol
+
+        while (!wif.eof()) {
+            tmp = wif.get();
+
+            if (!StaticUtils::isIgnored(tmp) && !StaticUtils::isComment(tmp))
                 res += tmp;
+            else if (StaticUtils::isNewLine(tmp))
+                ++line;
+            else if (StaticUtils::isComment(tmp))
+                readComment();
+
+            if (StaticUtils::isQuote(tmp))
+                return readString();
+
+            if (StaticUtils::isDelimiter(tmp))
+                return Token(res, line);
+
+            tmp = wif.peek();
+
+            // TODO eof check тут нужен или нет?
+            if ((StaticUtils::isDelimiter(tmp) ||
+                 StaticUtils::isQuote(tmp) ||
+                 StaticUtils::isIgnored(tmp)) &&
+                !res.empty())
+                return Token(res, line);
         }
 
-        // Если на конце токена ()[], то выделим их как отдельный токен в следующей итерации
-        if (res.length() > 1 && StaticUtils::isDelimiter(res.at(res.length() - 1))) {
-            res = res.substr(0, res.size() - 1);
-            //res.pop_back();
-            fin.seekg(fin.tellg().operator-(1));
-        }
-
-        Token token = Token(res);
-
-        return token;
-    }
-
-    bool Parser::isIgnored(wchar_t &tmp) {
-        // Символы, которые мы игнорируем
-        const std::wstring ignoredSymbols = L"\t\r \377"; // Возможно, \377 - это символ окончания файла // TODO Вынести во внушнюю константу
-        return ignoredSymbols.find(tmp) != std::wstring::npos;
+        return Token(res, line);
     }
 
 }

@@ -1,17 +1,16 @@
-//
-// Created on 23.07.2021.
-//
 
-#include <Analyzers/ReadKeyWord.h>
-#include <Analyzers/ReadForceArgs.h>
-#include <Analyzers/ReadList.h>
-#include <Exceptions/AnalyzerException.h>
+#include "Exceptions/AnalyzerException.h"
+
+#include "Analyzers/ReadKeyWord.h"
+#include "Analyzers/ReadForceArgs.h"
+#include "Analyzers/ReadList.h"
 #include "Analyzers/ReadResult.h"
 #include "Analyzers/AnalyticUtils.h"
 
 namespace fedora {
     namespace analytic {
-        std::shared_ptr<AnalyticBasic> ReadResult::analyzeToken(Token &t, ContextBuilder &b) {
+
+        std::shared_ptr<AnalyticBasic> ReadResult::analyzeToken(Token const &t, ContextBuilder &b) {
             log("Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
             log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
 
@@ -24,23 +23,23 @@ namespace fedora {
             // 4. Функция
 
             // Если число
-            if (AnalyticUtils::isValueANumber(t.getData())) {
+            if (AnalyticUtils::isTokenANumber(t)) {
                 // TODO Выделить во внешнюю константу пустой вектор токенов ( std::vector<Token>() )
                 return std::make_shared<ReadKeyWord>();
             }
 
             // Если строка
-            if (AnalyticUtils::isValueAString(t.getData())) {
+            if (AnalyticUtils::isTokenAString(t)) {
                 return std::make_shared<ReadKeyWord>();
             }
 
             // Если Список
-            if (AnalyticUtils::isTokenALeftSquareBracket(t.getData())) {
+            if (AnalyticUtils::isTokenALeftSquareBracket(t)) {
                 return std::make_shared<ReadList>();
             }
 
             // Если функция
-            if (AnalyticUtils::isValidName(t.getData())) {
+            if (AnalyticUtils::isTokenAName(t)) {
                 // TODO Внедрить режим чтения для force вызова и ретурна из функции
                 return std::make_shared<ReadForceArgs>();
             }

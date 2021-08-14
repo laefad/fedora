@@ -1,6 +1,3 @@
-//
-// Created on 23.07.2021.
-//
 #pragma once
 
 #include <memory>
@@ -34,9 +31,7 @@ namespace fedora {
          */
         class ReadFunArgs : public AnalyticBasic {
         public:
-            //explicit ReadFunArgs(std::vector<Token> t) : AnalyticBasic(std::move(t)) {}
-
-            std::shared_ptr<AnalyticBasic> analyzeToken(Token &, ContextBuilder &) override;
+            std::shared_ptr<AnalyticBasic> analyzeToken(Token const &, ContextBuilder &) override;
 
             std::string getClassFileName() override;
         };

@@ -1,17 +1,15 @@
-//
-// Created on 23.07.2021.
-//
 
-#include <memory>
-#include <KeyWords.h>
-#include <Analyzers/ReadForceArgs.h>
-#include <Analyzers/ReadFunArgs.h>
+#include "KeyWords.h"
+#include "Exceptions/AnalyzerException.h"
+
+#include "Analyzers/ReadForceArgs.h"
+#include "Analyzers/ReadFunArgs.h"
 #include "Analyzers/ReadName.h"
 #include "Analyzers/AnalyticUtils.h"
-#include "Exceptions/AnalyzerException.h"
 
 namespace fedora {
     namespace analytic {
+
 
         /**
          *
@@ -35,11 +33,11 @@ namespace fedora {
          * @example case 5:
          * someFun(arg1 main arg3)
          */
-        std::shared_ptr<AnalyticBasic> ReadName::analyzeToken(fedora::Token &t, ContextBuilder &b) {
+        std::shared_ptr<AnalyticBasic> ReadName::analyzeToken(fedora::Token const &t, ContextBuilder &b) {
             log("Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
             log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
 
-            if (!AnalyticUtils::isValidName(t))
+            if (!AnalyticUtils::isTokenAName(t))
                 throwException(L"Expected a function name, but founded name is invalid. Token = " + t.getData(),
                                "analyzeToken(Token&) <- AnalyticUtils::isValidName(std::wstring&)");
 
@@ -62,12 +60,12 @@ namespace fedora {
         }
 
 
-        std::shared_ptr<AnalyticBasic> ReadName::functionDeclaration(Token &t, ContextBuilder &b) {
+        std::shared_ptr<AnalyticBasic> ReadName::functionDeclaration(Token const &t, ContextBuilder &b) {
             b.setFunctionName(t);
             return std::shared_ptr<ReadFunArgs>();
         }
 
-        std::shared_ptr<AnalyticBasic> ReadName::returnableFunCall(Token &, ContextBuilder &) {
+        std::shared_ptr<AnalyticBasic> ReadName::returnableFunCall(Token const &, ContextBuilder &) {
             return std::shared_ptr<AnalyticBasic>();
         }
     }

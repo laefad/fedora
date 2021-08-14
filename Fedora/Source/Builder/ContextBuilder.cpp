@@ -47,7 +47,7 @@ namespace fedora {
         }
     }
 
-    void ContextBuilder::setFunctionName(Token &t) {
+    void ContextBuilder::setFunctionName(Token const &t) {
         functionDeclarator.setFunctionName(t.getData());
     }
 

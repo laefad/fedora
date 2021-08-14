@@ -1,7 +1,3 @@
-//
-// Created on 31.07.2021.
-//
-
 #pragma once
 
 #include "AnalyticBasic.h"
@@ -42,10 +38,8 @@ namespace fedora {
          */
         class ReadAfterListEnd : public AnalyticBasic {
         public:
-            //explicit ReadAfterListEnd(std::vector <Token> t) : AnalyticBasic(std::move(t)) {}
-
             /// override parent method
-            std::shared_ptr<AnalyticBasic> analyzeToken(Token &, ContextBuilder &) override;
+            std::shared_ptr<AnalyticBasic> analyzeToken(Token const &, ContextBuilder &) override;
 
             /// override parent method
             std::string getClassFileName() override;

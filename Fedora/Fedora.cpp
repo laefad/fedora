@@ -80,15 +80,12 @@ int main(int argc, char *argv[]) {
         std::cout << "Args amount: " << argc << std::endl
                   << "Path to file: " << path << std::endl;
 
-        // Создаём файловый поток
-        std::ifstream fin;
-
         // Инициализируем анализатор
         fedora::AnalyzerStrategy analyzer = fedora::AnalyzerStrategy();
 
         // Инициализируем парсер файла
-        fedora::Parser parser = fedora::Parser(path, fin, analyzer);
-        parser.readFile();
+        //fedora::Parser parser = fedora::Parser(path, TokensHolder());
+        //parser.readFile();
 
         // Clean singleton utils
         fedora::Utils::SingletonsCleaner *cleaner = fedora::Utils::SingletonsCleaner::GetInstance();

@@ -1,10 +1,5 @@
-//
-// Created on 23.07.2021.
-//
 #pragma once
 
-#include <memory>
-#include <utility>
 #include "AnalyticBasic.h"
 
 namespace fedora {
@@ -43,7 +38,7 @@ namespace fedora {
             * let b = force a
             * # in this case, result resolver [ReadResult] will get the "force" token #
             */
-            std::shared_ptr<AnalyticBasic> analyzeToken(Token &, ContextBuilder &) override;
+            std::shared_ptr<AnalyticBasic> analyzeToken(Token const &, ContextBuilder &) override;
 
             std::string getClassFileName() override;
         };

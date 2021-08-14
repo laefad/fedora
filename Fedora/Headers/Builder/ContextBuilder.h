@@ -99,7 +99,7 @@ namespace fedora {
 
         void notifyWeGotLetToken();
 
-        void setFunctionName(Token &);
+        void setFunctionName(Token const &);
 
         void notifyWeSetReturnable();
 

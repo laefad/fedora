@@ -1,25 +1,34 @@
 #include <Token.h>
 
+#include <utility>
+
 namespace fedora {
 
-    Token::Token(std::wstring data) 
-        : data(std::move(data)) 
-    {}
+    Token::Token(std::wstring data, uint32_t line) :
+            data(std::move(data)),
+            line(line) {}
 
-    std::wstring const &Token::getData() {
+    Token::Token(std::wstring data) :
+            Token(std::move(data), 0) {}
+
+    std::wstring const &Token::getData() const {
         return data;
     }
 
-    bool operator==(Token & lhs, Token & rhs) {
-        return lhs.data == rhs.data || (lhs.isEmpty() && rhs.isEmpty());
+    uint32_t Token::getLine() const {
+        return line;
     }
 
-    // Токен пуст, если пусты данные в нем 
-    // [или это перенос строки] 
-    // [или это не пойми что]
-    bool Token::isEmpty() const {
-        return data.empty() 
-            || data.length() == 1 && data[0] == L'\n' // TODO читать нормально \n и убрать отсюда
-            || data.at(0) < 0; // а это что за дикость ??
+    bool Token::isChar() const {
+        return data.length() == 1;
     }
+
+    bool Token::isChar(wchar_t wchr) const {
+        return isChar() && wchr == data.at(0);
+    }
+
+    bool operator==(Token const &lhs, Token const &rhs) {
+        return lhs.data == rhs.data;
+    }
+
 }
