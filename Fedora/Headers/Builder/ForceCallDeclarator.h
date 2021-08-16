@@ -22,7 +22,7 @@ namespace fedora {
             explicit ForceCallDeclarator(std::shared_ptr<builder::BuildableForceCall> forceCall) : forceCall(
                     std::move(forceCall)) {}
 
-            void setName(std::wstring &s) {
+            void setName(std::wstring const &s) {
                 if (forceCall != nullptr) {
                     forceCall->setRawName(s);
                 } else

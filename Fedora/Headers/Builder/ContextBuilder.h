@@ -83,9 +83,11 @@ namespace fedora {
 
         void addReturnableNumber(std::wstring &);
 
+        void addReturnableFunCall(std::wstring const &);
+
         void notifyWeStartForceCall();
 
-        void setForceName(std::wstring &);
+        void setForceName(std::wstring const &);
         // TODO Добавить режим заполнения: функция, фанколл и проверять, своевременно ли вызван метод
 
         bool isCurrentFunctionForced(Token &) {

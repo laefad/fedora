@@ -121,7 +121,7 @@ namespace fedora {
              * @example
              * pure let main arg1 = 1 <- set "1" as returnable
              */
-            void setNumberAsReturnable(const std::shared_ptr<types::Number> &n) {
+            void setReturnable(const std::shared_ptr<types::BasicType> &n) {
                 context::Returnable r = context::Returnable(n);
                 function->setReturnable(r);
             }

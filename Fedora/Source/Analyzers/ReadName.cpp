@@ -10,7 +10,6 @@
 namespace fedora {
     namespace analytic {
 
-
         /**
          *
         * @param t - token we get
@@ -32,6 +31,8 @@ namespace fedora {
          *
          * @example case 5:
          * someFun(arg1 main arg3)
+         *
+         * @brief actually a fabric method
          */
         std::shared_ptr<AnalyticBasic> ReadName::analyzeToken(fedora::Token const &t, ContextBuilder &b) {
             log("Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
@@ -65,14 +66,14 @@ namespace fedora {
             return std::shared_ptr<ReadFunArgs>();
         }
 
-        std::shared_ptr<AnalyticBasic> ReadName::returnableFunCall(Token const &, ContextBuilder &) {
-            throwException("unimplemented", "ReadName::returnableFunCall");
-            return std::shared_ptr<AnalyticBasic>();
+        std::shared_ptr<AnalyticBasic> ReadName::returnableFunCall(Token const &t, ContextBuilder &b) {
+            b.addReturnableFunCall(t.getData());
+            return std::make_shared<ReadForceArgs>();
         }
 
-        std::shared_ptr<AnalyticBasic> ReadName::forceCall(const Token &, ContextBuilder &) {
-            throwException("unimplemented", "ReadName::forceCall");
-            return std::shared_ptr<AnalyticBasic>();
+        std::shared_ptr<AnalyticBasic> ReadName::forceCall(Token const &t, ContextBuilder &b) {
+            b.setForceName(t.getData());
+            return std::make_shared<ReadForceArgs>();
         }
 
         std::shared_ptr<AnalyticBasic> ReadName::listValue(const Token &, ContextBuilder &) {

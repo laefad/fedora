@@ -35,9 +35,9 @@ namespace fedora {
             /**
              * Read [Returnable] funcCall name
              */
-            std::shared_ptr<AnalyticBasic> returnableFunCall(Token const &, ContextBuilder &);
+            static std::shared_ptr<AnalyticBasic> returnableFunCall(Token const &, ContextBuilder &);
 
-            std::shared_ptr<AnalyticBasic> forceCall(Token const &, ContextBuilder &);
+            static std::shared_ptr<AnalyticBasic> forceCall(Token const &, ContextBuilder &);
 
             std::shared_ptr<AnalyticBasic> listValue(Token const &, ContextBuilder &);
 

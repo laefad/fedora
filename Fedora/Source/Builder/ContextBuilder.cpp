@@ -5,6 +5,7 @@
 #include <Builder/ContextBuilder.h>
 #include <KeyWords.h>
 #include "Types/Number.h"
+#include "Types/FunCall.h"
 #include "Exceptions/BuilderException.h"
 #include "Stack/StackHolder.h"
 
@@ -45,10 +46,10 @@ namespace fedora {
     void ContextBuilder::addReturnableNumber(std::wstring &s) {
         // TODO Перегнать wstring в double в конструкторе Number
         std::shared_ptr<types::Number> n = std::make_shared<types::Number>();
-        functionDeclarator.setNumberAsReturnable(n);
+        functionDeclarator.setReturnable(n);
     }
 
-    void ContextBuilder::setForceName(std::wstring &s) {
+    void ContextBuilder::setForceName(std::wstring const &s) {
         forceCallDeclarator.setName(s);
     }
 
@@ -57,5 +58,11 @@ namespace fedora {
         std::shared_ptr<builder::BuildableForceCall> newForce = std::make_shared<builder::BuildableForceCall>();
         stackHolder->addForceCall(newForce);
         forceCallDeclarator = builder::ForceCallDeclarator(newForce);
+    }
+
+    void ContextBuilder::addReturnableFunCall(const std::wstring &name) {
+        std::shared_ptr<types::FunCall> n = std::make_shared<types::FunCall>();
+        n->setName(name);
+        functionDeclarator.setReturnable(n);
     }
 }
