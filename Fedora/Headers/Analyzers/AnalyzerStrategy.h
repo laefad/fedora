@@ -1,10 +1,7 @@
-//
-// Created on 23.07.2021.
-//
 #pragma once
 
 #include <memory>
-#include "Token.h"
+#include "Parser/Token.h"
 #include "AnalyticBasic.h"
 #include "ReadKeyWord.h"
 #include "Builder/ContextBuilder.h"
@@ -24,9 +21,11 @@ namespace fedora {
         std::shared_ptr<analytic::AnalyticBasic> analyticObj = std::make_shared<analytic::ReadKeyWord>();
         ContextBuilder &contextBuilder;
     public:
-        explicit AnalyzerStrategy(ContextBuilder &contextBuilder1) : contextBuilder(contextBuilder1) {}
+        explicit AnalyzerStrategy(ContextBuilder &contextBuilder1):
+            contextBuilder(contextBuilder1)
+        {}
 
-        bool analyzeNext(Token &);
+        bool analyzeNext(parser::Token &);
     };
 
 }

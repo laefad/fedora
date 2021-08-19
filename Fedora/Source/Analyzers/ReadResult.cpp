@@ -10,7 +10,8 @@
 namespace fedora {
     namespace analytic {
 
-        std::shared_ptr<AnalyticBasic> ReadResult::analyzeToken(Token const &t, ContextBuilder &b) {
+        std::shared_ptr<AnalyticBasic> ReadResult::analyzeToken(parser::Token const &t, ContextBuilder &b) {
+            using fedora::parser::TokenType;
             log("Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
             log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
 
@@ -23,23 +24,23 @@ namespace fedora {
             // 4. Функция
 
             // Если число
-            if (AnalyticUtils::isTokenANumber(t)) {
+            if (t.getType() == TokenType::Number) {
                 // TODO Выделить во внешнюю константу пустой вектор токенов ( std::vector<Token>() )
                 return std::make_shared<ReadKeyWord>();
             }
 
             // Если строка
-            if (AnalyticUtils::isTokenAString(t)) {
+            if (t.getType() == TokenType::String) {
                 return std::make_shared<ReadKeyWord>();
             }
 
             // Если Список
-            if (AnalyticUtils::isTokenALeftSquareBracket(t)) {
+            if (t.getType() == TokenType::ListOpen) {
                 return std::make_shared<ReadList>();
             }
 
             // Если функция
-            if (AnalyticUtils::isTokenAName(t)) {
+            if (t.getType() == TokenType::Name) {
                 // TODO Внедрить режим чтения для force вызова и ретурна из функции
                 return std::make_shared<ReadForceArgs>();
             }

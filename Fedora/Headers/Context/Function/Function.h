@@ -3,7 +3,7 @@
 #include <memory>
 #include <utility>
 #include <vector>
-#include <Token.h>
+#include <Parser/Token.h>
 #include <KeyWords.h>
 #include <Utils/Logger.h>
 
@@ -24,7 +24,7 @@ namespace fedora {
             std::unique_ptr<Returnable> returnable = nullptr;
             std::unique_ptr<NamesOfArguments> args = std::make_unique<NamesOfArguments>();
             std::wstring name = L"";
-            std::vector<KeyWord> keyWords = std::vector<KeyWord>();
+            std::vector<parser::Token> keyWords = std::vector<parser::Token>();
 
             std::vector<std::shared_ptr<Function>> children = std::vector<std::shared_ptr<Function>>();
         public:

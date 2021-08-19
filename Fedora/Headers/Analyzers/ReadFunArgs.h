@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+
 #include "AnalyticBasic.h"
 
 namespace fedora {
@@ -17,7 +18,7 @@ namespace fedora {
          */
         class ReadFunArgs : public AnalyticBasic {
         public:
-            std::shared_ptr<AnalyticBasic> analyzeToken(Token const &, ContextBuilder &) override;
+            std::shared_ptr<AnalyticBasic> analyzeToken(parser::Token const &, ContextBuilder &) override;
 
             std::string getClassFileName() override;
         };

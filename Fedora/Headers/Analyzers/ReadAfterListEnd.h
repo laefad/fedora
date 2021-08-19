@@ -39,7 +39,7 @@ namespace fedora {
         class ReadAfterListEnd : public AnalyticBasic {
         public:
             /// override parent method
-            std::shared_ptr<AnalyticBasic> analyzeToken(Token const &, ContextBuilder &) override;
+            std::shared_ptr<AnalyticBasic> analyzeToken(parser::Token const &, ContextBuilder &) override;
 
             /// override parent method
             std::string getClassFileName() override;

@@ -25,7 +25,7 @@ namespace fedora {
          */
         class ReadForceArgs : public AnalyticBasic {
         public:
-            std::shared_ptr<AnalyticBasic> analyzeToken(Token const &, ContextBuilder &) override;
+            std::shared_ptr<AnalyticBasic> analyzeToken(parser::Token const &, ContextBuilder &) override;
 
             std::string getClassFileName() override;
         };

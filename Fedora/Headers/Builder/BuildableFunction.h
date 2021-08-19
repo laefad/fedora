@@ -1,7 +1,3 @@
-//
-// Created on 09.08.2021.
-//
-
 #pragma once
 
 #include "Context/Function/Function.h"
@@ -26,7 +22,9 @@ namespace fedora {
              */
             bool contextIsReady = false;
         public:
-            explicit BuildableFunction(std::shared_ptr<Function> parent) : context::Function(std::move(parent)) {}
+            explicit BuildableFunction(std::shared_ptr<Function> parent): 
+                context::Function(std::move(parent))
+            {}
 
             bool isNameDeclared() {
                 return !name.empty();
@@ -42,7 +40,7 @@ namespace fedora {
              * @example
              * pure let a = null    # <- "pure" has to be added via this method #
              */
-            void addKeyWord(KeyWord &t) {
+            void addKeyWord(parser::Token &t) {
                 keyWords.push_back(t);
             }
 

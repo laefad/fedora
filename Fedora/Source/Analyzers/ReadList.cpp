@@ -9,7 +9,8 @@
 namespace fedora {
     namespace analytic {
 
-        std::shared_ptr<AnalyticBasic> ReadList::analyzeToken(Token const &t, ContextBuilder &b) {
+        std::shared_ptr<AnalyticBasic> ReadList::analyzeToken(parser::Token const &t, ContextBuilder &b) {
+            using fedora::parser::TokenType;
             log("Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
             log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
 
@@ -22,31 +23,34 @@ namespace fedora {
             // 4. Функцию (с аргументами или без)
             // 5. ] Закрытие списка
 
-            if (AnalyticUtils::isTokenAKeyWord(t))
-                throwException(L"Expected a list value, but got a keyword.", "analyzeToken(Token&)");
+            // TODO вырезал кусок кода
+            // if (AnalyticUtils::isTokenAKeyWord(t))
+            //     throwException(L"Expected a list value, but got a keyword.", "analyzeToken(Token&)");
 
             // Если функция, то перейдём на этап чтения аргументов
-            if (AnalyticUtils::isTokenAName(t) && !AnalyticUtils::isTokenARightSquareBracket(t)) {
+            // оригинал : 
+            // AnalyticUtils::isTokenAName(t) && !AnalyticUtils::isTokenARightSquareBracket(t)
+            // TODO бред какой-то был написан раньше тут, зачем нужна была вторая проверка?
+            if (t.getType() == TokenType::Name)
                 return std::make_shared<ReadForceArgs>();
-            }
 
             // if number
-            if (AnalyticUtils::isTokenANumber(t)) {
+            if (t.getType() == TokenType::Number) {
                 return shared_from_this();
             }
 
             // if string
-            if (AnalyticUtils::isTokenAString(t)) {
+            if (t.getType() == TokenType::String) {
                 return shared_from_this();
             }
 
             // "[" if list start
-            if (AnalyticUtils::isTokenALeftSquareBracket(t)) {
+            if (t.getType() == TokenType::ListOpen) {
                 return shared_from_this();
             }
 
             // "]" if list end
-            if (AnalyticUtils::isTokenARightSquareBracket(t)) {
+            if (t.getType() == TokenType::ListClose) {
                 return std::make_shared<ReadAfterListEnd>();
             } else {
                 throwException(L"Expected a list member, but got token = " + t.getData(), "analyzeToken(Token&)");

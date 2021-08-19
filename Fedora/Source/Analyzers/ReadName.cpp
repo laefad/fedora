@@ -1,5 +1,4 @@
 
-#include "KeyWords.h"
 #include "Exceptions/AnalyzerException.h"
 
 #include "Analyzers/ReadForceArgs.h"
@@ -34,11 +33,12 @@ namespace fedora {
          *
          * @brief actually a fabric method
          */
-        std::shared_ptr<AnalyticBasic> ReadName::analyzeToken(fedora::Token const &t, ContextBuilder &b) {
+        std::shared_ptr<AnalyticBasic> ReadName::analyzeToken(parser::Token const &t, ContextBuilder &b) {
+            using fedora::parser::TokenType;
             log("Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
             log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
 
-            if (!AnalyticUtils::isTokenAName(t))
+            if (t.getType() != TokenType::Name)
                 throwException(L"Expected a function name, but founded name is invalid. Token = " + t.getData(),
                                "analyzeToken(Token&) <- AnalyticUtils::isValidName(std::wstring&)");
 
@@ -54,6 +54,8 @@ namespace fedora {
                 case FUNCTION_ARGUMENT:
                     return functionArgument(t, b);
             }
+
+            //TODO no default exit
         }
 
         std::string ReadName::getClassFileName() {
@@ -61,27 +63,27 @@ namespace fedora {
         }
 
 
-        std::shared_ptr<AnalyticBasic> ReadName::functionDeclaration(Token const &t, ContextBuilder &b) {
+        std::shared_ptr<AnalyticBasic> ReadName::functionDeclaration(parser::Token const &t, ContextBuilder &b) {
             b.setFunctionName(t);
             return std::shared_ptr<ReadFunArgs>();
         }
 
-        std::shared_ptr<AnalyticBasic> ReadName::returnableFunCall(Token const &t, ContextBuilder &b) {
+        std::shared_ptr<AnalyticBasic> ReadName::returnableFunCall(parser::Token const &t, ContextBuilder &b) {
             b.addReturnableFunCall(t.getData());
             return std::make_shared<ReadForceArgs>();
         }
 
-        std::shared_ptr<AnalyticBasic> ReadName::forceCall(Token const &t, ContextBuilder &b) {
+        std::shared_ptr<AnalyticBasic> ReadName::forceCall(parser::Token const &t, ContextBuilder &b) {
             b.setForceName(t.getData());
             return std::make_shared<ReadForceArgs>();
         }
 
-        std::shared_ptr<AnalyticBasic> ReadName::listValue(const Token &, ContextBuilder &) {
+        std::shared_ptr<AnalyticBasic> ReadName::listValue(const parser::Token &, ContextBuilder &) {
             throwException("unimplemented", "ReadName::listValue");
             return std::shared_ptr<AnalyticBasic>();
         }
 
-        std::shared_ptr<AnalyticBasic> ReadName::functionArgument(const Token &, ContextBuilder &) {
+        std::shared_ptr<AnalyticBasic> ReadName::functionArgument(const parser::Token &, ContextBuilder &) {
             throwException("unimplemented", "ReadName::functionArgument");
             return std::shared_ptr<AnalyticBasic>();
         }

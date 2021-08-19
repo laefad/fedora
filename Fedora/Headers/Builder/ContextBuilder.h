@@ -1,7 +1,3 @@
-//
-// Created on 01.08.2021.
-//
-
 #pragma once
 
 #include <memory>
@@ -9,7 +5,7 @@
 #include "Utils/BasicSingleton.h"
 #include "Context/Function/Function.h"
 #include "Utils/Logger.h"
-#include "Token.h"
+#include "Parser/Token.h"
 #include "FunctionDeclarator.h"
 #include "ForceCallDeclarator.h"
 #include "Builder/BuildableFunction.h"
@@ -73,11 +69,11 @@ namespace fedora {
          * pure let a = 1 <- "pure" will be added via this method
          *
          */
-        void addFunctionDeclarationToken(KeyWord &);
+        void addFunctionDeclarationToken(parser::Token &);
 
         void notifyWeGotLetToken();
 
-        void setFunctionName(Token const &);
+        void setFunctionName(parser::Token const &);
 
         void notifyWeSetReturnable();
 
@@ -87,12 +83,12 @@ namespace fedora {
 
         void notifyWeStartForceCall();
 
-        void addArgumentName(Token const &);
+        void addArgumentName(parser::Token const &);
 
         void setForceName(std::wstring const &);
         // TODO Добавить режим заполнения: функция, фанколл и проверять, своевременно ли вызван метод
 
-        bool isCurrentFunctionForced(Token &) {
+        bool isCurrentFunctionForced(parser::Token &) {
             return true;
         }
     };

@@ -1,6 +1,8 @@
 ﻿#include <iostream>
 #include <memory>
-#include "Parser.h"
+
+#include "Parser/Parser.h"
+#include "Analyzers/AnalyzerStrategy.h"
 #include "Utils/SettingsSingleton.h"
 #include "Utils/SingletonsCleaner.h"
 

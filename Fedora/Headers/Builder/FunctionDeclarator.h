@@ -1,7 +1,3 @@
-//
-// Created on 03.08.2021.
-//
-
 #pragma once
 
 #include <utility>
@@ -80,7 +76,9 @@ namespace fedora {
 //                return result;
 //            };
         public:
-            explicit FunctionDeclarator(std::shared_ptr<builder::BuildableFunction> f) : function(std::move(f)) {}
+            explicit FunctionDeclarator(std::shared_ptr<builder::BuildableFunction> f):
+                function(std::move(f))
+            {}
             //funMode(setFunMode()) {}
 
             // TODO Стоит ли внедрять в каждую функцию проверку на Nullptr?
@@ -93,7 +91,7 @@ namespace fedora {
              * @example
              * pure let a = null <- "pure" keyword should be added via this method
              */
-            void addPreFunKeyWord(KeyWord &t) {
+            void addPreFunKeyWord(parser::Token &t) {
                 function->addKeyWord(t);
             }
 
@@ -126,7 +124,7 @@ namespace fedora {
                 function->setReturnable(r);
             }
 
-            void addArgumentName(const Token &t){
+            void addArgumentName(const parser::Token &t){
                 function->addArgName(t.getData());
             }
         };

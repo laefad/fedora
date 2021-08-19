@@ -1,11 +1,7 @@
-//
-// Created on 28.07.2021.
-//
-
 #pragma once
 
-#include "Token.h"
 #include <vector>
+
 #include "Exceptions/SettingsException.h"
 #include "BasicSingleton.h"
 

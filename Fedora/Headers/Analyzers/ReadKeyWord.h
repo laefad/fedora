@@ -38,7 +38,7 @@ namespace fedora {
             * let b = force a
             * # in this case, result resolver [ReadResult] will get the "force" token #
             */
-            std::shared_ptr<AnalyticBasic> analyzeToken(Token const &, ContextBuilder &) override;
+            std::shared_ptr<AnalyticBasic> analyzeToken(parser::Token const &, ContextBuilder &) override;
 
             std::string getClassFileName() override;
         };

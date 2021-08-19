@@ -10,7 +10,8 @@
 #include "Stack/StackHolder.h"
 
 namespace fedora {
-    void ContextBuilder::addFunctionDeclarationToken(KeyWord &t) {
+    void ContextBuilder::addFunctionDeclarationToken(parser::Token &t) {
+        using fedora::parser::TokenType;
         if (functionDeclarator.isNull()) {
             // Need to declare new blank function
             createFunctionAndBuilder();
@@ -18,12 +19,12 @@ namespace fedora {
 
 
         // If t == let -> we don't need anything special, cause function is already declared
-        if (t != let) {
+        if (t.getType() != TokenType::FunctionDeclaration) {
             functionDeclarator.addPreFunKeyWord(t);
         }
 
 
-        if (t == let)
+        if (t.getType() == TokenType::FunctionDeclaration)
             throw exception::BuilderException(
                     "A \"let\" token must not be pushed to the context. Use ContextBuilder::notifyWeGotLetToken() instead.",
                     "ContextBuilder::addFunctionDeclarationToken");
@@ -35,7 +36,7 @@ namespace fedora {
         }
     }
 
-    void ContextBuilder::setFunctionName(Token const &t) {
+    void ContextBuilder::setFunctionName(parser::Token const &t) {
         functionDeclarator.setFunctionName(t.getData());
     }
 
@@ -66,7 +67,7 @@ namespace fedora {
         functionDeclarator.setReturnable(n);
     }
 
-    void ContextBuilder::addArgumentName(const Token & t) {
+    void ContextBuilder::addArgumentName(const parser::Token & t) {
         functionDeclarator.addArgumentName(t);
     }
 }

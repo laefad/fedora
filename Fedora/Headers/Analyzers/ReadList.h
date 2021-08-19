@@ -26,7 +26,7 @@ namespace fedora {
 
             /// Определение родительского метода анализа токена
             /// @brief По факту является фабричным методом
-            std::shared_ptr<AnalyticBasic> analyzeToken(Token const &, ContextBuilder &) override;
+            std::shared_ptr<AnalyticBasic> analyzeToken(parser::Token const &, ContextBuilder &) override;
 
             /// Определение метода получения файла
             std::string getClassFileName() override;

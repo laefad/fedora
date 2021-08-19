@@ -1,6 +1,4 @@
 
-#include "KeyWords.h"
-
 #include "Analyzers/ReadKeyWord.h"
 #include "Analyzers/ReadList.h"
 #include "Analyzers/ReadResult.h"
@@ -11,8 +9,8 @@
 namespace fedora {
     namespace analytic {
 
-        std::shared_ptr<AnalyticBasic> ReadAfterListEnd::analyzeToken(Token const &t, ContextBuilder &b) {
-
+        std::shared_ptr<AnalyticBasic> ReadAfterListEnd::analyzeToken(parser::Token const &t, ContextBuilder &b) {
+            using fedora::parser::TokenType;
             // Ожидаются:
             // 1. "]" Закрытие списка
             // 2. ")" Завершение функции
@@ -24,14 +22,12 @@ namespace fedora {
             // 8. Let Новая функция объявлена
 
             // "]"
-            if (AnalyticUtils::isTokenARightSquareBracket(t)) {
+            if (t.getType() == TokenType::ListClose) 
                 return shared_from_this();
-            }
 
             // ")"
-            if (AnalyticUtils::isTokenARightCircleBracket(t)) {
+            if (t.getType() == TokenType::CallClose)
                 return std::make_shared<ReadKeyWord>();
-            }
 
             // Number
             /**
@@ -41,30 +37,28 @@ namespace fedora {
              * @example case 2: List and num in force args
              * force main ( [1 2] 3 )
              */
-            if (AnalyticUtils::isTokenANumber(t)) {
-                // TODO Возвращать в чтегие списка или в force args по необходимости
+            if (t.getType() == TokenType::Number)
+                // TODO Возвращать в чтение списка или в force args по необходимости
                 return shared_from_this();
-            }
 
             // TODO Examples аналогичны Number
-            if (AnalyticUtils::isTokenAString(t)) {
+            if (t.getType() == TokenType::String)
                 return shared_from_this();
-            }
 
             // "["
-            if (AnalyticUtils::isTokenALeftSquareBracket(t)) {
+            if (t.getType() == TokenType::ListOpen)
                 return std::make_shared<ReadList>();
-            }
 
-            if (t == returns) {
+            if (t.getType() == TokenType::FunctionReturnableDeclaration) {
                 return std::make_shared<ReadResult>();
             }
 
-            if (AnalyticUtils::isTokenAPreFunKeyWord(t)) {
+            // TODO здесь был prefun keyword раньше (+ pure)
+            if (t.getType() == TokenType::ForceCall)  {
                 return std::make_shared<ReadKeyWord>();
             }
 
-            if (t == let) {
+            if (t.getType() == TokenType::FunctionDeclaration) {
                 return std::make_shared<ReadName>(ReadName::FUNCTION_DECLARATION);
             }
 

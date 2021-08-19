@@ -14,14 +14,18 @@ add_executable(fedora
         Fedora/Headers/Types/List.h
         Fedora/Headers/Types/Number.h
         Fedora/Headers/Types/String.h
-        Fedora/Headers/Parser.h
+        Fedora/Headers/Parser/TokenType.h
+        Fedora/Headers/Parser/ParserUtils.h
+        Fedora/Source/Parser/ParserUtils.cpp
+        Fedora/Headers/Parser/TokensHolder.h
+        Fedora/Headers/Parser/Parser.h
         Fedora/Source/Types/List.cpp
         Fedora/Source/Types/Number.cpp
-        Fedora/Source/Parser.cpp
+        Fedora/Source/Parser/Parser.cpp
         Fedora/Source/Types/String.cpp
         Fedora/Fedora.cpp
-        Fedora/Headers/Token.h
-        Fedora/Source/Token.cpp
+        Fedora/Headers/Parser/Token.h
+        Fedora/Source/Parser/Token.cpp
         Fedora/Headers/Exceptions/FException.h
         Fedora/Headers/StaticUtils.h
         Fedora/Source/StaticUtils.cpp
@@ -43,7 +47,6 @@ add_executable(fedora
         Fedora/Headers/Exceptions/AnalyzerException.h
         Fedora/Headers/KeyWords.h
         Fedora/Source/KeyWords.cpp
-        Fedora/Headers/Utils/TokensHolder.h
         Fedora/Headers/Analyzers/ReadList.h
         Fedora/Source/Analyzers/ReadList.cpp
         Fedora/Source/Analyzers/AnalyticBasic.cpp
@@ -51,7 +54,7 @@ add_executable(fedora
         Fedora/Headers/Exceptions/SettingsException.h
         Fedora/Headers/Utils/Logger.h
         Fedora/Source/Utils/SettingsSingleton.cpp
-        Fedora/Source/Utils/TokensHolder.cpp
+        Fedora/Source/Parser/TokensHolder.cpp
         Fedora/Headers/Analyzers/ReadAfterListEnd.h
         Fedora/Source/Analyzers/ReadAfterListEnd.cpp
         Fedora/Headers/Utils/SingletonsCleaner.h

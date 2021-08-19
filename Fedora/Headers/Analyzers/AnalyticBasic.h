@@ -3,7 +3,7 @@
 #include <memory>
 #include <vector>
 
-#include "Token.h"
+#include "Parser/Token.h"
 #include "Utils/SettingsSingleton.h"
 #include "Builder/ContextBuilder.h"
 
@@ -27,7 +27,7 @@ namespace fedora {
             AnalyticBasic() = default;
 
             /// Проанализировать прочитаный токен
-            virtual std::shared_ptr<AnalyticBasic> analyzeToken(Token const &, ContextBuilder &) = 0;
+            virtual std::shared_ptr<AnalyticBasic> analyzeToken(parser::Token const &, ContextBuilder &) = 0;
 
             /// Получить имя файла с кодом. Используется для вывода сообщения об ошибке
             virtual std::string getClassFileName() = 0;

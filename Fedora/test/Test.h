@@ -1,21 +1,17 @@
-//
-// Created on 02.08.2021.
-//
-
 #ifndef FEDORA_TEST_H
 #define FEDORA_TEST_H
 
 #include "Builder/ContextBuilder.h"
 #include "Stack/StackHolder.h"
-#include "Parser.h"
-#include "Utils/TokensHolder.h"
+#include "Parser/Parser.h"
+#include "Parser/TokensHolder.h"
 
 using namespace fedora;
 
 class ContextBuildTester {
 public:
     static void test() {
-        test1();
+        //test1();
         test2();
         test3();
     }
@@ -24,33 +20,34 @@ private:
     /**
      * let a = 1
      */
-    static void test1() {
-        ContextBuilder builder = ContextBuilder();
+    // static void test1() {
+    //     ContextBuilder builder = ContextBuilder();
 
-        Token mPure = Token(L"pure");
-        Token mLet = Token(L"let");
-        Token mA = Token(L"a");
-        Token mReturn = Token(L"=");
-        Token mOne = Token(L"1");
+    //     Token mPure = Token(L"pure");
+    //     Token mLet = Token(L"let");
+    //     Token mA = Token(L"a");
+    //     Token mReturn = Token(L"=");
+    //     Token mOne = Token(L"1");
 
-        KeyWord mPure2 = KeyWord(L"pure");
-        KeyWord mPure3 = KeyWord(mPure);
+    //     KeyWord mPure2 = Token(L"pure");
+    //     KeyWord mPure3 = KeyWord(mPure);
 
-        bool a = mPure == mPure2;
-        bool b = mPure2 == mPure;
-        bool c = mPure2 == mPure2;
+    //     bool a = mPure == mPure2;
+    //     bool b = mPure2 == mPure;
+    //     bool c = mPure2 == mPure2;
 
-        builder.addFunctionDeclarationToken(mPure2);
-        builder.notifyWeGotLetToken();
-        builder.setFunctionName(mA);
-        builder.notifyWeSetReturnable();
-        auto num = mOne.getData();
-        builder.addReturnableNumber(num);
-        clean();
-        Logger::logV("test1 completed");
-    }
+    //     builder.addFunctionDeclarationToken(mPure2);
+    //     builder.notifyWeGotLetToken();
+    //     builder.setFunctionName(mA);
+    //     builder.notifyWeSetReturnable();
+    //     auto num = mOne.getData();
+    //     builder.addReturnableNumber(num);
+    //     clean();
+    //     Logger::logV("test1 completed");
+    // }
 
     static void test2() {
+        using parser::Token;
         ContextBuilder builder = ContextBuilder();
 
         Token mName = Token(L"main");
@@ -65,6 +62,9 @@ private:
     }
 
     static void test3() {
+        using fedora::parser::TokensHolder;
+        using fedora::parser::Parser;
+        
         Parser parser = Parser();
         TokensHolder tokensHolder = TokensHolder();
         parser.readFile("./../programs/tokensTest.fe", tokensHolder);

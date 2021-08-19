@@ -10,7 +10,7 @@ namespace fedora {
         class ReadResult : public AnalyticBasic {
         public:
             /// Определение родительского метода анализа токена
-            std::shared_ptr<AnalyticBasic> analyzeToken(Token const &, ContextBuilder &) override;
+            std::shared_ptr<AnalyticBasic> analyzeToken(parser::Token const &, ContextBuilder &) override;
 
             std::string getClassFileName() override;
         };

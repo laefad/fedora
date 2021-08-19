@@ -1,4 +1,3 @@
-#include "KeyWords.h"
 
 #include "Analyzers/ReadName.h"
 #include "Analyzers/ReadResult.h"
@@ -8,28 +7,30 @@
 namespace fedora {
     namespace analytic {
 
-        std::shared_ptr<AnalyticBasic> ReadKeyWord::analyzeToken(Token const &t, ContextBuilder &b) {
+        std::shared_ptr<AnalyticBasic> ReadKeyWord::analyzeToken(parser::Token const &t, ContextBuilder &b) {
+            using fedora::parser::TokenType;
             log("Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
             log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
 
 
-            if (t == returns) {
+            if (t.getType() == TokenType::FunctionReturnableDeclaration) {
                 // if we got an "equals"
                 b.notifyWeSetReturnable();
                 return std::make_shared<ReadResult>();
 
-            } else if (t == pure) {
-                // if is "pure", set keyword in context and read fun name
-                KeyWord casted = KeyWord(t);
-                b.addFunctionDeclarationToken(casted);
-                return std::make_shared<ReadName>(ReadName::ReadNameMode::FUNCTION_DECLARATION);
+            // TODO выпилил еще часть кода
+            // } else if (t == pure) {
+            //     // if is "pure", set keyword in context and read fun name
+            //     KeyWord casted = KeyWord(t);
+            //     b.addFunctionDeclarationToken(casted);
+            //     return std::make_shared<ReadName>(ReadName::ReadNameMode::FUNCTION_DECLARATION);
 
-            } else if (t == force) {
+            } else if (t.getType() == TokenType::ForceCall) {
                 // if is "force", read forceCall name
                 b.notifyWeStartForceCall();
                 return std::make_shared<ReadName>(ReadName::FORCE_CALL);
 
-            } else if (t == let) {
+            } else if (t.getType() == TokenType::FunctionDeclaration) {
                 // if is let, read fun name
                 b.notifyWeGotLetToken();
                 return std::make_shared<ReadName>(ReadName::ReadNameMode::FUNCTION_DECLARATION);

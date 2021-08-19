@@ -1,6 +1,4 @@
 
-#include "KeyWords.h"
-
 #include "Analyzers/ReadKeyWord.h"
 #include "Analyzers/ReadList.h"
 #include "Analyzers/ReadName.h"
@@ -10,7 +8,8 @@
 namespace fedora {
     namespace analytic {
 
-        std::shared_ptr<AnalyticBasic> ReadForceArgs::analyzeToken(Token const &t, ContextBuilder &b) {
+        std::shared_ptr<AnalyticBasic> ReadForceArgs::analyzeToken(parser::Token const &t, ContextBuilder &b) {
+            using fedora::parser::TokenType;
             log("Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
             log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
 
@@ -29,54 +28,51 @@ namespace fedora {
             // let my_list = [ 1 2 "3" my_str ]
 
             // "(" Открвающая скобка. Начало чтения аргументов
-            if (AnalyticUtils::isTokenALeftCircleBracket(t)) {
+            if (t.getType() == TokenType::CallOpen)
                 return shared_from_this();
-            }
 
             // Число
-            if (AnalyticUtils::isTokenANumber(t)) {
+            if (t.getType() == TokenType::Number)
                 return shared_from_this();
-            }
 
             // Строка
-            if (AnalyticUtils::isTokenAString(t)) {
+            if (t.getType() == TokenType::String)
                 return shared_from_this();
-            }
 
             // "[" A List
-            if (AnalyticUtils::isTokenALeftSquareBracket(t)) {
+            if (t.getType() == TokenType::ListOpen)
                 return std::make_shared<ReadList>();
-            }
 
             // Если функция
-            if (AnalyticUtils::isTokenAName(t)) {
+            if (t.getType() == TokenType::Name)
                 // Начинаем новое чтение аргументов
                 return std::make_shared<ReadForceArgs>();
-            }
 
             // "]"
-            if (AnalyticUtils::isTokenARightSquareBracket(t)) {
-                // TODO Либо мы читаем следующий аргумент функции (если список играет роль одного из аргументов), либо переходим к чтению следующей функции
+            if (t.getType() == TokenType::ListClose)
+                // TODO Либо мы читаем следующий аргумент функции (если список играет роль одного из аргументов),
+                // либо переходим к чтению следующей функции
                 return shared_from_this();
-            }
 
             // ")"
-            if (AnalyticUtils::isTokenARightCircleBracket(t)) {
+            if (t.getType() == TokenType::CallClose) {
                 // Заканчиваем чтение аргументов
                 // TODO Внедрить mode и начать здесь исполнение функции иначе переходим к чтению дальнейшего контекста
                 return shared_from_this();
             }
 
             // Pure force Если идут ключевые слова для следующей функции, т.е. начинается её объявление
-            if (AnalyticUtils::isTokenAPreFunKeyWord(t)) {
+            // TODO опять вырезал pure 
+            if (t.getType() == TokenType::ForceCall) {
                 // TODO Понять, когда объявление функции валидно.
                 // Оно валидно внутри контекста where ^ = или после завершения returnable (т.е. текущий токен должен корретно завершать рретурнабл, иначе оформлять вкид)
                 return std::make_shared<ReadKeyWord>();
             }
 
-            if (AnalyticUtils::isTokenAKeyWord(t)) {
-                throwException(L"Got a keyword when a function argument expected", "analyzeToken(Token &)");
-            }
+            // TODO вырезал проверку, при обновлении токена и KeyWord ее надо будет восстановить
+            // if (AnalyticUtils::isTokenAKeyWord(t)) {
+            //     throwException(L"Got a keyword when a function argument expected", "analyzeToken(Token &)");
+            // }
 
             // TODO Сюда мы вообще не должны попадать
             throwException(L"ForceArgs got something undetectable o_0", "analyzeToken(Token &)");
