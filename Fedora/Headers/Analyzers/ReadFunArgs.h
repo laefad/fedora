@@ -5,28 +5,14 @@
 
 namespace fedora {
     namespace analytic {
-//        namespace funArgs{
-//            enum mode {
-//                /**
-//                 * @example
-//                 * let a = b(1 2 3)
-//                 */
-//                READ_ARGS_TO_DEFINE,
-//
-//                /**
-//                 * @example
-//                 * force main(1 2 3)
-//                 */
-//                READ_ARGS_TO_FORCE,
-//            };
-//        }
+
         /**
          * Read function arg names
          *
          * @example case 1: Has args
          * let fun arg1 arg2 = ...
          *
-         * @example case 2: Does not have args
+         * @example case 2: Does not has args
          * let fun = ...
          */
         class ReadFunArgs : public AnalyticBasic {

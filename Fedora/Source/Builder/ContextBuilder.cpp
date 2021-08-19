@@ -65,4 +65,8 @@ namespace fedora {
         n->setName(name);
         functionDeclarator.setReturnable(n);
     }
+
+    void ContextBuilder::addArgumentName(const Token & t) {
+        functionDeclarator.addArgumentName(t);
+    }
 }

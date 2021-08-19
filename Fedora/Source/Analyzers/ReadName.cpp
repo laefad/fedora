@@ -23,10 +23,10 @@ namespace fedora {
          * @example case 2: RETURNABLE_FUN_CALL
          * let a = main
          *
-         * @example case 3:
+         * @example case 3: FORCE_CAL
          * force main
          *
-         * @example case 4:
+         * @example case 4: LIST_VALUE
          * ... = [main main2]
          *
          * @example case 5:

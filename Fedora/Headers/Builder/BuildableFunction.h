@@ -76,6 +76,10 @@ namespace fedora {
             void setReturnable(context::Returnable &r) {
                 returnable = std::make_unique<context::Returnable>(r);
             }
+
+            void addArgName(const std::wstring& wstring){
+                args->addStrToArgNames(wstring);
+            }
         };
     }
 }

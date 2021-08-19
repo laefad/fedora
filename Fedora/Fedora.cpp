@@ -1,17 +1,12 @@
 ﻿#include <iostream>
-#include <string>
 #include <memory>
-#include <Utils/TokensHolder.h>
-#include <Analyzers/AnalyticUtils.h>
 #include "Parser.h"
 #include "Utils/SettingsSingleton.h"
 #include "Utils/SingletonsCleaner.h"
 
 #include "test/Test.h"
 
-#include "Utils/BasicSingleton.h"
 #include "Context/Function/Function.h"
-#include "Builder/BuildableFunction.h"
 #include "Builder/ContextBuilder.h"
 
 namespace fedora {

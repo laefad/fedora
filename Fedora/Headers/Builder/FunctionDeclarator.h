@@ -125,6 +125,10 @@ namespace fedora {
                 context::Returnable r = context::Returnable(n);
                 function->setReturnable(r);
             }
+
+            void addArgumentName(const Token &t){
+                function->addArgName(t.getData());
+            }
         };
 
     }

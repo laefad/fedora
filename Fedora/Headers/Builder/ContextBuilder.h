@@ -87,6 +87,8 @@ namespace fedora {
 
         void notifyWeStartForceCall();
 
+        void addArgumentName(Token const &);
+
         void setForceName(std::wstring const &);
         // TODO Добавить режим заполнения: функция, фанколл и проверять, своевременно ли вызван метод
 
