@@ -38,7 +38,7 @@ namespace fedora {
             uint32_t line;
 
         private:
-            Parser();
+            explicit Parser();
             explicit Parser(std::unique_ptr<std::wistream> in);
 
             /// Прочитать следующий токен

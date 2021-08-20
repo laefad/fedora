@@ -3,7 +3,9 @@
 
 namespace fedora {
     namespace parser {
-        TokensHolder::TokensHolder() {}
+        TokensHolder::TokensHolder():
+            tokens(std::vector<Token>())
+        {}
 
         //TODO а корректно использовать ссылку константную ??? 
         void TokensHolder::add(const Token &a) {

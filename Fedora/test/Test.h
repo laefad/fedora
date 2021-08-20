@@ -82,7 +82,13 @@ private:
             Logger::logV("test 3.2 completed");
 
         parser = Parser::makeStringParser(L"let a = 89 let it be where let a = 0 = +(be it a)");
-        tokensHolder = parser.parse();
+        //parser = Parser::makeStringParser(L"中 国 a");
+
+        try {
+            tokensHolder = parser.parse();
+        } catch (FException e) {
+            Logger::logE(e.what());
+        }
 
         if (tokensHolder.size() != 20)
             Logger::logV("test 3.3 failed");

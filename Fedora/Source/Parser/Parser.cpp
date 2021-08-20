@@ -30,7 +30,7 @@ namespace fedora {
             TokensHolder tokensHolder = TokensHolder();
 
             if (!in->good()) {
-                fedora::Logger::logE("Parser::parse -- parse error!");
+                fedora::Logger::logE("Parser::parse -- parse error or empty source");
                 //TODO error ??
                 return tokensHolder;
             }
@@ -52,6 +52,10 @@ namespace fedora {
             uint32_t initLine = line;
             wchar_t tmp;
 
+            if (in->eof())
+                throw FException("Parser::readString");
+                //TODO add error
+
             do {
                 tmp = in->get();
                 res += tmp;
@@ -59,9 +63,9 @@ namespace fedora {
                     ++line;
             } while (!ParserUtils::isQuote(tmp) && !in->eof());
 
-            if (!ParserUtils::isQuote(tmp) && in->eof());
+            if (!ParserUtils::isQuote(tmp) && in->eof())
+                throw FException("Parser::readString not closed");
             // TODO add error
-            //throw error
 
             return Token(L'\"' + res, initLine, TokenType::String);
         }
@@ -69,15 +73,19 @@ namespace fedora {
         void Parser::readComment() {
             wchar_t tmp;
 
+            if (in->eof())
+                throw FException("Parser::readComment");
+                //TODO add error
+
             do {
                 tmp = in->get();
                 if (ParserUtils::isNewLine(tmp))
                     ++line;
             } while (!ParserUtils::isComment(tmp) && !in->eof());
 
-            if (!ParserUtils::isComment(tmp) && in->eof());
+            if (!ParserUtils::isComment(tmp) && in->eof())
+                throw FException("Parser::readComment not closed");
             // TODO add error
-            //throw error
         }
 
         Token Parser::readToken() {
@@ -100,9 +108,15 @@ namespace fedora {
                 if (ParserUtils::isDelimiter(tmp))
                     return Token(res, line);
 
+                if (in->eof()) {
+                    if (!res.empty())
+                        return Token(res, line);
+                    else 
+                        throw FException("Parser::readToken empty token");
+                }
+
                 tmp = in->peek();
 
-                // TODO eof check тут нужен или нет?
                 if ((ParserUtils::isDelimiter(tmp) ||
                         ParserUtils::isQuote(tmp) ||
                         ParserUtils::isIgnored(tmp)) &&
@@ -110,7 +124,11 @@ namespace fedora {
                     return Token(res, line);
             }
 
-            return Token(res, line);
+            //empty token check     
+            if (!res.empty())
+                return Token(res, line);
+            else 
+                throw FException("Parser::readToken empty token");           
         }
 
         void Parser::determineAndSetTokenType(Token & t) {
