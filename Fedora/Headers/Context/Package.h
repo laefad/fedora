@@ -12,6 +12,11 @@ namespace fedora {
         class Package {
         private:
             std::vector<std::shared_ptr<Function>> children = std::vector<std::shared_ptr<Function>>();
+        public:
+            Package () = default;
+            void addChildFunction(std::shared_ptr<Function> f){
+                children.push_back(f);
+            }
         };
     }
 }

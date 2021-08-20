@@ -37,6 +37,9 @@ namespace fedora {
              */
             static std::shared_ptr<AnalyticBasic> returnableFunCall(parser::Token const &, ContextBuilder &);
 
+            /**
+             * Read force call name
+             */
             static std::shared_ptr<AnalyticBasic> forceCall(parser::Token const &, ContextBuilder &);
 
             std::shared_ptr<AnalyticBasic> listValue(parser::Token const &, ContextBuilder &);

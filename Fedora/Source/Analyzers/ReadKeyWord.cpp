@@ -26,11 +26,13 @@ namespace fedora {
             //     return std::make_shared<ReadName>(ReadName::ReadNameMode::FUNCTION_DECLARATION);
 
             } else if (t.getType() == TokenType::ForceCall) {
+
                 // if is "force", read forceCall name
                 b.notifyWeStartForceCall();
                 return std::make_shared<ReadName>(ReadName::FORCE_CALL);
 
             } else if (t.getType() == TokenType::FunctionDeclaration) {
+
                 // if is let, read fun name
                 b.notifyWeGotLetToken();
                 return std::make_shared<ReadName>(ReadName::ReadNameMode::FUNCTION_DECLARATION);
@@ -38,7 +40,7 @@ namespace fedora {
             } else {
                 throwException(L"Expected a pre-function key word or \"=\", but got \"" + t.getData() + L"\"",
                                "analyzeToken(Token &)");
-                return std::shared_ptr<AnalyticBasic>();
+                return shared_from_this();
             }
 
         }

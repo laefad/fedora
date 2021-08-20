@@ -31,17 +31,14 @@ namespace fedora {
                 // case 1
                 // TODO  сделать добавление под-функции, если мы уже в контексте в контекст билдер
                 return std::make_shared<ReadKeyWord>();
-
             } else if (t.getType() == TokenType::FunctionReturnableDeclaration) {
                 // case 2
                 b.notifyWeSetReturnable();
                 return std::make_shared<ReadResult>();
-
             } else if (t.getType() == TokenType::Name){
                 //case 3
                 b.addArgumentName(t);
                 return shared_from_this();
-
             }else{
                 // error
                 throwException(L"Invalid argument name", "analyzeToken(Token&)");

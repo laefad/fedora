@@ -4,6 +4,7 @@
 
 #include "Utils/BasicSingleton.h"
 #include "Context/Function/Function.h"
+#include "Context/Package.h"
 #include "Utils/Logger.h"
 #include "Parser/Token.h"
 #include "FunctionDeclarator.h"
@@ -40,24 +41,42 @@ namespace fedora {
          * @note redeclare utilities each time we get new context //TODO ВЫнести утилиты и контекст в приват абстрактного билдера и наследовать этот класс от него. Но мб это не нужно делать. Посмотрим, как будет выглядеть сборщик без этого
          */
         // TODO Заменить Function на Package с unique_ptr
-        std::shared_ptr<context::Function> currentContext;
+        //std::shared_ptr<context::Function> currentContext;
+        std::shared_ptr<context::Function> currentFunction;
+        std::unique_ptr<context::Package> package;
 
         /// Function declaration utility
         builder::FunctionDeclarator functionDeclarator;
 
         builder::ForceCallDeclarator forceCallDeclarator;
 
-        // TODO Стоит ли разбить объявление функции и создание билдера на 2 функции? Или не стоит упоминать в имени 2 действия? Мне не нравится нарушение принципа единой ответственности
+        /**
+         * @example case 1: Top-level function declaration
+         * let example = 1
+         *
+         * @example case 2: Sub-level function declaration
+         * let main where
+         *   let example = 1
+         * ...
+         */
         void createFunctionAndBuilder() {
             std::shared_ptr<builder::BuildableFunction> newFunction = std::make_shared<builder::BuildableFunction>(
                     nullptr);
-            currentContext->addChildFunction(newFunction);
+            if (currentFunction == nullptr){
+                // case 1: First Top-level function declaration
+                currentFunction = newFunction;
+                package->addChildFunction(currentFunction);
+            }else{
+                // case 2: Sub-level function declaration
+                currentFunction->addChildFunction(newFunction);
+            }
             functionDeclarator = builder::FunctionDeclarator(newFunction);
         }
 
     public:
-        ContextBuilder() : functionDeclarator(nullptr), forceCallDeclarator(nullptr) {
-            currentContext = std::make_shared<context::Function>(nullptr);
+        ContextBuilder() : functionDeclarator(nullptr), forceCallDeclarator(nullptr),
+        currentFunction(nullptr), package(std::make_unique<context::Package>()) {
+
         }
 
         ~ContextBuilder() = default;
