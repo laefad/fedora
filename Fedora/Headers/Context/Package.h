@@ -11,9 +11,13 @@ namespace fedora {
         // TODO Пока нигде не используется.
         class Package {
         private:
-            std::vector<std::shared_ptr<Function>> children = std::vector<std::shared_ptr<Function>>();
+            std::vector<std::shared_ptr<Function>> children;
         public:
-            Package () = default;
+            Package ():
+                children(std::vector<std::shared_ptr<Function>>())
+            {
+            }
+
             void addChildFunction(std::shared_ptr<Function> f){
                 children.push_back(f);
             }

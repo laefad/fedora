@@ -43,7 +43,7 @@ namespace fedora {
         // TODO Заменить Function на Package с unique_ptr
         //std::shared_ptr<context::Function> currentContext;
         std::shared_ptr<context::Function> currentFunction;
-        std::unique_ptr<context::Package> package;
+        std::shared_ptr<context::Package> package;
 
         /// Function declaration utility
         builder::FunctionDeclarator functionDeclarator;
@@ -74,9 +74,13 @@ namespace fedora {
         }
 
     public:
-        ContextBuilder() : functionDeclarator(nullptr), forceCallDeclarator(nullptr),
-        currentFunction(nullptr), package(std::make_unique<context::Package>()) {
-
+        ContextBuilder():
+            functionDeclarator(nullptr),
+            forceCallDeclarator(nullptr),
+            currentFunction(nullptr),
+            package(std::make_shared<context::Package>())
+        {
+            
         }
 
         ~ContextBuilder() = default;

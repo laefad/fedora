@@ -1,27 +1,41 @@
 
-#include <utility>
-
-#include "Parser/Token.h"
 #include "Parser/Parser.h"
 #include "Parser/ParserUtils.h"
 #include "Utils/Logger.h"
+#include "Exceptions/FException.h"
+#include "StaticUtils.h"
 
 namespace fedora {
     namespace parser {
-        Parser::Parser() {}
 
-        // TODO создавать токенхолдер тут илил принимать по ссылке?
-        void Parser::readFile(std::string const &fileName, TokensHolder &tokensHolder) {
+        Parser::Parser(std::unique_ptr<std::wistream> in):
+            in(std::move(in)),
+            line(0)
+        {}
 
-            wif = std::wifstream(fileName, std::ios_base::in);
-
-            if (!wif.is_open()) {
-                fedora::Logger::logE("File " + fileName + " can not be opened!");
-                //TODO error ??
-                return;
+        Parser Parser::make(Parser::Type type, std::wstring data) 
+        {
+            if (type == Parser::Type::File) {
+                //TODO check file exist
+                return Parser(std::make_unique<std::wifstream>(StaticUtils::ws2s(data), std::ios_base::in));
+            } else if (type == Parser::Type::String) {
+                return Parser(std::make_unique<std::wstringstream>(data));
             }
 
-            while (!wif.eof()) {
+            // Мы сюда попасть не должны, но ошибку можно и прокинуть
+        }
+
+        TokensHolder Parser::parse() {
+
+            TokensHolder tokensHolder = TokensHolder();
+
+            if (!in->good()) {
+                fedora::Logger::logE("Parser::parse -- parse error!");
+                //TODO error ??
+                return tokensHolder;
+            }
+
+            while (!in->eof()) {
                 Token t = readToken();
 
                 if (t.getType() == TokenType::None)
@@ -29,6 +43,8 @@ namespace fedora {
 
                 tokensHolder.add(t);
             }
+
+            return tokensHolder;
         }
 
         Token Parser::readString() {
@@ -37,13 +53,13 @@ namespace fedora {
             wchar_t tmp;
 
             do {
-                tmp = wif.get();
+                tmp = in->get();
                 res += tmp;
                 if (ParserUtils::isNewLine(tmp))
                     ++line;
-            } while (!ParserUtils::isQuote(tmp) && !wif.eof());
+            } while (!ParserUtils::isQuote(tmp) && !in->eof());
 
-            if (!ParserUtils::isQuote(tmp) && wif.eof());
+            if (!ParserUtils::isQuote(tmp) && in->eof());
             // TODO add error
             //throw error
 
@@ -54,12 +70,12 @@ namespace fedora {
             wchar_t tmp;
 
             do {
-                tmp = wif.get();
+                tmp = in->get();
                 if (ParserUtils::isNewLine(tmp))
                     ++line;
-            } while (!ParserUtils::isComment(tmp) && !wif.eof());
+            } while (!ParserUtils::isComment(tmp) && !in->eof());
 
-            if (!ParserUtils::isComment(tmp) && wif.eof());
+            if (!ParserUtils::isComment(tmp) && in->eof());
             // TODO add error
             //throw error
         }
@@ -68,8 +84,8 @@ namespace fedora {
             std::wstring res; // token data
             wchar_t tmp; // current symbol
 
-            while (!wif.eof()) {
-                tmp = wif.get();
+            while (!in->eof()) {
+                tmp = in->get();
 
                 if (!ParserUtils::isIgnored(tmp) && !ParserUtils::isComment(tmp))
                     res += tmp;
@@ -84,7 +100,7 @@ namespace fedora {
                 if (ParserUtils::isDelimiter(tmp))
                     return Token(res, line);
 
-                tmp = wif.peek();
+                tmp = in->peek();
 
                 // TODO eof check тут нужен или нет?
                 if ((ParserUtils::isDelimiter(tmp) ||

@@ -65,17 +65,32 @@ private:
         using fedora::parser::TokensHolder;
         using fedora::parser::Parser;
         
-        Parser parser = Parser();
-        TokensHolder tokensHolder = TokensHolder();
-        parser.readFile("./../programs/tokensTest.fe", tokensHolder);
+        Parser parser = Parser::make(Parser::Type::File, L"./../programs/tokensTest.fe");
+        TokensHolder tokensHolder = parser.parse();
 
         if (tokensHolder.size() != 29)
-            Logger::logV("test3 failed");
+            Logger::logV("test 3.1 failed");
         else
-            Logger::logV("test3 completed");
+            Logger::logV("test 3.1 completed");
+
+        parser = Parser::make(Parser::Type::File, L"asdasde.fe");
+        tokensHolder = parser.parse();
+
+        if (tokensHolder.size() != 0)
+            Logger::logV("test 3.2 failed");
+        else
+            Logger::logV("test 3.2 completed");
+
+        parser = Parser::make(Parser::Type::String, L"let a = 89 let it be where let a = 0 = +(be it a)");
+        tokensHolder = parser.parse();
+
+        if (tokensHolder.size() != 20)
+            Logger::logV("test 3.3 failed");
+        else
+            Logger::logV("test 3.3 completed");
 
         // Logger::logV(L"amount of tokens = " + std::to_wstring(tokensHolder.size()));
-        // for (Token t : tokensHolder.getData())
+        // for (parser::Token t : tokensHolder.getData())
         // {
         //     Logger::logV(t.getData());
         // }
