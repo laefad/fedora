@@ -15,22 +15,21 @@ namespace fedora {
         class Parser {
         public:
 
-            /// Тип исходящего потока 
-            enum Type {
-                File,
-                String 
-            };
-
-            // TODO добавить фабрику с потоком. 
-
-            /// При указании Type::File - data - имя файла с кодом
-            /// При указании Type::String - data - строка с кодом
-            // TODO два отдельных метода лучше наверное...
-            static Parser make(Type type, std::wstring data);
+            static Parser makeFileParser(std::wstring fileName);
+            static Parser makeStringParser(std::wstring wstr);
+            static Parser makeStreamParser(std::unique_ptr<std::wistream> in);
         
         public:
-            /// 
+            /**
+             * @brief Обработать данные и получить токены из источника
+             *
+             * @return TokensHolder с полученными токенами 
+             * 
+             */
             TokensHolder parse();
+
+            // TODO Нужен ли метод для изменения текущей line ? 
+            // Допустим установить начальную строку на 10
 
         private:
             /// Входящий поток
@@ -39,6 +38,7 @@ namespace fedora {
             uint32_t line;
 
         private:
+            Parser();
             explicit Parser(std::unique_ptr<std::wistream> in);
 
             /// Прочитать следующий токен

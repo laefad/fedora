@@ -13,16 +13,16 @@ namespace fedora {
             line(0)
         {}
 
-        Parser Parser::make(Parser::Type type, std::wstring data) 
-        {
-            if (type == Parser::Type::File) {
-                //TODO check file exist
-                return Parser(std::make_unique<std::wifstream>(StaticUtils::ws2s(data), std::ios_base::in));
-            } else if (type == Parser::Type::String) {
-                return Parser(std::make_unique<std::wstringstream>(data));
-            }
+        Parser Parser::makeFileParser(std::wstring fileName) {
+            return Parser(std::make_unique<std::wifstream>(StaticUtils::ws2s(fileName), std::ios_base::in));
+        }
 
-            // Мы сюда попасть не должны, но ошибку можно и прокинуть
+        Parser Parser::makeStringParser(std::wstring wstr) {
+            return Parser(std::make_unique<std::wstringstream>(wstr));
+        }
+
+        Parser Parser::makeStreamParser(std::unique_ptr<std::wistream> in) {
+            return Parser(std::move(in));
         }
 
         TokensHolder Parser::parse() {

@@ -65,7 +65,7 @@ private:
         using fedora::parser::TokensHolder;
         using fedora::parser::Parser;
         
-        Parser parser = Parser::make(Parser::Type::File, L"./../programs/tokensTest.fe");
+        Parser parser = Parser::makeFileParser(L"./../programs/tokensTest.fe");
         TokensHolder tokensHolder = parser.parse();
 
         if (tokensHolder.size() != 29)
@@ -73,7 +73,7 @@ private:
         else
             Logger::logV("test 3.1 completed");
 
-        parser = Parser::make(Parser::Type::File, L"asdasde.fe");
+        parser = Parser::makeFileParser(L"asdasde.fe");
         tokensHolder = parser.parse();
 
         if (tokensHolder.size() != 0)
@@ -81,7 +81,7 @@ private:
         else
             Logger::logV("test 3.2 completed");
 
-        parser = Parser::make(Parser::Type::String, L"let a = 89 let it be where let a = 0 = +(be it a)");
+        parser = Parser::makeStringParser(L"let a = 89 let it be where let a = 0 = +(be it a)");
         tokensHolder = parser.parse();
 
         if (tokensHolder.size() != 20)
