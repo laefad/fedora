@@ -6,6 +6,8 @@
 #include <KeyWords.h>
 #include "Types/Number.h"
 #include "Types/FunCall.h"
+#include "Types/String.h"
+#include "Types/Null.h"
 #include "Exceptions/BuilderException.h"
 #include "Stack/StackHolder.h"
 #include "StaticUtils.h"
@@ -72,5 +74,15 @@ namespace fedora {
 
     void ContextBuilder::addArgumentName(const parser::Token &t) {
         functionDeclarator.addArgumentName(t);
+    }
+
+    void ContextBuilder::addReturnableNull() {
+        std::shared_ptr<types::Null> n = std::make_shared<types::Null>();
+        functionDeclarator.setReturnable(n);
+    }
+
+    void ContextBuilder::addReturnableString(const std::wstring &s) {
+        std::shared_ptr<types::String> n = std::make_shared<types::String>(s);
+        functionDeclarator.setReturnable(n);
     }
 }

@@ -31,6 +31,10 @@ namespace fedora {
             log("Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
             log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
 
+            if (t.getType() == TokenType::Null){
+                b.addReturnableNull();
+                return std::make_shared<ReadKeyWord>();
+            }
 
             // Если число
             if (t.getType() == TokenType::Number) {
@@ -40,6 +44,7 @@ namespace fedora {
 
             // Если строка
             if (t.getType() == TokenType::String) {
+                b.addReturnableString(t.getData());
                 return std::make_shared<ReadKeyWord>();
             }
 

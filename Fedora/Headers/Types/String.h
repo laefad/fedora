@@ -1,5 +1,7 @@
 #pragma once
 
+#include <utility>
+
 #include "BasicType.h"
 
 namespace fedora {
@@ -9,6 +11,8 @@ namespace fedora {
         private:
             std::wstring value;
         public:
+            explicit String(std::wstring s):value(std::move(s)){}
+
             std::wstring eval() override;
 
             Type type() override {

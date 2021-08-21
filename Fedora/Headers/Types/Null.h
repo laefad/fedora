@@ -9,7 +9,7 @@
 namespace fedora {
     namespace types {
         /**
-         * Null type. Means literally "nothing"
+         * NULL_ type. Means literally "nothing"
          *
          * @note Can be used as bool.
          * if arg != null -> true;
