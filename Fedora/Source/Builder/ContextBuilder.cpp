@@ -8,6 +8,7 @@
 #include "Types/FunCall.h"
 #include "Exceptions/BuilderException.h"
 #include "Stack/StackHolder.h"
+#include "StaticUtils.h"
 
 namespace fedora {
     void ContextBuilder::addFunctionDeclarationToken(parser::Token &t) {
@@ -44,9 +45,11 @@ namespace fedora {
         functionDeclarator.setReturnableMode();
     }
 
-    void ContextBuilder::addReturnableNumber(std::wstring &s) {
-        // TODO Перегнать wstring в double в конструкторе Number
-        std::shared_ptr<types::Number> n = std::make_shared<types::Number>();
+    void ContextBuilder::addReturnableNumber(std::wstring const &s) {
+        exception::BuilderException e = exception::BuilderException(L"Couldn't convert \"" + s + L"\" to double",
+                                                                    "ContextBuilder::addReturnableNumber(std::wstring const &s)");
+        double newValue = StaticUtils::ws2d(s, e);
+        std::shared_ptr<types::Number> n = std::make_shared<types::Number>(newValue);
         functionDeclarator.setReturnable(n);
     }
 
@@ -67,7 +70,7 @@ namespace fedora {
         functionDeclarator.setReturnable(n);
     }
 
-    void ContextBuilder::addArgumentName(const parser::Token & t) {
+    void ContextBuilder::addArgumentName(const parser::Token &t) {
         functionDeclarator.addArgumentName(t);
     }
 }

@@ -29,7 +29,6 @@ namespace fedora {
 
             if (t.getType() == TokenType::FunctionContextDeclaration){
                 // case 1
-                // TODO  сделать добавление под-функции, если мы уже в контексте в контекст билдер
                 return std::make_shared<ReadKeyWord>();
             } else if (t.getType() == TokenType::FunctionReturnableDeclaration) {
                 // case 2

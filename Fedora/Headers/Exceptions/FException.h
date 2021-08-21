@@ -1,7 +1,8 @@
 #pragma once
 
-#include "Parser/TokensHolder.h"
-#include "StaticUtils.h"
+#include <exception>
+#include <string>
+#include <utility>
 
 namespace fedora {
     class FException : public std::exception {
@@ -9,10 +10,8 @@ namespace fedora {
     protected:
         std::string text;
     public:
-        explicit FException(std::wstring const &ws) noexcept(false):
-                text(StaticUtils::ws2s(ws)) {}
 
-        explicit FException(std::string const &s) noexcept(false):
+        explicit FException(std::string s) noexcept(false):
                 text(std::move(s)) {}
 
         ~FException() noexcept override = default;

@@ -10,6 +10,7 @@ namespace fedora {
         const std::wstring ParserUtils::functionDeclaration = L"let";
         const std::wstring ParserUtils::functionContextDeclaration = L"where";
         const std::wstring ParserUtils::forceCall = L"force";
+        const std::wstring ParserUtils::null = L"null";
 
         bool ParserUtils::isDelimiter(wchar_t tmp) {
             return ParserUtils::delimiterSymbols.find(tmp) != std::wstring::npos;
@@ -95,6 +96,10 @@ namespace fedora {
 
         bool ParserUtils::isTokenAForceCall(Token const& t) {
             return t.getData() == forceCall;
+        }
+
+        bool ParserUtils::isTokenNull(const Token &t) {
+            return t.getData() == null;
         }
 
     }

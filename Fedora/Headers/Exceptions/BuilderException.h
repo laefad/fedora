@@ -7,6 +7,7 @@
 #include <utility>
 
 #include "FException.h"
+#include "StaticUtils.h"
 
 namespace fedora {
     namespace exception {
@@ -21,6 +22,9 @@ namespace fedora {
         public:
             explicit BuilderException(const std::string &msg, const std::string &functionName) : FException(
                     makeText(msg, functionName)) {}
+
+            explicit BuilderException(const std::wstring &msg, const std::string &functionName) : FException(
+                    makeText(StaticUtils::ws2s(msg), functionName)) {}
         };
     }
 }

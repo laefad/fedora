@@ -26,7 +26,6 @@ namespace fedora {
         }
 
         TokensHolder Parser::parse() {
-
             TokensHolder tokensHolder = TokensHolder();
 
             if (!in->good()) {
@@ -154,7 +153,8 @@ namespace fedora {
             
             else if (ParserUtils::isTokenAForceCall(t))
                 t.setType(TokenType::ForceCall);
-
+            else if (ParserUtils::isTokenNull(t))
+                t.setType(TokenType::Null);
             else 
                 t.setType(TokenType::Name);
 

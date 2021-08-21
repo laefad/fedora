@@ -48,8 +48,6 @@ const bool is_test = true;
 //            instance->addToCleaner();           // <- Here we add our new instance to cleaner
 
 
-
-
 int main(int argc, char *argv[]) {
     // Режим тестирования
     if (is_test) {

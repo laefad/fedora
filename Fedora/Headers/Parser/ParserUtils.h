@@ -14,6 +14,7 @@ namespace fedora {
             static const std::wstring functionDeclaration;
             static const std::wstring functionContextDeclaration;
             static const std::wstring forceCall;
+            static const std::wstring null;
 
             /// Является ли символ разделителем между токенами
             static bool isDelimiter(wchar_t wchr);
@@ -32,6 +33,7 @@ namespace fedora {
 
             static bool isTokenANumber(Token const& t);
             static bool isTokenAName(Token const& t);
+            static bool isTokenNull(Token const& t);
             static bool isTokenAListOpen(Token const& t);
             static bool isTokenAListClose(Token const& t);
 

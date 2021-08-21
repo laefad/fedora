@@ -100,7 +100,7 @@ namespace fedora {
 
         void notifyWeSetReturnable();
 
-        void addReturnableNumber(std::wstring &);
+        void addReturnableNumber(std::wstring const &);
 
         void addReturnableFunCall(std::wstring const &);
 

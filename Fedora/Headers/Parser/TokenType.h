@@ -15,7 +15,8 @@ namespace fedora {
             FunctionReturnableDeclaration, // =
             CallOpen, // (
             CallClose, // )
-            ForceCall // force
+            ForceCall, // force
+            Null, // null
         };
     }
 }

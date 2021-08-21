@@ -10,22 +10,31 @@
 namespace fedora {
     namespace analytic {
 
+        /**
+         * @example case 1: Return null
+         * let a = null
+         *
+         * @example case 2: Return number
+         * let a = 1
+         *
+         * @example case 3: Return string
+         * let a = "ok" # string should be put in context without " symbols #
+         *
+         * @example case 4: Return list
+         * let a = [ ...
+         *
+         * @example case 5: Return function
+         * let a = main
+         */
         std::shared_ptr<AnalyticBasic> ReadResult::analyzeToken(parser::Token const &t, ContextBuilder &b) {
             using fedora::parser::TokenType;
             log("Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
             log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
 
-            //addToken(t);    // Записать прочитаный токен
-
-            // 4 Варианта, что можно вернуть из функции:
-            // 1. Число
-            // 2. Строка
-            // 3. Список
-            // 4. Функция
 
             // Если число
             if (t.getType() == TokenType::Number) {
-                // TODO Выделить во внешнюю константу пустой вектор токенов ( std::vector<Token>() )
+                b.addReturnableNumber(t.getData());
                 return std::make_shared<ReadKeyWord>();
             }
 
