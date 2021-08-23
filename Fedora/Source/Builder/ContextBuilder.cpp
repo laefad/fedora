@@ -85,4 +85,11 @@ namespace fedora {
         std::shared_ptr<types::String> n = std::make_shared<types::String>(s);
         functionDeclarator.setReturnable(n);
     }
+
+    void ContextBuilder::addReturnableList() {
+        std::shared_ptr<types::List> n = std::make_shared<types::List>();
+        functionDeclarator.setReturnable(n);
+        currentList = n;
+        isBuildingList = true;
+    }
 }

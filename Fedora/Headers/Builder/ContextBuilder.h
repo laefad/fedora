@@ -10,6 +10,7 @@
 #include "FunctionDeclarator.h"
 #include "ForceCallDeclarator.h"
 #include "Builder/BuildableFunction.h"
+#include "Types/List.h"
 
 namespace fedora {
     /**
@@ -73,6 +74,9 @@ namespace fedora {
             functionDeclarator = builder::FunctionDeclarator(newFunction);
         }
 
+        bool isBuildingList = false;
+        std::shared_ptr<types::List> currentList;
+
     public:
         ContextBuilder():
             functionDeclarator(nullptr),
@@ -108,6 +112,8 @@ namespace fedora {
         void addReturnableString(std::wstring const &);
 
         void addReturnableFunCall(std::wstring const &);
+
+        void addReturnableList();
 
         void notifyWeStartForceCall();
 

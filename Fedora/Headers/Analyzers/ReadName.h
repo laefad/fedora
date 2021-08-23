@@ -16,6 +16,7 @@ namespace fedora {
                 FORCE_CALL,
                 LIST_VALUE,
                 FUNCTION_ARGUMENT,
+                RETURNABLE_FORCE_CALL,
             };
         private:
             ReadNameMode mode;

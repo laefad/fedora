@@ -9,6 +9,20 @@
 namespace fedora {
     namespace analytic {
 
+        /**
+         *
+         * @example case 1: Add number in list
+         * [ ... 1 ... ]
+         *
+         * @example case 2: Add string in list
+         * [ ... "lol" ... ]
+         *
+         * @example case 3: Add list in list
+         * [ ... [ ... ] ... ]
+         *
+         * @example case 4: Add function in list
+         * [ ... main... ]
+         */
         std::shared_ptr<AnalyticBasic> ReadList::analyzeToken(parser::Token const &t, ContextBuilder &b) {
             using fedora::parser::TokenType;
             log("Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
@@ -23,14 +37,6 @@ namespace fedora {
             // 4. Функцию (с аргументами или без)
             // 5. ] Закрытие списка
 
-            // TODO вырезал кусок кода
-            // if (AnalyticUtils::isTokenAKeyWord(t))
-            //     throwException(L"Expected a list value, but got a keyword.", "analyzeToken(Token&)");
-
-            // Если функция, то перейдём на этап чтения аргументов
-            // оригинал : 
-            // AnalyticUtils::isTokenAName(t) && !AnalyticUtils::isTokenARightSquareBracket(t)
-            // TODO бред какой-то был написан раньше тут, зачем нужна была вторая проверка?
             if (t.getType() == TokenType::Name)
                 return std::make_shared<ReadForceArgs>();
 
