@@ -22,33 +22,34 @@ namespace fedora {
          *
          * @example case 4: Add function in list
          * [ ... main... ]
+         *
+         * @example case 5: Add forceCall in list
+         * [ ... force main... ]
+         *
+         * @example case 6: List finish
+         * ... ]
          */
         std::shared_ptr<AnalyticBasic> ReadList::analyzeToken(parser::Token const &t, ContextBuilder &b) {
             using fedora::parser::TokenType;
             log("Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
             log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
 
-            //addToken(t); // Запомнить прочитаный токен
-
-            // Мы можем получить:
-            // 1. Число
-            // 2. Строку
-            // 3. Список
-            // 4. Функцию (с аргументами или без)
-            // 5. ] Закрытие списка
+            if (t.getType() == TokenType::Number) {
+                // if number
+                b.addSimpleTypeInList(t);
+                return shared_from_this();
+            }else if (t.getType() == TokenType::String) {
+                // if string
+                b.addSimpleTypeInList(t);
+                return shared_from_this();
+            }else if (t.getType() == TokenType::Null){
+                // if null
+                b.addSimpleTypeInList(t);
+                return shared_from_this();
+            }
 
             if (t.getType() == TokenType::Name)
                 return std::make_shared<ReadForceArgs>();
-
-            // if number
-            if (t.getType() == TokenType::Number) {
-                return shared_from_this();
-            }
-
-            // if string
-            if (t.getType() == TokenType::String) {
-                return shared_from_this();
-            }
 
             // "[" if list start
             if (t.getType() == TokenType::ListOpen) {

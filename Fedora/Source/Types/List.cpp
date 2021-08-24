@@ -4,7 +4,7 @@ namespace fedora {
     namespace types {
 
         std::wstring List::eval() {
-            fedora::types::List *next = this->next;
+            std::shared_ptr<List> next = this->next; // TODO Эта строчка бессмысленна
             std::wstring result = L"( ";
             while (next != nullptr) {
                 result += next->value->eval() + L" ";

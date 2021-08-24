@@ -10,7 +10,7 @@
 #include "FunctionDeclarator.h"
 #include "ForceCallDeclarator.h"
 #include "Builder/BuildableFunction.h"
-#include "Types/List.h"
+#include "Builder/MutableList.h"
 
 namespace fedora {
     /**
@@ -75,7 +75,7 @@ namespace fedora {
         }
 
         bool isBuildingList = false;
-        std::shared_ptr<types::List> currentList;
+        std::shared_ptr<builder::MutableList> currentList;
 
     public:
         ContextBuilder():
@@ -114,6 +114,10 @@ namespace fedora {
         void addReturnableFunCall(std::wstring const &);
 
         void addReturnableList();
+
+        static std::shared_ptr<types::BasicType> t2Bt(const parser::Token&);
+
+        void addSimpleTypeInList(const parser::Token&t);
 
         void notifyWeStartForceCall();
 

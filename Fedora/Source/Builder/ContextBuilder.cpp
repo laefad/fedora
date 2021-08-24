@@ -87,9 +87,37 @@ namespace fedora {
     }
 
     void ContextBuilder::addReturnableList() {
-        std::shared_ptr<types::List> n = std::make_shared<types::List>();
+        std::shared_ptr<builder::MutableList> n = std::make_shared<builder::MutableList>();
         functionDeclarator.setReturnable(n);
         currentList = n;
         isBuildingList = true;
+    }
+
+    std::shared_ptr<types::BasicType> ContextBuilder::t2Bt(const parser::Token &t) {
+        if (t.getType() == parser::TokenType::Number) {
+            exception::BuilderException e = exception::BuilderException(
+                    L"Couldn't convert \"" + t.getData() + L"\" to double",
+                    "ContextBuilder::t2Bt(const parser::Token&)");
+            double newValue = StaticUtils::ws2d(t.getData(), e);
+            return std::make_shared<types::Number>(newValue);
+        } else if (t.getType() == parser::TokenType::String) {
+            return std::make_shared<types::String>(t.getData());
+        } else if (t.getType() == parser::TokenType::Null) {
+            return std::make_shared<types::Null>();
+        } else {
+            throw exception::BuilderException(
+                    "You're trying to convert token to BasicType, but token is not a primitive type instance.",
+                    "ContextBuilder::t2Bt(const parser::Token&)");
+        }
+    }
+
+    void ContextBuilder::addSimpleTypeInList(const parser::Token &t) {
+        if (isBuildingList && currentList != nullptr) {
+            currentList->addBasicToFirstFoundPlace(t2Bt(t));
+        } else { // TODO Вынести тексты всех ошибок в один файл
+            throw exception::BuilderException(
+                    "You're trying to add a number to the list, while the list is NOT being declared",
+                    "addNumberInList(const parser::Token&)");
+        }
     }
 }

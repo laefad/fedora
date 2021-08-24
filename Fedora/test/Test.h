@@ -5,6 +5,7 @@
 #include "Stack/StackHolder.h"
 #include "Parser/Parser.h"
 #include "Parser/TokensHolder.h"
+#include "Types/List.h"
 
 using namespace fedora;
 
@@ -14,6 +15,7 @@ public:
         //test1();
         test2();
         test3();
+        test4();
     }
 
 private:
@@ -100,6 +102,15 @@ private:
         // {
         //     Logger::logV(t.getData());
         // }
+    }
+
+    static void test4(){
+        std::shared_ptr<types::List> a = std::make_shared<types::List>(std::make_shared<types::Number>());
+        types::List b = types::List::addNewItemToTheBeginning(std::make_shared<types::Number>(2.0), a);
+        b = types::List::addNewItemToTheBeginning(std::make_shared<types::Number>(2.0), std::make_shared<types::List>(b));
+        types::List c = types::List::addNewItemToTheEnd(std::make_shared<types::Number>(3.0), std::make_shared<types::List>(b));
+        // TODO Я проверял работу через дебаггер, но хорошо бы сделать тест кодом
+        Logger::logV("test 4 completed");
     }
 
     static void clean() {
