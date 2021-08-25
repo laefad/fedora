@@ -6,6 +6,7 @@
 #include "Parser/Parser.h"
 #include "Parser/TokensHolder.h"
 #include "Types/List.h"
+#include "Parser/Token.h"
 
 using namespace fedora;
 
@@ -16,6 +17,7 @@ public:
         test2();
         test3();
         test4();
+        test5();
     }
 
 private:
@@ -111,6 +113,36 @@ private:
         types::List c = types::List::addNewItemToTheEnd(std::make_shared<types::Number>(3.0), std::make_shared<types::List>(b));
         // TODO Я проверял работу через дебаггер, но хорошо бы сделать тест кодом
         Logger::logV("test 4 completed");
+    }
+
+    static void test5(){
+        clean();
+        Settings *setting = Settings::GetInstance();
+        setting->setLogLevel(settings::LogLevel::LOG_WARNING);
+        
+        parser::Token mLet = parser::Token(L"let");
+        mLet.setType(parser::TokenType::FunctionDeclaration);
+
+        parser::Token mA = parser::Token(L"a");
+        mA.setType(parser::TokenType::Name);
+
+        parser::Token mReturns = parser::Token(L"=");
+        mReturns.setType(parser::TokenType::FunctionReturnableDeclaration);
+
+        parser::Token mOne = parser::Token(L"1");
+        mOne.setType(parser::TokenType::Number);
+
+
+        fedora::ContextBuilder builder = fedora::ContextBuilder();
+        fedora::AnalyzerStrategy analyzer = fedora::AnalyzerStrategy(builder);
+
+        analyzer.analyzeNext(mLet);
+        analyzer.analyzeNext(mA);
+        analyzer.analyzeNext(mReturns);
+        analyzer.analyzeNext(mOne);
+
+        Logger::logV("test 5 completed");
+        clean();
     }
 
     static void clean() {

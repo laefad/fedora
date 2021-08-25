@@ -53,6 +53,9 @@ namespace fedora {
                     return listValue(t, b);
                 case FUNCTION_ARGUMENT:
                     return functionArgument(t, b);
+                case RETURNABLE_FORCE_CALL:
+                    throwException("Unimplemented","ReadName::analyzeToken switch(mode)");
+                    break;
             }
 
             //TODO no default exit
@@ -65,7 +68,7 @@ namespace fedora {
 
         std::shared_ptr<AnalyticBasic> ReadName::functionDeclaration(parser::Token const &t, ContextBuilder &b) {
             b.setFunctionName(t);
-            return std::shared_ptr<ReadFunArgs>();
+            return std::make_shared<ReadFunArgs>();
         }
 
         std::shared_ptr<AnalyticBasic> ReadName::returnableFunCall(parser::Token const &t, ContextBuilder &b) {

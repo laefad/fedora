@@ -18,13 +18,6 @@ namespace fedora {
                 b.notifyWeSetReturnable();
                 return std::make_shared<ReadResult>();
 
-            // TODO выпилил еще часть кода
-            // } else if (t == pure) {
-            //     // if is "pure", set keyword in context and read fun name
-            //     KeyWord casted = KeyWord(t);
-            //     b.addFunctionDeclarationToken(casted);
-            //     return std::make_shared<ReadName>(ReadName::ReadNameMode::FUNCTION_DECLARATION);
-
             } else if (t.getType() == TokenType::ForceCall) {
 
                 // if is "force", read forceCall name

@@ -131,7 +131,6 @@ namespace fedora {
         }
 
         void Parser::determineAndSetTokenType(Token & t) {
-            
             if (ParserUtils::isTokenACallOpen(t))
                 t.setType(TokenType::CallOpen);
             else if (ParserUtils::isTokenACallClose(t))
@@ -140,17 +139,14 @@ namespace fedora {
                 t.setType(TokenType::ListOpen);
             else if (ParserUtils::isTokenAListClose(t))
                 t.setType(TokenType::ListClose);
-            
             else if (ParserUtils::isTokenAFunctionDeclaration(t))
                 t.setType(TokenType::FunctionDeclaration);
             else if (ParserUtils::isTokenAFunctionContextDeclaration(t))
                 t.setType(TokenType::FunctionContextDeclaration);
             else if (ParserUtils::isTokenAFunctionReturnableDeclaration(t))
                 t.setType(TokenType::FunctionReturnableDeclaration);
-            
             else if (ParserUtils::isTokenANumber(t))
                 t.setType(TokenType::Number);
-            
             else if (ParserUtils::isTokenAForceCall(t))
                 t.setType(TokenType::ForceCall);
             else if (ParserUtils::isTokenNull(t))
