@@ -3,6 +3,7 @@
 //
 
 #include "Utils/Logger.h"
+#include "StaticUtils.h"
 
 namespace fedora {
     void Logger::log(const std::string &msg, fedora::settings::LogLevel logLevel) {
