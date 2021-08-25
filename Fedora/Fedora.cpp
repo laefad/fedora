@@ -7,6 +7,7 @@
 #include "Utils/SingletonsCleaner.h"
 
 #include "test/Test.h"
+#include "test/TestParser.h"
 
 #include "Context/Function/Function.h"
 #include "Builder/ContextBuilder.h"
@@ -60,6 +61,7 @@ int main(int argc, char *argv[]) {
 //        bool t = c->isContextFinished();
 //        std::wcout<<t;
         ContextBuildTester::test();
+        ParserTester::test();
         return 0;
     } else {
         if (argc == 1) {

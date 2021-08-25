@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 #include "Token.h"
 
@@ -44,6 +45,7 @@ namespace fedora {
             static bool isTokenACallClose(Token const& t);
             static bool isTokenAForceCall(Token const& t);
 
+            static std::wstring format(std::vector<Token>);
         };
     }
 }

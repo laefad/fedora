@@ -14,7 +14,7 @@ public:
     static void test() {
         //test1();
         test2();
-        test3();
+        //test3();
         test4();
     }
 
@@ -61,47 +61,6 @@ private:
         StackHolder *s = StackHolder::GetInstance();
         clean();
         Logger::logV("test2 completed");
-    }
-
-    static void test3() {
-        using fedora::parser::TokensHolder;
-        using fedora::parser::Parser;
-        
-        Parser parser = Parser::makeFileParser(L"./../programs/tokensTest.fe");
-        TokensHolder tokensHolder = parser.parse();
-
-        if (tokensHolder.size() != 29)
-            Logger::logV("test 3.1 failed");
-        else
-            Logger::logV("test 3.1 completed");
-
-        parser = Parser::makeFileParser(L"asdasde.fe");
-        tokensHolder = parser.parse();
-
-        if (tokensHolder.size() != 0)
-            Logger::logV("test 3.2 failed");
-        else
-            Logger::logV("test 3.2 completed");
-
-        parser = Parser::makeStringParser(L"let a = 89 let it be where let a = 0 = +(be it a)");
-        //parser = Parser::makeStringParser(L"中 国 a");
-
-        try {
-            tokensHolder = parser.parse();
-        } catch (FException e) {
-            Logger::logE(e.what());
-        }
-
-        if (tokensHolder.size() != 20)
-            Logger::logV("test 3.3 failed");
-        else
-            Logger::logV("test 3.3 completed");
-
-        // Logger::logV(L"amount of tokens = " + std::to_wstring(tokensHolder.size()));
-        // for (parser::Token t : tokensHolder.getData())
-        // {
-        //     Logger::logV(t.getData());
-        // }
     }
 
     static void test4(){

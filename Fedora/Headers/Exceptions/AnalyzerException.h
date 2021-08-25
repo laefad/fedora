@@ -26,6 +26,8 @@ namespace fedora {
         //     return t+"\n\nLast "+" tokens:\n"+tokens;
         // }
 
+        // parser::ParserUtils::format(tokensHolder.getLines(3,1))
+
     public:
         AnalyzerException(const std::string &msg, const std::string &file_, const std::string &func_) {
             std::string text = "AnalyzerException\n\tFile: " + file_ + "\n\tFunc: " + func_ + "\n\tError: " + msg;

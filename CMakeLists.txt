@@ -23,7 +23,6 @@ add_executable(fedora
         Fedora/Source/Types/Number.cpp
         Fedora/Source/Parser/Parser.cpp
         Fedora/Source/Types/String.cpp
-        Fedora/Fedora.cpp
         Fedora/Headers/Parser/Token.h
         Fedora/Source/Parser/Token.cpp
         Fedora/Headers/Exceptions/FException.h
@@ -63,7 +62,6 @@ add_executable(fedora
         Fedora/Source/Utils/SingletonsCleaner.cpp
         Fedora/Headers/Builder/ContextBuilder.h
         Fedora/Source/Builder/ContextBuilder.cpp
-        Fedora/test/Test.h
         Fedora/Source/Utils/Logger.cpp
         Fedora/Headers/Stack/ForceCall/ForceCall.h
         Fedora/Headers/Stack/ForceCall/ForceArgs.h
@@ -78,5 +76,8 @@ add_executable(fedora
         Fedora/Source/Stack/StackHolder.cpp
         Fedora/Headers/Builder/BuildableFunction.h
         Fedora/Headers/Builder/BuildableForceCall.h
-        Fedora/Headers/Builder/MutableList.h)
+        Fedora/Headers/Builder/MutableList.h
+        Fedora/test/TestParser.h
+        Fedora/test/Test.h
+        Fedora/Fedora.cpp)
 

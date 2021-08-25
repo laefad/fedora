@@ -14,14 +14,18 @@ namespace fedora {
         {}
 
         Parser Parser::makeFileParser(std::wstring fileName) {
+            // TODO кидать ошибку, если файл пустой
             return Parser(std::make_unique<std::wifstream>(StaticUtils::ws2s(fileName), std::ios_base::in));
         }
 
         Parser Parser::makeStringParser(std::wstring wstr) {
+            // а вот строка пустой МОЖЕТ быть
             return Parser(std::make_unique<std::wstringstream>(wstr));
         }
 
         Parser Parser::makeStreamParser(std::unique_ptr<std::wistream> in) {
+            // здесь пока неясно, нужна ли проверка 
+            // и выдавать ли предупреждение, чтобы не использовать этот метод
             return Parser(std::move(in));
         }
 
@@ -29,7 +33,7 @@ namespace fedora {
             TokensHolder tokensHolder = TokensHolder();
 
             if (!in->good()) {
-                fedora::Logger::logE("Parser::parse -- parse error or empty source");
+                //fedora::Logger::logE("Parser::parse -- parse error or empty source");
                 //TODO error ??
                 return tokensHolder;
             }

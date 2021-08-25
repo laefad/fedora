@@ -1,6 +1,8 @@
 
 #include "Parser/ParserUtils.h"
 
+#include <sstream>
+
 namespace fedora {
 
     namespace parser {
@@ -100,6 +102,26 @@ namespace fedora {
 
         bool ParserUtils::isTokenNull(const Token &t) {
             return t.getData() == null;
+        }
+
+        std::wstring ParserUtils::format(std::vector<Token> vec) {
+            std::wstringstream buff;
+            size_t line = -1;
+
+            for (Token const& t : vec) {
+                if (line != -1) {
+                    if (t.getLine() > line)
+                        buff << L'\n';
+                    else 
+                        buff << L' ';
+                }
+
+                buff << t.getData();
+
+                line = t.getLine();
+            }
+
+            return buff.str();
         }
 
     }

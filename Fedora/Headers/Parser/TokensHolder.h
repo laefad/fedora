@@ -22,13 +22,13 @@ namespace fedora {
              */
             void add(const Token &a);
 
-            // TODO или возвращать строку...
-            std::vector<Token> getLineOfTokens(uint32_t lineNumber);
-
             //TODO добавить итератор
 
             //TODO убрать
             std::vector<Token> &getData();
+
+            // ОТСЧЕТ ЛИНИЙ НАЧИНАЕТСЯ С 0!
+            std::vector<Token> getLines(size_t line, size_t lines_range);
 
             size_t size();
         };
