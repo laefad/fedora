@@ -79,7 +79,6 @@ namespace fedora {
             explicit FunctionDeclarator(std::shared_ptr<builder::BuildableFunction> f):
                 function(std::move(f))
             {}
-            //funMode(setFunMode()) {}
 
             // TODO Стоит ли внедрять в каждую функцию проверку на Nullptr?
             bool isNull() {
@@ -93,6 +92,21 @@ namespace fedora {
              */
             void addPreFunKeyWord(parser::Token &t) {
                 function->addKeyWord(t);
+            }
+
+            bool isFunctionHasParent(){
+                return function->isHasParent();
+            }
+
+            std::shared_ptr<builder::BuildableFunction> getUpcastedParent(){
+                return std::static_pointer_cast<builder::BuildableFunction>(function->getParent());
+            }
+
+            /**
+             * @return pointer to function
+             */
+            std::shared_ptr<builder::BuildableFunction> getFunction(){
+                return function;
             }
 
             /**

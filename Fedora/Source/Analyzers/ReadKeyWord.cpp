@@ -35,7 +35,6 @@ namespace fedora {
                                "analyzeToken(Token &)");
                 return shared_from_this();
             }
-
         }
 
         std::string ReadKeyWord::getClassFileName() {

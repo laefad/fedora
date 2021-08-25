@@ -141,7 +141,12 @@ private:
         analyzer.analyzeNext(mReturns);
         analyzer.analyzeNext(mOne);
 
-        Logger::logV("test 5 completed");
+        analyzer.analyzeNext(mLet);
+        analyzer.analyzeNext(mA);
+        analyzer.analyzeNext(mReturns);
+        analyzer.analyzeNext(mOne);
+
+        Logger::logW("test 5 completed");
         clean();
     }
 

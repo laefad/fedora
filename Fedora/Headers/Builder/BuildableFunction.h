@@ -34,6 +34,18 @@ namespace fedora {
                 return children.empty();
             }
 
+            void setParent(std::shared_ptr<context::Function>f){
+                parent = std::move(f);
+            }
+
+            std::shared_ptr<context::Function> getParent(){
+                return parent;
+            }
+
+            bool isHasParent(){
+                return parent != nullptr;
+            }
+
             /**
              * Add pre-fun keyword
              *
