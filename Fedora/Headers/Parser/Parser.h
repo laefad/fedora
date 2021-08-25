@@ -51,7 +51,7 @@ namespace fedora {
             void readComment();
 
             /// Устанавливает тип токена, в зависимости от его содержимого
-            void determineAndSetTokenType(Token & t);
+            static void determineAndSetTokenType(Token & t);
         };
     }
 }

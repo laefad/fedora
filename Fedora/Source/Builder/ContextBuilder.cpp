@@ -33,9 +33,29 @@ namespace fedora {
                     "ContextBuilder::addFunctionDeclarationToken");
     }
 
+    /**
+     * @example case 1: First top-level function declaration
+     * let a = 1
+     *
+     * @example case 2: Another top-level function
+     * let a = 1
+     * let b = null
+     *
+     * @example case 3: sub-level function
+     * let a where
+     *  let b = null
+     *  ...
+     */
     void ContextBuilder::notifyWeGotLetToken() {
         if (functionDeclarator.isNull()) {
+            // cases 1 and 2
             createFunctionAndBuilder();
+        } else{
+            // case 3
+            std::shared_ptr<builder::BuildableFunction> newFunction = std::make_shared<builder::BuildableFunction>(
+                    nullptr);
+            newFunction->setParent(functionDeclarator.getFunction());
+            functionDeclarator = builder::FunctionDeclarator(newFunction);
         }
     }
 
@@ -53,6 +73,7 @@ namespace fedora {
         double newValue = StaticUtils::ws2d(s, e);
         std::shared_ptr<types::Number> n = std::make_shared<types::Number>(newValue);
         functionDeclarator.setReturnable(n);
+        finishFunctionDeclaration();
     }
 
     void ContextBuilder::setForceName(std::wstring const &s) {
@@ -79,11 +100,13 @@ namespace fedora {
     void ContextBuilder::addReturnableNull() {
         std::shared_ptr<types::Null> n = std::make_shared<types::Null>();
         functionDeclarator.setReturnable(n);
+        finishFunctionDeclaration();
     }
 
     void ContextBuilder::addReturnableString(const std::wstring &s) {
         std::shared_ptr<types::String> n = std::make_shared<types::String>(s);
         functionDeclarator.setReturnable(n);
+        finishFunctionDeclaration();
     }
 
     void ContextBuilder::addReturnableList() {

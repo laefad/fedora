@@ -43,7 +43,7 @@ namespace fedora {
          */
         // TODO Заменить Function на Package с unique_ptr
         //std::shared_ptr<context::Function> currentContext;
-        std::shared_ptr<context::Function> currentFunction;
+        //std::shared_ptr<context::Function> currentFunction;
         std::shared_ptr<context::Package> package;
 
         /// Function declaration utility
@@ -54,24 +54,33 @@ namespace fedora {
         /**
          * @example case 1: Top-level function declaration
          * let example = 1
-         *
-         * @example case 2: Sub-level function declaration
-         * let main where
-         *   let example = 1
-         * ...
          */
         void createFunctionAndBuilder() {
             std::shared_ptr<builder::BuildableFunction> newFunction = std::make_shared<builder::BuildableFunction>(
                     nullptr);
-            if (currentFunction == nullptr){
-                // case 1: First Top-level function declaration
-                currentFunction = newFunction;
-                package->addChildFunction(currentFunction);
-            }else{
-                // case 2: Sub-level function declaration
-                currentFunction->addChildFunction(newFunction);
-            }
+            package->addChildFunction(newFunction);
             functionDeclarator = builder::FunctionDeclarator(newFunction);
+        }
+
+        /**
+         * @example case 1:
+         * let a where
+         *  let b = null
+         *  # function b has a parent #
+         *
+         * @example case 2:
+         * let a = null
+         * let b = null
+         * # function b has no parent #
+         */
+        void finishFunctionDeclaration(){
+            if (functionDeclarator.isFunctionHasParent()){
+                // case 1
+                functionDeclarator = builder::FunctionDeclarator(functionDeclarator.getUpcastedParent());
+            }else{
+                // case 2
+                functionDeclarator = builder::FunctionDeclarator(nullptr);
+            }
         }
 
         bool isBuildingList = false;
@@ -81,11 +90,8 @@ namespace fedora {
         ContextBuilder():
             functionDeclarator(nullptr),
             forceCallDeclarator(nullptr),
-            currentFunction(nullptr),
             package(std::make_shared<context::Package>())
-        {
-            
-        }
+        {}
 
         ~ContextBuilder() = default;
 
