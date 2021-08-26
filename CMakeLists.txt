@@ -79,5 +79,5 @@ add_executable(fedora
         Fedora/Headers/Builder/MutableList.h
         Fedora/test/TestParser.h
         Fedora/test/Test.h
-        Fedora/Fedora.cpp)
+        Fedora/Fedora.cpp Fedora/Headers/Analyzers/ReadAfterReturnableFunName.h Fedora/Source/Analyzers/ReadAfterReturnableFunName.cpp)
 

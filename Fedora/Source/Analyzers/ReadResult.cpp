@@ -7,6 +7,7 @@
 #include "Analyzers/ReadList.h"
 #include "Analyzers/ReadResult.h"
 #include "Analyzers/AnalyticUtils.h"
+#include "Analyzers/ReadAfterReturnableFunName.h"
 
 namespace fedora {
     namespace analytic {
@@ -55,7 +56,7 @@ namespace fedora {
             if (t.getType() == TokenType::Name) {
                 // if funCall returns
                 // TODO Внедрить режим чтения для force вызова и ретурна из функции
-                return std::make_shared<ReadForceArgs>();
+                return std::make_shared<ReadAfterReturnableFunName>();
             }else if (t.getType() == TokenType::ForceCall){
                 // if force call returns
                 return std::make_shared<ReadName>(ReadName::ReadNameMode::RETURNABLE_FORCE_CALL);
