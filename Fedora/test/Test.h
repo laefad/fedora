@@ -67,7 +67,7 @@ private:
     }
 
     static void test4(){
-        std::shared_ptr<types::List> a = std::make_shared<types::List>(std::make_shared<types::Number>());
+        std::shared_ptr<types::List> a = std::make_shared<types::List>(std::make_shared<types::Number>(0.0));
         types::List b = types::List::addNewItemToTheBeginning(std::make_shared<types::Number>(2.0), a);
         b = types::List::addNewItemToTheBeginning(std::make_shared<types::Number>(2.0), std::make_shared<types::List>(b));
         types::List c = types::List::addNewItemToTheEnd(std::make_shared<types::Number>(3.0), std::make_shared<types::List>(b));
