@@ -43,6 +43,8 @@ add_executable(fedora
         Fedora/Source/Analyzers/ReadKeyWord.cpp
         Fedora/Source/Analyzers/ReadName.cpp
         Fedora/Source/Analyzers/ReadResult.cpp
+        Fedora/Headers/Analyzers/ReadAfterReturnableFunName.h 
+        Fedora/Source/Analyzers/ReadAfterReturnableFunName.cpp
         Fedora/Headers/Exceptions/AnalyzerException.h
         Fedora/Headers/KeyWords.h
         Fedora/Source/KeyWords.cpp
@@ -79,5 +81,5 @@ add_executable(fedora
         Fedora/Headers/Builder/MutableList.h
         Fedora/test/TestParser.h
         Fedora/test/Test.h
-        Fedora/Fedora.cpp Fedora/Headers/Analyzers/ReadAfterReturnableFunName.h Fedora/Source/Analyzers/ReadAfterReturnableFunName.cpp)
-
+        Fedora/Fedora.cpp 
+)

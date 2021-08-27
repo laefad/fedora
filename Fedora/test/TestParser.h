@@ -52,7 +52,7 @@ private:
 
             std::wstring temp;
 
-            for (parser::Token t : tokensHolder.getData())
+            for (parser::Token t : tokensHolder)
                 temp += t.getData() + L", ";
 
             Logger::logV(std::wstring(L"Tokens: ") + temp);
@@ -77,7 +77,7 @@ private:
 
             std::wstring temp;
 
-            for (parser::Token t : tokensHolder.getData())
+            for (parser::Token t : tokensHolder)
                 temp += t.getData() + L", ";
 
             Logger::logV(std::wstring(L"Tokens: ") + temp);

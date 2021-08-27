@@ -3,7 +3,7 @@
 
 namespace fedora {
     namespace parser { 
-        Token::Token(std::wstring data, uint32_t line, TokenType tokenType):
+        Token::Token(std::wstring data, size_t line, TokenType tokenType):
             data(std::move(data)),
             line(line),
             tokenType(tokenType)
@@ -13,7 +13,7 @@ namespace fedora {
             Token(data, 0, tokenType)
         {}
 
-        Token::Token(std::wstring data, uint32_t line):
+        Token::Token(std::wstring data, size_t line):
             Token(data, line, TokenType::None)
         {}
 
@@ -25,7 +25,7 @@ namespace fedora {
             return data;
         }
 
-        uint32_t Token::getLine() const {
+        size_t Token::getLine() const {
             return line;
         }
 
