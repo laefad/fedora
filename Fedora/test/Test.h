@@ -18,6 +18,7 @@ public:
         //test3();
         test4();
         test5();
+        test6();
     }
 
 private:
@@ -107,6 +108,38 @@ private:
 
         Logger::logW("test 5 completed");
         clean();
+    }
+
+    static void test6() {
+        using fedora::types::BasicType;
+        using fedora::types::List;
+        using fedora::types::Number;
+
+        bool success = true;
+
+        std::shared_ptr<BasicType> num = std::make_shared<Number>(1.0);
+
+        std::shared_ptr<List> lst = std::make_shared<List>(num);
+
+        //Logger::logV(lst->eval());
+        success = (lst->eval()) == L"[1.000000]";
+
+        std::shared_ptr<BasicType> num2 = std::make_shared<Number>(32.0);
+
+        List lst2 = List::addNewItemToTheBeginning(num2, lst);
+
+        //Logger::logV(lst2.eval());
+        success = (lst2.eval()) == L"[32.000000 1.000000]";
+
+        List lst3;
+
+        //Logger::logV(lst3.eval());
+        success = (lst3.eval()) == L"[]";
+
+        if (success)
+            Logger::logV("test 6 completed");
+        else 
+            Logger::logV("test 6 failed");
     }
 
     static void clean() {
