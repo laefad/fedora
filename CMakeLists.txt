@@ -29,7 +29,6 @@ add_executable(fedora
         Fedora/Headers/StaticUtils.h
         Fedora/Source/StaticUtils.cpp
         Fedora/Headers/Analyzers/AnalyticBasic.h
-        Fedora/Headers/Analyzers/AnalyticUtils.h
         Fedora/Headers/Analyzers/ReadKeyWord.h
         Fedora/Headers/Analyzers/ReadName.h
         Fedora/Headers/Analyzers/ReadForceArgs.h
@@ -37,7 +36,6 @@ add_executable(fedora
         Fedora/Headers/Analyzers/ReadResult.h
         Fedora/Source/Analyzers/ReadForceArgs.cpp
         Fedora/Headers/Analyzers/AnalyzerStrategy.h
-        Fedora/Source/Analyzers/AnalyticUtils.cpp
         Fedora/Source/Analyzers/AnalyzerStrategy.cpp
         Fedora/Source/Analyzers/ReadFunArgs.cpp
         Fedora/Source/Analyzers/ReadKeyWord.cpp

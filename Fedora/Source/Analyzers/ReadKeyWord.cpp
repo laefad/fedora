@@ -2,7 +2,6 @@
 #include "Analyzers/ReadName.h"
 #include "Analyzers/ReadResult.h"
 #include "Analyzers/ReadKeyWord.h"
-#include "Analyzers/AnalyticUtils.h"
 
 namespace fedora {
     namespace analytic {

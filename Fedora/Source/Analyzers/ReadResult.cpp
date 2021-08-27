@@ -6,7 +6,6 @@
 #include "Analyzers/ReadForceArgs.h"
 #include "Analyzers/ReadList.h"
 #include "Analyzers/ReadResult.h"
-#include "Analyzers/AnalyticUtils.h"
 #include "Analyzers/ReadAfterReturnableFunName.h"
 
 namespace fedora {

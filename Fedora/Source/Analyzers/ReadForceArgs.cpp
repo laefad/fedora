@@ -3,7 +3,6 @@
 #include "Analyzers/ReadList.h"
 #include "Analyzers/ReadName.h"
 #include "Analyzers/ReadForceArgs.h"
-#include "Analyzers/AnalyticUtils.h"
 
 namespace fedora {
     namespace analytic {
