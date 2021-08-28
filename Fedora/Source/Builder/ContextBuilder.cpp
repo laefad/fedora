@@ -50,7 +50,7 @@ namespace fedora {
         if (functionDeclarator.isNull()) {
             // cases 1 and 2
             createFunctionAndBuilder();
-        } else{
+        } else {
             // case 3
             std::shared_ptr<builder::BuildableFunction> newFunction = std::make_shared<builder::BuildableFunction>(
                     nullptr);
@@ -61,6 +61,12 @@ namespace fedora {
 
     void ContextBuilder::setFunctionName(parser::Token const &t) {
         functionDeclarator.setFunctionName(t.getData());
+        if (functionDeclarator.isFunctionHasParent()) {
+            functionDeclarator.getUpcastedParent()->setChildFunction(functionDeclarator.getFunction(),
+                                                                     functionDeclarator.getFunctionName());
+        } else {
+            package->setChildFunction(functionDeclarator.getFunction(), functionDeclarator.getFunctionName());
+        }
     }
 
     void ContextBuilder::notifyWeSetReturnable() {

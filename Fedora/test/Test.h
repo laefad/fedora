@@ -66,25 +66,30 @@ private:
         Logger::logV("test2 completed");
     }
 
-    static void test4(){
+    static void test4() {
         std::shared_ptr<types::List> a = std::make_shared<types::List>(std::make_shared<types::Number>(0.0));
         types::List b = types::List::addNewItemToTheBeginning(std::make_shared<types::Number>(2.0), a);
-        b = types::List::addNewItemToTheBeginning(std::make_shared<types::Number>(2.0), std::make_shared<types::List>(b));
-        types::List c = types::List::addNewItemToTheEnd(std::make_shared<types::Number>(3.0), std::make_shared<types::List>(b));
+        b = types::List::addNewItemToTheBeginning(std::make_shared<types::Number>(2.0),
+                                                  std::make_shared<types::List>(b));
+        types::List c = types::List::addNewItemToTheEnd(std::make_shared<types::Number>(3.0),
+                                                        std::make_shared<types::List>(b));
         // TODO Я проверял работу через дебаггер, но хорошо бы сделать тест кодом
         Logger::logV("test 4 completed");
     }
 
-    static void test5(){
+    static void test5() {
         clean();
         Settings *setting = Settings::GetInstance();
         setting->setLogLevel(settings::LogLevel::LOG_WARNING);
-        
+
         parser::Token mLet = parser::Token(L"let");
         mLet.setType(parser::TokenType::FunctionDeclaration);
 
         parser::Token mA = parser::Token(L"a");
         mA.setType(parser::TokenType::Name);
+
+        parser::Token mB = parser::Token(L"b");
+        mB.setType(parser::TokenType::Name);
 
         parser::Token mReturns = parser::Token(L"=");
         mReturns.setType(parser::TokenType::FunctionReturnableDeclaration);
@@ -102,11 +107,15 @@ private:
         analyzer.analyzeNext(mOne);
 
         analyzer.analyzeNext(mLet);
-        analyzer.analyzeNext(mA);
+        analyzer.analyzeNext(mB);
         analyzer.analyzeNext(mReturns);
         analyzer.analyzeNext(mOne);
 
-        Logger::logW("test 5 completed");
+        if (builder.getPackage()->getContext()->count(mA.getData()) == 1 &&
+            builder.getPackage()->getContext()->count(mB.getData()) == 1)
+            Logger::logW("test 5 completed");
+        else
+            Logger::logW("test 5 FAILED");
         clean();
     }
 
@@ -138,7 +147,7 @@ private:
 
         if (success)
             Logger::logV("test 6 completed");
-        else 
+        else
             Logger::logV("test 6 failed");
     }
 

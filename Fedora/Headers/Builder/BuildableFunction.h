@@ -46,6 +46,14 @@ namespace fedora {
                 return parent != nullptr;
             }
 
+//            std::shared_ptr<Function> getParent(){
+//                return parent;
+//            }
+
+            std::wstring& getName(){
+                return name;
+            }
+
             /**
              * Add pre-fun keyword
              *
@@ -89,6 +97,10 @@ namespace fedora {
 
             void addArgName(const std::wstring& wstring){
                 args->addStrToArgNames(wstring);
+            }
+
+            void setChildFunction(std::shared_ptr<Function> f, const std::wstring& name){
+                children[name] = std::move(f);
             }
         };
     }

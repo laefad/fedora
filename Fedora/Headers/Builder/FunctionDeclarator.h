@@ -4,6 +4,7 @@
 #include "Types/Number.h"
 #include "Context/Function/Returnable/Returnable.h"
 #include "Builder/BuildableFunction.h"
+#include "Exceptions/BuilderException.h"
 
 namespace fedora {
     namespace builder {
@@ -99,7 +100,13 @@ namespace fedora {
             }
 
             std::shared_ptr<builder::BuildableFunction> getUpcastedParent(){
+                if (function->getParent() == nullptr)
+                    throw exception::BuilderException("Builder tried to upcast function's parent, but function had no parent","FunctionDeclarator::getUpcastedParent");
                 return std::static_pointer_cast<builder::BuildableFunction>(function->getParent());
+            }
+
+            std::wstring& getFunctionName(){
+                return function->getName();
             }
 
             /**

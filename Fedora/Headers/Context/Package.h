@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <utility>
+
 #include "Context/Function/Function.h"
 
 namespace fedora {
@@ -11,15 +13,18 @@ namespace fedora {
         // TODO Пока нигде не используется.
         class Package {
         private:
-            std::vector<std::shared_ptr<Function>> children;
+            std::map<std::wstring, std::shared_ptr<Function>> children;
         public:
             Package ():
-                children(std::vector<std::shared_ptr<Function>>())
-            {
+                children(std::map<std::wstring, std::shared_ptr<Function>>())
+                {}
+
+            void setChildFunction(std::shared_ptr<Function> f, const std::wstring& name){
+                children[name] = std::move(f);
             }
 
-            void addChildFunction(std::shared_ptr<Function> f){
-                children.push_back(f);
+            std::shared_ptr<std::map<std::wstring, std::shared_ptr<Function>>> getContext(){
+                return std::make_shared<std::map<std::wstring, std::shared_ptr<Function>>>(children);
             }
         };
     }

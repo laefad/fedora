@@ -38,15 +38,10 @@ namespace fedora {
 
 const bool is_test = true;
 
-//std::shared_ptr<context::Function> a_test(){
-//    return std::make_shared<context::Function>(nullptr);
-//}
+// Не удалять!
+//class Test:public std::enable_shared_from_this<Test>{
 //
-//std::shared_ptr<analytic::ReadName> b_test(){
-//    return std::make_shared<analytic::ReadName>(std::vector<Token>());
-//}
-
-//            instance->addToCleaner();           // <- Here we add our new instance to cleaner
+//};
 
 
 int main(int argc, char *argv[]) {

@@ -11,7 +11,7 @@
 #include "Context/Function/Returnable/ReturnableNumber.h"
 #include "Types/BasicType.h"
 #include "Arguments.h"
-
+#include <map>
 
 
 namespace fedora {
@@ -26,17 +26,9 @@ namespace fedora {
             std::wstring name = L"";
             std::vector<parser::Token> keyWords = std::vector<parser::Token>();
 
-            std::vector<std::shared_ptr<Function>> children = std::vector<std::shared_ptr<Function>>();
+            std::map<std::wstring, std::shared_ptr<Function>> children = std::map<std::wstring, std::shared_ptr<Function>>();
         public:
             explicit Function(std::shared_ptr<Function> parent) : parent(std::move(parent)) {}
-
-            /**
-            * add another function to function context
-            */
-            std::shared_ptr<context::Function> addChildFunction(std::shared_ptr<context::Function> newFunction) {
-                children.push_back(newFunction);
-                return newFunction;
-            }
         };
     }
 }

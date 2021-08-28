@@ -58,7 +58,6 @@ namespace fedora {
         void createFunctionAndBuilder() {
             std::shared_ptr<builder::BuildableFunction> newFunction = std::make_shared<builder::BuildableFunction>(
                     nullptr);
-            package->addChildFunction(newFunction);
             functionDeclarator = builder::FunctionDeclarator(newFunction);
         }
 
@@ -134,6 +133,10 @@ namespace fedora {
 
         bool isCurrentFunctionForced(parser::Token &) {
             return true;
+        }
+
+        std::shared_ptr<context::Package> getPackage(){
+            return package;
         }
     };
 }
