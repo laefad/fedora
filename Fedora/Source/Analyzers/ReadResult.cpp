@@ -29,7 +29,7 @@ namespace fedora {
          */
         std::shared_ptr<AnalyticBasic> ReadResult::analyzeToken(parser::Token const &t, ContextBuilder &b) {
             using fedora::parser::TokenType;
-            log("Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
+            log(L"Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
             log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
 
             if (t.getType() == TokenType::Null){
@@ -63,15 +63,21 @@ namespace fedora {
                 // Пустая строка, которая нужна, чтобы конкатенировать константные строки. Забавно
                 std::wstring text;
                 // TODO Вынести тексты всех ошибок в единый файл и пронумеровать их
-                throwException(L"You have to return something from function, but nothing valid found.\n" + text +
-                L"Possible variants:\n" + text + L"1. Number\n2. String\n3. List\n4. FunCall\n" +
-                text + L"Found: token = " + t.getData(), "analyzeToken(Token&)");
+                throwException(L"You have to return something from function, but nothing valid found.\n" 
+                               + text
+                               + L"Possible variants:\n" 
+                               + text 
+                               + L"1. Number\n2. String\n3. List\n4. FunCall\n" 
+                               + text 
+                               + L"Found: token = " 
+                               + t.getData(), 
+                               L"analyzeToken(Token&)");
                 return shared_from_this();
             }
         }
 
-        std::string ReadResult::getClassFileName() {
-            return "ReadResult.h";
+        std::wstring ReadResult::getClassFileName() {
+            return L"ReadResult.h";
         }
     }
 }

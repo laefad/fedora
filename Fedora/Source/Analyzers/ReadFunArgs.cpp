@@ -23,7 +23,7 @@ namespace fedora {
          */
         std::shared_ptr<AnalyticBasic> ReadFunArgs::analyzeToken(parser::Token const &t, ContextBuilder &b) {
             using fedora::parser::TokenType;
-            log("Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
+            log(L"Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
             log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
 
             if (t.getType() == TokenType::FunctionContextDeclaration){
@@ -39,13 +39,13 @@ namespace fedora {
                 return shared_from_this();
             }else{
                 // error
-                throwException(L"Invalid argument name", "analyzeToken(Token&)");
+                throwException(L"Invalid argument name", L"analyzeToken(Token&)");
                 return shared_from_this();
             }
         }
 
-        std::string ReadFunArgs::getClassFileName() {
-            return "ReadFunArgs.h";
+        std::wstring ReadFunArgs::getClassFileName() {
+            return L"ReadFunArgs.h";
         }
     }
 }

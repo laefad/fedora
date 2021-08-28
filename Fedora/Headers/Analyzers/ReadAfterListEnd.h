@@ -42,7 +42,7 @@ namespace fedora {
             std::shared_ptr<AnalyticBasic> analyzeToken(parser::Token const &, ContextBuilder &) override;
 
             /// override parent method
-            std::string getClassFileName() override;
+            std::wstring getClassFileName() override;
         };
     }
 }

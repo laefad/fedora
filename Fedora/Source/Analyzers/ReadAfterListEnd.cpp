@@ -61,12 +61,12 @@ namespace fedora {
                 return std::make_shared<ReadName>(ReadName::FUNCTION_DECLARATION);
             }
 
-            throwException(L"Got something unexpected. Token = " + t.getData(), "ReadAfterListEnd");
+            throwException(L"Got something unexpected. Token = " + t.getData(), L"ReadAfterListEnd");
             return std::shared_ptr<AnalyticBasic>();
         }
 
-        std::string ReadAfterListEnd::getClassFileName() {
-            return "ReadAfterListEnd.h";
+        std::wstring ReadAfterListEnd::getClassFileName() {
+            return L"ReadAfterListEnd.h";
         }
     }
 }

@@ -1,22 +1,26 @@
-//
-// Created on 28.07.2021.
-//
-
 #pragma once
 
 #include <utility>
+#include <sstream>
 
 #include "FException.h"
 
 namespace fedora {
-
     class SettingsException: public FException{
+    protected:
+        // TODO Конкретизировать ошибку
+        std::wstring construct() const override {
+            std::wstringstream buf;
 
-    public:
-        explicit SettingsException(std::string s) : FException(s) {
-            // TODO Изменить text на SettingsException...
+            buf << L"SettingsException\n"
+                << L"\tError: "
+                << text;
+
+            return buf.str();
         }
-
-        //const char *what() const noexcept override { return text.c_str(); }
+    public:
+        explicit SettingsException(std::wstring text):
+            FException(text) 
+        {}
     };
 }

@@ -6,77 +6,95 @@ set(CMAKE_CXX_STANDARD 14)
 include_directories(Fedora/Headers)
 
 add_executable(fedora
-        Fedora/Headers/Context/Function/Arguments.h
-        Fedora/Headers/Types/FunCall.h
-        Fedora/Headers/Context/Function/Function.h
-        Fedora/Headers/Context/Function/Returnable/Returnable.h
+        Fedora/Headers/StaticUtils.h
+
+        Fedora/Headers/Utils/BasicSingleton.h
+        Fedora/Headers/Utils/SettingsSingleton.h
+        Fedora/Headers/Utils/Logger.h
+        Fedora/Headers/Utils/SingletonsCleaner.h
+
+        Fedora/Headers/Exceptions/FException.h
+        Fedora/Headers/Exceptions/SettingsException.h
+        Fedora/Headers/Exceptions/AnalyzerException.h
+        Fedora/Headers/Exceptions/BuilderException.h
+
+        Fedora/Headers/KeyWords.h
+        Fedora/Headers/Parser/TokenType.h
+        Fedora/Headers/Parser/Token.h
+        Fedora/Headers/Parser/TokensHolder.h
+        Fedora/Headers/Parser/ParserUtils.h
+        Fedora/Headers/Parser/Parser.h
+
         Fedora/Headers/Types/BasicType.h
         Fedora/Headers/Types/List.h
         Fedora/Headers/Types/Number.h
         Fedora/Headers/Types/String.h
-        Fedora/Headers/Parser/TokenType.h
-        Fedora/Headers/Parser/ParserUtils.h
-        Fedora/Source/Parser/ParserUtils.cpp
-        Fedora/Headers/Parser/TokensHolder.h
-        Fedora/Headers/Parser/Parser.h
-        Fedora/Source/Types/List.cpp
-        Fedora/Source/Types/Number.cpp
-        Fedora/Source/Parser/Parser.cpp
-        Fedora/Source/Types/String.cpp
-        Fedora/Headers/Parser/Token.h
-        Fedora/Source/Parser/Token.cpp
-        Fedora/Headers/Exceptions/FException.h
-        Fedora/Headers/StaticUtils.h
-        Fedora/Source/StaticUtils.cpp
+        Fedora/Headers/Types/FunCall.h
+        Fedora/Headers/Types/Null.h
+       
         Fedora/Headers/Analyzers/AnalyticBasic.h
         Fedora/Headers/Analyzers/ReadKeyWord.h
         Fedora/Headers/Analyzers/ReadName.h
         Fedora/Headers/Analyzers/ReadForceArgs.h
         Fedora/Headers/Analyzers/ReadFunArgs.h
         Fedora/Headers/Analyzers/ReadResult.h
-        Fedora/Source/Analyzers/ReadForceArgs.cpp
         Fedora/Headers/Analyzers/AnalyzerStrategy.h
+        Fedora/Headers/Analyzers/ReadAfterReturnableFunName.h 
+        Fedora/Headers/Analyzers/ReadList.h
+        Fedora/Headers/Analyzers/ReadAfterListEnd.h
+
+        Fedora/Headers/Stack/StackHolder.h
+        Fedora/Headers/Stack/ForceCall/ForceCall.h
+        Fedora/Headers/Stack/ForceCall/ForceArgs.h
+
+        Fedora/Headers/Context/Function/Arguments.h
+        Fedora/Headers/Context/Function/Returnable/Returnable.h
+        Fedora/Headers/Context/Function/Function.h
+        Fedora/Headers/Context/Function/Returnable/ReturnableNumber.h
+        Fedora/Headers/Context/Package.h
+
+        Fedora/Headers/Builder/ContextBuilder.h
+        Fedora/Headers/Builder/ForceCallDeclarator.h
+        Fedora/Headers/Builder/FunctionDeclarator.h
+        Fedora/Headers/Builder/BuildableFunction.h
+        Fedora/Headers/Builder/BuildableForceCall.h
+        Fedora/Headers/Builder/MutableList.h
+
+        Fedora/Source/StaticUtils.cpp
+
+        Fedora/Source/Exceptions/FException.cpp
+
+        Fedora/Source/Utils/SettingsSingleton.cpp
+        Fedora/Source/Utils/BasicSingleton.cpp
+        Fedora/Source/Utils/SingletonsCleaner.cpp
+        Fedora/Source/Utils/Logger.cpp
+
+        Fedora/Source/Parser/Token.cpp
+        Fedora/Source/Parser/TokensHolder.cpp
+        Fedora/Source/KeyWords.cpp
+        Fedora/Source/Parser/ParserUtils.cpp
+        Fedora/Source/Parser/Parser.cpp
+
+        Fedora/Source/Types/Null.cpp
+        Fedora/Source/Types/List.cpp
+        Fedora/Source/Types/Number.cpp
+        Fedora/Source/Types/String.cpp
+
+        Fedora/Source/Analyzers/AnalyticBasic.cpp
+        Fedora/Source/Analyzers/ReadForceArgs.cpp
+        Fedora/Source/Analyzers/ReadAfterListEnd.cpp
+        Fedora/Source/Analyzers/ReadList.cpp
+        Fedora/Source/Analyzers/ReadResult.cpp
         Fedora/Source/Analyzers/AnalyzerStrategy.cpp
         Fedora/Source/Analyzers/ReadFunArgs.cpp
         Fedora/Source/Analyzers/ReadKeyWord.cpp
         Fedora/Source/Analyzers/ReadName.cpp
-        Fedora/Source/Analyzers/ReadResult.cpp
-        Fedora/Headers/Analyzers/ReadAfterReturnableFunName.h 
         Fedora/Source/Analyzers/ReadAfterReturnableFunName.cpp
-        Fedora/Headers/Exceptions/AnalyzerException.h
-        Fedora/Headers/KeyWords.h
-        Fedora/Source/KeyWords.cpp
-        Fedora/Headers/Analyzers/ReadList.h
-        Fedora/Source/Analyzers/ReadList.cpp
-        Fedora/Source/Analyzers/AnalyticBasic.cpp
-        Fedora/Headers/Utils/SettingsSingleton.h
-        Fedora/Headers/Exceptions/SettingsException.h
-        Fedora/Headers/Utils/Logger.h
-        Fedora/Source/Utils/SettingsSingleton.cpp
-        Fedora/Source/Parser/TokensHolder.cpp
-        Fedora/Headers/Analyzers/ReadAfterListEnd.h
-        Fedora/Source/Analyzers/ReadAfterListEnd.cpp
-        Fedora/Headers/Utils/SingletonsCleaner.h
-        Fedora/Headers/Utils/BasicSingleton.h
-        Fedora/Source/Utils/BasicSingleton.cpp
-        Fedora/Source/Utils/SingletonsCleaner.cpp
-        Fedora/Headers/Builder/ContextBuilder.h
-        Fedora/Source/Builder/ContextBuilder.cpp
-        Fedora/Source/Utils/Logger.cpp
-        Fedora/Headers/Stack/ForceCall/ForceCall.h
-        Fedora/Headers/Stack/ForceCall/ForceArgs.h
-        Fedora/Headers/Types/Null.h
-        Fedora/Source/Types/Null.cpp
-        Fedora/Headers/Builder/FunctionDeclarator.h
-        Fedora/Headers/Builder/ForceCallDeclarator.h
-        Fedora/Headers/Context/Function/Returnable/ReturnableNumber.h
-        Fedora/Headers/Context/Package.h
-        Fedora/Headers/Exceptions/BuilderException.h
-        Fedora/Headers/Stack/StackHolder.h
+
         Fedora/Source/Stack/StackHolder.cpp
-        Fedora/Headers/Builder/BuildableFunction.h
-        Fedora/Headers/Builder/BuildableForceCall.h
-        Fedora/Headers/Builder/MutableList.h
+
+        Fedora/Source/Builder/ContextBuilder.cpp
+
         Fedora/test/TestParser.h
         Fedora/test/Test.h
         Fedora/Fedora.cpp 

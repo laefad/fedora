@@ -30,7 +30,7 @@ namespace fedora {
          */
         std::shared_ptr<AnalyticBasic> ReadList::analyzeToken(parser::Token const &t, ContextBuilder &b) {
             using fedora::parser::TokenType;
-            log("Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
+            log(L"Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
             log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
 
             if (t.getType() == TokenType::Number) {
@@ -59,15 +59,16 @@ namespace fedora {
             if (t.getType() == TokenType::ListClose) {
                 return std::make_shared<ReadAfterListEnd>();
             } else {
-                throwException(L"Expected a list member, but got token = " + t.getData(), "analyzeToken(Token&)");
+                throwException(L"Expected a list member, but got token = " + t.getData(), 
+                               L"analyzeToken(Token&)");
                 // TODO Вызывать сервис очистки синглтонов перед экстренным завершением программы
             }
             // Если строка, число, список или закрытая скобка
             //return chooseReturn(t);
         }
 
-        std::string ReadList::getClassFileName() {
-            return "ReadList.h";
+        std::wstring ReadList::getClassFileName() {
+            return L"ReadList.h";
         }
 
     }

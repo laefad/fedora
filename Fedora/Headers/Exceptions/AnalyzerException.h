@@ -1,43 +1,38 @@
-//
-// Created on 24.07.2021.
-//
 #pragma once
 
+#include <sstream>
+
 #include "FException.h"
-#include "StaticUtils.h"
 
 namespace fedora {
 
-    // TODO Сделать наследование от FException
-    class AnalyzerException {
+    class AnalyzerException : public FException {
+    protected:
+        const std::wstring file;
+        const std::wstring func;
+    protected:
+        std::wstring construct() const override {
+            std::wstringstream buf;
 
-        // static std::string addTokens(const std::string &t) {
-        //     fedora::TokensHolder *a = fedora::TokensHolder::GetInstance();
-        //     std::string tokens;
-        //     // TODO Заменить на for i и перед первым не ставить пробел
-        //     for (auto &token:a->getLast()) {
-        //         if (!token.isEmpty()) {
-        //             tokens += " ";
-        //         }
-        //         tokens += StaticUtils::ws2s(token.getData());
-        //     }
-        //     // TODO Мы можем показывать кол-во последних токенов в сообщении об ошибке в той части, где мы показываем токены. Кол-во токенов = min(fedora::TokensHolder::lastNum - кол-во пустых токенов, tokensHolder->getLast().length)
-        //     //std::string num = std::to_string(fedora::TokensHolder::lastNum);
-        //     return t+"\n\nLast "+" tokens:\n"+tokens;
-        // }
+            buf << L"AnalyzerException"
+                << L"\n\tFile: " 
+                << file 
+                << L"\n\tFunc: " 
+                << func
+                << L"\n\tError: " 
+                << text;
 
+            return buf.str();
+        }
+
+        // TODO Мы можем показывать кол-во последних токенов в сообщении об ошибке
         // parser::ParserUtils::format(tokensHolder.getLines(3,1))
 
     public:
-        AnalyzerException(const std::string &msg, const std::string &file_, const std::string &func_) {
-            std::string text = "AnalyzerException\n\tFile: " + file_ + "\n\tFunc: " + func_ + "\n\tError: " + msg;
-            throw FException(text);
-        }
-
-        AnalyzerException(const std::wstring &msg, const std::string &file_, const std::string &func_) {
-            std::string text = "AnalyzerException\n\tFile: " + file_ + "\n\tFunc: " + func_ + "\n\tError: " +
-                               StaticUtils::ws2s(msg);
-            throw FException(text);
-        }
+        AnalyzerException(std::wstring text, std::wstring file, std::wstring func):
+            FException(text),
+            file(file),
+            func(func)
+        {}
     };
 }

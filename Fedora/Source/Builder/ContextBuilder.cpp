@@ -29,8 +29,8 @@ namespace fedora {
 
         if (t.getType() == TokenType::FunctionDeclaration)
             throw exception::BuilderException(
-                    "A \"let\" token must not be pushed to the context. Use ContextBuilder::notifyWeGotLetToken() instead.",
-                    "ContextBuilder::addFunctionDeclarationToken");
+                    L"A \"let\" token must not be pushed to the context. Use ContextBuilder::notifyWeGotLetToken() instead.",
+                    L"ContextBuilder::addFunctionDeclarationToken");
     }
 
     /**
@@ -68,9 +68,10 @@ namespace fedora {
     }
 
     void ContextBuilder::addReturnableNumber(std::wstring const &s) {
-        exception::BuilderException e = exception::BuilderException(L"Couldn't convert \"" + s + L"\" to double",
-                                                                    "ContextBuilder::addReturnableNumber(std::wstring const &s)");
-        double newValue = StaticUtils::ws2d(s, e);
+        // TODO оно тут не нужно 
+        // exception::BuilderException e = exception::BuilderException(L"Couldn't convert \"" + s + L"\" to double",
+        //                                                             L"ContextBuilder::addReturnableNumber(std::wstring const &s)");
+        double newValue = StaticUtils::ws2d(s);
         std::shared_ptr<types::Number> n = std::make_shared<types::Number>(newValue);
         functionDeclarator.setReturnable(n);
         finishFunctionDeclaration();
@@ -118,10 +119,11 @@ namespace fedora {
 
     std::shared_ptr<types::BasicType> ContextBuilder::t2Bt(const parser::Token &t) {
         if (t.getType() == parser::TokenType::Number) {
-            exception::BuilderException e = exception::BuilderException(
-                    L"Couldn't convert \"" + t.getData() + L"\" to double",
-                    "ContextBuilder::t2Bt(const parser::Token&)");
-            double newValue = StaticUtils::ws2d(t.getData(), e);
+            // TODO оно тут не нужно 
+            // exception::BuilderException e = exception::BuilderException(
+            //         L"Couldn't convert \"" + t.getData() + L"\" to double",
+            //         L"ContextBuilder::t2Bt(const parser::Token&)");
+            double newValue = StaticUtils::ws2d(t.getData());
             return std::make_shared<types::Number>(newValue);
         } else if (t.getType() == parser::TokenType::String) {
             return std::make_shared<types::String>(t.getData());
@@ -129,8 +131,8 @@ namespace fedora {
             return std::make_shared<types::Null>();
         } else {
             throw exception::BuilderException(
-                    "You're trying to convert token to BasicType, but token is not a primitive type instance.",
-                    "ContextBuilder::t2Bt(const parser::Token&)");
+                    L"You're trying to convert token to BasicType, but token is not a primitive type instance.",
+                    L"ContextBuilder::t2Bt(const parser::Token&)");
         }
     }
 
@@ -139,8 +141,8 @@ namespace fedora {
             currentList->addBasicToFirstFoundPlace(t2Bt(t));
         } else { // TODO Вынести тексты всех ошибок в один файл
             throw exception::BuilderException(
-                    "You're trying to add a number to the list, while the list is NOT being declared",
-                    "addNumberInList(const parser::Token&)");
+                    L"You're trying to add a number to the list, while the list is NOT being declared",
+                    L"addNumberInList(const parser::Token&)");
         }
     }
 }

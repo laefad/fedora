@@ -56,7 +56,7 @@ namespace fedora {
             wchar_t tmp;
 
             if (in->eof())
-                throw FException("Parser::readString");
+                throw FException(L"Parser::readString");
                 //TODO add error
 
             do {
@@ -67,7 +67,7 @@ namespace fedora {
             } while (!ParserUtils::isQuote(tmp) && !in->eof());
 
             if (!ParserUtils::isQuote(tmp) && in->eof())
-                throw FException("Parser::readString not closed");
+                throw FException(L"Parser::readString not closed");
             // TODO add error
 
             return Token(L'\"' + res, initLine, TokenType::String);
@@ -77,7 +77,7 @@ namespace fedora {
             wchar_t tmp;
 
             if (in->eof())
-                throw FException("Parser::readComment");
+                throw FException(L"Parser::readComment");
                 //TODO add error
 
             do {
@@ -87,7 +87,7 @@ namespace fedora {
             } while (!ParserUtils::isComment(tmp) && !in->eof());
 
             if (!ParserUtils::isComment(tmp) && in->eof())
-                throw FException("Parser::readComment not closed");
+                throw FException(L"Parser::readComment not closed");
             // TODO add error
         }
 
@@ -115,7 +115,7 @@ namespace fedora {
                     if (!res.empty())
                         return Token(res, line);
                     else 
-                        throw FException("Parser::readToken empty token");
+                        throw FException(L"Parser::readToken empty token");
                 }
 
                 tmp = in->peek();
@@ -131,7 +131,7 @@ namespace fedora {
             if (!res.empty())
                 return Token(res, line);
             else 
-                throw FException("Parser::readToken empty token");           
+                throw FException(L"Parser::readToken empty token");           
         }
 
         void Parser::determineAndSetTokenType(Token & t) {

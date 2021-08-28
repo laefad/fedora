@@ -1,11 +1,8 @@
-//
-// Created on 28.07.2021.
-//
-
 #pragma once
 
-#include "Utils/SettingsSingleton.h"
 #include <iostream>
+
+#include "Utils/SettingsSingleton.h"
 
 namespace fedora {
     /**

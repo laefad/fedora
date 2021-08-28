@@ -140,6 +140,14 @@ private:
             Logger::logV("test 6 completed");
         else 
             Logger::logV("test 6 failed");
+
+        try {
+            throw exception::BuilderException(L"text", L"test()");
+        } catch (exception::BuilderException e) {
+            e.what();
+        }
+
+        //throw exception::BuilderException(L"text", L"test()");
     }
 
     static void clean() {
@@ -147,5 +155,7 @@ private:
         cleaner1->cleanThemAll();
     }
 };
+
+
 
 #endif //FEDORA_TEST_H

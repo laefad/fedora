@@ -4,8 +4,6 @@
 #include <codecvt>
 #include <utility>
 
-#include "Exceptions/FException.h"
-
 namespace fedora {
     class StaticUtils {
     public:
@@ -16,9 +14,9 @@ namespace fedora {
         static std::wstring s2ws(const std::string &);
 
         /// wstring to double
-        static double ws2d(const std::wstring &, const FException&);
+        static double ws2d(const std::wstring &);
 
         /// const string to double
-        static double s2d(const std::string &, const FException&);
+        static double s2d(const std::string &);
     };
 }
