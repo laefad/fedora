@@ -150,11 +150,11 @@ private:
         else
             Logger::logV("test 6 failed");
 
-        try {
-            throw exception::BuilderException(L"text", L"test()");
-        } catch (exception::BuilderException e) {
-            e.what();
-        }
+        // try {
+        //     throw exception::BuilderException(L"text", L"test()");
+        // } catch (exception::BuilderException e) {
+        //     e.what();
+        // }
 
         //throw exception::BuilderException(L"text", L"test()");
     }

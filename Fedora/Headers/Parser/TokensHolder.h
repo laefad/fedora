@@ -34,7 +34,7 @@ namespace fedora {
             void add(const Token &a);
 
             /**
-             * @return вектор токенов, с линиями принадлежащими отрезку [line-size_t;line+size_t]
+             * @return вектор токенов, с линиями принадлежащими отрезку [line-range; line+range]
              */
             std::vector<Token> getLines(size_t line, size_t range = 2);
 

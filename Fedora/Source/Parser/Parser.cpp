@@ -24,8 +24,7 @@ namespace fedora {
         }
 
         Parser Parser::makeStreamParser(std::unique_ptr<std::wistream> in) {
-            // здесь пока неясно, нужна ли проверка 
-            // и выдавать ли предупреждение, чтобы не использовать этот метод
+            Logger::logW("Parser::makeStreamParser may cause errors. Don't use it.");
             return Parser(std::move(in));
         }
 
