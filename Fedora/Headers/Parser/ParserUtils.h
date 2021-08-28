@@ -45,7 +45,7 @@ namespace fedora {
             static bool isTokenACallClose(Token const& t);
             static bool isTokenAForceCall(Token const& t);
 
-            static std::wstring format(std::vector<Token>);
+            static std::wstring format(std::vector<Token>, bool print_lines = false);
         };
     }
 }

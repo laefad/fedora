@@ -104,7 +104,7 @@ namespace fedora {
             return t.getData() == null;
         }
 
-        std::wstring ParserUtils::format(std::vector<Token> vec) {
+        std::wstring ParserUtils::format(std::vector<Token> vec, bool print_lines) {
             std::wstringstream buff;
             size_t line = -1;
 
@@ -115,6 +115,9 @@ namespace fedora {
                     else 
                         buff << L' ';
                 }
+
+                if (print_lines && line != t.getLine()) 
+                    buff << t.getLine() << L" | ";
 
                 buff << t.getData();
 
