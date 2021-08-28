@@ -4,19 +4,21 @@
 #include <string>
 #include <utility>
 
+#include "StaticUtils.h"
+
 namespace fedora {
     class FException : public std::exception {
-    private:;
     protected:
-        std::string text;
+        std::wstring text;
+
+    protected:
+        virtual std::wstring construct() const;
     public:
 
-        explicit FException(std::string s) noexcept(false):
-                text(std::move(s)) {}
+        explicit FException(std::wstring s) noexcept(false);
 
-        ~FException() noexcept override = default;
+        ~FException() noexcept override;
 
-        // TODO Заменить text в этой переменной на функцию, которая будет переопределяться в child классах
-        const char *what() const noexcept override { return text.c_str(); }
+        const char * what() const noexcept override;
     };
 }

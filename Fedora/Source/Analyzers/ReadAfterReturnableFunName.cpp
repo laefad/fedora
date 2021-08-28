@@ -34,12 +34,12 @@ namespace fedora {
                 return std::make_shared<ReadName>(ReadName::ReadNameMode::FORCE_CALL);
             } else {
                 throwException(L"Expected arguments or end of a returnable funCall declaration, but got " + t.getData(),
-                               "ReadAfterReturnableFunName::analyzeToken");
+                               L"ReadAfterReturnableFunName::analyzeToken");
             }
         }
 
-        std::string ReadAfterReturnableFunName::getClassFileName() {
-            return "ReadAfterReturnableFunName.h";
+        std::wstring ReadAfterReturnableFunName::getClassFileName() {
+            return L"ReadAfterReturnableFunName.h";
         }
     }
 }

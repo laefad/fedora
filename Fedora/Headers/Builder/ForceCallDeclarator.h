@@ -27,8 +27,8 @@ namespace fedora {
                     forceCall->setRawName(s);
                 } else
                     throw exception::BuilderException(
-                            "You're trying to set name for forceCall, but pointer to forceCall is NULLPTR ",
-                            "ForceCallDeclarator::setName(std::wstring&)");
+                            L"You're trying to set name for forceCall, but pointer to forceCall is NULLPTR ",
+                            L"ForceCallDeclarator::setName(std::wstring&)");
             }
         };
     }

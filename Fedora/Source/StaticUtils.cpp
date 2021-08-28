@@ -17,20 +17,14 @@ namespace fedora {
         return converterX.from_bytes(str);
     }
 
-    double StaticUtils::ws2d(const std::wstring & ws, const FException &e) {
-        return s2d(ws2s(ws), e);
+    double StaticUtils::ws2d(const std::wstring & ws) {
+        return s2d(ws2s(ws));
     }
 
-
-    double StaticUtils::s2d(const std::string &str, const FException &e) {
-         char * endPtr;
-         const char * stPtr = str.c_str();
-         double a = std::strtod(stPtr, &endPtr);
-         if (stPtr != endPtr){
-             // everything is okay
-         }else{
-             throw e;
-         }
+    double StaticUtils::s2d(const std::string &str) {
+        char * endPtr;
+        const char * stPtr = str.c_str();
+        double a = std::strtod(stPtr, &endPtr);
         return a;
     }
 }

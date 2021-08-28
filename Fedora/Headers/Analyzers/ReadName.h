@@ -26,7 +26,7 @@ namespace fedora {
             /// Fabric method
             std::shared_ptr<AnalyticBasic> analyzeToken(parser::Token const &, ContextBuilder &) override;
 
-            std::string getClassFileName() override;
+            std::wstring getClassFileName() override;
 
             /**
              * Read name during function declaration process

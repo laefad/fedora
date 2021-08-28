@@ -6,20 +6,13 @@
 namespace fedora {
     namespace analytic {
 
-        void AnalyticBasic::throwException(const std::wstring &msg, const std::string &funcName) {
+        void AnalyticBasic::throwException(std::wstring msg, std::wstring funcName) {
             throw AnalyzerException(msg, getClassFileName(), funcName);
         }
 
-        void AnalyticBasic::throwException(const std::string &msg, const std::string &funcName) {
-            throw AnalyzerException(msg, getClassFileName(), funcName);
-        }
-
-        void AnalyticBasic::log(const std::string &msg, fedora::settings::LogLevel level) {
+        void AnalyticBasic::log(std::wstring msg, fedora::settings::LogLevel level) {
             Logger::log(msg, level);
         }
-
-        void AnalyticBasic::log(const std::wstring &msg, fedora::settings::LogLevel level) {
-            Logger::log(msg, level);
-        }
+        
     }
 }
