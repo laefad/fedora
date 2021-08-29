@@ -97,5 +97,5 @@ add_executable(fedora
 
         Fedora/test/TestParser.h
         Fedora/test/Test.h
-        Fedora/Fedora.cpp 
-)
+        Fedora/Fedora.cpp
+        Fedora/Headers/Builder/BuildableFunCall.h)

@@ -11,6 +11,7 @@
 #include "ForceCallDeclarator.h"
 #include "Builder/BuildableFunction.h"
 #include "Builder/MutableList.h"
+#include "Builder/BuildableFunCall.h"
 
 namespace fedora {
     /**
@@ -83,7 +84,9 @@ namespace fedora {
         }
 
         bool isBuildingList = false;
-        std::shared_ptr<builder::MutableList> currentList;
+        std::shared_ptr<builder::MutableList> currentList = nullptr;
+
+        std::shared_ptr<builder::BuildableFunCall> currentFunCall = nullptr;
 
     public:
         ContextBuilder():
@@ -122,7 +125,9 @@ namespace fedora {
 
         static std::shared_ptr<types::BasicType> t2Bt(const parser::Token&);
 
-        void addSimpleTypeInList(const parser::Token&t);
+        void addSimpleTypeInList(const parser::Token&);
+
+        void addFunCallInList(const parser::Token&);
 
         void notifyWeStartForceCall();
 
