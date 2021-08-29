@@ -29,6 +29,10 @@ namespace fedora {
             std::map<std::wstring, std::shared_ptr<Function>> children = std::map<std::wstring, std::shared_ptr<Function>>();
         public:
             explicit Function(std::shared_ptr<Function> parent) : parent(std::move(parent)) {}
+
+            std::shared_ptr<std::map<std::wstring, std::shared_ptr<Function>>> getContext(){
+                return std::make_shared<std::map<std::wstring, std::shared_ptr<Function>>>(children);
+            }
         };
     }
 }

@@ -19,6 +19,7 @@ public:
         test4();
         test5();
         test6();
+        test7();
     }
 
 private:
@@ -157,6 +158,55 @@ private:
         // }
 
         //throw exception::BuilderException(L"text", L"test()");
+    }
+
+    static void test7(){
+        clean();
+        Settings *setting = Settings::GetInstance();
+        setting->setLogLevel(settings::LogLevel::LOG_WARNING);
+
+        parser::Token mLet = parser::Token(L"let");
+        mLet.setType(parser::TokenType::FunctionDeclaration);
+
+        parser::Token mA = parser::Token(L"a");
+        mA.setType(parser::TokenType::Name);
+
+        parser::Token mWhere = parser::Token(L"where");
+        mWhere.setType(parser::TokenType::FunctionContextDeclaration);
+
+        parser::Token mB = parser::Token(L"b");
+        mB.setType(parser::TokenType::Name);
+
+        parser::Token mReturns = parser::Token(L"=");
+        mReturns.setType(parser::TokenType::FunctionReturnableDeclaration);
+
+        parser::Token mOne = parser::Token(L"1");
+        mOne.setType(parser::TokenType::Number);
+
+
+        fedora::ContextBuilder builder = fedora::ContextBuilder();
+        fedora::AnalyzerStrategy analyzer = fedora::AnalyzerStrategy(builder);
+
+        analyzer.analyzeNext(mLet);
+        analyzer.analyzeNext(mA);
+        analyzer.analyzeNext(mWhere);
+
+        analyzer.analyzeNext(mLet);
+        analyzer.analyzeNext(mB);
+        analyzer.analyzeNext(mReturns);
+        analyzer.analyzeNext(mOne);
+
+        analyzer.analyzeNext(mReturns);
+        analyzer.analyzeNext(mOne);
+
+
+        if (builder.getPackage()->getContext()->count(mA.getData()) == 1 &&
+        (*(builder.getPackage()->getContext()))[mA.getData()]->getContext()->count(mB.getData()) == 1 )
+            Logger::logW("test 7 completed");
+        else
+            Logger::logW("test 7 FAILED");
+
+        clean();
     }
 
     static void clean() {
