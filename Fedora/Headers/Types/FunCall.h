@@ -7,14 +7,26 @@
 namespace fedora {
     namespace types {
         class FunCall : public types::BasicType {
-        protected:
-            // TODO добавить указатель на контекст в отдельном классе
+        private:
+            // TODO добавить указатель на контекст
             // Имя функции, которая будет вызвана
             std::wstring nameToCall;
             // Массив аргументов функции, которая будет вызвана
             std::vector<fedora::types::BasicType> args = std::vector<fedora::types::BasicType>();
         public:
             FunCall() = default;
+
+            /**
+             * Set funCall name
+             *
+             * @brief
+             * This function should be used in 2 cases:
+             * 1. When we create new funCall and set name of the function we call
+             * 2. When we replace context
+             */
+            void setName(std::wstring newName) {
+                nameToCall = std::move(newName);
+            }
 
             Type type() override {
                 return FUN_CALL;
