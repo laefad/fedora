@@ -146,8 +146,21 @@ namespace fedora {
             currentList->addBasicToFirstFoundPlace(t2Bt(t));
         } else { // TODO Вынести тексты всех ошибок в один файл
             throw exception::BuilderException(
-                    L"You're trying to add a number to the list, while the list is NOT being declared",
-                    L"addNumberInList(const parser::Token&)");
+                    L"You're trying to add a primitive type to the list, while the list is NOT being declared",
+                    L"ContextBuilder::addSimpleTypeInList");
+        }
+    }
+
+    void ContextBuilder::addFunCallInList(const parser::Token &t) {
+        if (isBuildingList && currentList != nullptr) {
+            std::shared_ptr<builder::BuildableFunCall> n = std::make_shared<builder::BuildableFunCall>();
+            n->setName(t.getData());
+            currentFunCall = n;
+            currentList->addBasicToFirstFoundPlace(n);
+        } else { // TODO Вынести тексты всех ошибок в один файл
+            throw exception::BuilderException(
+                    L"You're trying to add a funCall to the list, while the list is NOT being declared",
+                    L"ContextBuilder::addFunCallInList");
         }
     }
 }

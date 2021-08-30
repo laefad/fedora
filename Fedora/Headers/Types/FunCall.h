@@ -12,7 +12,7 @@ namespace fedora {
             // Имя функции, которая будет вызвана
             std::wstring nameToCall;
             // Массив аргументов функции, которая будет вызвана
-            std::vector<fedora::types::BasicType> args = std::vector<fedora::types::BasicType>();
+            std::vector<std::shared_ptr<fedora::types::BasicType>> args = std::vector<std::shared_ptr<fedora::types::BasicType>>();
         public:
             FunCall() = default;
 
@@ -36,6 +36,10 @@ namespace fedora {
         public:
             void setName(std::wstring newName) {
                 nameToCall = std::move(newName);
+            }
+
+            void addArgument(const std::shared_ptr<fedora::types::BasicType>& b){
+                args.push_back(b);
             }
         };
     }
