@@ -5,7 +5,6 @@
 #include <Builder/ContextBuilder.h>
 #include <KeyWords.h>
 #include "Types/Number.h"
-#include "Types/FunCall.h"
 #include "Types/String.h"
 #include "Types/Null.h"
 #include "Exceptions/BuilderException.h"
@@ -95,7 +94,7 @@ namespace fedora {
     }
 
     void ContextBuilder::addReturnableFunCall(const std::wstring &name) {
-        std::shared_ptr<types::FunCall> n = std::make_shared<types::FunCall>();
+        std::shared_ptr<builder::BuildableFunCall> n = std::make_shared<builder::BuildableFunCall>();
         n->setName(name);
         functionDeclarator.setReturnable(n);
     }
