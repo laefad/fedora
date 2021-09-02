@@ -27,7 +27,7 @@ namespace fedora {
 
 
         if (t.getType() == TokenType::FunctionDeclaration)
-            throw exception::BuilderException(
+            throw BuilderException(
                     L"A \"let\" token must not be pushed to the context. Use ContextBuilder::notifyWeGotLetToken() instead.",
                     L"ContextBuilder::addFunctionDeclarationToken");
     }
@@ -135,7 +135,7 @@ namespace fedora {
         } else if (t.getType() == parser::TokenType::Null) {
             return std::make_shared<types::Null>();
         } else {
-            throw exception::BuilderException(
+            throw BuilderException(
                     L"You're trying to convert token to BasicType, but token is not a primitive type instance.",
                     L"ContextBuilder::t2Bt(const parser::Token&)");
         }
@@ -145,7 +145,7 @@ namespace fedora {
         if (isBuildingList && currentList != nullptr) {
             currentList->addBasicToFirstFoundPlace(t2Bt(t));
         } else { // TODO Вынести тексты всех ошибок в один файл
-            throw exception::BuilderException(
+            throw BuilderException(
                     L"You're trying to add a primitive type to the list, while the list is NOT being declared",
                     L"ContextBuilder::addSimpleTypeInList");
         }
@@ -158,7 +158,7 @@ namespace fedora {
             currentFunCall = n;
             currentList->addBasicToFirstFoundPlace(n);
         } else { // TODO Вынести тексты всех ошибок в один файл
-            throw exception::BuilderException(
+            throw BuilderException(
                     L"You're trying to add a funCall to the list, while the list is NOT being declared",
                     L"ContextBuilder::addFunCallInList");
         }

@@ -101,7 +101,7 @@ namespace fedora {
 
             std::shared_ptr<builder::BuildableFunction> getUpcastedParent(){
                 if (function->getParent() == nullptr)
-                    throw exception::BuilderException(L"Builder tried to upcast function's parent, but function had no parent",
+                    throw BuilderException(L"Builder tried to upcast function's parent, but function had no parent",
                                                       L"FunctionDeclarator::getUpcastedParent");
                 return std::static_pointer_cast<builder::BuildableFunction>(function->getParent());
             }
