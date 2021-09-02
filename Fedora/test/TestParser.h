@@ -9,9 +9,20 @@
 
 using namespace fedora;
 
+#define PRINT_DELLINE 1
+
+#ifndef PRINT_DELLINE
+#define DELLINE 
+    const std::wstring delLine(L" "); 
+#else 
+#define DELLINE 
+    const std::wstring delLine(L"\033[F\033[K");
+#endif
+
 #define INIT using fedora::parser::TokensHolder; \
         using fedora::parser::Parser; \
-        const std::wstring delLine(L"\033[F\033[K");
+        DELLINE
+        
 
 #define BEFORE_LOG(header, about) \
 Logger::logV(header);\
@@ -76,14 +87,14 @@ private:
         TEST(1, 
              L"Testing file parsing...", 
              Parser::makeFileParser(L"./../programs/tokensTest.fe"),
-             29);
+             28);
     }
 
     static void test2() { 
         TEST(2, 
              L"Testing string parsing...", 
              Parser::makeStringParser(L"let a = 89 let it be where let a = 0 = +(be it a)"),
-             20);
+             19);
     }
 
     static void test3() {

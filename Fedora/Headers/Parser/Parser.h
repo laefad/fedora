@@ -47,8 +47,8 @@ namespace fedora {
             /// Прочитать токен строки
             Token readString();
 
-            /// Пропускать символы, пока не встретим символ комментария
-            void readComment();
+            /// Прочитать токен комментария
+            Token readComment();
 
             /// Устанавливает тип токена, в зависимости от его содержимого
             static void determineAndSetTokenType(Token & t);

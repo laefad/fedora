@@ -4,6 +4,8 @@ namespace fedora {
     namespace parser {
         /// TODO дать адекватные описания
         enum TokenType {
+            Empty, // parser only type
+            Comment, // parser only type
             None,
             String, // "wchar*"
             Number, // [-+]?[0-9]+.?[0-9]+

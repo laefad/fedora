@@ -2,7 +2,7 @@
 #include "Parser/Parser.h"
 #include "Parser/ParserUtils.h"
 #include "Utils/Logger.h"
-#include "Exceptions/FException.h"
+#include "Exceptions/ParserException.h"
 #include "StaticUtils.h"
 
 namespace fedora {
@@ -40,6 +40,14 @@ namespace fedora {
             while (!in->eof()) {
                 Token t = readToken();
 
+                if (t.getType() == TokenType::Comment) {
+                    //Logger::logV(L"Comment " + t.getData());
+                    continue;
+                } else if (t.getType() == TokenType::Empty) {
+                    //Logger::logV(L"Empty " + std::to_wstring(t.getLine()));
+                    continue;
+                }
+
                 if (t.getType() == TokenType::None)
                     determineAndSetTokenType(t);
 
@@ -51,71 +59,72 @@ namespace fedora {
 
         Token Parser::readString() {
             std::wstring res;
-            uint32_t initLine = line;
+            size_t initLine = line;
             wchar_t tmp;
-
-            if (in->eof())
-                throw FException(L"Parser::readString");
-                //TODO add error
 
             do {
                 tmp = in->get();
+
+                if (in->eof())
+                    throw ParserException(L"Parser::readString - not closed string");
+
                 res += tmp;
+
                 if (ParserUtils::isNewLine(tmp))
                     ++line;
-            } while (!ParserUtils::isQuote(tmp) && !in->eof());
 
-            if (!ParserUtils::isQuote(tmp) && in->eof())
-                throw FException(L"Parser::readString not closed");
-            // TODO add error
+            } while (!ParserUtils::isQuote(tmp));
 
             return Token(L'\"' + res, initLine, TokenType::String);
         }
 
-        void Parser::readComment() {
+        Token Parser::readComment() {
+            std::wstring res;
+            size_t initLine = line;
             wchar_t tmp;
-
-            if (in->eof())
-                throw FException(L"Parser::readComment");
-                //TODO add error
 
             do {
                 tmp = in->get();
+
+                if (in->eof())
+                    throw ParserException(L"Parser::readComment - not closed comment");
+
+                res += tmp;
+
                 if (ParserUtils::isNewLine(tmp))
                     ++line;
-            } while (!ParserUtils::isComment(tmp) && !in->eof());
 
-            if (!ParserUtils::isComment(tmp) && in->eof())
-                throw FException(L"Parser::readComment not closed");
-            // TODO add error
+            } while (!ParserUtils::isComment(tmp));
+
+            return Token(L'#' + res, initLine, TokenType::Comment);
         }
 
         Token Parser::readToken() {
-            std::wstring res; // token data
-            wchar_t tmp; // current symbol
+            std::wstring res;
+            wchar_t tmp;
 
-            while (!in->eof()) {
+            while (true) {
                 tmp = in->get();
+
+                if (in->eof()) {
+                    if (!res.empty())
+                        return Token(res, line);
+                    else 
+                        return Token(res, line, TokenType::Empty);
+                }
 
                 if (!ParserUtils::isIgnored(tmp) && !ParserUtils::isComment(tmp))
                     res += tmp;
                 else if (ParserUtils::isNewLine(tmp))
                     ++line;
                 else if (ParserUtils::isComment(tmp))
-                    readComment();
+                    return readComment();
 
                 if (ParserUtils::isQuote(tmp))
                     return readString();
 
                 if (ParserUtils::isDelimiter(tmp))
                     return Token(res, line);
-
-                if (in->eof()) {
-                    if (!res.empty())
-                        return Token(res, line);
-                    else 
-                        throw FException(L"Parser::readToken empty token");
-                }
 
                 tmp = in->peek();
 
@@ -124,16 +133,11 @@ namespace fedora {
                         ParserUtils::isIgnored(tmp)) &&
                     !res.empty())
                     return Token(res, line);
-            }
-
-            //empty token check     
-            if (!res.empty())
-                return Token(res, line);
-            else 
-                throw FException(L"Parser::readToken empty token");           
+            }   
         }
 
         void Parser::determineAndSetTokenType(Token & t) {
+
             if (ParserUtils::isTokenACallOpen(t))
                 t.setType(TokenType::CallOpen);
             else if (ParserUtils::isTokenACallClose(t))
