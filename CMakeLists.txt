@@ -29,6 +29,8 @@ add_executable(fedora
         Fedora/Headers/Types/Number.h
         Fedora/Headers/Types/String.h
         Fedora/Headers/Types/FunCall.h
+        Fedora/Headers/Types/UnbindedFunCall.h
+        Fedora/Headers/Types/BindedFunCall.h
         Fedora/Headers/Types/Null.h
        
         Fedora/Headers/Analyzers/AnalyticBasic.h
@@ -78,6 +80,8 @@ add_executable(fedora
         Fedora/Source/Types/List.cpp
         Fedora/Source/Types/Number.cpp
         Fedora/Source/Types/String.cpp
+        Fedora/Source/Types/UnbindedFunCall.cpp
+        Fedora/Source/Types/BindedFunCall.cpp
 
         Fedora/Source/Analyzers/AnalyticBasic.cpp
         Fedora/Source/Analyzers/ReadForceArgs.cpp

@@ -31,6 +31,14 @@ namespace fedora {
             std::shared_ptr<std::map<std::wstring, std::shared_ptr<Function>>> getContext(){
                 return std::make_shared<std::map<std::wstring, std::shared_ptr<Function>>>(children);
             }
+
+            std::wstring getName() const {
+                return name;
+            }
+
+            std::shared_ptr<Function> find(std::wstring name) {
+
+            }
         };
     }
 }
