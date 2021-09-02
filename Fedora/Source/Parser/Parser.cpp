@@ -5,6 +5,8 @@
 #include "Exceptions/ParserException.h"
 #include "StaticUtils.h"
 
+#include <experimental/filesystem>
+
 namespace fedora {
     namespace parser {
 
@@ -14,12 +16,15 @@ namespace fedora {
         {}
 
         Parser Parser::makeFileParser(std::wstring fileName) {
-            // TODO кидать ошибку, если файл пустой
-            return Parser(std::make_unique<std::wifstream>(StaticUtils::ws2s(fileName), std::ios_base::in));
+            auto in = std::make_unique<std::wifstream>(StaticUtils::ws2s(fileName), std::ios_base::in);
+
+            if (!in->good())
+                throw ParserException(L"Parser::makeFileParser - file [" + fileName + L"] doesn't exist.");
+
+            return Parser(std::move(in));
         }
 
         Parser Parser::makeStringParser(std::wstring wstr) {
-            // а вот строка пустой МОЖЕТ быть
             return Parser(std::make_unique<std::wstringstream>(wstr));
         }
 
@@ -32,8 +37,7 @@ namespace fedora {
             TokensHolder tokensHolder = TokensHolder();
 
             if (!in->good()) {
-                //fedora::Logger::logE("Parser::parse -- parse error or empty source");
-                //TODO error ??
+                fedora::Logger::logW("Parser::parse - empty source");
                 return tokensHolder;
             }
 

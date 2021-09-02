@@ -7,6 +7,8 @@
 #include "Parser/ParserUtils.h"
 #include "Parser/TokensHolder.h"
 
+#include "Exceptions/ParserException.h"
+
 using namespace fedora;
 
 #define PRINT_DELLINE 1
@@ -92,16 +94,20 @@ private:
 
     static void test2() { 
         TEST(2, 
-             L"Testing string parsing...", 
-             Parser::makeStringParser(L"let a = 89 let it be where let a = 0 = +(be it a)"),
-             19);
+            L"Testing string parsing...", 
+            Parser::makeStringParser(L"let a = 89 let it be where let a = 0 = +(be it a)"),
+            19);
     }
 
     static void test3() {
-        TEST(3, 
-             L"Testing empty file parsing...", 
-             Parser::makeFileParser(L"asdasde.fe"),
-             0);
+        try {
+            TEST(3, 
+                L"Testing empty file parsing...", 
+                Parser::makeFileParser(L"asdasde.fe"),
+                0);
+        } catch (ParserException e) {
+            SUCCESS_LOG(L"Test " + std::to_wstring(3) + L" completed")
+        }
     }
 
     static void test4() {
