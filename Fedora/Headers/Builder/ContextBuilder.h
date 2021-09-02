@@ -12,6 +12,7 @@
 #include "ForceCallDeclarator.h"
 #include "Builder/BuildableFunction.h"
 #include "Builder/MutableList.h"
+#include "Builder/BuildableFunCall.h"
 
 namespace fedora {
     /**
