@@ -18,7 +18,6 @@ add_executable(fedora
         Fedora/Headers/Exceptions/AnalyzerException.h
         Fedora/Headers/Exceptions/BuilderException.h
 
-        Fedora/Headers/KeyWords.h
         Fedora/Headers/Parser/TokenType.h
         Fedora/Headers/Parser/Token.h
         Fedora/Headers/Parser/TokensHolder.h
@@ -71,7 +70,6 @@ add_executable(fedora
 
         Fedora/Source/Parser/Token.cpp
         Fedora/Source/Parser/TokensHolder.cpp
-        Fedora/Source/KeyWords.cpp
         Fedora/Source/Parser/ParserUtils.cpp
         Fedora/Source/Parser/Parser.cpp
 
