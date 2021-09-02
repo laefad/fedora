@@ -1,7 +1,5 @@
 #pragma once
 
-#include <sstream>
-
 #include "FException.h"
 #include "StaticUtils.h"
 
@@ -12,16 +10,16 @@ namespace fedora {
 
     protected:
         std::wstring construct() const override {
-            std::wstringstream buf;
+            std::wstring buf;
 
-            buf << L"ContextBuilder Exception\n"
-                << L"\tFunction: "
-                << functionName 
-                << L"\n"
-                << L"\tError: "
-                << text;
+            buf += L"ContextBuilder Exception\n";
+            buf += L"\tFunction: ";
+            buf += functionName;
+            buf += L"\n";
+            buf += L"\tError: ";
+            buf += text;
 
-            return buf.str();
+            return buf;
         }
 
     public:

@@ -1,8 +1,6 @@
 
 #include "Parser/ParserUtils.h"
 
-#include <sstream>
-
 namespace fedora {
 
     namespace parser {
@@ -105,26 +103,28 @@ namespace fedora {
         }
 
         std::wstring ParserUtils::format(std::vector<Token> vec, bool print_lines) {
-            std::wstringstream buff;
+            std::wstring buff;
             size_t line = -1;
 
             for (Token const& t : vec) {
                 if (line != -1) {
                     if (t.getLine() > line)
-                        buff << L'\n';
+                        buff += L'\n';
                     else 
-                        buff << L' ';
+                        buff += L' ';
                 }
 
-                if (print_lines && line != t.getLine()) 
-                    buff << t.getLine() << L" | ";
+                if (print_lines && line != t.getLine()) {
+                    buff += t.getLine();
+                    buff += L" | ";
+                }
 
-                buff << t.getData();
+                buff += t.getData();
 
                 line = t.getLine();
             }
 
-            return buff.str();
+            return buff;
         }
 
     }

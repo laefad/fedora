@@ -1,8 +1,5 @@
 #pragma once
 
-#include <utility>
-#include <sstream>
-
 #include "FException.h"
 
 namespace fedora {
@@ -10,13 +7,13 @@ namespace fedora {
     protected:
         // TODO Конкретизировать ошибку
         std::wstring construct() const override {
-            std::wstringstream buf;
+            std::wstring buf;
 
-            buf << L"SettingsException\n"
-                << L"\tError: "
-                << text;
+            buf += L"SettingsException\n";
+            buf += L"\tError: ";
+            buf += text;
 
-            return buf.str();
+            return buf;
         }
     public:
         explicit SettingsException(std::wstring text):

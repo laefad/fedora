@@ -6,13 +6,13 @@ namespace fedora {
     class ParserException : public FException {
     protected:
         std::wstring construct() const override {
-            std::wstringstream buf;
+            std::wstring buf;
 
-            buf << L"ParserException"
-                << L"\n\tError: " 
-                << text;
+            buf += L"ParserException";
+            buf += L"\n\tError: ";
+            buf += text;
 
-            return buf.str();
+            return buf;
         }
     public:
         ParserException(std::wstring text):

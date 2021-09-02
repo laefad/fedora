@@ -1,8 +1,5 @@
 #pragma once
 
-#include <sstream>
-
-#include "Stack/StackHolder.h"
 #include "Parser/Parser.h"
 #include "Parser/ParserUtils.h"
 #include "Parser/TokensHolder.h"
@@ -68,21 +65,25 @@ public:
 private:
 
     static std::wstring th2wstr(parser::TokensHolder const& th) {
-        std::wstringstream buf;
+        std::wstring buf;
 
-        for (parser::Token t : th)
-            buf << t.getData() << L", ";
+        for (parser::Token t : th) {
+            buf += t.getData(); 
+            buf += L", ";
+        }
         
-        return buf.str();
+        return buf;
     }
 
     static std::wstring th2wstr(std::vector<fedora::parser::Token> const& th) {
-        std::wstringstream buf;
+        std::wstring buf;
 
-        for (parser::Token t : th)
-            buf << t.getData() << L", ";
+        for (parser::Token t : th) {
+            buf += t.getData(); 
+            buf += L", ";
+        }
         
-        return buf.str();
+        return buf;
     }
 
     static void test1() { 

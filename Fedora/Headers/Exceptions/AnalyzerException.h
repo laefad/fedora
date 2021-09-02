@@ -1,7 +1,5 @@
 #pragma once
 
-#include <sstream>
-
 #include "FException.h"
 
 namespace fedora {
@@ -12,17 +10,17 @@ namespace fedora {
         const std::wstring func;
     protected:
         std::wstring construct() const override {
-            std::wstringstream buf;
+            std::wstring buf;
 
-            buf << L"AnalyzerException"
-                << L"\n\tFile: " 
-                << file 
-                << L"\n\tFunc: " 
-                << func
-                << L"\n\tError: " 
-                << text;
+            buf += L"AnalyzerException";
+            buf += L"\n\tFile: ";
+            buf += file;
+            buf += L"\n\tFunc: ";
+            buf += func;
+            buf += L"\n\tError: ";
+            buf += text;
 
-            return buf.str();
+            return buf;
         }
 
         // TODO Мы можем показывать кол-во последних токенов в сообщении об ошибке

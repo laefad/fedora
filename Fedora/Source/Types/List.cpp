@@ -1,28 +1,27 @@
 
 #include "Types/List.h"
 
-#include <sstream>
-
 namespace fedora {
     namespace types {
 
         std::wstring List::eval() {
             std::shared_ptr<List> next = this->next;
-            std::wstringstream buff;
+            std::wstring buff;
 
-            buff << L'[';
+            buff += L'[';
 
             if (value)
-                buff << value->eval();
+                buff += value->eval();
 
             while (next) {
-                buff << L' ' << next->value->eval();
+                buff += L' ';
+                buff += next->value->eval();
                 next = next->next;
             } 
 
-            buff << L']';
+            buff += L']';
 
-            return buff.str();
+            return buff;
         };
 
     }
