@@ -15,16 +15,17 @@ namespace fedora {
         class Parser {
         public:
 
-            static Parser makeFileParser(std::wstring fileName);
+            static Parser makeFileParser(const std::wstring &fileName);
+
             static Parser makeStringParser(std::wstring wstr);
+
             static Parser makeStreamParser(std::unique_ptr<std::wistream> in);
-        
+
         public:
             /**
              * @brief Обработать данные и получить токены из источника
              *
-             * @return TokensHolder с полученными токенами 
-             * 
+             * @return TokensHolder с полученными токенами
              */
             TokensHolder parse();
 
@@ -38,7 +39,6 @@ namespace fedora {
             uint32_t line;
 
         private:
-            explicit Parser();
             explicit Parser(std::unique_ptr<std::wistream> in);
 
             /// Прочитать следующий токен
@@ -51,7 +51,7 @@ namespace fedora {
             Token readComment();
 
             /// Устанавливает тип токена, в зависимости от его содержимого
-            static void determineAndSetTokenType(Token & t);
+            static void determineAndSetTokenType(Token &t);
         };
     }
 }

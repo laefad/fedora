@@ -14,6 +14,11 @@ namespace fedora {
         class MutableList : public types::List {
         public:
             /**
+             * if this list is dead inside, it'll have the parent
+             */
+            std::shared_ptr<MutableList> parent = nullptr;
+
+            /**
              * Add new value to the list
              * @param t - a value to add
              */

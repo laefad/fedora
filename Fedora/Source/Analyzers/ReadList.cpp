@@ -58,6 +58,7 @@ namespace fedora {
 
             // "]" if list end
             if (t.getType() == TokenType::ListClose) {
+                b.endList();
                 return std::make_shared<ReadAfterListEnd>();
             } else {
                 throwException(L"Expected a list member, but got token = " + t.getData(), 

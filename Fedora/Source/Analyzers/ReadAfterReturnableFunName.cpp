@@ -23,12 +23,16 @@ namespace fedora {
          */
         std::shared_ptr<AnalyticBasic>
         ReadAfterReturnableFunName::analyzeToken(const parser::Token &t, ContextBuilder &b) {
+            using fedora::parser::TokenType;
+            log(L"Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
+            log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
+
             if (t.getType() == parser::TokenType::CallOpen) {
                 // case 1
                 return std::make_shared<ReadForceArgs>();
             } else if (t.getType() == parser::TokenType::FunctionDeclaration) {
                 // case 2
-                return std::make_shared<ReadName>(ReadName::ReadNameMode::RETURNABLE_FUN_CALL);
+                return std::make_shared<ReadName>(ReadName::ReadNameMode::FUNCTION_DECLARATION);
             } else if (t.getType() == parser::TokenType::ForceCall) {
                 // case 3
                 return std::make_shared<ReadName>(ReadName::ReadNameMode::FORCE_CALL);

@@ -20,6 +20,7 @@ public:
         test5();
         test6();
         test7();
+        test8();
     }
 
 private:
@@ -64,7 +65,7 @@ private:
         builder.setForceName(forceName);
         StackHolder *s = StackHolder::GetInstance();
         clean();
-        Logger::logV("test2 completed");
+        Logger::logV("test 2 completed");
     }
 
     static void test4() {
@@ -160,7 +161,7 @@ private:
         //throw exception::BuilderException(L"text", L"test()");
     }
 
-    static void test7(){
+    static void test7() {
         clean();
         Settings *setting = Settings::GetInstance();
         setting->setLogLevel(settings::LogLevel::LOG_WARNING);
@@ -201,7 +202,7 @@ private:
 
 
         if (builder.getPackage()->getContext()->count(mA.getData()) == 1 &&
-        (*(builder.getPackage()->getContext()))[mA.getData()]->getContext()->count(mB.getData()) == 1 )
+            (*(builder.getPackage()->getContext()))[mA.getData()]->getContext()->count(mB.getData()) == 1)
             Logger::logW("test 7 completed");
         else
             Logger::logW("test 7 FAILED");
@@ -209,12 +210,26 @@ private:
         clean();
     }
 
+    static void test8() {
+        // тест реальной программы
+        Settings *setting = Settings::GetInstance();
+        setting->setLogLevel(settings::LogLevel::LOG_WARNING);
+        fedora::parser::Parser parser = fedora::parser::Parser::makeFileParser(L"./../programs/basic_types.fe");
+        fedora::parser::TokensHolder tokensHolder = parser.parse();
+        fedora::ContextBuilder builder = fedora::ContextBuilder();
+        fedora::AnalyzerStrategy analyzer = fedora::AnalyzerStrategy(builder);
+        for (auto it = tokensHolder.begin(); it < tokensHolder.end(); ++it) {
+            analyzer.analyzeNext(*it);
+        }
+        clean();
+        Logger::logV("test 8 completed");
+    }
+
     static void clean() {
         fedora::Utils::SingletonsCleaner *cleaner1 = fedora::Utils::SingletonsCleaner::GetInstance();
         cleaner1->cleanThemAll();
     }
 };
-
 
 
 #endif //FEDORA_TEST_H

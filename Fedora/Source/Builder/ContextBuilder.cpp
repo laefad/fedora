@@ -159,4 +159,9 @@ namespace fedora {
                     L"ContextBuilder::addFunCallInList");
         }
     }
+
+    void ContextBuilder::endList() {
+        currentList = nullptr;
+        isBuildingList = false;
+    }
 }

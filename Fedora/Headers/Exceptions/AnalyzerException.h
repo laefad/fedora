@@ -1,5 +1,7 @@
 #pragma once
 
+#include <utility>
+
 #include "FException.h"
 
 namespace fedora {
@@ -28,9 +30,9 @@ namespace fedora {
 
     public:
         AnalyzerException(std::wstring text, std::wstring file, std::wstring func):
-            FException(text),
-            file(file),
-            func(func)
+            FException(std::move(text)),
+            file(std::move(file)),
+            func(std::move(func))
         {}
     };
 }

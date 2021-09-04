@@ -15,7 +15,7 @@ namespace fedora {
             line(0)
         {}
 
-        Parser Parser::makeFileParser(std::wstring fileName) {
+        Parser Parser::makeFileParser(const std::wstring& fileName) {
             auto in = std::make_unique<std::wifstream>(StaticUtils::ws2s(fileName), std::ios_base::in);
 
             if (!in->good())

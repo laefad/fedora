@@ -55,6 +55,7 @@ namespace fedora {
             if (t.getType() == TokenType::Name) {
                 // if funCall returns
                 // TODO Внедрить режим чтения для force вызова и ретурна из функции
+                b.addReturnableFunCall(t.getData());
                 return std::make_shared<ReadAfterReturnableFunName>();
             }else if (t.getType() == TokenType::ForceCall){
                 // if force call returns

@@ -122,6 +122,7 @@ namespace fedora {
         void addReturnableFunCall(std::wstring const &);
 
         void addReturnableList();
+        void endList();
 
         static std::shared_ptr<types::BasicType> t2Bt(const parser::Token&);
 

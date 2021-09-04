@@ -21,8 +21,11 @@ namespace fedora {
 
         public:
             explicit Token(std::wstring data, size_t line, TokenType tokenType);
+
             explicit Token(std::wstring data, TokenType tokenType);
+
             explicit Token(std::wstring data, size_t line);
+
             explicit Token(std::wstring data);
 
             /// @return строковое представление токена
