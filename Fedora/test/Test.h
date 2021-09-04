@@ -214,7 +214,7 @@ private:
         // тест реальной программы
         Settings *setting = Settings::GetInstance();
         setting->setLogLevel(settings::LogLevel::LOG_WARNING);
-        fedora::parser::Parser parser = fedora::parser::Parser::makeFileParser(L"./../programs/basic_types.fe");
+        fedora::parser::Parser parser = fedora::parser::Parser::makeFileParser(L"./../programs/current_features.fe");
         fedora::parser::TokensHolder tokensHolder = parser.parse();
         fedora::ContextBuilder builder = fedora::ContextBuilder();
         fedora::AnalyzerStrategy analyzer = fedora::AnalyzerStrategy(builder);
