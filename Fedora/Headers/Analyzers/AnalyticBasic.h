@@ -16,7 +16,7 @@ namespace fedora {
             void throwException(std::wstring msg, std::wstring funcName);
 
             /// Log something as wstring
-            static void log(const std::wstring& msg, fedora::settings::LogLevel level);
+            static void log(const std::wstring &msg, fedora::settings::LogLevel level);
 
         public:
             AnalyticBasic() = default;

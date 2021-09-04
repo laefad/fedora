@@ -5,9 +5,8 @@
 
 namespace fedora {
     namespace parser {
-        TokensHolder::TokensHolder():
-            tokens(std::vector<Token>())
-        {}
+        TokensHolder::TokensHolder() :
+                tokens(std::vector<Token>()) {}
 
         //TODO а корректно использовать ссылку константную ??? 
         void TokensHolder::add(const Token &a) {
@@ -21,10 +20,10 @@ namespace fedora {
         std::vector<Token> TokensHolder::getLines(size_t line, size_t range) {
 
             // get [t-2;t+2] lines
-            auto is_lineX = [line, range](Token const& t){
-                auto b = t.getLine(); 
+            auto is_lineX = [line, range](Token const &t) {
+                auto b = t.getLine();
                 auto abs = line > b ? line - b : b - line;
-                return abs <= range; 
+                return abs <= range;
             };
 
             // По линиям токены отсортированы! можно было бы искать бинарно опорный элемент

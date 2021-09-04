@@ -1,9 +1,11 @@
 #pragma once
 
+#include <utility>
+
 #include "FException.h"
 
 namespace fedora {
-    class SettingsException: public FException{
+    class SettingsException : public FException {
     protected:
         // TODO Конкретизировать ошибку
         std::wstring construct() const override {
@@ -15,9 +17,9 @@ namespace fedora {
 
             return buf;
         }
+
     public:
-        explicit SettingsException(std::wstring text):
-            FException(text) 
-        {}
+        explicit SettingsException(std::wstring text) :
+                FException(std::move(text)) {}
     };
 }

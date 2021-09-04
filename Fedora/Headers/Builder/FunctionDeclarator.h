@@ -77,9 +77,8 @@ namespace fedora {
 //                return result;
 //            };
         public:
-            explicit FunctionDeclarator(std::shared_ptr<builder::BuildableFunction> f):
-                function(std::move(f))
-            {}
+            explicit FunctionDeclarator(std::shared_ptr<builder::BuildableFunction> f) :
+                    function(std::move(f)) {}
 
             // TODO Стоит ли внедрять в каждую функцию проверку на Nullptr?
             bool isNull() {
@@ -95,25 +94,25 @@ namespace fedora {
                 function->addKeyWord(t);
             }
 
-            bool isFunctionHasParent(){
+            bool isFunctionHasParent() {
                 return function->isHasParent();
             }
 
-            std::shared_ptr<builder::BuildableFunction> getUpcastedParent(){
+            std::shared_ptr<builder::BuildableFunction> getUpcastedParent() {
                 if (function->getParent() == nullptr)
                     throw BuilderException(L"Builder tried to upcast function's parent, but function had no parent",
-                                                      L"FunctionDeclarator::getUpcastedParent");
+                                           L"FunctionDeclarator::getUpcastedParent");
                 return std::static_pointer_cast<builder::BuildableFunction>(function->getParent());
             }
 
-            std::wstring& getFunctionName(){
+            std::wstring &getFunctionName() {
                 return function->getName();
             }
 
             /**
              * @return pointer to function
              */
-            std::shared_ptr<builder::BuildableFunction> getFunction(){
+            std::shared_ptr<builder::BuildableFunction> getFunction() {
                 return function;
             }
 
@@ -146,7 +145,7 @@ namespace fedora {
                 function->setReturnable(r);
             }
 
-            void addArgumentName(const parser::Token &t){
+            void addArgumentName(const parser::Token &t) {
                 function->addArgName(t.getData());
             }
         };

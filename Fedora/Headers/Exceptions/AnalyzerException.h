@@ -29,10 +29,9 @@ namespace fedora {
         // parser::ParserUtils::format(tokensHolder.getLines(3,1))
 
     public:
-        AnalyzerException(std::wstring text, std::wstring file, std::wstring func):
-            FException(std::move(text)),
-            file(std::move(file)),
-            func(std::move(func))
-        {}
+        AnalyzerException(std::wstring text, std::wstring file, std::wstring func) :
+                FException(std::move(text)),
+                file(std::move(file)),
+                func(std::move(func)) {}
     };
 }

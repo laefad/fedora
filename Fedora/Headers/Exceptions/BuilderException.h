@@ -23,9 +23,8 @@ namespace fedora {
         }
 
     public:
-        explicit BuilderException(std::wstring text, std::wstring functionName):
-            FException(text),
-            functionName(functionName)
-        {}
+        explicit BuilderException(std::wstring text, std::wstring functionName) :
+                FException(text),
+                functionName(functionName) {}
     };
 }

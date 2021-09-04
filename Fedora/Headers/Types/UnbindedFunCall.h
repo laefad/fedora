@@ -14,13 +14,13 @@ namespace fedora {
             std::wstring functionName;
         public:
             explicit UnbindedFunCall(
-                std::wstring functionName,
-                FunCallArguments args
+                    std::wstring functionName,
+                    FunCallArguments args
             );
 
             // TODO add error 
             std::unique_ptr<BindedFunCall> bind(
-                std::shared_ptr<context::Function> function
+                    std::shared_ptr<context::Function> function
             );
 
             virtual std::wstring eval() override;

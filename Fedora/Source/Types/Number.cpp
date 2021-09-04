@@ -4,9 +4,8 @@
 namespace fedora {
     namespace types {
 
-        Number::Number(double v):
-            value(v) 
-        {}
+        Number::Number(double v) :
+                value(v) {}
 
         Type Number::type() {
             return types::NUMBER;

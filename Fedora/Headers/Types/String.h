@@ -11,7 +11,7 @@ namespace fedora {
         private:
             std::wstring value;
         public:
-            explicit String(std::wstring s):value(std::move(s)){}
+            explicit String(std::wstring s) : value(std::move(s)) {}
 
             std::wstring eval() override;
 

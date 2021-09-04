@@ -22,9 +22,8 @@ namespace fedora {
              */
             bool contextIsReady = false;
         public:
-            explicit BuildableFunction(std::shared_ptr<Function> parent): 
-                context::Function(std::move(parent))
-            {}
+            explicit BuildableFunction(std::shared_ptr<Function> parent) :
+                    context::Function(std::move(parent)) {}
 
             bool isNameDeclared() {
                 return !name.empty();
@@ -34,15 +33,15 @@ namespace fedora {
                 return children.empty();
             }
 
-            void setParent(std::shared_ptr<context::Function>f){
+            void setParent(std::shared_ptr<context::Function> f) {
                 parent = std::move(f);
             }
 
-            std::shared_ptr<context::Function> getParent(){
+            std::shared_ptr<context::Function> getParent() {
                 return parent;
             }
 
-            bool isHasParent(){
+            bool isHasParent() {
                 return parent != nullptr;
             }
 
@@ -50,7 +49,7 @@ namespace fedora {
 //                return parent;
 //            }
 
-            std::wstring& getName(){
+            std::wstring &getName() {
                 return name;
             }
 
@@ -95,11 +94,11 @@ namespace fedora {
                 returnable = std::make_unique<context::Returnable>(r);
             }
 
-            void addArgName(const std::wstring& wstring){
+            void addArgName(const std::wstring &wstring) {
                 args->addStrToArgNames(wstring);
             }
 
-            void setChildFunction(std::shared_ptr<Function> f, const std::wstring& name){
+            void setChildFunction(std::shared_ptr<Function> f, const std::wstring &name) {
                 children[name] = std::move(f);
             }
         };

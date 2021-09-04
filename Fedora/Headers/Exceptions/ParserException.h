@@ -14,9 +14,9 @@ namespace fedora {
 
             return buf;
         }
+
     public:
-        ParserException(std::wstring text):
-            FException(text)
-        {}
+        ParserException(std::wstring text) :
+                FException(text) {}
     };
 }

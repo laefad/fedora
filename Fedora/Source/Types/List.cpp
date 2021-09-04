@@ -17,7 +17,7 @@ namespace fedora {
                 buff += L' ';
                 buff += next->value->eval();
                 next = next->next;
-            } 
+            }
 
             buff += L']';
 

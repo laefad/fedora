@@ -53,7 +53,7 @@ namespace fedora {
                 case FUNCTION_ARGUMENT:
                     return functionArgument(t, b);
                 case RETURNABLE_FORCE_CALL:
-                    throwException(L"Unimplemented",L"ReadName::analyzeToken switch(mode)");
+                    throwException(L"Unimplemented", L"ReadName::analyzeToken switch(mode)");
                     break;
             }
 

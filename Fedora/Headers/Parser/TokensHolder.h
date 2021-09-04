@@ -19,8 +19,11 @@ namespace fedora {
 
             // TODO переместить в cpp
             iterator begin() { return tokens.begin(); }
+
             iterator end() { return tokens.end(); }
+
             const_iterator begin() const { return tokens.begin(); }
+
             const_iterator end() const { return tokens.end(); }
 
         public:

@@ -21,9 +21,8 @@ namespace fedora {
         std::shared_ptr<analytic::AnalyticBasic> analyticObj = std::make_shared<analytic::ReadKeyWord>();
         ContextBuilder &contextBuilder;
     public:
-        explicit AnalyzerStrategy(ContextBuilder &contextBuilder1):
-            contextBuilder(contextBuilder1)
-        {}
+        explicit AnalyzerStrategy(ContextBuilder &contextBuilder1) :
+                contextBuilder(contextBuilder1) {}
 
         bool analyzeNext(parser::Token &);
     };

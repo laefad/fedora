@@ -21,7 +21,7 @@ namespace fedora {
             // 8. Let Новая функция объявлена
 
             // "]"
-            if (t.getType() == TokenType::ListClose) 
+            if (t.getType() == TokenType::ListClose)
                 return shared_from_this();
 
             // ")"
@@ -53,7 +53,7 @@ namespace fedora {
             }
 
             // TODO здесь был prefun keyword раньше (+ pure)
-            if (t.getType() == TokenType::ForceCall)  {
+            if (t.getType() == TokenType::ForceCall) {
                 return std::make_shared<ReadKeyWord>();
             }
 

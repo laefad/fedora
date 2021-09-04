@@ -37,17 +37,17 @@ namespace fedora {
                 // if number
                 b.addSimpleTypeInList(t);
                 return shared_from_this();
-            }else if (t.getType() == TokenType::String) {
+            } else if (t.getType() == TokenType::String) {
                 // if string
                 b.addSimpleTypeInList(t);
                 return shared_from_this();
-            }else if (t.getType() == TokenType::Null){
+            } else if (t.getType() == TokenType::Null) {
                 // if null
                 b.addSimpleTypeInList(t);
                 return shared_from_this();
             }
 
-            if (t.getType() == TokenType::Name){
+            if (t.getType() == TokenType::Name) {
                 b.addFunCallInList(t);
                 return std::make_shared<ReadForceArgs>();
             }
@@ -61,7 +61,7 @@ namespace fedora {
                 b.endList();
                 return std::make_shared<ReadAfterListEnd>();
             } else {
-                throwException(L"Expected a list member, but got token = " + t.getData(), 
+                throwException(L"Expected a list member, but got token = " + t.getData(),
                                L"analyzeToken(Token&)");
                 // TODO Вызывать сервис очистки синглтонов перед экстренным завершением программы
             }

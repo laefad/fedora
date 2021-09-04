@@ -14,6 +14,7 @@ namespace fedora {
             std::shared_ptr<List> next;
         public:
             List() : value(nullptr), next(nullptr) {}
+
             explicit List(std::shared_ptr<BasicType> v) : value(std::move(v)), next(nullptr) {}
 
             /**
@@ -22,7 +23,7 @@ namespace fedora {
              * @param n - the old list (it won't be changed)
              * @return the new List
              */
-            static List addNewItemToTheBeginning(std::shared_ptr<BasicType> v, std::shared_ptr<List> n){
+            static List addNewItemToTheBeginning(std::shared_ptr<BasicType> v, std::shared_ptr<List> n) {
                 List a = List();
                 a.value = std::move(v);
                 a.next = std::move(n);
@@ -35,12 +36,12 @@ namespace fedora {
              * @param n - the old list (it won't be changed)
              * @return the new List
              */
-            static List addNewItemToTheEnd(std::shared_ptr<BasicType> v, const std::shared_ptr<List>& n){
+            static List addNewItemToTheEnd(std::shared_ptr<BasicType> v, const std::shared_ptr<List> &n) {
                 std::shared_ptr<List> a = std::make_shared<List>(n->value);
 
                 std::shared_ptr<List> nextList = n->next;
                 std::shared_ptr<List> nextA = a;
-                while(nextList != nullptr){
+                while (nextList != nullptr) {
                     nextA->next = std::make_shared<List>(nextList->value);
                     nextA = nextA->next;
                     nextList = nextList->next;

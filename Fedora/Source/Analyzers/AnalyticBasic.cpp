@@ -12,9 +12,9 @@ namespace fedora {
             throw AnalyzerException(std::move(msg), getClassFileName(), std::move(funcName));
         }
 
-        void AnalyticBasic::log(const std::wstring& msg, fedora::settings::LogLevel level) {
+        void AnalyticBasic::log(const std::wstring &msg, fedora::settings::LogLevel level) {
             Logger::log(msg, level);
         }
-        
+
     }
 }

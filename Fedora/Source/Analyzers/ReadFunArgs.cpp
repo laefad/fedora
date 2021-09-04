@@ -26,18 +26,18 @@ namespace fedora {
             log(L"Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
             log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
 
-            if (t.getType() == TokenType::FunctionContextDeclaration){
+            if (t.getType() == TokenType::FunctionContextDeclaration) {
                 // case 1
                 return std::make_shared<ReadKeyWord>();
             } else if (t.getType() == TokenType::FunctionReturnableDeclaration) {
                 // case 2
                 b.notifyWeSetReturnable();
                 return std::make_shared<ReadResult>();
-            } else if (t.getType() == TokenType::Name){
+            } else if (t.getType() == TokenType::Name) {
                 //case 3
                 b.addArgumentName(t);
                 return shared_from_this();
-            }else{
+            } else {
                 // error
                 throwException(L"Invalid argument name", L"analyzeToken(Token&)");
                 return shared_from_this();

@@ -74,11 +74,11 @@ namespace fedora {
          * let b = null
          * # function b has no parent #
          */
-        void finishFunctionDeclaration(){
-            if (functionDeclarator.isFunctionHasParent()){
+        void finishFunctionDeclaration() {
+            if (functionDeclarator.isFunctionHasParent()) {
                 // case 1
                 functionDeclarator = builder::FunctionDeclarator(functionDeclarator.getUpcastedParent());
-            }else{
+            } else {
                 // case 2
                 functionDeclarator = builder::FunctionDeclarator(nullptr);
             }
@@ -89,11 +89,10 @@ namespace fedora {
 
         std::shared_ptr<builder::BuildableFunCall> currentFunCall = nullptr;
     public:
-        ContextBuilder():
-            functionDeclarator(nullptr),
-            forceCallDeclarator(nullptr),
-            package(std::make_shared<context::Package>())
-        {}
+        ContextBuilder() :
+                functionDeclarator(nullptr),
+                forceCallDeclarator(nullptr),
+                package(std::make_shared<context::Package>()) {}
 
         ~ContextBuilder() = default;
 
@@ -122,11 +121,13 @@ namespace fedora {
         void addReturnableFunCall(std::wstring const &);
 
         void addReturnableList();
+
         void endList();
 
-        static std::shared_ptr<types::BasicType> t2Bt(const parser::Token&);
+        static std::shared_ptr<types::BasicType> t2Bt(const parser::Token &);
 
-        void addSimpleTypeInList(const parser::Token&t);
+        void addSimpleTypeInList(const parser::Token &t);
+
         void addFunCallInList(const parser::Token &);
 
         void notifyWeStartForceCall();
@@ -140,7 +141,7 @@ namespace fedora {
             return true;
         }
 
-        std::shared_ptr<context::Package> getPackage(){
+        std::shared_ptr<context::Package> getPackage() {
             return package;
         }
     };

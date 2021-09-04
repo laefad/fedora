@@ -10,12 +10,11 @@
 namespace fedora {
     namespace parser {
 
-        Parser::Parser(std::unique_ptr<std::wistream> in):
-            in(std::move(in)),
-            line(0)
-        {}
+        Parser::Parser(std::unique_ptr<std::wistream> in) :
+                in(std::move(in)),
+                line(0) {}
 
-        Parser Parser::makeFileParser(const std::wstring& fileName) {
+        Parser Parser::makeFileParser(const std::wstring &fileName) {
             auto in = std::make_unique<std::wifstream>(StaticUtils::ws2s(fileName), std::ios_base::in);
 
             if (!in->good())
@@ -113,7 +112,7 @@ namespace fedora {
                 if (in->eof()) {
                     if (!res.empty())
                         return Token(res, line);
-                    else 
+                    else
                         return Token(res, line, TokenType::Empty);
                 }
 
@@ -133,14 +132,14 @@ namespace fedora {
                 tmp = in->peek();
 
                 if ((ParserUtils::isDelimiter(tmp) ||
-                        ParserUtils::isQuote(tmp) ||
-                        ParserUtils::isIgnored(tmp)) &&
+                     ParserUtils::isQuote(tmp) ||
+                     ParserUtils::isIgnored(tmp)) &&
                     !res.empty())
                     return Token(res, line);
-            }   
+            }
         }
 
-        void Parser::determineAndSetTokenType(Token & t) {
+        void Parser::determineAndSetTokenType(Token &t) {
 
             if (ParserUtils::isTokenACallOpen(t))
                 t.setType(TokenType::CallOpen);
@@ -162,7 +161,7 @@ namespace fedora {
                 t.setType(TokenType::ForceCall);
             else if (ParserUtils::isTokenNull(t))
                 t.setType(TokenType::Null);
-            else 
+            else
                 t.setType(TokenType::Name);
 
         }

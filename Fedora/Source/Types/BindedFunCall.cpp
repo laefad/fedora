@@ -3,15 +3,14 @@
 #include "Types/BindedFunCall.h"
 
 namespace fedora {
-    namespace types { 
+    namespace types {
 
         BindedFunCall::BindedFunCall(
-            std::shared_ptr<context::Function> function, 
-            BindedFunCall::FunCallArguments args
-        ):
-            FunCall(args),
-            function(std::move(function))
-        {};
+                std::shared_ptr<context::Function> function,
+                BindedFunCall::FunCallArguments args
+        ) :
+                FunCall(args),
+                function(std::move(function)) {};
 
         std::unique_ptr<UnbindedFunCall> BindedFunCall::unbind() {
             return std::make_unique<UnbindedFunCall>(function->getName(), args);
