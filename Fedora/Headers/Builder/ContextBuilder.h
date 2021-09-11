@@ -87,6 +87,8 @@ namespace fedora {
         bool isBuildingList = false;
         std::shared_ptr<builder::MutableList> currentList = nullptr;
 
+        void addToList(std::shared_ptr<types::BasicType>);
+
         std::shared_ptr<builder::BuildableFunCall> currentFunCall = nullptr;
     public:
         ContextBuilder() :

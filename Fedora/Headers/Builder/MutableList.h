@@ -19,16 +19,24 @@ namespace fedora {
             std::shared_ptr<MutableList> parent = nullptr;
 
             /**
-             * Add new value to the list
-             * @param t - a value to add
+             * Get the actual first item of this list
              */
-            void addBasicToFirstFoundPlace(std::shared_ptr<types::BasicType> t) {
-                // if list is empty
-                if (value == nullptr) {
-                    value = std::move(t);
-                } else {
-                    next = std::make_shared<types::List>();
+            std::shared_ptr<builder::MutableList> getTheVeryFirstItem(){
+                std::shared_ptr<builder::MutableList> mParent = this->parent;
+                std::shared_ptr<builder::MutableList> mList = std::static_pointer_cast<builder::MutableList>(this->shared_from_this());
+                while(mParent != nullptr){
+                    mList = mParent;
+                    mParent = mList->parent;
                 }
+                return mList;
+            }
+
+            void setValue(std::shared_ptr<types::BasicType> v){
+                value = std::move(v);
+            }
+
+            void setNext(std::shared_ptr<types::List> l){
+                next = std::move(l);
             }
         };
     }

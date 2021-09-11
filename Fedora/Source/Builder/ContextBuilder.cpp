@@ -1,5 +1,7 @@
 
 #include "Builder/ContextBuilder.h"
+
+#include <utility>
 #include "Types/Number.h"
 #include "Types/String.h"
 #include "Types/Null.h"
@@ -120,10 +122,6 @@ namespace fedora {
 
     std::shared_ptr<types::BasicType> ContextBuilder::t2Bt(const parser::Token &t) {
         if (t.getType() == parser::TokenType::Number) {
-            // TODO оно тут не нужно 
-            // exception::BuilderException e = exception::BuilderException(
-            //         L"Couldn't convert \"" + t.getData() + L"\" to double",
-            //         L"ContextBuilder::t2Bt(const parser::Token&)");
             double newValue = StaticUtils::ws2d(t.getData());
             return std::make_shared<types::Number>(newValue);
         } else if (t.getType() == parser::TokenType::String) {
@@ -139,7 +137,9 @@ namespace fedora {
 
     void ContextBuilder::addSimpleTypeInList(const parser::Token &t) {
         if (isBuildingList && currentList != nullptr) {
-            currentList->addBasicToFirstFoundPlace(t2Bt(t));
+            //std::shared_ptr<builder::MutableList> newA = currentList;
+            //currentList->addBasicToFirstFoundPlace(t2Bt(t),newA );
+            addToList(t2Bt(t));
         } else { // TODO Вынести тексты всех ошибок в один файл
             throw BuilderException(
                     L"You're trying to add a primitive type to the list, while the list is NOT being declared",
@@ -152,7 +152,8 @@ namespace fedora {
             std::shared_ptr<builder::BuildableFunCall> n = std::make_shared<builder::BuildableFunCall>();
             n->setName(t.getData());
             currentFunCall = n;
-            currentList->addBasicToFirstFoundPlace(n);
+            addToList(n);
+            //currentList->addBasicToFirstFoundPlace(n, currentList);
         } else { // TODO Вынести тексты всех ошибок в один файл
             throw BuilderException(
                     L"You're trying to add a funCall to the list, while the list is NOT being declared",
@@ -161,7 +162,16 @@ namespace fedora {
     }
 
     void ContextBuilder::endList() {
+        functionDeclarator.setReturnable(currentList->getTheVeryFirstItem());
         currentList = nullptr;
         isBuildingList = false;
+    }
+
+    void ContextBuilder::addToList(std::shared_ptr<types::BasicType> v) {
+        currentList->setValue(std::move(v));
+        std::shared_ptr<builder::MutableList> nextList = std::make_shared<builder::MutableList>();
+        currentList->setNext(nextList);
+        nextList->parent = currentList;
+        currentList = nextList;
     }
 }
