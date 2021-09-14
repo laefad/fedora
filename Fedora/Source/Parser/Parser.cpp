@@ -5,8 +5,6 @@
 #include "Exceptions/ParserException.h"
 #include "StaticUtils.h"
 
-#include <experimental/filesystem>
-
 namespace fedora {
     namespace parser {
 

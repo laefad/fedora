@@ -2,6 +2,7 @@
 #include "Parser/TokensHolder.h"
 
 #include <algorithm>
+#include <iterator>
 
 namespace fedora {
     namespace parser {

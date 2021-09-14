@@ -36,8 +36,9 @@ namespace fedora {
                 return name;
             }
 
+            // TODO add realization
             std::shared_ptr<Function> find(std::u8string name) {
-
+                return nullptr;
             }
         };
     }

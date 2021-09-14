@@ -223,6 +223,7 @@ private:
         }
         clean();
         Logger::logV(u8"test 8 completed");
+        Logger::logV(u8"😀");
     }
 
     static void clean() {
