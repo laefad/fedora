@@ -1,24 +1,20 @@
 
 #include <StaticUtils.h>
+#include <string>
 
 namespace fedora {
 
-     std::string StaticUtils::ws2s(const std::wstring &wstr) {
-        using convert_typeX = std::codecvt_utf8<wchar_t>;
-        std::wstring_convert<convert_typeX, wchar_t> converterX;
-
-        return converterX.to_bytes(wstr);
+    std::string StaticUtils::u8s2s(const std::u8string &u8str) {
+        return std::string(u8str.begin(), u8str.end());
     }
 
-    std::wstring StaticUtils::s2ws(const std::string &str) {
-        using convert_typeX = std::codecvt_utf8<wchar_t>;
-        std::wstring_convert<convert_typeX, wchar_t> converterX;
-
-        return converterX.from_bytes(str);
+    std::u8string StaticUtils::s2u8s(const std::string &str) {
+        //TODO !important test conversion 
+        return std::u8string(str.begin(), str.end());
     }
 
-    double StaticUtils::ws2d(const std::wstring & ws) {
-        return s2d(ws2s(ws));
+    double StaticUtils::u8s2d(const std::u8string & ws) {
+        return s2d(u8s2s(ws));
     }
 
     double StaticUtils::s2d(const std::string &str) {

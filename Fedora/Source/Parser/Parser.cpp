@@ -10,25 +10,29 @@
 namespace fedora {
     namespace parser {
 
-        Parser::Parser(std::unique_ptr<std::wistream> in) :
+        Parser::Parser(std::unique_ptr<std::istream> in) :
+                //TODO !important u8istream
                 in(std::move(in)),
                 line(0) {}
 
-        Parser Parser::makeFileParser(const std::wstring &fileName) {
-            auto in = std::make_unique<std::wifstream>(StaticUtils::ws2s(fileName), std::ios_base::in);
+        Parser Parser::makeFileParser(const std::u8string &fileName) {
+            //TODO !important u8ifstream
+            auto in = std::make_unique<std::ifstream>(StaticUtils::u8s2s(fileName), std::ios_base::in);
 
             if (!in->good())
-                throw ParserException(L"Parser::makeFileParser - file [" + fileName + L"] doesn't exist.");
+                throw ParserException(u8"Parser::makeFileParser - file [" + fileName + u8"] doesn't exist.");
 
             return Parser(std::move(in));
         }
 
-        Parser Parser::makeStringParser(std::wstring wstr) {
-            return Parser(std::make_unique<std::wstringstream>(wstr));
+        Parser Parser::makeStringParser(std::u8string str) {
+            //TODO !important u8stringstream
+            return Parser(std::make_unique<std::stringstream>(StaticUtils::u8s2s(str)));
         }
 
-        Parser Parser::makeStreamParser(std::unique_ptr<std::wistream> in) {
-            Logger::logW("Parser::makeStreamParser may cause errors. Don't use it.");
+        Parser Parser::makeStreamParser(std::unique_ptr<std::istream> in) {
+            //TODO !important u8istream
+            Logger::logW(u8"Parser::makeStreamParser may cause errors. Don't use it.");
             return Parser(std::move(in));
         }
 
@@ -36,7 +40,7 @@ namespace fedora {
             TokensHolder tokensHolder = TokensHolder();
 
             if (!in->good()) {
-                fedora::Logger::logW("Parser::parse - empty source");
+                fedora::Logger::logW(u8"Parser::parse - empty source");
                 return tokensHolder;
             }
 
@@ -61,15 +65,15 @@ namespace fedora {
         }
 
         Token Parser::readString() {
-            std::wstring res;
+            std::u8string res;
             size_t initLine = line;
-            wchar_t tmp;
+            char8_t tmp;
 
             do {
                 tmp = in->get();
 
                 if (in->eof())
-                    throw ParserException(L"Parser::readString - not closed string");
+                    throw ParserException(u8"Parser::readString - not closed string");
 
                 res += tmp;
 
@@ -78,19 +82,19 @@ namespace fedora {
 
             } while (!ParserUtils::isQuote(tmp));
 
-            return Token(L'\"' + res, initLine, TokenType::String);
+            return Token(u8'\"' + res, initLine, TokenType::String);
         }
 
         Token Parser::readComment() {
-            std::wstring res;
+            std::u8string res;
             size_t initLine = line;
-            wchar_t tmp;
+            char8_t tmp;
 
             do {
                 tmp = in->get();
 
                 if (in->eof())
-                    throw ParserException(L"Parser::readComment - not closed comment");
+                    throw ParserException(u8"Parser::readComment - not closed comment");
 
                 res += tmp;
 
@@ -99,12 +103,12 @@ namespace fedora {
 
             } while (!ParserUtils::isComment(tmp));
 
-            return Token(L'#' + res, initLine, TokenType::Comment);
+            return Token(u8'#' + res, initLine, TokenType::Comment);
         }
 
         Token Parser::readToken() {
-            std::wstring res;
-            wchar_t tmp;
+            std::u8string res;
+            char8_t tmp;
 
             while (true) {
                 tmp = in->get();

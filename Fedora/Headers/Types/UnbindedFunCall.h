@@ -11,10 +11,10 @@ namespace fedora {
         class UnbindedFunCall : public types::FunCall {
         protected:
             // Имя функции, которая будет вызвана
-            std::wstring functionName;
+            std::u8string functionName;
         public:
             explicit UnbindedFunCall(
-                    std::wstring functionName,
+                    std::u8string functionName,
                     FunCallArguments args
             );
 
@@ -23,7 +23,7 @@ namespace fedora {
                     std::shared_ptr<context::Function> function
             );
 
-            virtual std::wstring eval() override;
+            virtual std::u8string eval() override;
         };
     }
 }

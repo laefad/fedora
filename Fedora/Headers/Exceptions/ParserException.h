@@ -5,18 +5,18 @@
 namespace fedora {
     class ParserException : public FException {
     protected:
-        std::wstring construct() const override {
-            std::wstring buf;
+        std::u8string construct() const override {
+            std::u8string buf;
 
-            buf += L"ParserException";
-            buf += L"\n\tError: ";
+            buf += u8"ParserException";
+            buf += u8"\n\tError: ";
             buf += text;
 
             return buf;
         }
 
     public:
-        ParserException(std::wstring text) :
+        ParserException(std::u8string text) :
                 FException(text) {}
     };
 }

@@ -16,16 +16,16 @@ namespace fedora {
             return std::make_unique<UnbindedFunCall>(function->getName(), args);
         }
 
-        std::wstring BindedFunCall::eval() {
-            std::wstring buf(function->getName());
-            buf += L"(";
+        std::u8string BindedFunCall::eval() {
+            std::u8string buf(function->getName());
+            buf += u8"(";
 
             for (std::shared_ptr<BasicType> bt : args) {
                 buf += bt->eval();
-                buf += L" ";
+                buf += u8" ";
             }
 
-            buf += L")";
+            buf += u8")";
 
             return buf;
         }

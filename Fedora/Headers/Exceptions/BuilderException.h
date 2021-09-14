@@ -6,24 +6,24 @@
 namespace fedora {
     class BuilderException : public FException {
     protected:
-        std::wstring functionName;
+        std::u8string functionName;
 
     protected:
-        std::wstring construct() const override {
-            std::wstring buf;
+        std::u8string construct() const override {
+            std::u8string buf;
 
-            buf += L"ContextBuilder Exception\n";
-            buf += L"\tFunction: ";
+            buf += u8"ContextBuilder Exception\n";
+            buf += u8"\tFunction: ";
             buf += functionName;
-            buf += L"\n";
-            buf += L"\tError: ";
+            buf += u8"\n";
+            buf += u8"\tError: ";
             buf += text;
 
             return buf;
         }
 
     public:
-        explicit BuilderException(std::wstring text, std::wstring functionName) :
+        explicit BuilderException(std::u8string text, std::u8string functionName) :
                 FException(text),
                 functionName(functionName) {}
     };

@@ -49,7 +49,7 @@ namespace fedora {
 //                return parent;
 //            }
 
-            std::wstring &getName() {
+            std::u8string &getName() {
                 return name;
             }
 
@@ -66,7 +66,7 @@ namespace fedora {
             /**
              * Remember raw function name
              */
-            void setName(std::wstring const &s) {
+            void setName(std::u8string const &s) {
                 name = s;
             }
 
@@ -94,11 +94,11 @@ namespace fedora {
                 returnable = std::make_unique<context::Returnable>(r);
             }
 
-            void addArgName(const std::wstring &wstring) {
-                args->addStrToArgNames(wstring);
+            void addArgName(const std::u8string &u8string) {
+                args->addStrToArgNames(u8string);
             }
 
-            void setChildFunction(std::shared_ptr<Function> f, const std::wstring &name) {
+            void setChildFunction(std::shared_ptr<Function> f, const std::u8string &name) {
                 children[name] = std::move(f);
             }
         };

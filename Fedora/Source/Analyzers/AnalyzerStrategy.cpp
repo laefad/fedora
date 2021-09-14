@@ -8,7 +8,7 @@ namespace fedora {
             return true;
         } catch (FException &e) {
             // TODO Сделать вывод красного цвета (в консоли)
-            Logger::logE(e.what());
+            Logger::logE(e.whatu8());
             return false;
         }
     }

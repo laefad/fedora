@@ -9,8 +9,8 @@ namespace fedora {
 
         std::shared_ptr<AnalyticBasic> ReadForceArgs::analyzeToken(parser::Token const &t, ContextBuilder &b) {
             using fedora::parser::TokenType;
-            log(L"Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
-            log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
+            log(u8"Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
+            log(u8"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
 
             // TODO if-ы размансить
 
@@ -74,12 +74,13 @@ namespace fedora {
             // }
 
             // TODO Сюда мы вообще не должны попадать
-            throwException(L"ForceArgs got something undetectable o_0", L"analyzeToken(Token &)");
+            throwException(u8"ForceArgs got something undetectable o_0",
+                           u8"analyzeToken(Token &)");
             return std::shared_ptr<AnalyticBasic>();
         }
 
-        std::wstring ReadForceArgs::getClassFileName() {
-            return L"ReadForceArgs.h";
+        std::u8string ReadForceArgs::getClassFileName() {
+            return u8"ReadForceArgs.h";
         }
     }
 }

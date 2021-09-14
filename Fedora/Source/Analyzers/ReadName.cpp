@@ -34,12 +34,13 @@ namespace fedora {
          */
         std::shared_ptr<AnalyticBasic> ReadName::analyzeToken(parser::Token const &t, ContextBuilder &b) {
             using fedora::parser::TokenType;
-            log(L"Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
-            log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
+            log(u8"Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
+            log(u8"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
 
             if (t.getType() != TokenType::Name)
-                throwException(L"Expected a function name, but founded name is invalid. Token = " + t.getData(),
-                               L"analyzeToken(Token&) <- AnalyticUtils::isValidName(std::wstring&)");
+                throwException(u8"Expected a function name, but founded name is invalid. Token = " 
+                               + t.getData(),
+                               u8"analyzeToken(Token&) <- AnalyticUtils::isValidName(std::wstring&)");
 
             switch (mode) {
                 case FUNCTION_DECLARATION:
@@ -53,15 +54,16 @@ namespace fedora {
                 case FUNCTION_ARGUMENT:
                     return functionArgument(t, b);
                 case RETURNABLE_FORCE_CALL:
-                    throwException(L"Unimplemented", L"ReadName::analyzeToken switch(mode)");
+                    throwException(u8"Unimplemented", 
+                                   u8"ReadName::analyzeToken switch(mode)");
                     break;
             }
 
             //TODO no default exit
         }
 
-        std::wstring ReadName::getClassFileName() {
-            return L"ReadName.h";
+        std::u8string ReadName::getClassFileName() {
+            return u8"ReadName.h";
         }
 
 
@@ -81,12 +83,12 @@ namespace fedora {
         }
 
         std::shared_ptr<AnalyticBasic> ReadName::listValue(const parser::Token &, ContextBuilder &) {
-            throwException(L"unimplemented", L"ReadName::listValue");
+            throwException(u8"unimplemented", u8"ReadName::listValue");
             return std::shared_ptr<AnalyticBasic>();
         }
 
         std::shared_ptr<AnalyticBasic> ReadName::functionArgument(const parser::Token &, ContextBuilder &) {
-            throwException(L"unimplemented", L"ReadName::functionArgument");
+            throwException(u8"unimplemented", u8"ReadName::functionArgument");
             return std::shared_ptr<AnalyticBasic>();
         }
     }

@@ -13,23 +13,23 @@ namespace fedora {
         private:
 
             /// Содержимое токена
-            std::wstring data;
+            std::u8string data;
             /// Номер строки, на которой был расположен токен
             size_t line;
             /// Тип токена, по умолчанию равен TokenType::None
             TokenType tokenType;
 
         public:
-            explicit Token(std::wstring data, size_t line, TokenType tokenType);
+            explicit Token(std::u8string data, size_t line, TokenType tokenType);
 
-            explicit Token(std::wstring data, TokenType tokenType);
+            explicit Token(std::u8string data, TokenType tokenType);
 
-            explicit Token(std::wstring data, size_t line);
+            explicit Token(std::u8string data, size_t line);
 
-            explicit Token(std::wstring data);
+            explicit Token(std::u8string data);
 
             /// @return строковое представление токена
-            std::wstring const &getData() const;
+            std::u8string const &getData() const;
 
             /// @return номер строки, на которой был расположн токен
             size_t getLine() const;
@@ -48,7 +48,7 @@ namespace fedora {
             /// TODO некорректно для wchar
             /// Cимвол может состоять из нескольки wchar, в случае, если sizeof(wchar) != 4
             /// Если токен состоит из 1 символа и этот символ равен wchar, то возвращает true
-            bool isChar(wchar_t wchr) const;
+            bool isChar(char8_t wchr) const;
 
             friend bool operator==(Token const &lhs, Token const &rhs);
         };

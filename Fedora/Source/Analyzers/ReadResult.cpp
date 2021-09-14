@@ -29,8 +29,8 @@ namespace fedora {
          */
         std::shared_ptr<AnalyticBasic> ReadResult::analyzeToken(parser::Token const &t, ContextBuilder &b) {
             using fedora::parser::TokenType;
-            log(L"Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
-            log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
+            log(u8"Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
+            log(u8"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
 
             if (t.getType() == TokenType::Null) {
                 // if "null" returns
@@ -58,23 +58,23 @@ namespace fedora {
                 return std::make_shared<ReadName>(ReadName::ReadNameMode::RETURNABLE_FORCE_CALL);
             } else {
                 // Пустая строка, которая нужна, чтобы конкатенировать константные строки. Забавно
-                std::wstring text;
+                std::u8string text;
                 // TODO Вынести тексты всех ошибок в единый файл и пронумеровать их
-                throwException(L"You have to return something from function, but nothing valid found.\n"
+                throwException(u8"You have to return something from function, but nothing valid found.\n"
                                + text
-                               + L"Possible variants:\n"
+                               + u8"Possible variants:\n"
                                + text
-                               + L"1. Number\n2. String\n3. List\n4. FunCall\n"
+                               + u8"1. Number\n2. String\n3. List\n4. FunCall\n"
                                + text
-                               + L"Found: token = "
+                               + u8"Found: token = "
                                + t.getData(),
-                               L"analyzeToken(Token&)");
+                               u8"analyzeToken(Token&)");
                 return shared_from_this();
             }
         }
 
-        std::wstring ReadResult::getClassFileName() {
-            return L"ReadResult.h";
+        std::u8string ReadResult::getClassFileName() {
+            return u8"ReadResult.h";
         }
     }
 }

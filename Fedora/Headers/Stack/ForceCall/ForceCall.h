@@ -23,7 +23,7 @@ namespace fedora {
         class ForceCall : public std::enable_shared_from_this<ForceCall> {
         protected:
             ForceArgs forceArgs = ForceArgs();
-            std::wstring rawFunToCallName;
+            std::u8string rawFunToCallName;
         public:
         };
     }

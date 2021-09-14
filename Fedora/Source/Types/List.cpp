@@ -4,22 +4,22 @@
 namespace fedora {
     namespace types {
 
-        std::wstring List::eval() {
+        std::u8string List::eval() {
             std::shared_ptr<List> next = this->next;
-            std::wstring buff;
+            std::u8string buff;
 
-            buff += L'[';
+            buff += u8'[';
 
             if (value)
                 buff += value->eval();
 
             while (next) {
-                buff += L' ';
+                buff += u8' ';
                 buff += next->value->eval();
                 next = next->next;
             }
 
-            buff += L']';
+            buff += u8']';
 
             return buff;
         };

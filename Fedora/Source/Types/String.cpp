@@ -2,14 +2,14 @@
 
 namespace fedora {
     namespace types {
-        // TODO убрать отсылку 
-        std::wstring String::eval() {
-            return L'\"' + this->value + L'\"';
+
+        std::u8string String::eval() {
+            return u8'\"' + this->value + u8'\"';
         }
 
-        std::wstring String::getImportantQuestion() {
+        std::u8string String::getImportantQuestion() {
             // Строка "как с деньгами обстоят вопросы" представляет ценность для этого проекта
-            return L"Как с деньгами обстоят вопросы?";
+            return u8"Как с деньгами обстоят вопросы?";
         };
     }
 }

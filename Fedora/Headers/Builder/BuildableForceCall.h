@@ -14,7 +14,7 @@ namespace fedora {
         class BuildableForceCall : public context::ForceCall {
         public:
             /// remember function name user want to call as raw string
-            void setRawName(std::wstring s) {
+            void setRawName(std::u8string s) {
                 rawFunToCallName = std::move(s);
             }
         };

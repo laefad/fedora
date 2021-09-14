@@ -1,23 +1,24 @@
 
 #include <Parser/Token.h>
+#include <string>
 
 namespace fedora {
     namespace parser {
-        Token::Token(std::wstring data, size_t line, TokenType tokenType) :
+        Token::Token(std::u8string data, size_t line, TokenType tokenType) :
                 data(std::move(data)),
                 line(line),
                 tokenType(tokenType) {}
 
-        Token::Token(std::wstring data, TokenType tokenType) :
+        Token::Token(std::u8string data, TokenType tokenType) :
                 Token(data, 0, tokenType) {}
 
-        Token::Token(std::wstring data, size_t line) :
+        Token::Token(std::u8string data, size_t line) :
                 Token(data, line, TokenType::None) {}
 
-        Token::Token(std::wstring data) :
+        Token::Token(std::u8string data) :
                 Token(data, 0, TokenType::None) {}
 
-        std::wstring const &Token::getData() const {
+        std::u8string const &Token::getData() const {
             return data;
         }
 
@@ -37,7 +38,7 @@ namespace fedora {
             return data.length() == 1;
         }
 
-        bool Token::isChar(wchar_t wchr) const {
+        bool Token::isChar(char8_t wchr) const {
             return isChar() && wchr == data.at(0);
         }
 

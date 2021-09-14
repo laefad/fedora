@@ -57,15 +57,15 @@ private:
         using parser::Token;
         ContextBuilder builder = ContextBuilder();
 
-        Token mName = Token(L"main");
-        Token mOne = Token(L"1");
+        Token mName = Token(u8"main");
+        Token mOne = Token(u8"1");
 
         builder.notifyWeStartForceCall();
         auto forceName = mOne.getData();
         builder.setForceName(forceName);
         StackHolder *s = StackHolder::GetInstance();
         clean();
-        Logger::logV("test 2 completed");
+        Logger::logV(u8"test 2 completed");
     }
 
     static void test4() {
@@ -76,7 +76,7 @@ private:
         types::List c = types::List::addNewItemToTheEnd(std::make_shared<types::Number>(3.0),
                                                         std::make_shared<types::List>(b));
         // TODO Я проверял работу через дебаггер, но хорошо бы сделать тест кодом
-        Logger::logV("test 4 completed");
+        Logger::logV(u8"test 4 completed");
     }
 
     static void test5() {
@@ -84,19 +84,19 @@ private:
         Settings *setting = Settings::GetInstance();
         setting->setLogLevel(settings::LogLevel::LOG_WARNING);
 
-        parser::Token mLet = parser::Token(L"let");
+        parser::Token mLet = parser::Token(u8"let");
         mLet.setType(parser::TokenType::FunctionDeclaration);
 
-        parser::Token mA = parser::Token(L"a");
+        parser::Token mA = parser::Token(u8"a");
         mA.setType(parser::TokenType::Name);
 
-        parser::Token mB = parser::Token(L"b");
+        parser::Token mB = parser::Token(u8"b");
         mB.setType(parser::TokenType::Name);
 
-        parser::Token mReturns = parser::Token(L"=");
+        parser::Token mReturns = parser::Token(u8"=");
         mReturns.setType(parser::TokenType::FunctionReturnableDeclaration);
 
-        parser::Token mOne = parser::Token(L"1");
+        parser::Token mOne = parser::Token(u8"1");
         mOne.setType(parser::TokenType::Number);
 
 
@@ -115,9 +115,9 @@ private:
 
         if (builder.getPackage()->getContext()->count(mA.getData()) == 1 &&
             builder.getPackage()->getContext()->count(mB.getData()) == 1)
-            Logger::logW("test 5 completed");
+            Logger::logW(u8"test 5 completed");
         else
-            Logger::logW("test 5 FAILED");
+            Logger::logW(u8"test 5 FAILED");
         clean();
     }
 
@@ -133,24 +133,24 @@ private:
         std::shared_ptr<List> lst = std::make_shared<List>(num);
 
         //Logger::logV(lst->eval());
-        success = (lst->eval()) == L"[1.000000]";
+        success = (lst->eval()) == u8"[1.000000]";
 
         std::shared_ptr<BasicType> num2 = std::make_shared<Number>(32.0);
 
         List lst2 = List::addNewItemToTheBeginning(num2, lst);
 
         //Logger::logV(lst2.eval());
-        success = (lst2.eval()) == L"[32.000000 1.000000]";
+        success = (lst2.eval()) == u8"[32.000000 1.000000]";
 
         List lst3;
 
         //Logger::logV(lst3.eval());
-        success = (lst3.eval()) == L"[]";
+        success = (lst3.eval()) == u8"[]";
 
         if (success)
-            Logger::logV("test 6 completed");
+            Logger::logV(u8"test 6 completed");
         else
-            Logger::logV("test 6 failed");
+            Logger::logV(u8"test 6 failed");
 
         // try {
         //     throw exception::BuilderException(L"text", L"test()");
@@ -166,22 +166,22 @@ private:
         Settings *setting = Settings::GetInstance();
         setting->setLogLevel(settings::LogLevel::LOG_WARNING);
 
-        parser::Token mLet = parser::Token(L"let");
+        parser::Token mLet = parser::Token(u8"let");
         mLet.setType(parser::TokenType::FunctionDeclaration);
 
-        parser::Token mA = parser::Token(L"a");
+        parser::Token mA = parser::Token(u8"a");
         mA.setType(parser::TokenType::Name);
 
-        parser::Token mWhere = parser::Token(L"where");
+        parser::Token mWhere = parser::Token(u8"where");
         mWhere.setType(parser::TokenType::FunctionContextDeclaration);
 
-        parser::Token mB = parser::Token(L"b");
+        parser::Token mB = parser::Token(u8"b");
         mB.setType(parser::TokenType::Name);
 
-        parser::Token mReturns = parser::Token(L"=");
+        parser::Token mReturns = parser::Token(u8"=");
         mReturns.setType(parser::TokenType::FunctionReturnableDeclaration);
 
-        parser::Token mOne = parser::Token(L"1");
+        parser::Token mOne = parser::Token(u8"1");
         mOne.setType(parser::TokenType::Number);
 
 
@@ -203,9 +203,9 @@ private:
 
         if (builder.getPackage()->getContext()->count(mA.getData()) == 1 &&
             (*(builder.getPackage()->getContext()))[mA.getData()]->getContext()->count(mB.getData()) == 1)
-            Logger::logW("test 7 completed");
+            Logger::logW(u8"test 7 completed");
         else
-            Logger::logW("test 7 FAILED");
+            Logger::logW(u8"test 7 FAILED");
 
         clean();
     }
@@ -214,7 +214,7 @@ private:
         // тест реальной программы
         Settings *setting = Settings::GetInstance();
         setting->setLogLevel(settings::LogLevel::LOG_WARNING);
-        fedora::parser::Parser parser = fedora::parser::Parser::makeFileParser(L"./../programs/current_features.fe");
+        fedora::parser::Parser parser = fedora::parser::Parser::makeFileParser(u8"./../programs/current_features.fe");
         fedora::parser::TokensHolder tokensHolder = parser.parse();
         fedora::ContextBuilder builder = fedora::ContextBuilder();
         fedora::AnalyzerStrategy analyzer = fedora::AnalyzerStrategy(builder);
@@ -222,7 +222,7 @@ private:
             analyzer.analyzeNext(*it);
         }
         clean();
-        Logger::logV("test 8 completed");
+        Logger::logV(u8"test 8 completed");
     }
 
     static void clean() {

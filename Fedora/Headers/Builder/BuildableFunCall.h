@@ -9,11 +9,11 @@ namespace fedora {
         public:
             explicit BuildableFunCall() :
                     UnbindedFunCall(
-                            L"",
+                            u8"",
                             types::UnbindedFunCall::FunCallArguments()
                     ) {}
 
-            void setName(std::wstring newName) {
+            void setName(std::u8string newName) {
                 functionName = std::move(newName);
             }
 

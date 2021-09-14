@@ -21,7 +21,7 @@ namespace fedora {
                 return FUN_CALL;
             }
 
-            virtual std::wstring eval() = 0;
+            virtual std::u8string eval() = 0;
 
         private:
             explicit FunCall();

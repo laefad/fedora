@@ -51,7 +51,7 @@ namespace fedora {
             }
 
 
-            std::wstring eval() override;
+            std::u8string eval() override;
 
             Type type() override {
                 return types::LIST;

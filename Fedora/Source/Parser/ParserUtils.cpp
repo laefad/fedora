@@ -5,31 +5,31 @@ namespace fedora {
 
     namespace parser {
 
-        const std::wstring ParserUtils::ignoredSymbols = L"\n\t\r \377";
-        const std::wstring ParserUtils::delimiterSymbols = L"()[]=";
-        const std::wstring ParserUtils::functionDeclaration = L"let";
-        const std::wstring ParserUtils::functionContextDeclaration = L"where";
-        const std::wstring ParserUtils::forceCall = L"force";
-        const std::wstring ParserUtils::null = L"null";
+        const std::u8string ParserUtils::ignoredSymbols = u8"\n\t\r \377";
+        const std::u8string ParserUtils::delimiterSymbols = u8"()[]=";
+        const std::u8string ParserUtils::functionDeclaration = u8"let";
+        const std::u8string ParserUtils::functionContextDeclaration = u8"where";
+        const std::u8string ParserUtils::forceCall = u8"force";
+        const std::u8string ParserUtils::null = u8"null";
 
-        bool ParserUtils::isDelimiter(wchar_t tmp) {
-            return ParserUtils::delimiterSymbols.find(tmp) != std::wstring::npos;
+        bool ParserUtils::isDelimiter(char8_t tmp) {
+            return ParserUtils::delimiterSymbols.find(tmp) != std::u8string::npos;
         }
 
-        bool ParserUtils::isNewLine(wchar_t tmp) {
-            return tmp == L'\n';
+        bool ParserUtils::isNewLine(char8_t tmp) {
+            return tmp == u8'\n';
         }
 
-        bool ParserUtils::isQuote(wchar_t tmp) {
-            return tmp == L'\"';
+        bool ParserUtils::isQuote(char8_t tmp) {
+            return tmp == u8'\"';
         }
 
-        bool ParserUtils::isComment(wchar_t tmp) {
-            return tmp == L'#';
+        bool ParserUtils::isComment(char8_t tmp) {
+            return tmp == u8'#';
         }
 
-        bool ParserUtils::isIgnored(wchar_t tmp) {
-            return ParserUtils::ignoredSymbols.find(tmp) != std::wstring::npos;
+        bool ParserUtils::isIgnored(char8_t tmp) {
+            return ParserUtils::ignoredSymbols.find(tmp) != std::u8string::npos;
         }
 
         bool ParserUtils::isTokenANumber(Token const &t) {
@@ -42,8 +42,8 @@ namespace fedora {
                 if (isdigit(chr))
                     continue;
 
-                if (chr != L'.') {
-                    if (i != 0 || (chr != L'+' && chr != L'-'))
+                if (chr != u8'.') {
+                    if (i != 0 || (chr != u8'+' && chr != u8'-'))
                         return false;
                 } else if (hasDot || i == 0 || i == len - 1)
                     return false;
@@ -67,11 +67,11 @@ namespace fedora {
         }
 
         bool ParserUtils::isTokenAListOpen(Token const &t) {
-            return t.isChar(L'[');
+            return t.isChar(u8'[');
         }
 
         bool ParserUtils::isTokenAListClose(Token const &t) {
-            return t.isChar(L']');
+            return t.isChar(u8']');
         }
 
         bool ParserUtils::isTokenAFunctionDeclaration(Token const &t) {
@@ -83,15 +83,15 @@ namespace fedora {
         }
 
         bool ParserUtils::isTokenAFunctionReturnableDeclaration(Token const &t) {
-            return t.isChar(L'=');
+            return t.isChar(u8'=');
         }
 
         bool ParserUtils::isTokenACallOpen(Token const &t) {
-            return t.isChar(L'(');
+            return t.isChar(u8'(');
         }
 
         bool ParserUtils::isTokenACallClose(Token const &t) {
-            return t.isChar(L')');
+            return t.isChar(u8')');
         }
 
         bool ParserUtils::isTokenAForceCall(Token const &t) {
@@ -102,21 +102,21 @@ namespace fedora {
             return t.getData() == null;
         }
 
-        std::wstring ParserUtils::format(std::vector<Token> vec, bool print_lines) {
-            std::wstring buff;
+        std::u8string ParserUtils::format(std::vector<Token> vec, bool print_lines) {
+            std::u8string buff;
             size_t line = -1;
 
             for (Token const &t : vec) {
                 if (line != -1) {
                     if (t.getLine() > line)
-                        buff += L'\n';
+                        buff += u8'\n';
                     else
-                        buff += L' ';
+                        buff += u8' ';
                 }
 
                 if (print_lines && line != t.getLine()) {
                     buff += t.getLine();
-                    buff += L" | ";
+                    buff += u8" | ";
                 }
 
                 buff += t.getData();

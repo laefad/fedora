@@ -24,8 +24,8 @@ namespace fedora {
         std::shared_ptr<AnalyticBasic>
         ReadAfterReturnableFunName::analyzeToken(const parser::Token &t, ContextBuilder &b) {
             using fedora::parser::TokenType;
-            log(L"Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
-            log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
+            log(u8"Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
+            log(u8"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
 
             if (t.getType() == parser::TokenType::CallOpen) {
                 // case 1
@@ -37,13 +37,13 @@ namespace fedora {
                 // case 3
                 return std::make_shared<ReadName>(ReadName::ReadNameMode::FORCE_CALL);
             } else {
-                throwException(L"Expected arguments or end of a returnable funCall declaration, but got " + t.getData(),
-                               L"ReadAfterReturnableFunName::analyzeToken");
+                throwException(u8"Expected arguments or end of a returnable funCall declaration, but got " + t.getData(),
+                               u8"ReadAfterReturnableFunName::analyzeToken");
             }
         }
 
-        std::wstring ReadAfterReturnableFunName::getClassFileName() {
-            return L"ReadAfterReturnableFunName.h";
+        std::u8string ReadAfterReturnableFunName::getClassFileName() {
+            return u8"ReadAfterReturnableFunName.h";
         }
     }
 }

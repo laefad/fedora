@@ -9,7 +9,7 @@ namespace fedora {
         private:
             double value;
         public:
-            std::wstring eval() override;
+            std::u8string eval() override;
 
             Type type() override;
 

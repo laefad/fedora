@@ -9,17 +9,17 @@ namespace fedora {
 
         class String : public BasicType {
         private:
-            std::wstring value;
+            std::u8string value;
         public:
-            explicit String(std::wstring s) : value(std::move(s)) {}
+            explicit String(std::u8string s) : value(std::move(s)) {}
 
-            std::wstring eval() override;
+            std::u8string eval() override;
 
             Type type() override {
                 return types::STRING;
             }
 
-            std::wstring getImportantQuestion();
+            std::u8string getImportantQuestion();
         };
 
     }

@@ -22,13 +22,13 @@ namespace fedora {
             explicit ForceCallDeclarator(std::shared_ptr<builder::BuildableForceCall> forceCall) : forceCall(
                     std::move(forceCall)) {}
 
-            void setName(std::wstring const &s) {
+            void setName(std::u8string const &s) {
                 if (forceCall != nullptr) {
                     forceCall->setRawName(s);
                 } else
                     throw BuilderException(
-                            L"You're trying to set name for forceCall, but pointer to forceCall is NULLPTR ",
-                            L"ForceCallDeclarator::setName(std::wstring&)");
+                            u8"You're trying to set name for forceCall, but pointer to forceCall is NULLPTR ",
+                            u8"ForceCallDeclarator::setName(std::u8string&)");
             }
         };
     }

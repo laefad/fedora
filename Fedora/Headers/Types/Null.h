@@ -17,7 +17,7 @@ namespace fedora {
          */
         class Null : public BasicType {
         public:
-            std::wstring eval() override;
+            std::u8string eval() override;
 
             Type type() override {
                 return types::NULL_;

@@ -20,7 +20,7 @@ namespace fedora {
 
             std::unique_ptr<UnbindedFunCall> unbind();
 
-            virtual std::wstring eval() override;
+            virtual std::u8string eval() override;
 
             // Возвращает результат выполнения функции. 
             // Это либо простой тип, либо очередной funcall

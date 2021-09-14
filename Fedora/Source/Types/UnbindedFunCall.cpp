@@ -5,7 +5,7 @@
 namespace fedora {
     namespace types {
         UnbindedFunCall::UnbindedFunCall(
-                std::wstring functionName,
+                std::u8string functionName,
                 UnbindedFunCall::FunCallArguments args
         ) :
                 FunCall(args),
@@ -17,16 +17,16 @@ namespace fedora {
             return std::make_unique<BindedFunCall>(function->find(functionName), args);
         }
 
-        std::wstring UnbindedFunCall::eval() {
-            std::wstring buf(functionName);
-            buf += L"(";
+        std::u8string UnbindedFunCall::eval() {
+            std::u8string buf(functionName);
+            buf += u8"(";
 
             for (std::shared_ptr<BasicType> bt : args) {
                 buf += bt->eval();
-                buf += L" ";
+                buf += u8" ";
             }
 
-            buf += L")";
+            buf += u8")";
 
             return buf;
         }

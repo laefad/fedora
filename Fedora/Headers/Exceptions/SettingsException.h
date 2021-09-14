@@ -8,18 +8,18 @@ namespace fedora {
     class SettingsException : public FException {
     protected:
         // TODO Конкретизировать ошибку
-        std::wstring construct() const override {
-            std::wstring buf;
+        std::u8string construct() const override {
+            std::u8string buf;
 
-            buf += L"SettingsException\n";
-            buf += L"\tError: ";
+            buf += u8"SettingsException\n";
+            buf += u8"\tError: ";
             buf += text;
 
             return buf;
         }
 
     public:
-        explicit SettingsException(std::wstring text) :
+        explicit SettingsException(std::u8string text) :
                 FException(std::move(text)) {}
     };
 }

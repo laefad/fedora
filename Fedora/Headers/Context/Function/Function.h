@@ -21,22 +21,22 @@ namespace fedora {
             std::shared_ptr<Function> parent;
             std::unique_ptr<Returnable> returnable = nullptr;
             std::unique_ptr<NamesOfArguments> args = std::make_unique<NamesOfArguments>();
-            std::wstring name = L"";
+            std::u8string name = u8"";
             std::vector<parser::Token> keyWords = std::vector<parser::Token>();
 
-            std::map<std::wstring, std::shared_ptr<Function>> children = std::map<std::wstring, std::shared_ptr<Function>>();
+            std::map<std::u8string, std::shared_ptr<Function>> children = std::map<std::u8string, std::shared_ptr<Function>>();
         public:
             explicit Function(std::shared_ptr<Function> parent) : parent(std::move(parent)) {}
 
-            std::shared_ptr<std::map<std::wstring, std::shared_ptr<Function>>> getContext(){
-                return std::make_shared<std::map<std::wstring, std::shared_ptr<Function>>>(children);
+            std::shared_ptr<std::map<std::u8string, std::shared_ptr<Function>>> getContext(){
+                return std::make_shared<std::map<std::u8string, std::shared_ptr<Function>>>(children);
             }
 
-            std::wstring getName() const {
+            std::u8string getName() const {
                 return name;
             }
 
-            std::shared_ptr<Function> find(std::wstring name) {
+            std::shared_ptr<Function> find(std::u8string name) {
 
             }
         };

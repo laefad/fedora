@@ -13,10 +13,10 @@ namespace fedora {
         class AnalyticBasic : public std::enable_shared_from_this<AnalyticBasic> {
         protected:
             /// Бросить ошибку в случае ошибки синтаксиса
-            void throwException(std::wstring msg, std::wstring funcName);
+            void throwException(std::u8string msg, std::u8string funcName);
 
-            /// Log something as wstring
-            static void log(const std::wstring &msg, fedora::settings::LogLevel level);
+            /// Log something as u8string
+            static void log(const std::u8string &msg, fedora::settings::LogLevel level);
 
         public:
             AnalyticBasic() = default;
@@ -25,7 +25,7 @@ namespace fedora {
             virtual std::shared_ptr<AnalyticBasic> analyzeToken(parser::Token const &, ContextBuilder &) = 0;
 
             /// Получить имя файла с кодом. Используется для вывода сообщения об ошибке
-            virtual std::wstring getClassFileName() = 0;
+            virtual std::u8string getClassFileName() = 0;
         };
     }
 }

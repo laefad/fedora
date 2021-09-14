@@ -47,7 +47,7 @@ const bool is_test = true;
 int main(int argc, char *argv[]) {
     // Режим тестирования
     if (is_test) {
-        Logger::logV("lol");
+        Logger::logV(u8"lol");
 //        fedora::builder::BuildableFunction b = fedora::builder::BuildableFunction(nullptr);
 //        b.setContextFinished();
 //        fedora::context::Function *a = &b;

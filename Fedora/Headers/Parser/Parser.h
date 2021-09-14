@@ -15,11 +15,12 @@ namespace fedora {
         class Parser {
         public:
 
-            static Parser makeFileParser(const std::wstring &fileName);
+            static Parser makeFileParser(const std::u8string &fileName);
 
-            static Parser makeStringParser(std::wstring wstr);
+            static Parser makeStringParser(std::u8string wstr);
 
-            static Parser makeStreamParser(std::unique_ptr<std::wistream> in);
+            //TODO #important может быть неправильный тип stream
+            static Parser makeStreamParser(std::unique_ptr<std::istream> in);
 
         public:
             /**
@@ -34,12 +35,12 @@ namespace fedora {
 
         private:
             /// Входящий поток
-            std::unique_ptr<std::wistream> in;
+            std::unique_ptr<std::istream> in;
             /// Номер строки, на которой был расположен текущий токен
             uint32_t line;
 
         private:
-            explicit Parser(std::unique_ptr<std::wistream> in);
+            explicit Parser(std::unique_ptr<std::istream> in);
 
             /// Прочитать следующий токен
             Token readToken();

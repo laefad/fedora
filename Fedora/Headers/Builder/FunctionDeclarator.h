@@ -100,12 +100,12 @@ namespace fedora {
 
             std::shared_ptr<builder::BuildableFunction> getUpcastedParent() {
                 if (function->getParent() == nullptr)
-                    throw BuilderException(L"Builder tried to upcast function's parent, but function had no parent",
-                                           L"FunctionDeclarator::getUpcastedParent");
+                    throw BuilderException(u8"Builder tried to upcast function's parent, but function had no parent",
+                                           u8"FunctionDeclarator::getUpcastedParent");
                 return std::static_pointer_cast<builder::BuildableFunction>(function->getParent());
             }
 
-            std::wstring &getFunctionName() {
+            std::u8string &getFunctionName() {
                 return function->getName();
             }
 
@@ -121,7 +121,7 @@ namespace fedora {
              * @example
              * pure let main = 1 <- name "name" should be set via this method
              */
-            void setFunctionName(std::wstring const &s) {
+            void setFunctionName(std::u8string const &s) {
                 function->setName(s);
             }
 

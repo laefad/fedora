@@ -12,10 +12,10 @@ using namespace fedora;
 
 #ifndef PRINT_DELLINE
 #define DELLINE 
-    const std::wstring delLine(L" "); 
+    const std::u8string delLine(u8" "); 
 #else 
 #define DELLINE 
-    const std::wstring delLine(L"\033[F\033[K");
+    const std::u8string delLine(u8"\033[F\033[K");
 #endif
 
 #define INIT using fedora::parser::TokensHolder; \
@@ -32,55 +32,55 @@ Logger::logV(about);
 #define SUCCESS_LOG(text) Logger::logV(delLine + delLine + text);
 
 #define PRINT_TOKENS_FROM_TOKENHOLDER(th) \
-Logger::logV(L"Tokens: " + th2wstr(th)); 
+Logger::logV(u8"Tokens: " + th2u8s(th)); 
 
 #define TEST(test_num, about, _parser, tokens_amount) \
     INIT \
-    BEFORE_LOG(L"Test " + std::to_wstring(test_num), about);\
+    BEFORE_LOG(u8"Test " + StaticUtils::s2u8s(std::to_string(test_num)), about);\
     Parser parser = _parser;\
     TokensHolder tokensHolder = parser.parse();\
     if (tokensHolder.size() != tokens_amount) {\
-        FAILED_LOG(L"Test " + std::to_wstring(test_num) + L" failed: got " + \
-                std::to_wstring(tokensHolder.size()) \
-                                + L" tokens, but expected " \
-                                + std::to_wstring(tokens_amount));\
+        FAILED_LOG(u8"Test " + StaticUtils::s2u8s(std::to_string(test_num)) + u8" failed: got " + \
+                StaticUtils::s2u8s(std::to_string(tokensHolder.size())) \
+                                + u8" tokens, but expected " \
+                                + StaticUtils::s2u8s(std::to_string(tokens_amount)));\
         PRINT_TOKENS_FROM_TOKENHOLDER(tokensHolder);\
     } else\
-        SUCCESS_LOG(L"Test " + std::to_wstring(test_num) + L" completed")
+        SUCCESS_LOG(u8"Test " + StaticUtils::s2u8s(std::to_string(test_num)) + u8" completed")
 
 
 class ParserTester {
 public:
 
     static void test() {
-        Logger::logV(L"-----TEST PARSER-----");
+        Logger::logV(u8"-----TEST PARSER-----");
         test1();
         test2();
         test3();
         test4();
         // test unicode parsing 
-        Logger::logV(L"---END TEST PARSER---");
+        Logger::logV(u8"---END TEST PARSER---");
     }
 
 private:
 
-    static std::wstring th2wstr(parser::TokensHolder const& th) {
-        std::wstring buf;
+    static std::u8string th2u8s(parser::TokensHolder const& th) {
+        std::u8string buf;
 
         for (parser::Token t : th) {
             buf += t.getData(); 
-            buf += L", ";
+            buf += u8", ";
         }
         
         return buf;
     }
 
-    static std::wstring th2wstr(std::vector<fedora::parser::Token> const& th) {
-        std::wstring buf;
+    static std::u8string th2u8s(std::vector<fedora::parser::Token> const& th) {
+        std::u8string buf;
 
         for (parser::Token t : th) {
             buf += t.getData(); 
-            buf += L", ";
+            buf += u8", ";
         }
         
         return buf;
@@ -88,47 +88,47 @@ private:
 
     static void test1() { 
         TEST(1, 
-             L"Testing file parsing...", 
-             Parser::makeFileParser(L"./../programs/tokensTest.fe"),
+             u8"Testing file parsing...", 
+             Parser::makeFileParser(u8"./../programs/tokensTest.fe"),
              28);
     }
 
     static void test2() { 
         TEST(2, 
-            L"Testing string parsing...", 
-            Parser::makeStringParser(L"let a = 89 let it be where let a = 0 = +(be it a)"),
+            u8"Testing string parsing...", 
+            Parser::makeStringParser(u8"let a = 89 let it be where let a = 0 = +(be it a)"),
             19);
     }
 
     static void test3() {
         try {
             TEST(3, 
-                L"Testing empty file parsing...", 
-                Parser::makeFileParser(L"asdasde.fe"),
+                u8"Testing empty file parsing...", 
+                Parser::makeFileParser(u8"asdasde.fe"),
                 0);
         } catch (ParserException e) {
-            SUCCESS_LOG(L"Test " + std::to_wstring(3) + L" completed")
+            SUCCESS_LOG(u8"Test " + StaticUtils::s2u8s(std::to_string(3)) + u8" completed")
         }
     }
 
     static void test4() {
         INIT
 
-        Logger::logV(L"Test 4\nTesting tokenolder get line...");
+        Logger::logV(u8"Test 4\nTesting tokenolder get line...");
 
         //linux build file path
-        Parser parser = Parser::makeFileParser(L"./../programs/tokensTest.fe");
+        Parser parser = Parser::makeFileParser(u8"./../programs/tokensTest.fe");
         TokensHolder tokensHolder = parser.parse();
 
         auto lines = tokensHolder.getLines(1, 1);
 
         if (lines.size() != 6) {
-            FAILED_LOG(L"Test 4 failed: got " + 
-                    std::to_wstring(lines.size()) + L" tokens, but expected 6.");
+            FAILED_LOG(u8"Test 4 failed: got " + 
+                    StaticUtils::s2u8s(std::to_string(lines.size())) + u8" tokens, but expected 6.");
 
             PRINT_TOKENS_FROM_TOKENHOLDER(lines);
         } else
-            SUCCESS_LOG(L"Test 4 completed");
+            SUCCESS_LOG(u8"Test 4 completed");
     }
 
     // parser = Parser::makeStringParser(L"中 国 a");

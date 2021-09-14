@@ -26,8 +26,8 @@ namespace fedora {
 
         if (t.getType() == TokenType::FunctionDeclaration)
             throw BuilderException(
-                    L"A \"let\" token must not be pushed to the context. Use ContextBuilder::notifyWeGotLetToken() instead.",
-                    L"ContextBuilder::addFunctionDeclarationToken");
+                    u8"A \"let\" token must not be pushed to the context. Use ContextBuilder::notifyWeGotLetToken() instead.",
+                    u8"ContextBuilder::addFunctionDeclarationToken");
     }
 
     /**
@@ -70,18 +70,18 @@ namespace fedora {
         functionDeclarator.setReturnableMode();
     }
 
-    void ContextBuilder::addReturnableNumber(std::wstring const &s) {
+    void ContextBuilder::addReturnableNumber(std::u8string const &s) {
         // TODO оно тут не нужно 
         // exception::BuilderException e = exception::BuilderException(L"Couldn't convert \"" + s + L"\" to double",
         //                                                             L"ContextBuilder::addReturnableNumber(std::wstring const &s)");
-        double newValue = StaticUtils::ws2d(s);
+        double newValue = StaticUtils::u8s2d(s);
         std::shared_ptr<types::Number> n = std::make_shared<types::Number>(newValue);
         functionDeclarator.setReturnable(n);
         finishFunctionDeclaration();
     }
 
-    void ContextBuilder::setForceName(std::wstring const &s) {
-        forceCallDeclarator.setName(s);
+    void ContextBuilder::setForceName(std::u8string const &u8s) {
+        forceCallDeclarator.setName(u8s);
     }
 
     void ContextBuilder::notifyWeStartForceCall() {
@@ -91,7 +91,7 @@ namespace fedora {
         forceCallDeclarator = builder::ForceCallDeclarator(newForce);
     }
 
-    void ContextBuilder::addReturnableFunCall(const std::wstring &name) {
+    void ContextBuilder::addReturnableFunCall(const std::u8string &name) {
         std::shared_ptr<builder::BuildableFunCall> n = std::make_shared<builder::BuildableFunCall>();
         n->setName(name);
         functionDeclarator.setReturnable(n);
@@ -107,7 +107,7 @@ namespace fedora {
         finishFunctionDeclaration();
     }
 
-    void ContextBuilder::addReturnableString(const std::wstring &s) {
+    void ContextBuilder::addReturnableString(const std::u8string &s) {
         std::shared_ptr<types::String> n = std::make_shared<types::String>(s);
         functionDeclarator.setReturnable(n);
         finishFunctionDeclaration();
@@ -122,7 +122,7 @@ namespace fedora {
 
     std::shared_ptr<types::BasicType> ContextBuilder::t2Bt(const parser::Token &t) {
         if (t.getType() == parser::TokenType::Number) {
-            double newValue = StaticUtils::ws2d(t.getData());
+            double newValue = StaticUtils::u8s2d(t.getData());
             return std::make_shared<types::Number>(newValue);
         } else if (t.getType() == parser::TokenType::String) {
             return std::make_shared<types::String>(t.getData());
@@ -130,8 +130,8 @@ namespace fedora {
             return std::make_shared<types::Null>();
         } else {
             throw BuilderException(
-                    L"You're trying to convert token to BasicType, but token is not a primitive type instance.",
-                    L"ContextBuilder::t2Bt(const parser::Token&)");
+                    u8"You're trying to convert token to BasicType, but token is not a primitive type instance.",
+                    u8"ContextBuilder::t2Bt(const parser::Token&)");
         }
     }
 
@@ -142,8 +142,8 @@ namespace fedora {
             addToList(t2Bt(t));
         } else { // TODO Вынести тексты всех ошибок в один файл
             throw BuilderException(
-                    L"You're trying to add a primitive type to the list, while the list is NOT being declared",
-                    L"ContextBuilder::addSimpleTypeInList");
+                    u8"You're trying to add a primitive type to the list, while the list is NOT being declared",
+                    u8"ContextBuilder::addSimpleTypeInList");
         }
     }
 
@@ -156,8 +156,8 @@ namespace fedora {
             //currentList->addBasicToFirstFoundPlace(n, currentList);
         } else { // TODO Вынести тексты всех ошибок в один файл
             throw BuilderException(
-                    L"You're trying to add a funCall to the list, while the list is NOT being declared",
-                    L"ContextBuilder::addFunCallInList");
+                    u8"You're trying to add a funCall to the list, while the list is NOT being declared",
+                    u8"ContextBuilder::addFunCallInList");
         }
     }
 

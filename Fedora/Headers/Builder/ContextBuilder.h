@@ -116,11 +116,11 @@ namespace fedora {
         /// set NULL_ as returnable
         void addReturnableNull();
 
-        void addReturnableNumber(std::wstring const &);
+        void addReturnableNumber(std::u8string const &);
 
-        void addReturnableString(std::wstring const &);
+        void addReturnableString(std::u8string const &);
 
-        void addReturnableFunCall(std::wstring const &);
+        void addReturnableFunCall(std::u8string const &);
 
         void addReturnableList();
 
@@ -136,7 +136,7 @@ namespace fedora {
 
         void addArgumentName(parser::Token const &);
 
-        void setForceName(std::wstring const &);
+        void setForceName(std::u8string const &);
         // TODO Добавить режим заполнения: функция, фанколл и проверять, своевременно ли вызван метод
 
         bool isCurrentFunctionForced(parser::Token &) {

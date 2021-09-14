@@ -10,27 +10,27 @@ namespace fedora {
     namespace parser {
         class ParserUtils {
         public:
-            static const std::wstring ignoredSymbols;
-            static const std::wstring delimiterSymbols;
-            static const std::wstring functionDeclaration;
-            static const std::wstring functionContextDeclaration;
-            static const std::wstring forceCall;
-            static const std::wstring null;
+            static const std::u8string ignoredSymbols;
+            static const std::u8string delimiterSymbols;
+            static const std::u8string functionDeclaration;
+            static const std::u8string functionContextDeclaration;
+            static const std::u8string forceCall;
+            static const std::u8string null;
 
             /// Является ли символ разделителем между токенами
-            static bool isDelimiter(wchar_t wchr);
+            static bool isDelimiter(char8_t wchr);
 
             /// Является ли символ пробельным
-            static bool isIgnored(wchar_t wchr);
+            static bool isIgnored(char8_t wchr);
 
             /// Является ли символ -- символом перевода строки?
-            static bool isNewLine(wchar_t wchr);
+            static bool isNewLine(char8_t wchr);
 
             /// Является ли символ -- кавычкой "?
-            static bool isQuote(wchar_t wchr);
+            static bool isQuote(char8_t wchr);
 
             /// Является ли символ -- символом комментария[#]?
-            static bool isComment(wchar_t wchr);
+            static bool isComment(char8_t wchr);
 
             static bool isTokenANumber(Token const &t);
 
@@ -54,7 +54,7 @@ namespace fedora {
 
             static bool isTokenAForceCall(Token const &t);
 
-            static std::wstring format(std::vector<Token>, bool print_lines = false);
+            static std::u8string format(std::vector<Token>, bool print_lines = false);
         };
     }
 }

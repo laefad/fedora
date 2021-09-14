@@ -9,17 +9,22 @@
 namespace fedora {
     class FException : public std::exception {
     protected:
-        std::wstring text;
+        std::u8string text;
 
     protected:
-        virtual std::wstring construct() const;
+        virtual std::u8string construct() const;
 
     public:
 
-        explicit FException(std::wstring s) noexcept(false);
+        explicit FException(std::u8string s) noexcept(false);
 
         ~FException() noexcept override;
 
         const char *what() const noexcept override;
+
+        // TODO to .cpp
+        std::u8string whatu8() const {
+            return text;
+        }
     };
 }

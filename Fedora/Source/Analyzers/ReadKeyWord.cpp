@@ -8,8 +8,8 @@ namespace fedora {
 
         std::shared_ptr<AnalyticBasic> ReadKeyWord::analyzeToken(parser::Token const &t, ContextBuilder &b) {
             using fedora::parser::TokenType;
-            log(L"Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
-            log(L"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
+            log(u8"Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
+            log(u8"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
 
 
             if (t.getType() == TokenType::FunctionReturnableDeclaration) {
@@ -30,14 +30,16 @@ namespace fedora {
                 return std::make_shared<ReadName>(ReadName::ReadNameMode::FUNCTION_DECLARATION);
 
             } else {
-                throwException(L"Expected a pre-function key word or \"=\", but got \"" + t.getData() + L"\"",
-                               L"analyzeToken(Token &)");
+                throwException(u8"Expected a pre-function key word or \"=\", but got \"" 
+                               + t.getData() 
+                               + u8"\"",
+                               u8"analyzeToken(Token &)");
                 return shared_from_this();
             }
         }
 
-        std::wstring ReadKeyWord::getClassFileName() {
-            return L"ReadKeyWord.h";
+        std::u8string ReadKeyWord::getClassFileName() {
+            return u8"ReadKeyWord.h";
         }
     }
 }

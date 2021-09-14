@@ -8,11 +8,11 @@
 namespace fedora {
     namespace analytic {
 
-        void AnalyticBasic::throwException(std::wstring msg, std::wstring funcName) {
+        void AnalyticBasic::throwException(std::u8string msg, std::u8string funcName) {
             throw AnalyzerException(std::move(msg), getClassFileName(), std::move(funcName));
         }
 
-        void AnalyticBasic::log(const std::wstring &msg, fedora::settings::LogLevel level) {
+        void AnalyticBasic::log(const std::u8string &msg, fedora::settings::LogLevel level) {
             Logger::log(msg, level);
         }
 

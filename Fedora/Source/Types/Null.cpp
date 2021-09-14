@@ -6,8 +6,8 @@
 
 namespace fedora {
     namespace types {
-        std::wstring Null::eval() {
-            return L"null";
+        std::u8string Null::eval() {
+            return u8"null";
         }
     }
 }

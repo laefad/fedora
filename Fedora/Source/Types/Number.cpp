@@ -11,8 +11,9 @@ namespace fedora {
             return types::NUMBER;
         }
 
-        std::wstring Number::eval() {
-            return std::to_wstring(value);
+        std::u8string Number::eval() {
+            //TODO !important add conversion
+            return u8"";//std::to_string(value);
         }
 
         double Number::getValue() const {
