@@ -8,6 +8,8 @@
 #include "Types/List.h"
 #include "Parser/Token.h"
 
+#include <bitset>
+
 using namespace fedora;
 
 class ContextBuildTester {
@@ -21,6 +23,7 @@ public:
         test6();
         test7();
         test8();
+        test9();
     }
 
 private:
@@ -223,7 +226,51 @@ private:
         }
         clean();
         Logger::logV(u8"test 8 completed");
+    }
+
+    static void test9() {
         Logger::logV(u8"😀");
+        // std::cout << ContextBuildTester::getstrbits<char8_t>(std::u8string(u8"¢")) << std::endl;
+        // std::cout << ContextBuildTester::getstrbits(std::string("¢")) << std::endl;
+        // std::cout << std::hex << (int)u8'ö' << std::endl;
+        // std::cout << std::hex << (int)'ö' << std::endl;
+
+        std::u8string data = u8"biba";
+        std::string result = StaticUtils::u8s2s(data);
+
+        if (getstrbits<char8_t>(data) == getstrbits<char>(result))
+            Logger::logV(u8"Test 9.1 success");
+
+        data = u8"öʧधᐇ";
+        result = StaticUtils::u8s2s(data);
+
+        if (getstrbits<char8_t>(data) == getstrbits<char>(result))
+            Logger::logV(u8"Test 9.2 success");
+
+        std::string data2 = "biba";
+        std::u8string result2 = StaticUtils::s2u8s(data2);
+
+        if (getstrbits<char>(data2) == getstrbits<char8_t>(result2))
+            Logger::logV(u8"Test 9.3 success");
+
+        data2 = "öʧधᐇ";
+        result2 = StaticUtils::s2u8s(data2);
+
+        if (getstrbits<char>(data2) == getstrbits<char8_t>(result2))
+            Logger::logV(u8"Test 9.4 success");
+    }
+
+    //for 9 test 
+    template <class _Elem = char, 
+              class _Traits = std::char_traits<_Elem>, 
+              class _Alloc = std::allocator<_Elem>
+             >
+    static std::string getstrbits(const std::basic_string<_Elem, _Traits, _Alloc>& s) {
+        std::stringstream ret;
+        //const constexpr int digits = std::numeric_limits<_Elem>::digits + std::numeric_limits<_Elem>::is_signed;
+        for (auto c : s) 
+            ret << std::bitset<8>(c).to_string() << "_";
+        return ret.str();
     }
 
     static void clean() {

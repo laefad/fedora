@@ -9,7 +9,6 @@ namespace fedora {
     }
 
     std::u8string StaticUtils::s2u8s(const std::string &str) {
-        //TODO !important test conversion 
         return std::u8string(str.begin(), str.end());
     }
 
