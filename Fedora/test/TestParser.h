@@ -126,7 +126,7 @@ private:
 
         //linux build file path
         #if defined(__linux__) || defined(__APPLE__)
-        Parser parser = Parser::makeFileParser(u8"./../../programs/tokensTest.fe");
+        Parser parser = Parser::makeFileParser(u8"./../programs/tokensTest.fe");
         # elif defined(_WIN32)
         Parser parser = Parser::makeFileParser(u8"./../../programs/tokensTest.fe");
         # endif
