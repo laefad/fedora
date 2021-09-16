@@ -1,5 +1,6 @@
 
 #include "Types/Number.h"
+#include "StaticUtils.h"
 
 namespace fedora {
     namespace types {
@@ -12,8 +13,7 @@ namespace fedora {
         }
 
         std::u8string Number::eval() {
-            //TODO !important add conversion
-            return u8"";//std::to_string(value);
+            return StaticUtils::d2u8s(value);
         }
 
         double Number::getValue() const {
