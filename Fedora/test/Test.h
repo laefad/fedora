@@ -24,6 +24,7 @@ public:
         test7();
         test8();
         test9();
+        test10();
     }
 
 private:
@@ -226,6 +227,7 @@ private:
         }
         clean();
         Logger::logV(u8"test 8 completed");
+
     }
 
     static void test9() {
@@ -239,25 +241,54 @@ private:
         std::string result = StaticUtils::u8s2s(data);
 
         if (getstrbits<char8_t>(data) == getstrbits<char>(result))
-            Logger::logV(u8"Test 9.1 success");
+            Logger::logV(u8"Test 9.1 completed");
+        else 
+            Logger::logV(u8"Test 9.1 failed");
 
         data = u8"öʧधᐇ";
         result = StaticUtils::u8s2s(data);
 
         if (getstrbits<char8_t>(data) == getstrbits<char>(result))
-            Logger::logV(u8"Test 9.2 success");
+            Logger::logV(u8"Test 9.2 completed");
+        else 
+             Logger::logV(u8"Test 9.2 failed");
+
 
         std::string data2 = "biba";
         std::u8string result2 = StaticUtils::s2u8s(data2);
 
         if (getstrbits<char>(data2) == getstrbits<char8_t>(result2))
-            Logger::logV(u8"Test 9.3 success");
+            Logger::logV(u8"Test 9.3 completed");
+        else 
+             Logger::logV(u8"Test 9.3 failed");
 
         data2 = "öʧधᐇ";
         result2 = StaticUtils::s2u8s(data2);
 
         if (getstrbits<char>(data2) == getstrbits<char8_t>(result2))
-            Logger::logV(u8"Test 9.4 success");
+            Logger::logV(u8"Test 9.4 completed");
+        else 
+            Logger::logV(u8"Test 9.4 failed");
+
+    }
+
+    static void test10() {
+        Logger::logV(u8"------Error handling test----");
+        try {
+            throw BuilderException(
+                        u8"You're trying to convert token to BasicType, but token is not a primitive type instance.",
+                        u8"ContextBuilder::t2Bt(const parser::Token&)");
+        } catch (BuilderException fe) {
+            Logger::logV(fe.whatu8());
+        }
+
+        try {
+            throw FException(u8"🅰  🅱  🅾  🅱  🅰");
+        } catch (FException fe) {
+            Logger::logV(fe.whatu8());
+        }
+
+        Logger::logV(u8"----Error handling test end---");
     }
 
     //for 9 test 

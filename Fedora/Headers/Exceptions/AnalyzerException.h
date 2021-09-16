@@ -1,17 +1,14 @@
 #pragma once
 
-#include <utility>
-
 #include "FException.h"
 
 namespace fedora {
 
     class AnalyzerException : public FException {
     protected:
-        const std::u8string file;
-        const std::u8string func;
-    protected:
-        std::u8string construct() const override {
+        std::u8string construct(std::u8string file,
+                                std::u8string func, 
+                                std::u8string text) const {
             std::u8string buf;
 
             buf += u8"AnalyzerException";
@@ -30,8 +27,7 @@ namespace fedora {
 
     public:
         AnalyzerException(std::u8string text, std::u8string file, std::u8string func) :
-                FException(std::move(text)),
-                file(std::move(file)),
-                func(std::move(func)) {}
+                FException(std::move(construct(file, func, text)))
+        {}
     };
 }

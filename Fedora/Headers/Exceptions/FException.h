@@ -2,29 +2,23 @@
 
 #include <exception>
 #include <string>
-#include <utility>
 
 #include "StaticUtils.h"
 
 namespace fedora {
     class FException : public std::exception {
     protected:
-        std::u8string text;
-
-    protected:
-        virtual std::u8string construct() const;
-
+        std::u8string u8strText;
+        std::string strText;
+        
     public:
 
-        explicit FException(std::u8string s) noexcept(false);
+        explicit FException(std::u8string s) noexcept;
 
-        ~FException() noexcept override;
+        virtual ~FException() noexcept override;
 
-        const char *what() const noexcept override;
+        virtual const char *what() const noexcept override;
 
-        // TODO to .cpp
-        std::u8string whatu8() const {
-            return text;
-        }
+        std::u8string whatu8() const noexcept;
     };
 }

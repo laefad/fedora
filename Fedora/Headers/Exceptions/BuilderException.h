@@ -1,15 +1,12 @@
 #pragma once
 
 #include "FException.h"
-#include "StaticUtils.h"
 
 namespace fedora {
     class BuilderException : public FException {
     protected:
-        std::u8string functionName;
-
-    protected:
-        std::u8string construct() const override {
+        std::u8string construct(std::u8string functionName, 
+                                std::u8string text) const {
             std::u8string buf;
 
             buf += u8"ContextBuilder Exception\n";
@@ -24,7 +21,7 @@ namespace fedora {
 
     public:
         explicit BuilderException(std::u8string text, std::u8string functionName) :
-                FException(text),
-                functionName(functionName) {}
+                FException(construct(functionName, text))
+        {}
     };
 }

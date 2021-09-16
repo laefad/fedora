@@ -19,7 +19,7 @@ namespace fedora {
 
             static Parser makeStringParser(std::u8string wstr);
 
-            //TODO #important может быть неправильный тип stream
+            //TODO !important может быть неправильный тип stream
             static Parser makeStreamParser(std::unique_ptr<std::istream> in);
 
         public:
