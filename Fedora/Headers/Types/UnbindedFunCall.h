@@ -15,7 +15,8 @@ namespace fedora {
         public:
             explicit UnbindedFunCall(
                     std::u8string functionName,
-                    FunCallArguments args
+                    FunCallArguments args,
+                    bool forced = false 
             );
 
             // TODO add error 

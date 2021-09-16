@@ -85,9 +85,9 @@ namespace fedora {
     }
 
     void ContextBuilder::notifyWeStartForceCall() {
-        StackHolder *stackHolder = StackHolder::GetInstance();
-        std::shared_ptr<builder::BuildableForceCall> newForce = std::make_shared<builder::BuildableForceCall>();
-        stackHolder->addForceCall(newForce);
+        std::shared_ptr<builder::BuildableFunCall> newForce = std::make_shared<builder::BuildableFunCall>();
+        newForce->setForce();
+        stackHolder.addForceCall(newForce);
         forceCallDeclarator = builder::ForceCallDeclarator(newForce);
     }
 

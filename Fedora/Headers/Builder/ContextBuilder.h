@@ -13,6 +13,7 @@
 #include "Builder/BuildableFunction.h"
 #include "Builder/MutableList.h"
 #include "Builder/BuildableFunCall.h"
+#include "Stack/StackHolder.h"
 
 namespace fedora {
     /**
@@ -52,6 +53,8 @@ namespace fedora {
         builder::FunctionDeclarator functionDeclarator;
 
         builder::ForceCallDeclarator forceCallDeclarator;
+
+        StackHolder stackHolder;
 
         /**
          * @example case 1: Top-level function declaration
@@ -94,7 +97,9 @@ namespace fedora {
         ContextBuilder() :
                 functionDeclarator(nullptr),
                 forceCallDeclarator(nullptr),
-                package(std::make_shared<context::Package>()) {}
+                package(std::make_shared<context::Package>()),
+                stackHolder(StackHolder())
+        {}
 
         ~ContextBuilder() = default;
 

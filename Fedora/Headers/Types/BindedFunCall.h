@@ -15,7 +15,8 @@ namespace fedora {
         public:
             explicit BindedFunCall(
                     std::shared_ptr<context::Function> function,
-                    FunCallArguments args
+                    FunCallArguments args,
+                    bool forced = false
             );
 
             std::unique_ptr<UnbindedFunCall> unbind();

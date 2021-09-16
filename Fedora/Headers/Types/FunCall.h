@@ -12,9 +12,12 @@ namespace fedora {
         protected:
             // Массив аргументов функции, которая будет вызвана
             FunCallArguments args;
+            bool forced;
         protected:
-            explicit FunCall(FunCallArguments args) :
-                    args(args) {}
+            explicit FunCall(FunCallArguments args, bool forced) :
+                    args(args),
+                    forced(forced)
+            {}
 
         public:
             virtual Type type() override {
@@ -22,6 +25,10 @@ namespace fedora {
             }
 
             virtual std::u8string eval() = 0;
+
+            bool isForced() {
+                return forced;
+            }
 
         private:
             explicit FunCall();

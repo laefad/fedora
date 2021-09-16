@@ -7,9 +7,10 @@ namespace fedora {
 
         BindedFunCall::BindedFunCall(
                 std::shared_ptr<context::Function> function,
-                BindedFunCall::FunCallArguments args
+                BindedFunCall::FunCallArguments args,
+                bool forced
         ) :
-                FunCall(args),
+                FunCall(args, forced),
                 function(std::move(function)) {};
 
         std::unique_ptr<UnbindedFunCall> BindedFunCall::unbind() {

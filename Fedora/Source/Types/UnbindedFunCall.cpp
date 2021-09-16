@@ -6,9 +6,10 @@ namespace fedora {
     namespace types {
         UnbindedFunCall::UnbindedFunCall(
                 std::u8string functionName,
-                UnbindedFunCall::FunCallArguments args
+                UnbindedFunCall::FunCallArguments args,
+                bool forced
         ) :
-                FunCall(args),
+                FunCall(args, forced),
                 functionName(functionName) {}
 
         std::unique_ptr<BindedFunCall> UnbindedFunCall::bind(

@@ -67,7 +67,7 @@ private:
         builder.notifyWeStartForceCall();
         auto forceName = mOne.getData();
         builder.setForceName(forceName);
-        StackHolder *s = StackHolder::GetInstance();
+        //StackHolder *s = StackHolder::GetInstance();
         clean();
         Logger::logV(u8"test 2 completed");
     }

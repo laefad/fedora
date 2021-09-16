@@ -17,6 +17,10 @@ namespace fedora {
                 functionName = std::move(newName);
             }
 
+            void setForce() {
+                forced = true;
+            };
+
             void addArgument(const std::shared_ptr<fedora::types::BasicType> &b) {
                 args.push_back(b);
             }

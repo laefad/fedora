@@ -1,12 +1,8 @@
-//
-// Created on 03.08.2021.
-//
-
 #pragma once
 
 #include <utility>
 
-#include "Builder/BuildableForceCall.h"
+#include "Builder/BuildableFunCall.h"
 #include "Exceptions/BuilderException.h"
 
 namespace fedora {
@@ -17,14 +13,15 @@ namespace fedora {
         };
 
         class ForceCallDeclarator {
-            std::shared_ptr<builder::BuildableForceCall> forceCall;
+            std::shared_ptr<builder::BuildableFunCall> forceCall;
         public:
-            explicit ForceCallDeclarator(std::shared_ptr<builder::BuildableForceCall> forceCall) : forceCall(
+            explicit ForceCallDeclarator(std::shared_ptr<builder::BuildableFunCall> forceCall) : forceCall(
                     std::move(forceCall)) {}
 
             void setName(std::u8string const &s) {
                 if (forceCall != nullptr) {
-                    forceCall->setRawName(s);
+                    // TODO раньше было set raw name, не вижу разницы
+                    forceCall->setName(s);
                 } else
                     throw BuilderException(
                             u8"You're trying to set name for forceCall, but pointer to forceCall is NULLPTR ",
