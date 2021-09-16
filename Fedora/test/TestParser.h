@@ -87,10 +87,17 @@ private:
     }
 
     static void test1() { 
+        #if defined(__linux__) || defined(__APPLE__)
         TEST(1, 
              u8"Testing file parsing...", 
              Parser::makeFileParser(u8"./../programs/tokensTest.fe"),
              28);
+        # elif defined(_WIN32) 
+        TEST(1, 
+             u8"Testing file parsing...", 
+             Parser::makeFileParser(u8"./../../programs/tokensTest.fe"),
+             28);
+        # endif
     }
 
     static void test2() { 
@@ -101,6 +108,7 @@ private:
     }
 
     static void test3() {
+
         try {
             TEST(3, 
                 u8"Testing empty file parsing...", 
@@ -117,7 +125,11 @@ private:
         Logger::logV(u8"Test 4\nTesting tokenolder get line...");
 
         //linux build file path
-        Parser parser = Parser::makeFileParser(u8"./../programs/tokensTest.fe");
+        #if defined(__linux__) || defined(__APPLE__)
+        Parser parser = Parser::makeFileParser(u8"./../../programs/tokensTest.fe");
+        # elif defined(_WIN32)
+        Parser parser = Parser::makeFileParser(u8"./../../programs/tokensTest.fe");
+        # endif
         TokensHolder tokensHolder = parser.parse();
 
         auto lines = tokensHolder.getLines(1, 1);

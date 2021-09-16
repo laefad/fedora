@@ -218,7 +218,11 @@ private:
         // тест реальной программы
         Settings *setting = Settings::GetInstance();
         setting->setLogLevel(settings::LogLevel::LOG_WARNING);
+        #if defined(__linux__) || defined(__APPLE__)
         fedora::parser::Parser parser = fedora::parser::Parser::makeFileParser(u8"./../programs/current_features.fe");
+        # elif defined(_WIN32)
+        fedora::parser::Parser parser = fedora::parser::Parser::makeFileParser(u8"./../../programs/current_features.fe");
+        # endif
         fedora::parser::TokensHolder tokensHolder = parser.parse();
         fedora::ContextBuilder builder = fedora::ContextBuilder();
         fedora::AnalyzerStrategy analyzer = fedora::AnalyzerStrategy(builder);
