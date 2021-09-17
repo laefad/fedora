@@ -45,8 +45,6 @@ add_executable(fedora
         Fedora/Headers/Analyzers/ReadAfterListEnd.h
 
         Fedora/Headers/Stack/StackHolder.h
-        Fedora/Headers/Stack/ForceCall/ForceCall.h
-        Fedora/Headers/Stack/ForceCall/ForceArgs.h
 
         Fedora/Headers/Context/Function/Arguments.h
         Fedora/Headers/Context/Function/Returnable/Returnable.h
@@ -59,7 +57,6 @@ add_executable(fedora
         Fedora/Headers/Builder/ForceCallDeclarator.h
         Fedora/Headers/Builder/FunctionDeclarator.h
         Fedora/Headers/Builder/BuildableFunction.h
-        Fedora/Headers/Builder/BuildableForceCall.h
         Fedora/Headers/Builder/MutableList.h
 
         Fedora/Source/StaticUtils.cpp
