@@ -46,15 +46,17 @@ namespace fedora {
                 Token t = readToken();
 
                 if (t.getType() == TokenType::Comment) {
-                    //Logger::logV(L"Comment " + t.getData());
+                    //Logger::logV(u8"Comment " + t.getData());
                     continue;
                 } else if (t.getType() == TokenType::Empty) {
-                    //Logger::logV(L"Empty " + std::to_wstring(t.getLine()));
+                    //Logger::logV(u8"Empty " + t.getData());
                     continue;
                 }
 
                 if (t.getType() == TokenType::None)
-                    determineAndSetTokenType(t);
+                    t.setType(ParserUtils::determineTokenType(t));
+
+                //Logger::logV(u8"Token "  + t.getData());
 
                 tokensHolder.add(t);
             }
@@ -62,16 +64,46 @@ namespace fedora {
             return tokensHolder;
         }
 
-        Token Parser::readString() {
+        std::u8string Parser::readChar(bool eofOk) {
             std::u8string res;
-            size_t initLine = line;
+            size_t bytesInChar = 0;
             char8_t tmp;
 
-            do {
+            while (true) {
                 tmp = in->get();
 
                 if (in->eof())
+                    if (res.empty() && eofOk)
+                        return res;
+                    else
+                        throw ParserException(u8"Parser::readChar - eof");
+
+                if (bytesInChar == 0) {
+                    bytesInChar = ParserUtils::amountOfBytesInCharsSequence(tmp);
+                    //Logger::logV(u8"Char size = " + StaticUtils::i2u8s(bytesInChar));
+                }
+
+                res += tmp;
+
+                if (res.length() == bytesInChar)
+                    return res;
+            }
+        }
+
+        Token Parser::readString() {
+            std::u8string res;
+            size_t initLine = line;
+            std::u8string tmp;
+
+            do {
+                
+                try {
+                    tmp = readChar(false);
+                    //Logger::logV(u8"Parser::readString: " + tmp);
+                } catch (ParserException e) {
+                    // TODO re-use e
                     throw ParserException(u8"Parser::readString - not closed string");
+                }
 
                 res += tmp;
 
@@ -86,13 +118,17 @@ namespace fedora {
         Token Parser::readComment() {
             std::u8string res;
             size_t initLine = line;
-            char8_t tmp;
+            std::u8string tmp;
 
             do {
-                tmp = in->get();
 
-                if (in->eof())
+                try {
+                    tmp = readChar(false);
+                    //Logger::logV(u8"Parser::readComment: " + tmp);
+                } catch (ParserException e) {
+                    // TODO re-use e
                     throw ParserException(u8"Parser::readComment - not closed comment");
+                }
 
                 res += tmp;
 
@@ -106,10 +142,12 @@ namespace fedora {
 
         Token Parser::readToken() {
             std::u8string res;
-            char8_t tmp;
+            std::u8string tmp;
 
             while (true) {
-                tmp = in->get();
+
+                tmp = readChar();
+                //Logger::logV(u8"Parser::readToken: " + tmp);
 
                 if (in->eof()) {
                     if (!res.empty())
@@ -141,31 +179,5 @@ namespace fedora {
             }
         }
 
-        void Parser::determineAndSetTokenType(Token &t) {
-
-            if (ParserUtils::isTokenACallOpen(t))
-                t.setType(TokenType::CallOpen);
-            else if (ParserUtils::isTokenACallClose(t))
-                t.setType(TokenType::CallClose);
-            else if (ParserUtils::isTokenAListOpen(t))
-                t.setType(TokenType::ListOpen);
-            else if (ParserUtils::isTokenAListClose(t))
-                t.setType(TokenType::ListClose);
-            else if (ParserUtils::isTokenAFunctionDeclaration(t))
-                t.setType(TokenType::FunctionDeclaration);
-            else if (ParserUtils::isTokenAFunctionContextDeclaration(t))
-                t.setType(TokenType::FunctionContextDeclaration);
-            else if (ParserUtils::isTokenAFunctionReturnableDeclaration(t))
-                t.setType(TokenType::FunctionReturnableDeclaration);
-            else if (ParserUtils::isTokenANumber(t))
-                t.setType(TokenType::Number);
-            else if (ParserUtils::isTokenAForceCall(t))
-                t.setType(TokenType::ForceCall);
-            else if (ParserUtils::isTokenNull(t))
-                t.setType(TokenType::Null);
-            else
-                t.setType(TokenType::Name);
-
-        }
     }
 }

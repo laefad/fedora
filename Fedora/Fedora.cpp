@@ -55,8 +55,8 @@ int main(int argc, char *argv[]) {
 //        fedora::builder::BuildableFunction* c = static_cast<fedora::builder::BuildableFunction*>(a);
 //        bool t = c->isContextFinished();
 //        std::wcout<<t;
-        ContextBuildTester::test();
         ParserTester::test();
+        ContextBuildTester::test();
         return 0;
     } else {
         if (argc == 1) {

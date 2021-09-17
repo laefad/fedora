@@ -4,6 +4,7 @@
 #include "Builder/ContextBuilder.h"
 #include "Stack/StackHolder.h"
 #include "Parser/Parser.h"
+#include "Parser/ParserUtils.h"
 #include "Parser/TokensHolder.h"
 #include "Types/List.h"
 #include "Parser/Token.h"

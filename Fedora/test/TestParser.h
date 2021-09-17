@@ -54,10 +54,12 @@ public:
 
     static void test() {
         Logger::logV(u8"-----TEST PARSER-----");
+        test0();
         test1();
         test2();
         test3();
         test4();
+        test5();
         // test unicode parsing 
         Logger::logV(u8"---END TEST PARSER---");
     }
@@ -86,31 +88,82 @@ private:
         return buf;
     }
 
-    static void test1() { 
+    static void test0() {
+        if (parser::ParserUtils::isIgnored(u8" "))
+            Logger::logV(u8"test 0.1 complete");
+        else 
+            Logger::logV(u8"test 0.1 failed");
+
+        if (parser::ParserUtils::isIgnored(u8"\n"))
+            Logger::logV(u8"test 0.2 complete");
+        else 
+            Logger::logV(u8"test 0.2 failed");
+
+        if (parser::ParserUtils::isIgnored(u8"\r"))
+            Logger::logV(u8"test 0.3 complete");
+        else 
+            Logger::logV(u8"test 0.3 failed");
+        
+        if (parser::ParserUtils::isIgnored(u8"\t"))
+            Logger::logV(u8"test 0.4 complete");
+        else 
+            Logger::logV(u8"test 0.4 failed");
+    }
+
+    static void test1() {
+        using parser::ParserUtils;
+
+        char8_t ch1 = u8'\x7f';
+        char8_t ch2 = u8'\xdf';
+        char8_t ch3 = u8'\xef';
+        char8_t ch4 = u8'\xf7';
+
+        if (ParserUtils::amountOfBytesInCharsSequence(ch1) == 1)
+            Logger::logV(u8"Test 1.1 completed");
+        else 
+             Logger::logV(u8"Test 1.1 failed");
+
+        if (ParserUtils::amountOfBytesInCharsSequence(ch2) == 2)
+            Logger::logV(u8"Test 1.2 completed");
+        else 
+             Logger::logV(u8"Test 1.2 failed");
+
+        if (ParserUtils::amountOfBytesInCharsSequence(ch3) == 3)
+            Logger::logV(u8"Test 1.3 completed");
+        else 
+             Logger::logV(u8"Test 1.3 failed");
+
+        if (ParserUtils::amountOfBytesInCharsSequence(ch4) == 4)
+            Logger::logV(u8"Test 1.4 completed");
+        else 
+            Logger::logV(u8"Test 1.4 failed");
+    }
+
+    static void test2() { 
         #if defined(__linux__) || defined(__APPLE__)
-        TEST(1, 
+        TEST(2, 
              u8"Testing file parsing...", 
              Parser::makeFileParser(u8"./../programs/tokensTest.fe"),
              28);
         # elif defined(_WIN32) 
-        TEST(1, 
+        TEST(2, 
              u8"Testing file parsing...", 
              Parser::makeFileParser(u8"./../../programs/tokensTest.fe"),
              28);
         # endif
     }
 
-    static void test2() { 
-        TEST(2, 
+    static void test3() { 
+        TEST(3, 
             u8"Testing string parsing...", 
             Parser::makeStringParser(u8"let a = 89 let it be where let a = 0 = +(be it a)"),
             19);
     }
 
-    static void test3() {
+    static void test4() {
 
         try {
-            TEST(3, 
+            TEST(4, 
                 u8"Testing empty file parsing...", 
                 Parser::makeFileParser(u8"asdasde.fe"),
                 0);
@@ -119,10 +172,10 @@ private:
         }
     }
 
-    static void test4() {
+    static void test5() {
         INIT
 
-        Logger::logV(u8"Test 4\nTesting tokenolder get line...");
+        Logger::logV(u8"Test 5\nTesting tokenolder get line...");
 
         //linux build file path
         #if defined(__linux__) || defined(__APPLE__)
@@ -135,12 +188,12 @@ private:
         auto lines = tokensHolder.getLines(1, 1);
 
         if (lines.size() != 6) {
-            FAILED_LOG(u8"Test 4 failed: got " + 
+            FAILED_LOG(u8"Test 5 failed: got " + 
                     StaticUtils::s2u8s(std::to_string(lines.size())) + u8" tokens, but expected 6.");
 
             PRINT_TOKENS_FROM_TOKENHOLDER(lines);
         } else
-            SUCCESS_LOG(u8"Test 4 completed");
+            SUCCESS_LOG(u8"Test 5 completed");
     }
 
     // parser = Parser::makeStringParser(L"中 国 a");

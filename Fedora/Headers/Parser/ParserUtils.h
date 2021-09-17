@@ -2,58 +2,51 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 #include "Token.h"
+#include "TokenPriority.h"
 
 namespace fedora {
 
     namespace parser {
         class ParserUtils {
         public:
-            static const std::u8string ignoredSymbols;
-            static const std::u8string delimiterSymbols;
-            static const std::u8string functionDeclaration;
-            static const std::u8string functionContextDeclaration;
-            static const std::u8string forceCall;
-            static const std::u8string null;
+
+            static const std::vector<std::tuple<TokenPriority, std::u8string, TokenType>> tokenMaping;
+
+            /// Количество байт в символе, ибо char8_t может являться лишь частью символа
+            static size_t amountOfBytesInCharsSequence(char8_t chr);
+
+            /// Содержит ли строка только 1 символ 
+            static bool isSingleChar(const std::u8string &u8str); 
+
+            /// Вернуть тип токена, исходя из его содержимого.
+            /// Текущий тип токена не влияет на определение.
+            static TokenType determineTokenType(const Token &t);
 
             /// Является ли символ разделителем между токенами
-            static bool isDelimiter(char8_t wchr);
+            static bool isDelimiter(const std::u8string &u8str);
 
             /// Является ли символ пробельным
-            static bool isIgnored(char8_t wchr);
+            static bool isIgnored(const std::u8string &u8str);
 
             /// Является ли символ -- символом перевода строки?
-            static bool isNewLine(char8_t wchr);
+            static bool isNewLine(const std::u8string &u8str);
 
-            /// Является ли символ -- кавычкой "?
-            static bool isQuote(char8_t wchr);
+            /// Является ли символ -- кавычкой ["]?
+            static bool isQuote(const std::u8string &u8str);
 
             /// Является ли символ -- символом комментария[#]?
-            static bool isComment(char8_t wchr);
+            static bool isComment(const std::u8string &u8str);
 
+            /// Является ли символ -- числом [+-][0-9]+([.]{1}[0-9]+){0,1}
             static bool isTokenANumber(Token const &t);
 
+            /// Является ли токен -- именем
             static bool isTokenAName(Token const &t);
 
-            static bool isTokenNull(Token const &t);
-
-            static bool isTokenAListOpen(Token const &t);
-
-            static bool isTokenAListClose(Token const &t);
-
-            static bool isTokenAFunctionDeclaration(Token const &t);
-
-            static bool isTokenAFunctionContextDeclaration(Token const &t);
-
-            static bool isTokenAFunctionReturnableDeclaration(Token const &t);
-
-            static bool isTokenACallOpen(Token const &t);
-
-            static bool isTokenACallClose(Token const &t);
-
-            static bool isTokenAForceCall(Token const &t);
-
+            /// Форматирует вектор Токенов в код, с указанием линий [print_lines == true]
             static std::u8string format(std::vector<Token>, bool print_lines = false);
         };
     }

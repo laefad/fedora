@@ -1,35 +1,114 @@
 
 #include "Parser/ParserUtils.h"
 
+#include "Utils/Logger.h"
+
 namespace fedora {
 
     namespace parser {
 
-        const std::u8string ParserUtils::ignoredSymbols = u8"\n\t\r \377";
-        const std::u8string ParserUtils::delimiterSymbols = u8"()[]=";
-        const std::u8string ParserUtils::functionDeclaration = u8"let";
-        const std::u8string ParserUtils::functionContextDeclaration = u8"where";
-        const std::u8string ParserUtils::forceCall = u8"force";
-        const std::u8string ParserUtils::null = u8"null";
+        // TODO переписать на regex, но u8str не поддерживает его. Нужно обсуждение
+        // TODO добавить сортировку по TokenPriority после инициализации
+        const std::vector<std::tuple<TokenPriority, std::u8string, TokenType>> 
+            ParserUtils::tokenMaping = {
+                {TokenPriority::Whitespace, u8"\n", TokenType::Empty},
+                {TokenPriority::Whitespace, u8"\t", TokenType::Empty},
+                {TokenPriority::Whitespace, u8"\r", TokenType::Empty},
+                {TokenPriority::Whitespace, u8" ", TokenType::Empty},
 
-        bool ParserUtils::isDelimiter(char8_t tmp) {
-            return ParserUtils::delimiterSymbols.find(tmp) != std::u8string::npos;
+                {TokenPriority::KeyWord, u8"let", TokenType::FunctionDeclaration},
+                {TokenPriority::KeyWord, u8"where", TokenType::FunctionContextDeclaration},
+                {TokenPriority::KeyWord, u8"force", TokenType::ForceCall},
+                {TokenPriority::KeyWord, u8"null", TokenType::Null},
+
+                {TokenPriority::Delimeter, u8"=", TokenType::FunctionReturnableDeclaration},
+                {TokenPriority::Delimeter, u8"(", TokenType::CallOpen},
+                {TokenPriority::Delimeter, u8")", TokenType::CallClose},
+                {TokenPriority::Delimeter, u8"[", TokenType::ListOpen},
+                {TokenPriority::Delimeter, u8"]", TokenType::ListClose}
+        };
+
+        TokenType ParserUtils::determineTokenType(const Token &t) {
+            for (const auto &elem : tokenMaping) {
+                if (t.getData() == std::get<1>(elem)) 
+                    return std::get<2>(elem);
+            }
+
+            //NUMBER CHECK 
+            if (isTokenANumber(t))
+                return TokenType::Number;
+
+            //NAME CHECK 
+            if (isTokenAName(t))
+                return TokenType::Name;
+
+            // TODO add error
+            throw 2289;
         }
 
-        bool ParserUtils::isNewLine(char8_t tmp) {
-            return tmp == u8'\n';
+        size_t ParserUtils::amountOfBytesInCharsSequence(char8_t chr) {
+            /// check 0xxxxxxx
+            if ((chr & 0b1000'0000) == 0b0000'0000) {
+                return 1;
+            /// check 110xxxx
+            } else if ((chr & 0b1110'0000) == 0b1100'0000) {
+                return 2;
+            /// check 1110xxxx
+            } else if ((chr & 0b1111'0000) == 0b1110'0000) {
+                return 3;
+            /// check 11110xxx
+            } else if ((chr & 0b1111'1000) == 0b1111'0000) {
+                return 4;
+            } else {
+                //TODO error
+                throw 2228;
+            }
         }
 
-        bool ParserUtils::isQuote(char8_t tmp) {
-            return tmp == u8'\"';
+        // TODO не используется
+        bool ParserUtils::isSingleChar(const std::u8string &u8str) {
+            size_t maxLen = 1;
+
+            for (auto i = 0; i < u8str.length(); ++i) {
+                if (i == 0)
+                    maxLen = amountOfBytesInCharsSequence(u8str[i]);
+                
+                if (i == maxLen)
+                    return false;
+            }
+
+            return true;
         }
 
-        bool ParserUtils::isComment(char8_t tmp) {
-            return tmp == u8'#';
+        bool ParserUtils::isDelimiter(const std::u8string &u8str) {
+            for (const auto &elem : tokenMaping) {
+                if (std::get<0>(elem) == TokenPriority::Delimeter) 
+                    if (u8str == std::get<1>(elem))
+                        return true;
+            }
+            return false;
         }
 
-        bool ParserUtils::isIgnored(char8_t tmp) {
-            return ParserUtils::ignoredSymbols.find(tmp) != std::u8string::npos;
+        bool ParserUtils::isNewLine(const std::u8string &u8str) {
+            return u8str == u8"\n";
+        }
+
+        bool ParserUtils::isQuote(const std::u8string &u8str) {
+            return u8str == u8"\"";
+        }
+
+        bool ParserUtils::isComment(const std::u8string &u8str) {
+            return u8str == u8"#";
+        }
+
+        bool ParserUtils::isIgnored(const std::u8string &u8str) {
+            for (const auto &elem : tokenMaping) {
+                if (std::get<0>(elem) == TokenPriority::Whitespace) 
+                    if (u8str == std::get<1>(elem))
+                        return true;
+            }
+
+            return false;
         }
 
         bool ParserUtils::isTokenANumber(Token const &t) {
@@ -54,52 +133,18 @@ namespace fedora {
         }
 
         bool ParserUtils::isTokenAName(Token const &t) {
-            return
-                    !isTokenANumber(t) &&
-                    !isTokenAListOpen(t) &&
-                    !isTokenAListClose(t) &&
-                    !isTokenAFunctionDeclaration(t) &&
-                    !isTokenAFunctionContextDeclaration(t) &&
-                    !isTokenAFunctionReturnableDeclaration(t) &&
-                    !isTokenACallOpen(t) &&
-                    !isTokenACallClose(t) &&
-                    !isTokenAForceCall(t);
-        }
+            auto data = t.getData();
 
-        bool ParserUtils::isTokenAListOpen(Token const &t) {
-            return t.isChar(u8'[');
-        }
+            for (unsigned i = 0, len = data.length(); i < len; ++i) {
+                auto chr = data.at(i);
 
-        bool ParserUtils::isTokenAListClose(Token const &t) {
-            return t.isChar(u8']');
-        }
+                if (i == 0)
+                    if (isdigit(chr))
+                        return false;
 
-        bool ParserUtils::isTokenAFunctionDeclaration(Token const &t) {
-            return t.getData() == functionDeclaration;
-        }
+            }
 
-        bool ParserUtils::isTokenAFunctionContextDeclaration(Token const &t) {
-            return t.getData() == functionContextDeclaration;
-        }
-
-        bool ParserUtils::isTokenAFunctionReturnableDeclaration(Token const &t) {
-            return t.isChar(u8'=');
-        }
-
-        bool ParserUtils::isTokenACallOpen(Token const &t) {
-            return t.isChar(u8'(');
-        }
-
-        bool ParserUtils::isTokenACallClose(Token const &t) {
-            return t.isChar(u8')');
-        }
-
-        bool ParserUtils::isTokenAForceCall(Token const &t) {
-            return t.getData() == forceCall;
-        }
-
-        bool ParserUtils::isTokenNull(const Token &t) {
-            return t.getData() == null;
+            return true;
         }
 
         std::u8string ParserUtils::format(std::vector<Token> vec, bool print_lines) {

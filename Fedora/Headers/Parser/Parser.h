@@ -51,8 +51,8 @@ namespace fedora {
             /// Прочитать токен комментария
             Token readComment();
 
-            /// Устанавливает тип токена, в зависимости от его содержимого
-            static void determineAndSetTokenType(Token &t);
+            /// Прочитать символ из входного потока
+            std::u8string readChar(bool eofOk = true);
         };
     }
 }
