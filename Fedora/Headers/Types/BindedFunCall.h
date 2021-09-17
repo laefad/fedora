@@ -26,7 +26,7 @@ namespace fedora {
             // Возвращает результат выполнения функции. 
             // Это либо простой тип, либо очередной funcall
             std::unique_ptr<fedora::types::BasicType> execute() {
-
+                //взять returnable функции, забиндить все вызовы и вернуть returnable
             }
         };
     }

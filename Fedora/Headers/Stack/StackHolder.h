@@ -19,5 +19,9 @@ namespace fedora {
             calls.push_back(newForceCall);
         }
 
+        std::vector<Call> getData(){
+            return calls;
+        }
+
     };
 }

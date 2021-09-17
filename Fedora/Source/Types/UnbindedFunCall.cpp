@@ -14,7 +14,7 @@ namespace fedora {
 
         std::unique_ptr<BindedFunCall> UnbindedFunCall::bind(
                 std::shared_ptr<context::Function> function
-        ) {
+        ) const {
             return std::make_unique<BindedFunCall>(function->find(functionName), args);
         }
 
