@@ -7,4 +7,4 @@ let outside where
     = null
 = null
 let a = my_str
-let a = [ 1 2 ]
+let a = [ 1 2 "🤡"]

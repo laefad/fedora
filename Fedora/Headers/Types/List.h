@@ -4,8 +4,7 @@
 
 #include "BasicType.h"
 
-namespace fedora {
-    namespace types {
+namespace fedora::types {
 
         class List : public BasicType {
         protected:
@@ -68,4 +67,3 @@ namespace fedora {
         };
 
     }
-}

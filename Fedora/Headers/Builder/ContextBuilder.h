@@ -13,6 +13,7 @@
 #include "Builder/BuildableFunction.h"
 #include "Builder/BuildableFunCall.h"
 #include "Stack/StackHolder.h"
+#include "Types/List.h"
 
 namespace fedora {
     /**
