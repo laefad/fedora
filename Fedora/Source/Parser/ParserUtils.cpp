@@ -43,41 +43,7 @@ namespace fedora {
                 return TokenType::Name;
 
             // TODO add error
-            throw 2289;
-        }
-
-        size_t ParserUtils::amountOfBytesInCharsSequence(char8_t chr) {
-            /// check 0xxxxxxx
-            if ((chr & 0b1000'0000) == 0b0000'0000) {
-                return 1;
-            /// check 110xxxx
-            } else if ((chr & 0b1110'0000) == 0b1100'0000) {
-                return 2;
-            /// check 1110xxxx
-            } else if ((chr & 0b1111'0000) == 0b1110'0000) {
-                return 3;
-            /// check 11110xxx
-            } else if ((chr & 0b1111'1000) == 0b1111'0000) {
-                return 4;
-            } else {
-                //TODO error
-                throw 2228;
-            }
-        }
-
-        // TODO не используется
-        bool ParserUtils::isSingleChar(const std::u8string &u8str) {
-            size_t maxLen = 1;
-
-            for (auto i = 0; i < u8str.length(); ++i) {
-                if (i == 0)
-                    maxLen = amountOfBytesInCharsSequence(u8str[i]);
-                
-                if (i == maxLen)
-                    return false;
-            }
-
-            return true;
+            throw FException(u8"ParserUtils::determineTokenType , token data = " + t.getData());
         }
 
         bool ParserUtils::isDelimiter(const std::u8string &u8str) {

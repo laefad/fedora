@@ -22,6 +22,7 @@ add_executable(fedora
         Fedora/Headers/Parser/Token.h
         Fedora/Headers/Parser/TokensHolder.h
         Fedora/Headers/Parser/ParserUtils.h
+        Fedora/Headers/Parser/Utf8istream.h
         Fedora/Headers/Parser/Parser.h
 
         Fedora/Headers/Types/BasicType.h
@@ -71,6 +72,7 @@ add_executable(fedora
         Fedora/Source/Parser/Token.cpp
         Fedora/Source/Parser/TokensHolder.cpp
         Fedora/Source/Parser/ParserUtils.cpp
+        Fedora/Source/Parser/Utf8istream.cpp
         Fedora/Source/Parser/Parser.cpp
 
         Fedora/Source/Types/Null.cpp

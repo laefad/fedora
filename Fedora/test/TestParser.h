@@ -111,61 +111,62 @@ private:
     }
 
     static void test1() {
-        using parser::ParserUtils;
+        // using parser::ParserUtils;
 
-        char8_t ch1 = u8'\x7f';
-        char8_t ch2 = u8'\xdf';
-        char8_t ch3 = u8'\xef';
-        char8_t ch4 = u8'\xf7';
+        // char8_t ch1 = u8'\x7f';
+        // char8_t ch2 = u8'\xdf';
+        // char8_t ch3 = u8'\xef';
+        // char8_t ch4 = u8'\xf7';
 
-        if (ParserUtils::amountOfBytesInCharsSequence(ch1) == 1)
-            Logger::logV(u8"Test 1.1 completed");
-        else 
-             Logger::logV(u8"Test 1.1 failed");
+        // if (ParserUtils::amountOfBytesInCharsSequence(ch1) == 1)
+        //     Logger::logV(u8"Test 1.1 completed");
+        // else 
+        //      Logger::logV(u8"Test 1.1 failed");
 
-        if (ParserUtils::amountOfBytesInCharsSequence(ch2) == 2)
-            Logger::logV(u8"Test 1.2 completed");
-        else 
-             Logger::logV(u8"Test 1.2 failed");
+        // if (ParserUtils::amountOfBytesInCharsSequence(ch2) == 2)
+        //     Logger::logV(u8"Test 1.2 completed");
+        // else 
+        //      Logger::logV(u8"Test 1.2 failed");
 
-        if (ParserUtils::amountOfBytesInCharsSequence(ch3) == 3)
-            Logger::logV(u8"Test 1.3 completed");
-        else 
-             Logger::logV(u8"Test 1.3 failed");
+        // if (ParserUtils::amountOfBytesInCharsSequence(ch3) == 3)
+        //     Logger::logV(u8"Test 1.3 completed");
+        // else 
+        //      Logger::logV(u8"Test 1.3 failed");
 
-        if (ParserUtils::amountOfBytesInCharsSequence(ch4) == 4)
-            Logger::logV(u8"Test 1.4 completed");
-        else 
-            Logger::logV(u8"Test 1.4 failed");
+        // if (ParserUtils::amountOfBytesInCharsSequence(ch4) == 4)
+        //     Logger::logV(u8"Test 1.4 completed");
+        // else 
+        //     Logger::logV(u8"Test 1.4 failed");
     }
 
     static void test2() { 
-        #if defined(__linux__) || defined(__APPLE__)
+#if defined(__linux__) || defined(__APPLE__)
+        auto source = parser::Utf8istream::fromFile(u8"./../programs/tokensTest.fe");
+# elif defined(_WIN32) 
+        auto source = parser::Utf8istream::fromFile(u8"./../../programs/tokensTest.fe");
+# endif
         TEST(2, 
              u8"Testing file parsing...", 
-             Parser::makeFileParser(u8"./../programs/tokensTest.fe"),
+             Parser(std::move(source)),
              28);
-        # elif defined(_WIN32) 
-        TEST(2, 
-             u8"Testing file parsing...", 
-             Parser::makeFileParser(u8"./../../programs/tokensTest.fe"),
-             28);
-        # endif
     }
 
     static void test3() { 
+        auto source = parser::Utf8istream::fromString(
+            u8"let a = 89 let it be where let a = 0 = +(be it a)"
+        );
         TEST(3, 
             u8"Testing string parsing...", 
-            Parser::makeStringParser(u8"let a = 89 let it be where let a = 0 = +(be it a)"),
+            Parser(std::move(source)),
             19);
     }
 
     static void test4() {
-
+        auto source = parser::Utf8istream::fromFile(u8"asdasde.fe");
         try {
             TEST(4, 
                 u8"Testing empty file parsing...", 
-                Parser::makeFileParser(u8"asdasde.fe"),
+                Parser(std::move(source)),
                 0);
         } catch (ParserException e) {
             SUCCESS_LOG(u8"Test " + StaticUtils::s2u8s(std::to_string(3)) + u8" completed")
@@ -177,12 +178,14 @@ private:
 
         Logger::logV(u8"Test 5\nTesting tokenolder get line...");
 
-        //linux build file path
-        #if defined(__linux__) || defined(__APPLE__)
-        Parser parser = Parser::makeFileParser(u8"./../programs/tokensTest.fe");
-        # elif defined(_WIN32)
-        Parser parser = Parser::makeFileParser(u8"./../../programs/tokensTest.fe");
-        # endif
+#if defined(__linux__) || defined(__APPLE__)
+        auto source = parser::Utf8istream::fromFile(u8"./../programs/tokensTest.fe");
+# elif defined(_WIN32) 
+        auto source = parser::Utf8istream::fromFile(u8"./../../programs/tokensTest.fe");
+# endif
+
+        Parser parser = Parser(std::move(source));
+
         TokensHolder tokensHolder = parser.parse();
 
         auto lines = tokensHolder.getLines(1, 1);

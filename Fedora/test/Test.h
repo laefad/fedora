@@ -3,6 +3,7 @@
 
 #include "Builder/ContextBuilder.h"
 #include "Stack/StackHolder.h"
+#include "Parser/Utf8istream.h"
 #include "Parser/Parser.h"
 #include "Parser/ParserUtils.h"
 #include "Parser/TokensHolder.h"
@@ -216,15 +217,21 @@ private:
     }
 
     static void test8() {
+        using fedora::parser::Parser;
+        using fedora::parser::Utf8istream;
+        using fedora::parser::TokensHolder;
+
         // тест реальной программы
         Settings *setting = Settings::GetInstance();
         setting->setLogLevel(settings::LogLevel::LOG_WARNING);
-        #if defined(__linux__) || defined(__APPLE__)
-        fedora::parser::Parser parser = fedora::parser::Parser::makeFileParser(u8"./../programs/current_features.fe");
-        # elif defined(_WIN32)
-        fedora::parser::Parser parser = fedora::parser::Parser::makeFileParser(u8"./../../programs/current_features.fe");
-        # endif
-        fedora::parser::TokensHolder tokensHolder = parser.parse();
+
+#if defined(__linux__) || defined(__APPLE__)
+        auto source = Utf8istream::fromFile(u8"./../programs/current_features.fe");
+# elif defined(_WIN32)
+        auto source = Utf8istream::fromFile(u8"./../../programs/current_features.fe");
+# endif
+        Parser parser = Parser(std::move(source));
+        TokensHolder tokensHolder = parser.parse();
         fedora::ContextBuilder builder = fedora::ContextBuilder();
         fedora::AnalyzerStrategy analyzer = fedora::AnalyzerStrategy(builder);
         for (auto it = tokensHolder.begin(); it < tokensHolder.end(); ++it) {

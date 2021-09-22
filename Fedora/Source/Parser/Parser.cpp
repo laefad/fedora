@@ -8,86 +8,36 @@
 namespace fedora {
     namespace parser {
 
-        Parser::Parser(std::unique_ptr<std::istream> in) :
-                //TODO !important u8istream
-                in(std::move(in)),
-                line(0) {}
-
-        Parser Parser::makeFileParser(const std::u8string &fileName) {
-            //TODO !important u8ifstream
-            auto in = std::make_unique<std::ifstream>(StaticUtils::u8s2s(fileName), std::ios_base::in);
-
-            if (!in->good())
-                throw ParserException(u8"Parser::makeFileParser - file [" + fileName + u8"] doesn't exist.");
-
-            return Parser(std::move(in));
-        }
-
-        Parser Parser::makeStringParser(std::u8string str) {
-            //TODO !important u8stringstream
-            return Parser(std::make_unique<std::stringstream>(StaticUtils::u8s2s(str)));
-        }
-
-        Parser Parser::makeStreamParser(std::unique_ptr<std::istream> in) {
-            //TODO !important u8istream
-            Logger::logW(u8"Parser::makeStreamParser may cause errors. Don't use it.");
-            return Parser(std::move(in));
-        }
+        Parser::Parser(Utf8istream in):
+            in(std::move(in)),
+            line(0) 
+        {}
 
         TokensHolder Parser::parse() {
             TokensHolder tokensHolder = TokensHolder();
 
-            if (!in->good()) {
+            if (!in.good()) {
                 fedora::Logger::logW(u8"Parser::parse - empty source");
                 return tokensHolder;
             }
 
-            while (!in->eof()) {
+            while (!in.eof()) {
                 Token t = readToken();
 
                 if (t.getType() == TokenType::Comment) {
-                    //Logger::logV(u8"Comment " + t.getData());
                     continue;
-                } else if (t.getType() == TokenType::Empty) {
-                    //Logger::logV(u8"Empty " + t.getData());
+                } 
+                if (t.getType() == TokenType::Empty) {
                     continue;
                 }
 
                 if (t.getType() == TokenType::None)
                     t.setType(ParserUtils::determineTokenType(t));
 
-                //Logger::logV(u8"Token "  + t.getData());
-
                 tokensHolder.add(t);
             }
 
             return tokensHolder;
-        }
-
-        std::u8string Parser::readChar(bool eofOk) {
-            std::u8string res;
-            size_t bytesInChar = 0;
-            char8_t tmp;
-
-            while (true) {
-                tmp = in->get();
-
-                if (in->eof())
-                    if (res.empty() && eofOk)
-                        return res;
-                    else
-                        throw ParserException(u8"Parser::readChar - eof");
-
-                if (bytesInChar == 0) {
-                    bytesInChar = ParserUtils::amountOfBytesInCharsSequence(tmp);
-                    //Logger::logV(u8"Char size = " + StaticUtils::i2u8s(bytesInChar));
-                }
-
-                res += tmp;
-
-                if (res.length() == bytesInChar)
-                    return res;
-            }
         }
 
         Token Parser::readString() {
@@ -97,13 +47,10 @@ namespace fedora {
 
             do {
                 
-                try {
-                    tmp = readChar(false);
-                    //Logger::logV(u8"Parser::readString: " + tmp);
-                } catch (ParserException e) {
-                    // TODO re-use e
+                tmp = in.get();
+                //Logger::logV(u8"get:" + tmp);
+                if (in.eof())
                     throw ParserException(u8"Parser::readString - not closed string");
-                }
 
                 res += tmp;
 
@@ -122,13 +69,10 @@ namespace fedora {
 
             do {
 
-                try {
-                    tmp = readChar(false);
-                    //Logger::logV(u8"Parser::readComment: " + tmp);
-                } catch (ParserException e) {
-                    // TODO re-use e
+                tmp = in.get();
+                //Logger::logV(u8"get:" + tmp);
+                if (in.eof())
                     throw ParserException(u8"Parser::readComment - not closed comment");
-                }
 
                 res += tmp;
 
@@ -146,10 +90,10 @@ namespace fedora {
 
             while (true) {
 
-                tmp = readChar();
-                //Logger::logV(u8"Parser::readToken: " + tmp);
+                tmp = in.get();
+                //Logger::logV(u8"get:" + tmp);
 
-                if (in->eof()) {
+                if (in.eof()) {
                     if (!res.empty())
                         return Token(res, line);
                     else
@@ -169,7 +113,8 @@ namespace fedora {
                 if (ParserUtils::isDelimiter(tmp))
                     return Token(res, line);
 
-                tmp = in->peek();
+                tmp = in.peek();
+                //Logger::logV(u8"Peeked: " + tmp);
 
                 if ((ParserUtils::isDelimiter(tmp) ||
                      ParserUtils::isQuote(tmp) ||
