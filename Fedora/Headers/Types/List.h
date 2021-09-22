@@ -57,6 +57,14 @@ namespace fedora {
                 return types::LIST;
             }
 
+            std::shared_ptr<BasicType> getValue(){
+                return value;
+            }
+
+            std::shared_ptr<List> getNext(){
+                throw "UNIMPLEMENTED List::getNext";
+            }
+
         };
 
     }

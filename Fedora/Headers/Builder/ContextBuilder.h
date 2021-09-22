@@ -11,7 +11,6 @@
 #include "FunctionDeclarator.h"
 #include "ForceCallDeclarator.h"
 #include "Builder/BuildableFunction.h"
-#include "Builder/MutableList.h"
 #include "Builder/BuildableFunCall.h"
 #include "Stack/StackHolder.h"
 
@@ -88,7 +87,7 @@ namespace fedora {
         }
 
         bool isBuildingList = false;
-        std::shared_ptr<builder::MutableList> currentList = nullptr;
+        std::shared_ptr<types::List> currentList = nullptr;
 
         void addToList(std::shared_ptr<types::BasicType>);
 

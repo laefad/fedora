@@ -5,6 +5,7 @@
 #include "Types/Number.h"
 #include "Types/String.h"
 #include "Types/Null.h"
+#include "Types/List.h"
 #include "Exceptions/BuilderException.h"
 #include "Stack/StackHolder.h"
 #include "StaticUtils.h"
@@ -114,7 +115,7 @@ namespace fedora {
     }
 
     void ContextBuilder::addReturnableList() {
-        std::shared_ptr<builder::MutableList> n = std::make_shared<builder::MutableList>();
+        std::shared_ptr<types::List> n = std::make_shared<types::List>();
         functionDeclarator.setReturnable(n);
         currentList = n;
         isBuildingList = true;
@@ -162,16 +163,15 @@ namespace fedora {
     }
 
     void ContextBuilder::endList() {
-        functionDeclarator.setReturnable(currentList->getTheVeryFirstItem());
+        functionDeclarator.setReturnable(currentList);
         currentList = nullptr;
         isBuildingList = false;
     }
 
     void ContextBuilder::addToList(std::shared_ptr<types::BasicType> v) {
-        currentList->setValue(std::move(v));
-        std::shared_ptr<builder::MutableList> nextList = std::make_shared<builder::MutableList>();
-        currentList->setNext(nextList);
-        nextList->parent = currentList;
-        currentList = nextList;
+        if (currentList->getValue())
+            currentList = std::make_shared<types::List>(types::List::addNewItemToTheEnd(std::move(v),currentList));
+        else
+            currentList = std::make_shared<types::List>(v);
     }
 }

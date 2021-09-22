@@ -58,7 +58,6 @@ add_executable(fedora
         Fedora/Headers/Builder/ForceCallDeclarator.h
         Fedora/Headers/Builder/FunctionDeclarator.h
         Fedora/Headers/Builder/BuildableFunction.h
-        Fedora/Headers/Builder/MutableList.h
 
         Fedora/Source/StaticUtils.cpp
 
