@@ -50,7 +50,8 @@ add_executable(fedora
         Fedora/Headers/Context/Function/Arguments.h
         Fedora/Headers/Context/Function/Returnable/Returnable.h
         Fedora/Headers/Context/Function/Function.h
-        Fedora/Headers/Context/Function/Returnable/ReturnableNumber.h
+        Fedora/Headers/Context/Function/FeFunction.h
+        Fedora/Headers/Context/Function/BuiltinFunction.h
         Fedora/Headers/Context/Package.h
 
         Fedora/Headers/Builder/BuildableFunCall.h

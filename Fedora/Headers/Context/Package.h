@@ -5,6 +5,7 @@
 #pragma once
 
 #include <utility>
+#include <map>
 
 #include "Context/Function/Function.h"
 
@@ -13,7 +14,7 @@ namespace fedora {
         // TODO Пока нигде не используется.
         class Package {
         private:
-            std::map<std::u8string, std::shared_ptr<Function>> children;
+            Function::Context children;
         public:
             Package ():
                 children(std::map<std::u8string, std::shared_ptr<Function>>())
@@ -23,8 +24,8 @@ namespace fedora {
                 children[name] = std::move(f);
             }
 
-            std::shared_ptr<std::map<std::u8string, std::shared_ptr<Function>>> getContext(){
-                return std::make_shared<std::map<std::u8string, std::shared_ptr<Function>>>(children);
+            const std::shared_ptr<Function::Context> getContext() const {
+                return std::make_shared<Function::Context>(children);
             }
         };
     }
