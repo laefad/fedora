@@ -34,14 +34,6 @@ namespace fedora {
             tokenType = type;
         }
 
-        bool Token::isChar() const {
-            return data.length() == 1;
-        }
-
-        bool Token::isChar(char8_t wchr) const {
-            return isChar() && wchr == data.at(0);
-        }
-
         /// TODO add tokenType comparsion
         bool operator==(Token const &lhs, Token const &rhs) {
             return lhs.data == rhs.data;

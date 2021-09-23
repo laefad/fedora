@@ -22,6 +22,7 @@ add_executable(fedora
         Fedora/Headers/Parser/Token.h
         Fedora/Headers/Parser/TokensHolder.h
         Fedora/Headers/Parser/ParserUtils.h
+        Fedora/Headers/Parser/Utf8istream.h
         Fedora/Headers/Parser/Parser.h
 
         Fedora/Headers/Types/BasicType.h
@@ -47,9 +48,10 @@ add_executable(fedora
         Fedora/Headers/Stack/StackHolder.h
 
         Fedora/Headers/Context/Function/Arguments.h
-        Fedora/Headers/Context/Function/Returnable/Returnable.h
+        Fedora/Headers/Context/Function/Returnable.h
         Fedora/Headers/Context/Function/Function.h
-        Fedora/Headers/Context/Function/Returnable/ReturnableNumber.h
+        Fedora/Headers/Context/Function/FeFunction.h
+        Fedora/Headers/Context/Function/BuiltinFunction.h
         Fedora/Headers/Context/Package.h
 
         Fedora/Headers/Builder/BuildableFunCall.h
@@ -70,6 +72,7 @@ add_executable(fedora
         Fedora/Source/Parser/Token.cpp
         Fedora/Source/Parser/TokensHolder.cpp
         Fedora/Source/Parser/ParserUtils.cpp
+        Fedora/Source/Parser/Utf8istream.cpp
         Fedora/Source/Parser/Parser.cpp
 
         Fedora/Source/Types/Null.cpp

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Context/Function/Function.h"
-#include "Context/Function/Returnable/Returnable.h"
+#include "Context/Function/FeFunction.h"
+#include "Context/Function/Returnable.h"
 #include <utility>
 
 namespace fedora {
@@ -9,7 +9,7 @@ namespace fedora {
         /**
          * BuildableFunction is an extension for Function to build it and make original Function clear
          */
-        class BuildableFunction : public context::Function {
+        class BuildableFunction : public context::FeFunction {
             /**
              * flag, that says function context is fully declared
              *
@@ -21,9 +21,12 @@ namespace fedora {
              * = # contextIsReady == true # null
              */
             bool contextIsReady = false;
+        protected:
+            // TODO а зачем это тут ?
+            std::vector<parser::Token> keyWords = std::vector<parser::Token>();
         public:
             explicit BuildableFunction(std::shared_ptr<Function> parent) :
-                    context::Function(std::move(parent)) {}
+                    context::FeFunction(std::move(parent), u8"") {}
 
             bool isNameDeclared() {
                 return !name.empty();

@@ -9,20 +9,16 @@
 #include "Parser/Token.h"
 #include "Parser/TokensHolder.h"
 
+#include "Parser/Utf8istream.h"
+
 namespace fedora {
     namespace parser {
         /// Класс для парсинга файла на токены
         class Parser {
         public:
 
-            static Parser makeFileParser(const std::u8string &fileName);
+            explicit Parser(Utf8istream in);
 
-            static Parser makeStringParser(std::u8string wstr);
-
-            //TODO !important может быть неправильный тип stream
-            static Parser makeStreamParser(std::unique_ptr<std::istream> in);
-
-        public:
             /**
              * @brief Обработать данные и получить токены из источника
              *
@@ -35,12 +31,11 @@ namespace fedora {
 
         private:
             /// Входящий поток
-            std::unique_ptr<std::istream> in;
+            Utf8istream in;
             /// Номер строки, на которой был расположен текущий токен
             uint32_t line;
 
         private:
-            explicit Parser(std::unique_ptr<std::istream> in);
 
             /// Прочитать следующий токен
             Token readToken();
@@ -50,9 +45,6 @@ namespace fedora {
 
             /// Прочитать токен комментария
             Token readComment();
-
-            /// Прочитать символ из входного потока
-            std::u8string readChar(bool eofOk = true);
         };
     }
 }

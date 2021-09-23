@@ -15,12 +15,6 @@ namespace fedora {
 
             static const std::vector<std::tuple<TokenPriority, std::u8string, TokenType>> tokenMaping;
 
-            /// Количество байт в символе, ибо char8_t может являться лишь частью символа
-            static size_t amountOfBytesInCharsSequence(char8_t chr);
-
-            /// Содержит ли строка только 1 символ 
-            static bool isSingleChar(const std::u8string &u8str); 
-
             /// Вернуть тип токена, исходя из его содержимого.
             /// Текущий тип токена не влияет на определение.
             static TokenType determineTokenType(const Token &t);
