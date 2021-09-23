@@ -10,12 +10,15 @@ namespace fedora::context
 {
     class FeFunction : public Function {
     protected:
-        std::unique_ptr<Returnable> returnable = nullptr;
-        std::unique_ptr<NamesOfArguments> args = std::make_unique<NamesOfArguments>();
-        std::map<std::u8string, std::shared_ptr<Function>> children = std::map<std::u8string, std::shared_ptr<Function>>();
+        std::unique_ptr<Returnable> returnable;
+        std::unique_ptr<NamesOfArguments> args;
+        Context children;
     public:
         explicit FeFunction(std::shared_ptr<Function> parent, std::u8string name): 
-            Function(std::move(parent), std::move(name))
+            Function(std::move(parent), std::move(name)),
+            children(Context()),
+            returnable(nullptr),
+            args(std::make_unique<NamesOfArguments>())
         {}
 
         virtual const std::shared_ptr<Context> getContext() const override {
