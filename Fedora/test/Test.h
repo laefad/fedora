@@ -237,6 +237,15 @@ private:
         for (auto it = tokensHolder.begin(); it < tokensHolder.end(); ++it) {
             analyzer.analyzeNext(*it);
         }
+
+        auto p = builder.getPackage();
+        auto res = p->getContext();
+
+        using fef = fedora::context::FeFunction;
+        using fefptr = std::shared_ptr<fef>;
+        for (auto [name, f] : *res) {   
+            auto fe = dynamic_cast<fef *>(f.get());
+        }
         clean();
         Logger::logV(u8"test 8 completed");
 
