@@ -21,6 +21,11 @@ namespace fedora::context
             args(std::make_unique<NamesOfArguments>())
         {}
 
+        // TODO only for testing? maybe create TestFeFunction? 
+        std::u8string logRet() const {
+            return returnable->get()->eval();
+        }
+
         virtual const std::shared_ptr<Context> getContext() const override {
             return std::make_shared<Function::Context>(children);
         }

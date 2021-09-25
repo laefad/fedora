@@ -238,17 +238,32 @@ private:
             analyzer.analyzeNext(*it);
         }
 
-        auto p = builder.getPackage();
-        auto res = p->getContext();
+        setting->setLogLevel(settings::LogLevel::LOG_VERBOSE);
 
-        using fef = fedora::context::FeFunction;
-        using fefptr = std::shared_ptr<fef>;
-        for (auto [name, f] : *res) {   
-            auto fe = dynamic_cast<fef *>(f.get());
-        }
+        logAllContext(builder.getPackage()->getContext());
+
         clean();
         Logger::logV(u8"test 8 completed");
 
+    }
+
+    static void logAllContext(std::shared_ptr<fedora::context::Function::Context> context, size_t level = 0) {
+        using fef = fedora::context::FeFunction;
+        using fefptr = std::shared_ptr<fef>;
+
+        for (auto [name, f] : *context) {   
+            auto fe = dynamic_cast<fef *>(f.get());
+
+            std::u8string res = u8"";
+            for (auto i = 0; i < level; ++i, res += u8"\t");
+            res += u8"[";
+            res += name;
+            res += u8"] => ";
+            res += fe->logRet();
+
+            Logger::logV(res);
+            logAllContext(fe->getContext(), level + 1);
+        }
     }
 
     static void test9() {
