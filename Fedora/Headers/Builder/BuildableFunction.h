@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Context/Function/FeFunction.h"
-#include "Context/Function/Returnable.h"
 #include <utility>
 
 namespace fedora {
@@ -93,8 +92,8 @@ namespace fedora {
             /**
              * Set returnable value to function
              */
-            void setReturnable(context::Returnable &r) {
-                returnable = std::make_unique<context::Returnable>(r);
+            void setReturnable(std::shared_ptr<types::BasicType> r) {
+                returnable = std::move(r);
             }
 
             void addArgName(const std::u8string &u8string) {

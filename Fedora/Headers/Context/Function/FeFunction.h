@@ -2,7 +2,6 @@
 
 #include "Function.h"
 
-#include "Context/Function/Returnable.h"
 #include "Types/BasicType.h"
 #include "Arguments.h"
 
@@ -10,7 +9,7 @@ namespace fedora::context
 {
     class FeFunction : public Function {
     protected:
-        std::unique_ptr<Returnable> returnable;
+        std::shared_ptr<fedora::types::BasicType> returnable;
         std::unique_ptr<NamesOfArguments> args;
         Context children;
     public:
@@ -23,7 +22,7 @@ namespace fedora::context
 
         // TODO only for testing? maybe create TestFeFunction? 
         std::u8string logRet() const {
-            return returnable->get()->eval();
+            return returnable->eval();
         }
 
         virtual const std::shared_ptr<Context> getContext() const override {
