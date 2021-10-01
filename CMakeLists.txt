@@ -92,6 +92,8 @@ add_executable(fedora
         Fedora/Source/Analyzers/ReadName.cpp
         Fedora/Source/Analyzers/ReadAfterReturnableFunName.cpp
 
+        Fedora/Source/Context/Function/FeFunction.cpp
+
         Fedora/Source/Stack/StackHolder.cpp
 
         Fedora/Source/Builder/ContextBuilder.cpp
