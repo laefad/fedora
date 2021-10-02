@@ -35,6 +35,7 @@ namespace fedora::types {
              * @param n - the old list (it won't be changed)
              * @return the new List
              */
+             // TODO Тут у нас создаётся новый список при добавлении в конец таким образом, что все элементы страого копируются. Мб можно просто в новом списке оставить указатель на первый элемент старого?
             static List addNewItemToTheEnd(std::shared_ptr<BasicType> v, const std::shared_ptr<List> &n) {
                 std::shared_ptr<List> a = std::make_shared<List>(n->value);
 

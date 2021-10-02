@@ -14,8 +14,10 @@ namespace fedora {
                 buff += value->eval();
 
             while (next) {
-                buff += u8' ';
-                buff += next->value->eval();
+                if (next->value!= nullptr){
+                    buff += u8' ';
+                    buff += next->value->eval();
+                }
                 next = next->next;
             }
 
