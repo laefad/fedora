@@ -2,7 +2,6 @@
 
 #include <utility>
 #include "Types/Number.h"
-#include "Context/Function/Returnable.h"
 #include "Builder/BuildableFunction.h"
 #include "Exceptions/BuilderException.h"
 
@@ -140,9 +139,8 @@ namespace fedora {
              * @example
              * pure let main arg1 = 1 <- set "1" as returnable
              */
-            void setReturnable(const std::shared_ptr<types::BasicType> &n) {
-                context::Returnable r = context::Returnable(n);
-                function->setReturnable(r);
+            void setReturnable(std::shared_ptr<types::BasicType> n) {
+                function->setReturnable(std::move(n));
             }
 
             void addArgumentName(const parser::Token &t) {
