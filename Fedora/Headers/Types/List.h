@@ -58,20 +58,6 @@ namespace fedora::types {
                 return new_lst;
             }
 
-            //     std::shared_ptr<List> a = std::make_shared<List>(n->value);
-
-            //     std::shared_ptr<List> nextList = n->next;
-            //     std::shared_ptr<List> nextA = a;
-            //     while (nextList != nullptr) {
-            //         nextA->next = std::make_shared<List>(nextList->value);
-            //         nextA = nextA->next;
-            //         nextList = nextList->next;
-            //     }
-            //     nextA->next = std::make_shared<List>(v);
-            //     return *a;
-            // }
-
-
             std::u8string eval() override;
 
             Type type() override {

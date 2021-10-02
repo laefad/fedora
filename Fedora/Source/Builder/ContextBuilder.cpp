@@ -163,7 +163,7 @@ namespace fedora {
     }
 
     void ContextBuilder::endList() {
-        //functionDeclarator.setReturnable(currentList);
+        functionDeclarator.setReturnable(currentList);
         currentList = nullptr;
         isBuildingList = false;
     }
