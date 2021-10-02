@@ -252,14 +252,24 @@ private:
         }
 
         setting->setLogLevel(settings::LogLevel::LOG_VERBOSE);
+    
+        if (builder.getPackage()->getContext()->at(u8"a") != nullptr){
+            std::shared_ptr<fedora::context::Function> & list = builder.getPackage()->getContext()->at(u8"a");
 
-        logAllContext(builder.getPackage()->getContext());
+            using fef = fedora::context::FeFunction;
+            auto fe = dynamic_cast<fef *>(list.get());
+            if (fe->logRet() == u8"[1.000000 2.000000 \"🤡\"]")
+                Logger::logV(u8"test 8 completed");
+            else
+                Logger::logV(u8"test 8 failed");
+        }else{
+            Logger::logV(u8"test 8 failed");
+        }
 
         clean();
-        Logger::logV(u8"test 8 completed");
-
     }
 
+    //! Не удалять эту функцию!
     static void logAllContext(const std::shared_ptr<fedora::context::Function::Context>& context, size_t level = 0) {
         using fef = fedora::context::FeFunction;
         using fefptr = std::shared_ptr<fef>;
