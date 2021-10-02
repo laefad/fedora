@@ -139,19 +139,25 @@ private:
         std::shared_ptr<List> lst = std::make_shared<List>(num);
 
         //Logger::logV(lst->eval());
-        success = (lst->eval()) == u8"[1.000000]";
+        if (lst->eval() != u8"[1.000000]"){
+            success = false;
+        }
 
         std::shared_ptr<BasicType> num2 = std::make_shared<Number>(32.0);
 
         List lst2 = List::addNewItemToTheBeginning(num2, lst);
 
         //Logger::logV(lst2.eval());
-        success = (lst2.eval()) == u8"[32.000000 1.000000]";
+        if (lst2.eval() != u8"[32.000000 1.000000]"){
+            success = false;
+        }
 
         List lst3;
 
         //Logger::logV(lst3.eval());
-        success = (lst3.eval()) == u8"[]";
+                if (lst2.eval() != u8"[]"){
+            success = false;
+        }
 
         if (success)
             Logger::logV(u8"test 6 completed");
@@ -247,11 +253,18 @@ private:
 
     }
 
-    static void logAllContext(std::shared_ptr<fedora::context::Function::Context> context, size_t level = 0) {
+    static void logAllContext(const std::shared_ptr<fedora::context::Function::Context>& context, size_t level = 0) {
         using fef = fedora::context::FeFunction;
         using fefptr = std::shared_ptr<fef>;
 
-        for (auto [name, f] : *context) {   
+//        auto fefunction = dynamic_cast<fef *>(context->at(u8"a").get());
+//        if (fefunction->getReturnable()->getData()->type() == fedora::types::LIST){
+//            auto actualList = static_cast<types::List>(fefunction->getReturnable()->getData());
+//
+//            Logger::logV(actualList.eval());
+//        }
+
+        for (auto [name, f] : *context) {
             auto fe = dynamic_cast<fef *>(f.get());
 
             std::u8string res = u8"";

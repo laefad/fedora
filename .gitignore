@@ -1,6 +1,7 @@
 .vs
 .vscode
 /cmake-build-debug/
+/cmake-build-debug-_gcc/
 /.idea/
 *.sln
 *.vcxproj*
