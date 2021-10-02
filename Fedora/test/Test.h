@@ -138,7 +138,7 @@ private:
 
         std::shared_ptr<List> lst = std::make_shared<List>(num);
 
-        //Logger::logV(lst->eval());
+        // Logger::logV(lst->eval());
         if (lst->eval() != u8"[1.000000]"){
             success = false;
         }
@@ -147,15 +147,22 @@ private:
 
         List lst2 = List::addNewItemToTheBeginning(num2, lst);
 
-        //Logger::logV(lst2.eval());
+        // Logger::logV(lst2.eval());
         if (lst2.eval() != u8"[32.000000 1.000000]"){
+            success = false;
+        }
+
+        List lst25 = List::addNewItemToTheEnd(num2, std::make_shared<List>(lst2));
+
+        // Logger::logV(lst25.eval());
+        if (lst25.eval() != u8"[32.000000 1.000000 32.000000]"){
             success = false;
         }
 
         List lst3;
 
         //Logger::logV(lst3.eval());
-                if (lst2.eval() != u8"[]"){
+        if (lst3.eval() != u8"[]"){
             success = false;
         }
 
