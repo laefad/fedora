@@ -45,17 +45,19 @@ namespace fedora::types {
                 std::shared_ptr<BasicType> v,
                 std::shared_ptr<List> n
             ) {
-                auto new_lst = std::make_shared<List>(n->value);
+                auto head = std::make_shared<List>(n->value);
+                auto new_lst = head;
                 auto next = n->next;
 
                 while(next) {
                     new_lst->next = std::make_shared<List>(next->value);
+                    new_lst = new_lst->next;
                     next = next->next;
                 }
 
                 new_lst->next = std::make_shared<List>(v);
 
-                return new_lst;
+                return head;
             }
 
             std::u8string eval() override;

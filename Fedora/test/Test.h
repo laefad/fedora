@@ -141,6 +141,8 @@ private:
         // Logger::logV(lst->eval());
         if (lst->eval() != u8"[1.000000]"){
             success = false;
+            Logger::logV(u8"Failed 6.1");
+            Logger::logV(lst->eval());
         }
 
         std::shared_ptr<BasicType> num2 = std::make_shared<Number>(32.0);
@@ -150,13 +152,17 @@ private:
         // Logger::logV(lst2.eval());
         if (lst2.eval() != u8"[32.000000 1.000000]"){
             success = false;
+            Logger::logV(u8"Failed 6.2");
+            Logger::logV(lst2.eval());
         }
 
-        List lst25 = List::addNewItemToTheEnd(num2, std::make_shared<List>(lst2));
+        auto lst25 = List::addNewItemToTheEnd(num2, std::make_shared<List>(lst2));
 
         // Logger::logV(lst25.eval());
-        if (lst25.eval() != u8"[32.000000 1.000000 32.000000]"){
+        if (lst25->eval() != u8"[32.000000 1.000000 32.000000]"){
             success = false;
+            Logger::logV(u8"Failed 6.3");
+            Logger::logV(lst25->eval());
         }
 
         List lst3;
@@ -164,6 +170,8 @@ private:
         //Logger::logV(lst3.eval());
         if (lst3.eval() != u8"[]"){
             success = false;
+            Logger::logV(u8"Failed 6.4");
+            Logger::logV(lst3.eval());
         }
 
         if (success)
@@ -270,7 +278,7 @@ private:
     }
 
     //! Не удалять эту функцию!
-    static void logAllContext(const std::shared_ptr<fedora::context::Function::Context>& context, size_t level = 0) {
+    static void logAllContext(std::shared_ptr<fedora::context::Function::Context> context, size_t level = 0) {
         using fef = fedora::context::FeFunction;
         using fefptr = std::shared_ptr<fef>;
 
