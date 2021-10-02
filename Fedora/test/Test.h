@@ -79,7 +79,7 @@ private:
         types::List b = types::List::addNewItemToTheBeginning(std::make_shared<types::Number>(2.0), a);
         b = types::List::addNewItemToTheBeginning(std::make_shared<types::Number>(2.0),
                                                   std::make_shared<types::List>(b));
-        types::List c = types::List::addNewItemToTheEnd(std::make_shared<types::Number>(3.0),
+        auto c = types::List::addNewItemToTheEnd(std::make_shared<types::Number>(3.0),
                                                         std::make_shared<types::List>(b));
         // TODO Я проверял работу через дебаггер, но хорошо бы сделать тест кодом
         Logger::logV(u8"test 4 completed");

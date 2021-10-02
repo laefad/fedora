@@ -170,7 +170,7 @@ namespace fedora {
 
     void ContextBuilder::addToList(std::shared_ptr<types::BasicType> v) {
         if (currentList->getValue())
-            currentList = std::make_shared<types::List>(types::List::addNewItemToTheEnd(std::move(v),currentList));
+            currentList = types::List::addNewItemToTheEnd(std::move(v),currentList);
         else
             currentList = std::make_shared<types::List>(v);
     }
