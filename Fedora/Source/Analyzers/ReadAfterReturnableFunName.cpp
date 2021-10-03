@@ -29,12 +29,15 @@ namespace fedora {
 
             if (t.getType() == parser::TokenType::CallOpen) {
                 // case 1
-                return std::make_shared<ReadForceArgs>();
+                return std::make_shared<ReadCallArgs>();
             } else if (t.getType() == parser::TokenType::FunctionDeclaration) {
                 // case 2
+                b.finishCurrentContext();
+                b.notifyWeGotLetToken();
                 return std::make_shared<ReadName>(ReadName::ReadNameMode::FUNCTION_DECLARATION);
             } else if (t.getType() == parser::TokenType::ForceCall) {
                 // case 3
+                throw "Unimplemented ReadAfterReturnableFunName::analyzeToken";
                 return std::make_shared<ReadName>(ReadName::ReadNameMode::FORCE_CALL);
             } else {
                 throwException(u8"Expected arguments or end of a returnable funCall declaration, but got " + t.getData(),

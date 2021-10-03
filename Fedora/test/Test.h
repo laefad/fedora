@@ -27,6 +27,7 @@ public:
         test8();
         test9();
         test10();
+        test11();
     }
 
 private:
@@ -244,7 +245,7 @@ private:
 
         // тест реальной программы
         Settings *setting = Settings::GetInstance();
-        setting->setLogLevel(settings::LogLevel::LOG_WARNING);
+        setting->setLogLevel(settings::LogLevel::LOG_VERBOSE);
 
 #if defined(__linux__) || defined(__APPLE__)
         auto source = Utf8istream::fromFile(u8"./../programs/current_features.fe");
@@ -260,12 +261,15 @@ private:
         }
 
         setting->setLogLevel(settings::LogLevel::LOG_VERBOSE);
+
+        // logAllContext(builder.getPackage()->getContext());
     
         if (builder.getPackage()->getContext()->at(u8"a") != nullptr){
             std::shared_ptr<fedora::context::Function> & list = builder.getPackage()->getContext()->at(u8"a");
 
             using fef = fedora::context::FeFunction;
             auto fe = dynamic_cast<fef *>(list.get());
+            // Logger::logV(fe->logRet());
             if (fe->logRet() == u8"[1.000000 2.000000 \"🤡\"]")
                 Logger::logV(u8"test 8 completed");
             else
@@ -363,6 +367,53 @@ private:
         }
 
         Logger::logV(u8"----Error handling test end---");
+    }
+
+    static void test11() {
+        fedora::ContextBuilder builder = genBuilder(u8"let fn = my_int(1 null \"yo\" 1 1)");
+
+        if (checkIfRetContains(builder, u8"fn", u8"my_int(1.000000 null \"yo\" 1.000000 1.000000)"))
+            Logger::logV(u8"test 11 completed");
+        else
+            Logger::logV(u8"test 11 failed");
+    }
+
+    static fedora::ContextBuilder genBuilder(std::u8string code){
+        using fedora::parser::Parser;
+        using fedora::parser::Utf8istream;
+        using fedora::parser::TokensHolder;
+
+        // тест реальной программы
+        Settings *setting = Settings::GetInstance();
+        setting->setLogLevel(settings::LogLevel::LOG_WARNING);
+
+        Parser parser = Parser(parser::Utf8istream::fromString(code));
+        TokensHolder tokensHolder = parser.parse();
+        fedora::ContextBuilder builder = fedora::ContextBuilder();
+        fedora::AnalyzerStrategy analyzer = fedora::AnalyzerStrategy(builder);
+        for (auto it = tokensHolder.begin(); it < tokensHolder.end(); ++it) {
+            analyzer.analyzeNext(*it);
+        }
+
+        setting->setLogLevel(settings::LogLevel::LOG_VERBOSE);
+
+        return builder;
+    }
+
+    static bool checkIfRetContains(fedora::ContextBuilder& builder, const std::u8string& funName, const std::u8string& contains){
+        if (builder.getPackage()->getContext()->at(funName) != nullptr){
+            std::shared_ptr<fedora::context::Function> & list = builder.getPackage()->getContext()->at(funName);
+
+            using fef = fedora::context::FeFunction;
+            auto fe = dynamic_cast<fef *>(list.get());
+            // Logger::logV(fe->logRet());
+            if (fe->logRet().find(contains) != std::u8string::npos)
+                return true;
+            else
+                return false;
+        }else{
+           return false;
+        }
     }
 
     //for 9 test 

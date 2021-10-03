@@ -1,4 +1,4 @@
-let my_int a b = 3
+let my_int a b c d e = 3
 let my_str = "lol"
 let outside where
     let inside = null
@@ -8,3 +8,4 @@ let outside where
 = null
 let a = my_str
 let a = [ 1 2 "🤡"]
+let fn = my_int(1 null "yo" 1 1)

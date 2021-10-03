@@ -23,7 +23,7 @@ namespace fedora {
          * @example
          * force main( fun1 fun2(1 2 3 )) // Nested function
          */
-        class ReadForceArgs : public AnalyticBasic {
+        class ReadCallArgs : public AnalyticBasic {
         public:
             std::shared_ptr<AnalyticBasic> analyzeToken(parser::Token const &, ContextBuilder &) override;
 

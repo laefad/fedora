@@ -10,8 +10,9 @@ namespace fedora {
 
         std::shared_ptr<AnalyticBasic> ReadAfterListEnd::analyzeToken(parser::Token const &t, ContextBuilder &b) {
             using fedora::parser::TokenType;
+            log(u8"Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
+            log(u8"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
             // Ожидаются:
-            // 1. "]" Закрытие списка
             // 2. ")" Завершение функции
             // 3. Number. Следующий аргумент
             // 4. String. Следующий аргумент
@@ -20,9 +21,9 @@ namespace fedora {
             // 7. KeyWord. Начало объявления новой функции
             // 8. Let Новая функция объявлена
 
-            // "]"
-            if (t.getType() == TokenType::ListClose)
-                return shared_from_this();
+            // // "]"
+            // if (t.getType() == TokenType::ListClose)
+            //     return shared_from_this();
 
             // ")"
             if (t.getType() == TokenType::CallClose)
@@ -58,6 +59,8 @@ namespace fedora {
             }
 
             if (t.getType() == TokenType::FunctionDeclaration) {
+                b.finishCurrentContext();
+                b.notifyWeGotLetToken();
                 return std::make_shared<ReadName>(ReadName::FUNCTION_DECLARATION);
             }
 

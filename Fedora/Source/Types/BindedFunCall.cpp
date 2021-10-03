@@ -23,7 +23,8 @@ namespace fedora {
 
             for (std::shared_ptr<BasicType> bt : args) {
                 buf += bt->eval();
-                buf += u8" ";
+                if (bt!=args.back())
+                    buf += u8" ";
             }
 
             buf += u8")";

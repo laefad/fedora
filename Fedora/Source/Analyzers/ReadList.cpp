@@ -49,7 +49,7 @@ namespace fedora {
 
             if (t.getType() == TokenType::Name) {
                 b.addFunCallInList(t);
-                return std::make_shared<ReadForceArgs>();
+                return std::make_shared<ReadCallArgs>();
             }
             // "[" if list start
             if (t.getType() == TokenType::ListOpen) {

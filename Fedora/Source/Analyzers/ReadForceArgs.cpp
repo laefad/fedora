@@ -7,7 +7,7 @@
 namespace fedora {
     namespace analytic {
 
-        std::shared_ptr<AnalyticBasic> ReadForceArgs::analyzeToken(parser::Token const &t, ContextBuilder &b) {
+        std::shared_ptr<AnalyticBasic> ReadCallArgs::analyzeToken(parser::Token const &t, ContextBuilder &b) {
             using fedora::parser::TokenType;
             log(u8"Class: " + getClassFileName(), fedora::settings::LOG_VERBOSE);
             log(u8"Token: " + t.getData(), fedora::settings::LOG_VERBOSE);
@@ -22,21 +22,32 @@ namespace fedora {
             // 4. Имя функции
             // 5. Закрывающая круглая скобка
             // 6. Закрывающая квадратная скобка
+            // 7. null
             // Если функция вызывается без скобок и без аргументов и заканчивается чтение списка
             // @example                    -> | <-
             // let my_list = [ 1 2 "3" my_str ]
 
-            // "(" Открвающая скобка. Начало чтения аргументов
+            // "(" Открывающая скобка. Начало чтения аргументов
             if (t.getType() == TokenType::CallOpen)
                 return shared_from_this();
 
             // Число
-            if (t.getType() == TokenType::Number)
+            if (t.getType() == TokenType::Number){
+                b.addPrimitiveAsCallArgument(t);
                 return shared_from_this();
+            }
 
             // Строка
-            if (t.getType() == TokenType::String)
+            if (t.getType() == TokenType::String){
+                b.addPrimitiveAsCallArgument(t);
                 return shared_from_this();
+            }
+
+            // Null
+            if (t.getType() == TokenType::Null){
+                b.addPrimitiveAsCallArgument(t);
+                return shared_from_this();
+            }
 
             // "[" A List
             if (t.getType() == TokenType::ListOpen)
@@ -45,7 +56,7 @@ namespace fedora {
             // Если функция
             if (t.getType() == TokenType::Name)
                 // Начинаем новое чтение аргументов
-                return std::make_shared<ReadForceArgs>();
+                return std::make_shared<ReadCallArgs>();
 
             // "]"
             if (t.getType() == TokenType::ListClose)
@@ -79,8 +90,8 @@ namespace fedora {
             return std::shared_ptr<AnalyticBasic>();
         }
 
-        std::u8string ReadForceArgs::getClassFileName() {
-            return u8"ReadForceArgs.h";
+        std::u8string ReadCallArgs::getClassFileName() {
+            return u8"ReadCallArgs.h";
         }
     }
 }

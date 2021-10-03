@@ -97,10 +97,10 @@ namespace fedora {
                 return function->isHasParent();
             }
 
-            std::shared_ptr<builder::BuildableFunction> getUpcastedParent() {
+            std::shared_ptr<builder::BuildableFunction> getDowncastedParent() {
                 if (function->getParent() == nullptr)
                     throw BuilderException(u8"Builder tried to upcast function's parent, but function had no parent",
-                                           u8"FunctionDeclarator::getUpcastedParent");
+                                           u8"FunctionDeclarator::getDowncastedParent");
                 return std::static_pointer_cast<builder::BuildableFunction>(function->getParent());
             }
 

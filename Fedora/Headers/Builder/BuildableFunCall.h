@@ -21,7 +21,7 @@ namespace fedora {
                 forced = true;
             };
 
-            void addArgument(const std::shared_ptr<fedora::types::BasicType> &b) {
+            void addArgument(std::shared_ptr<fedora::types::BasicType> b) {
                 args.push_back(b);
             }
         };

@@ -53,7 +53,7 @@ namespace fedora {
         /// Function declaration utility
         builder::FunctionDeclarator functionDeclarator;
 
-        builder::ForceCallDeclarator forceCallDeclarator;
+        //builder::ForceCallDeclarator forceCallDeclarator;
 
         StackHolder stackHolder;
 
@@ -81,7 +81,7 @@ namespace fedora {
         void finishFunctionDeclaration() {
             if (functionDeclarator.isFunctionHasParent()) {
                 // case 1
-                functionDeclarator = builder::FunctionDeclarator(functionDeclarator.getUpcastedParent());
+                functionDeclarator = builder::FunctionDeclarator(functionDeclarator.getDowncastedParent());
             } else {
                 // case 2
                 functionDeclarator = builder::FunctionDeclarator(nullptr);
@@ -92,18 +92,22 @@ namespace fedora {
         std::shared_ptr<types::List> currentList = nullptr;
 
         void addToList(std::shared_ptr<types::BasicType>);
+        void addBasicToCallArguments(std::shared_ptr<types::BasicType>);
 
         std::shared_ptr<builder::BuildableFunCall> currentFunCall = nullptr;
     public:
         ContextBuilder() :
                 functionDeclarator(nullptr),
-                forceCallDeclarator(nullptr),
+                //forceCallDeclarator(nullptr),
                 package(std::make_shared<context::Package>()),
                 stackHolder(StackHolder())
         {}
 
         ~ContextBuilder() = default;
 
+        static std::shared_ptr<types::BasicType> t2Bt(const parser::Token &);
+
+        // ------- F U N C T I O N   D E C L A R A T I O N -------
         /**
          * Add keyword to function
          *
@@ -113,12 +117,18 @@ namespace fedora {
          */
         void addFunctionDeclarationToken(parser::Token &);
 
+        /**
+         * This funtion creates new fedora function object. It will be placed to context in ContextBuilder::setFunctionName
+         */
         void notifyWeGotLetToken();
-
+        
         void setFunctionName(parser::Token const &);
 
         void notifyWeSetReturnable();
 
+        void finishCurrentContext();
+
+        // ------- R E T U R N A B L E S -------
         /// set NULL_ as returnable
         void addReturnableNull();
 
@@ -128,15 +138,21 @@ namespace fedora {
 
         void addReturnableFunCall(std::u8string const &);
 
+        // ------- L I S T   S T U F F -------
+
         void addReturnableList();
 
         void endList();
 
-        static std::shared_ptr<types::BasicType> t2Bt(const parser::Token &);
-
         void addSimpleTypeInList(const parser::Token &t);
 
         void addFunCallInList(const parser::Token &);
+
+        // ------- C A L L   A R G U M E N T S -------
+
+        void addPrimitiveAsCallArgument(const parser::Token &);
+
+        // ------- F O R C E   C A L L -------
 
         void notifyWeStartForceCall();
 

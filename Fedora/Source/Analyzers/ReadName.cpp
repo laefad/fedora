@@ -74,12 +74,12 @@ namespace fedora {
 
         std::shared_ptr<AnalyticBasic> ReadName::returnableFunCall(parser::Token const &t, ContextBuilder &b) {
             b.addReturnableFunCall(t.getData());
-            return std::make_shared<ReadForceArgs>();
+            return std::make_shared<ReadCallArgs>();
         }
 
         std::shared_ptr<AnalyticBasic> ReadName::forceCall(parser::Token const &t, ContextBuilder &b) {
             b.setForceName(t.getData());
-            return std::make_shared<ReadForceArgs>();
+            return std::make_shared<ReadCallArgs>();
         }
 
         std::shared_ptr<AnalyticBasic> ReadName::listValue(const parser::Token &, ContextBuilder &) {
