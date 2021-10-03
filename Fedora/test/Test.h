@@ -77,11 +77,9 @@ private:
 
     static void test4() {
         std::shared_ptr<types::List> a = std::make_shared<types::List>(std::make_shared<types::Number>(0.0));
-        types::List b = types::List::addNewItemToTheBeginning(std::make_shared<types::Number>(2.0), a);
-        b = types::List::addNewItemToTheBeginning(std::make_shared<types::Number>(2.0),
-                                                  std::make_shared<types::List>(b));
-        auto c = types::List::addNewItemToTheEnd(std::make_shared<types::Number>(3.0),
-                                                        std::make_shared<types::List>(b));
+        auto b = types::List::addNewItemToTheBeginning(std::make_shared<types::Number>(2.0), a);
+        b = types::List::addNewItemToTheBeginning(std::make_shared<types::Number>(2.0), b);
+        auto c = types::List::addNewItemToTheEnd(std::make_shared<types::Number>(3.0), b);
         // TODO Я проверял работу через дебаггер, но хорошо бы сделать тест кодом
         Logger::logV(u8"test 4 completed");
     }
@@ -148,16 +146,16 @@ private:
 
         std::shared_ptr<BasicType> num2 = std::make_shared<Number>(32.0);
 
-        List lst2 = List::addNewItemToTheBeginning(num2, lst);
+        auto lst2 = List::addNewItemToTheBeginning(num2, lst);
 
         // Logger::logV(lst2.eval());
-        if (lst2.eval() != u8"[32.000000 1.000000]"){
+        if (lst2->eval() != u8"[32.000000 1.000000]"){
             success = false;
             Logger::logV(u8"Failed 6.2");
-            Logger::logV(lst2.eval());
+            Logger::logV(lst2->eval());
         }
 
-        auto lst25 = List::addNewItemToTheEnd(num2, std::make_shared<List>(lst2));
+        auto lst25 = List::addNewItemToTheEnd(num2, lst2);
 
         // Logger::logV(lst25.eval());
         if (lst25->eval() != u8"[32.000000 1.000000 32.000000]"){

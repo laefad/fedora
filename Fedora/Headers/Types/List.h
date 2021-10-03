@@ -21,17 +21,22 @@ namespace fedora::types {
                 next(nullptr)
             {}
 
+            explicit List(std::shared_ptr<BasicType> v, std::shared_ptr<List> lst):
+                value(std::move(v)),
+                next(lst)
+            {}
+
             /**
              * Create new list and add newItem to the beginning
              * @param v - the new item
              * @param n - the old list (it won't be changed)
              * @return the new List
              */
-            static List addNewItemToTheBeginning(std::shared_ptr<BasicType> v, std::shared_ptr<List> n) {
-                List a = List();
-                a.value = std::move(v);
-                a.next = std::move(n);
-                return a;
+            static std::shared_ptr<List> addNewItemToTheBeginning(
+                std::shared_ptr<BasicType> v, 
+                std::shared_ptr<List> lst
+            ) {
+                return std::make_shared<List>(std::move(v), std::move(lst));
             }
 
             /**
@@ -39,15 +44,17 @@ namespace fedora::types {
              * @param v - the new item
              * @param n - the old list (it won't be changed)
              * @return the new List
+             * 
+             * @details
+             * Мы копируем указатели на данные, мы не создаем новые данные, но создаем список с нуля
              */
-            // Мы копируем указатели на данные, мы не создаем новые данные, но создаем список с нуля
             static std::shared_ptr<List> addNewItemToTheEnd(
                 std::shared_ptr<BasicType> v,
-                std::shared_ptr<List> n
+                std::shared_ptr<List> lst
             ) {
-                auto head = std::make_shared<List>(n->value);
+                auto head = std::make_shared<List>(lst->value);
                 auto new_lst = head;
-                auto next = n->next;
+                auto next = lst->next;
 
                 while(next) {
                     new_lst->next = std::make_shared<List>(next->value);
@@ -66,12 +73,12 @@ namespace fedora::types {
                 return types::LIST;
             }
 
-            std::shared_ptr<BasicType> getValue(){
+            std::shared_ptr<BasicType> getValue() {
                 return value;
             }
 
-            std::shared_ptr<List> getNext(){
-                throw "UNIMPLEMENTED List::getNext";
+            std::shared_ptr<List> getNext() {
+                return next;
             }
 
         };
