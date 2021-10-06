@@ -11,26 +11,207 @@
 #include "Parser/Token.h"
 
 #include <bitset>
+#include <functional>
+#include <optional>
 
 using namespace fedora;
 
+// TODO разбить на файлы после окончательного формирования классов и их интерфейсов 
+
+class TestUtils {
+    public:
+
+    static void clean() {
+        fedora::Utils::SingletonsCleaner *cleaner = fedora::Utils::SingletonsCleaner::GetInstance();
+        cleaner->cleanThemAll();
+    }
+
+    static void logAllContext(std::shared_ptr<fedora::context::Function::Context> context, size_t level = 0) {
+        using fef = fedora::context::FeFunction;
+        using fefptr = std::shared_ptr<fef>;
+
+//        auto fefunction = dynamic_cast<fef *>(context->at(u8"a").get());
+//        if (fefunction->getReturnable()->getData()->type() == fedora::types::LIST){
+//            auto actualList = static_cast<types::List>(fefunction->getReturnable()->getData());
+//
+//            Logger::logV(actualList.eval());
+//        }
+
+        for (auto [name, f] : *context) {
+            auto fe = dynamic_cast<fef *>(f.get());
+
+            std::u8string res = u8"";
+            for (auto i = 0; i < level; ++i, res += u8"\t");
+            res += u8"[";
+            res += name;
+            res += u8"] => ";
+            res += fe->logRet();
+
+            Logger::logV(res);
+            logAllContext(fe->getContext(), level + 1);
+        }
+    }
+
+    template <class _Elem = char, 
+              class _Traits = std::char_traits<_Elem>, 
+              class _Alloc = std::allocator<_Elem>
+             >
+    static std::string getstrbits(const std::basic_string<_Elem, _Traits, _Alloc>& s) {
+        std::stringstream ret;
+        const constexpr int digits = std::numeric_limits<_Elem>::digits + std::numeric_limits<_Elem>::is_signed;
+        for (auto c : s) 
+            ret << std::bitset<digits>(c).to_string() << "_";
+        return ret.str();
+    }
+
+    static fedora::ContextBuilder genBuilder(std::u8string code){
+        using fedora::parser::Parser;
+        using fedora::parser::Utf8istream;
+        using fedora::parser::TokensHolder;
+
+        // тест реальной программы
+        Settings *setting = Settings::GetInstance();
+        setting->setLogLevel(settings::LogLevel::LOG_WARNING);
+
+        Parser parser = Parser(parser::Utf8istream::fromString(code));
+        TokensHolder tokensHolder = parser.parse();
+        fedora::ContextBuilder builder = fedora::ContextBuilder();
+        fedora::AnalyzerStrategy analyzer = fedora::AnalyzerStrategy(builder);
+        for (auto it = tokensHolder.begin(); it < tokensHolder.end(); ++it) {
+            analyzer.analyzeNext(*it);
+        }
+
+        setting->setLogLevel(settings::LogLevel::LOG_VERBOSE);
+
+        return builder;
+    }
+
+    static bool checkIfRetContains(fedora::ContextBuilder& builder, const std::u8string& funName, const std::u8string& contains){
+        if (builder.getPackage()->getContext()->at(funName) != nullptr) {
+            std::shared_ptr<fedora::context::Function> & list = builder.getPackage()->getContext()->at(funName);
+
+            using fef = fedora::context::FeFunction;
+            auto fe = dynamic_cast<fef *>(list.get());
+            // Logger::logV(fe->logRet());
+            if (fe->logRet().find(contains) != std::u8string::npos)
+                return true;
+            else
+                return false;
+        } else {
+           return false;
+        }
+    }
+};
+
+template<typename... Args>
+class Test {
+    protected:
+        size_t num;
+        std::u8string header;
+        std::u8string about;
+        std::function<bool(Args...)> testFunction;
+        bool logging;
+    public:
+        Test(size_t num,
+            std::u8string header, 
+            std::u8string about,
+            std::function<bool(Args...)> f):
+            num(num), 
+            header(header),
+            about(about),
+            testFunction(f),
+            logging(false)
+        {}
+
+        void setLogging (bool logging) {
+            this->logging = logging;
+        }
+
+        std::optional<std::u8string> test(Args... args) const {
+            if (logging) {
+                Logger::logV(u8"Test " + StaticUtils::i2u8s(num));
+                Logger::logV(header + u8"\n" + about);
+            }
+
+            bool res = false;
+
+            try {
+                TestUtils::clean();
+                res = testFunction(args...);
+                TestUtils::clean();
+            } catch (std::exception e) {
+                if (logging) 
+                    Logger::logV(u8"Test " + StaticUtils::i2u8s(num) + u8" failed.");
+
+                return std::make_optional(u8"Test " + StaticUtils::i2u8s(num) + u8"failed, "
+                                          + u8"\n" + StaticUtils::s2u8s(e.what()));
+            }
+
+            if (res) {
+                if (logging) 
+                    Logger::logV(u8"Test " + StaticUtils::i2u8s(num) + u8" complete.");
+                
+                return std::nullopt;
+            } else {
+                if (logging) 
+                    Logger::logV(u8"Test " + StaticUtils::i2u8s(num) + u8" failed.");
+
+                return std::make_optional(u8"Test " + StaticUtils::i2u8s(num) + u8" failed without errors.");
+            }
+        }
+};
+
+class TestingSetup {
+    public:
+        static void setup();
+};
+
+// TODO подумать, может лучше перейти от статического класса к обычному, 
+// тогда в setup можно будет передавать объект и не надо будет тащить setup внутрь
+class Tester {
+    protected:
+        inline static std::vector<Test<>> tests = std::vector<Test<>>();
+    public:
+        static void testing(bool logging = false) {
+            size_t successful = 0;
+            TestingSetup::setup();
+            for (size_t i = 0, size = Tester::tests.size(); i < size; ++i) {
+                auto test = tests[i];
+                test.setLogging(logging);
+                auto res = test.test();
+                if (res) {
+                    Logger::logV(u8"\u001b[31mTest failed: " + res.value() + u8"\u001b[0m");
+                } else {
+                    ++successful;
+                }
+                if (logging && (i != size - 1)) {
+                    Logger::logV(u8"----------------------------");
+                }
+            }
+
+            Logger::logV(u8"Tests passed " + StaticUtils::i2u8s(successful) 
+                         + u8"/" + StaticUtils::i2u8s(tests.size()));
+        }
+
+        static void addTest(Test<> t) {
+            Tester::tests.push_back(t);
+        }
+};
+
+// TODO избавится от этого класса
 class ContextBuildTester {
 public:
     static void test() {
-        //test1();
-        test2();
-        //test3();
-        test4();
-        test5();
-        test6();
-        test7();
-        test8();
-        test9();
-        test10();
-        test11();
+        Logger::logV(u8"Testing main fedora functions");
+        Tester::testing(/*true*/);
+
+        // test1();
+        // test10();
     }
 
 private:
+
+    // TODO он вообще еще актуален??
     /**
      * let a = 1
      */
@@ -60,378 +241,338 @@ private:
     //     Logger::logV("test1 completed");
     // }
 
-    static void test2() {
-        using parser::Token;
-        ContextBuilder builder = ContextBuilder();
+    // TODO работает, но просто захламляет вывод в любом случае, ибо это тест на отображение 
+    // static void test10() {
+    //     Logger::logV(u8"------Error handling test----");
+    //     try {
+    //         throw BuilderException(
+    //                     u8"You're trying to convert token to BasicType, but token is not a primitive type instance.",
+    //                     u8"ContextBuilder::t2Bt(const parser::Token&)");
+    //     } catch (BuilderException fe) {
+    //         Logger::logV(fe.whatu8());
+    //     }
 
-        Token mName = Token(u8"main");
-        Token mOne = Token(u8"1");
+    //     try {
+    //         throw FException(u8"🅰  🅱  🅾  🅱  🅰");
+    //     } catch (FException fe) {
+    //         Logger::logV(fe.whatu8());
+    //     }
 
-        builder.notifyWeStartForceCall();
-        auto forceName = mOne.getData();
-        builder.setForceName(forceName);
-        //StackHolder *s = StackHolder::GetInstance();
-        clean();
-        Logger::logV(u8"test 2 completed");
-    }
+    //     Logger::logV(u8"----Error handling test end---");
+    // }
 
-    static void test4() {
-        std::shared_ptr<types::List> a = std::make_shared<types::List>(std::make_shared<types::Number>(0.0));
-        auto b = types::List::addNewItemToTheBeginning(std::make_shared<types::Number>(2.0), a);
-        b = types::List::addNewItemToTheBeginning(std::make_shared<types::Number>(2.0), b);
-        auto c = types::List::addNewItemToTheEnd(std::make_shared<types::Number>(3.0), b);
-        // TODO Я проверял работу через дебаггер, но хорошо бы сделать тест кодом
-        Logger::logV(u8"test 4 completed");
-    }
-
-    static void test5() {
-        clean();
-        Settings *setting = Settings::GetInstance();
-        setting->setLogLevel(settings::LogLevel::LOG_WARNING);
-
-        parser::Token mLet = parser::Token(u8"let");
-        mLet.setType(parser::TokenType::FunctionDeclaration);
-
-        parser::Token mA = parser::Token(u8"a");
-        mA.setType(parser::TokenType::Name);
-
-        parser::Token mB = parser::Token(u8"b");
-        mB.setType(parser::TokenType::Name);
-
-        parser::Token mReturns = parser::Token(u8"=");
-        mReturns.setType(parser::TokenType::FunctionReturnableDeclaration);
-
-        parser::Token mOne = parser::Token(u8"1");
-        mOne.setType(parser::TokenType::Number);
+};
 
 
-        fedora::ContextBuilder builder = fedora::ContextBuilder();
-        fedora::AnalyzerStrategy analyzer = fedora::AnalyzerStrategy(builder);
+void TestingSetup::setup() {
+    Tester::addTest(Test<>(
+        1,
+        u8"Testing Context Builder.",
+        u8"Try to create simple force call.",
+        [] () -> bool {
+            using parser::Token;
+            ContextBuilder builder = ContextBuilder();
 
-        analyzer.analyzeNext(mLet);
-        analyzer.analyzeNext(mA);
-        analyzer.analyzeNext(mReturns);
-        analyzer.analyzeNext(mOne);
+            Token mName = Token(u8"main");
+            Token mOne = Token(u8"1");
 
-        analyzer.analyzeNext(mLet);
-        analyzer.analyzeNext(mB);
-        analyzer.analyzeNext(mReturns);
-        analyzer.analyzeNext(mOne);
-
-        if (builder.getPackage()->getContext()->count(mA.getData()) == 1 &&
-            builder.getPackage()->getContext()->count(mB.getData()) == 1)
-            Logger::logW(u8"test 5 completed");
-        else
-            Logger::logW(u8"test 5 FAILED");
-        clean();
-    }
-
-    static void test6() {
-        using fedora::types::BasicType;
-        using fedora::types::List;
-        using fedora::types::Number;
-
-        bool success = true;
-
-        std::shared_ptr<BasicType> num = std::make_shared<Number>(1.0);
-
-        std::shared_ptr<List> lst = std::make_shared<List>(num);
-
-        // Logger::logV(lst->eval());
-        if (lst->eval() != u8"[1.000000]"){
-            success = false;
-            Logger::logV(u8"Failed 6.1");
-            Logger::logV(lst->eval());
+            builder.notifyWeStartForceCall();
+            auto forceName = mOne.getData();
+            builder.setForceName(forceName);
+            //StackHolder *s = StackHolder::GetInstance();
+            return true;
         }
+    ));
 
-        std::shared_ptr<BasicType> num2 = std::make_shared<Number>(32.0);
-
-        auto lst2 = List::addNewItemToTheBeginning(num2, lst);
-
-        // Logger::logV(lst2.eval());
-        if (lst2->eval() != u8"[32.000000 1.000000]"){
-            success = false;
-            Logger::logV(u8"Failed 6.2");
-            Logger::logV(lst2->eval());
+    Tester::addTest(Test<>(
+        2,
+        u8"Testing List static functions.",
+        u8"Try adding the numbers at the beginning of the list and at the end of the list.",
+        [] () -> bool {
+            std::shared_ptr<types::List> a = std::make_shared<types::List>(std::make_shared<types::Number>(0.0));
+            auto b = types::List::addNewItemToTheBeginning(std::make_shared<types::Number>(2.0), a);
+            b = types::List::addNewItemToTheBeginning(std::make_shared<types::Number>(2.0), b);
+            auto c = types::List::addNewItemToTheEnd(std::make_shared<types::Number>(3.0), b);
+            // TODO Я проверял работу через дебаггер, но хорошо бы сделать тест кодом
+            return true;
         }
+    ));
 
-        auto lst25 = List::addNewItemToTheEnd(num2, lst2);
+    Tester::addTest(Test<>(
+        3,
+        u8"Тестируем создание функции и проверяем ее контекст.",
+        u8"Вручную создаем функцию с помощью токенов.",
+        [] () -> bool {
+            Settings *setting = Settings::GetInstance();
+            setting->setLogLevel(settings::LogLevel::LOG_WARNING);
 
-        // Logger::logV(lst25.eval());
-        if (lst25->eval() != u8"[32.000000 1.000000 32.000000]"){
-            success = false;
-            Logger::logV(u8"Failed 6.3");
-            Logger::logV(lst25->eval());
-        }
+            parser::Token mLet = parser::Token(u8"let");
+            mLet.setType(parser::TokenType::FunctionDeclaration);
 
-        List lst3;
+            parser::Token mA = parser::Token(u8"a");
+            mA.setType(parser::TokenType::Name);
 
-        //Logger::logV(lst3.eval());
-        if (lst3.eval() != u8"[]"){
-            success = false;
-            Logger::logV(u8"Failed 6.4");
-            Logger::logV(lst3.eval());
-        }
+            parser::Token mB = parser::Token(u8"b");
+            mB.setType(parser::TokenType::Name);
 
-        if (success)
-            Logger::logV(u8"test 6 completed");
-        else
-            Logger::logV(u8"test 6 failed");
+            parser::Token mReturns = parser::Token(u8"=");
+            mReturns.setType(parser::TokenType::FunctionReturnableDeclaration);
 
-        // try {
-        //     throw exception::BuilderException(L"text", L"test()");
-        // } catch (exception::BuilderException e) {
-        //     e.what();
-        // }
-
-        //throw exception::BuilderException(L"text", L"test()");
-    }
-
-    static void test7() {
-        clean();
-        Settings *setting = Settings::GetInstance();
-        setting->setLogLevel(settings::LogLevel::LOG_WARNING);
-
-        parser::Token mLet = parser::Token(u8"let");
-        mLet.setType(parser::TokenType::FunctionDeclaration);
-
-        parser::Token mA = parser::Token(u8"a");
-        mA.setType(parser::TokenType::Name);
-
-        parser::Token mWhere = parser::Token(u8"where");
-        mWhere.setType(parser::TokenType::FunctionContextDeclaration);
-
-        parser::Token mB = parser::Token(u8"b");
-        mB.setType(parser::TokenType::Name);
-
-        parser::Token mReturns = parser::Token(u8"=");
-        mReturns.setType(parser::TokenType::FunctionReturnableDeclaration);
-
-        parser::Token mOne = parser::Token(u8"1");
-        mOne.setType(parser::TokenType::Number);
+            parser::Token mOne = parser::Token(u8"1");
+            mOne.setType(parser::TokenType::Number);
 
 
-        fedora::ContextBuilder builder = fedora::ContextBuilder();
-        fedora::AnalyzerStrategy analyzer = fedora::AnalyzerStrategy(builder);
+            fedora::ContextBuilder builder = fedora::ContextBuilder();
+            fedora::AnalyzerStrategy analyzer = fedora::AnalyzerStrategy(builder);
 
-        analyzer.analyzeNext(mLet);
-        analyzer.analyzeNext(mA);
-        analyzer.analyzeNext(mWhere);
+            analyzer.analyzeNext(mLet);
+            analyzer.analyzeNext(mA);
+            analyzer.analyzeNext(mReturns);
+            analyzer.analyzeNext(mOne);
 
-        analyzer.analyzeNext(mLet);
-        analyzer.analyzeNext(mB);
-        analyzer.analyzeNext(mReturns);
-        analyzer.analyzeNext(mOne);
+            analyzer.analyzeNext(mLet);
+            analyzer.analyzeNext(mB);
+            analyzer.analyzeNext(mReturns);
+            analyzer.analyzeNext(mOne);
 
-        analyzer.analyzeNext(mReturns);
-        analyzer.analyzeNext(mOne);
-
-
-        if (builder.getPackage()->getContext()->count(mA.getData()) == 1 &&
-            (*(builder.getPackage()->getContext()))[mA.getData()]->getContext()->count(mB.getData()) == 1)
-            Logger::logW(u8"test 7 completed");
-        else
-            Logger::logW(u8"test 7 FAILED");
-
-        clean();
-    }
-
-    static void test8() {
-        using fedora::parser::Parser;
-        using fedora::parser::Utf8istream;
-        using fedora::parser::TokensHolder;
-
-        // тест реальной программы
-        Settings *setting = Settings::GetInstance();
-        setting->setLogLevel(settings::LogLevel::LOG_VERBOSE);
-
-#if defined(__linux__) || defined(__APPLE__)
-        auto source = Utf8istream::fromFile(u8"./../programs/current_features.fe");
-# elif defined(_WIN32)
-        auto source = Utf8istream::fromFile(u8"./../../programs/current_features.fe");
-# endif
-        Parser parser = Parser(std::move(source));
-        TokensHolder tokensHolder = parser.parse();
-        fedora::ContextBuilder builder = fedora::ContextBuilder();
-        fedora::AnalyzerStrategy analyzer = fedora::AnalyzerStrategy(builder);
-        for (auto it = tokensHolder.begin(); it < tokensHolder.end(); ++it) {
-            analyzer.analyzeNext(*it);
-        }
-
-        setting->setLogLevel(settings::LogLevel::LOG_VERBOSE);
-
-        // logAllContext(builder.getPackage()->getContext());
-    
-        if (builder.getPackage()->getContext()->at(u8"a") != nullptr){
-            std::shared_ptr<fedora::context::Function> & list = builder.getPackage()->getContext()->at(u8"a");
-
-            using fef = fedora::context::FeFunction;
-            auto fe = dynamic_cast<fef *>(list.get());
-            // Logger::logV(fe->logRet());
-            if (fe->logRet() == u8"[1.000000 2.000000 \"🤡\"]")
-                Logger::logV(u8"test 8 completed");
-            else
-                Logger::logV(u8"test 8 failed");
-        }else{
-            Logger::logV(u8"test 8 failed");
-        }
-
-        clean();
-    }
-
-    //! Не удалять эту функцию!
-    static void logAllContext(std::shared_ptr<fedora::context::Function::Context> context, size_t level = 0) {
-        using fef = fedora::context::FeFunction;
-        using fefptr = std::shared_ptr<fef>;
-
-//        auto fefunction = dynamic_cast<fef *>(context->at(u8"a").get());
-//        if (fefunction->getReturnable()->getData()->type() == fedora::types::LIST){
-//            auto actualList = static_cast<types::List>(fefunction->getReturnable()->getData());
-//
-//            Logger::logV(actualList.eval());
-//        }
-
-        for (auto [name, f] : *context) {
-            auto fe = dynamic_cast<fef *>(f.get());
-
-            std::u8string res = u8"";
-            for (auto i = 0; i < level; ++i, res += u8"\t");
-            res += u8"[";
-            res += name;
-            res += u8"] => ";
-            res += fe->logRet();
-
-            Logger::logV(res);
-            logAllContext(fe->getContext(), level + 1);
-        }
-    }
-
-    static void test9() {
-        Logger::logV(u8"😀");
-        // std::cout << ContextBuildTester::getstrbits<char8_t>(std::u8string(u8"¢")) << std::endl;
-        // std::cout << ContextBuildTester::getstrbits(std::string("¢")) << std::endl;
-        // std::cout << std::hex << (int)u8'ö' << std::endl;
-        // std::cout << std::hex << (int)'ö' << std::endl;
-
-        std::u8string data = u8"biba";
-        std::string result = StaticUtils::u8s2s(data);
-
-        if (getstrbits<char8_t>(data) == getstrbits<char>(result))
-            Logger::logV(u8"Test 9.1 completed");
-        else 
-            Logger::logV(u8"Test 9.1 failed");
-
-        data = u8"öʧधᐇ";
-        result = StaticUtils::u8s2s(data);
-
-        if (getstrbits<char8_t>(data) == getstrbits<char>(result))
-            Logger::logV(u8"Test 9.2 completed");
-        else 
-             Logger::logV(u8"Test 9.2 failed");
-
-
-        std::string data2 = "biba";
-        std::u8string result2 = StaticUtils::s2u8s(data2);
-
-        if (getstrbits<char>(data2) == getstrbits<char8_t>(result2))
-            Logger::logV(u8"Test 9.3 completed");
-        else 
-             Logger::logV(u8"Test 9.3 failed");
-
-        data2 = "öʧधᐇ";
-        result2 = StaticUtils::s2u8s(data2);
-
-        if (getstrbits<char>(data2) == getstrbits<char8_t>(result2))
-            Logger::logV(u8"Test 9.4 completed");
-        else 
-            Logger::logV(u8"Test 9.4 failed");
-
-    }
-
-    static void test10() {
-        Logger::logV(u8"------Error handling test----");
-        try {
-            throw BuilderException(
-                        u8"You're trying to convert token to BasicType, but token is not a primitive type instance.",
-                        u8"ContextBuilder::t2Bt(const parser::Token&)");
-        } catch (BuilderException fe) {
-            Logger::logV(fe.whatu8());
-        }
-
-        try {
-            throw FException(u8"🅰  🅱  🅾  🅱  🅰");
-        } catch (FException fe) {
-            Logger::logV(fe.whatu8());
-        }
-
-        Logger::logV(u8"----Error handling test end---");
-    }
-
-    static void test11() {
-        fedora::ContextBuilder builder = genBuilder(u8"let fn = my_int(1 null \"yo\" 1 1)");
-
-        if (checkIfRetContains(builder, u8"fn", u8"my_int(1.000000 null \"yo\" 1.000000 1.000000)"))
-            Logger::logV(u8"test 11 completed");
-        else
-            Logger::logV(u8"test 11 failed");
-    }
-
-    static fedora::ContextBuilder genBuilder(std::u8string code){
-        using fedora::parser::Parser;
-        using fedora::parser::Utf8istream;
-        using fedora::parser::TokensHolder;
-
-        // тест реальной программы
-        Settings *setting = Settings::GetInstance();
-        setting->setLogLevel(settings::LogLevel::LOG_WARNING);
-
-        Parser parser = Parser(parser::Utf8istream::fromString(code));
-        TokensHolder tokensHolder = parser.parse();
-        fedora::ContextBuilder builder = fedora::ContextBuilder();
-        fedora::AnalyzerStrategy analyzer = fedora::AnalyzerStrategy(builder);
-        for (auto it = tokensHolder.begin(); it < tokensHolder.end(); ++it) {
-            analyzer.analyzeNext(*it);
-        }
-
-        setting->setLogLevel(settings::LogLevel::LOG_VERBOSE);
-
-        return builder;
-    }
-
-    static bool checkIfRetContains(fedora::ContextBuilder& builder, const std::u8string& funName, const std::u8string& contains){
-        if (builder.getPackage()->getContext()->at(funName) != nullptr){
-            std::shared_ptr<fedora::context::Function> & list = builder.getPackage()->getContext()->at(funName);
-
-            using fef = fedora::context::FeFunction;
-            auto fe = dynamic_cast<fef *>(list.get());
-            // Logger::logV(fe->logRet());
-            if (fe->logRet().find(contains) != std::u8string::npos)
+            if (builder.getPackage()->getContext()->count(mA.getData()) == 1 &&
+                builder.getPackage()->getContext()->count(mB.getData()) == 1)
                 return true;
             else
                 return false;
-        }else{
-           return false;
         }
-    }
+    ));
 
-    //for 9 test 
-    template <class _Elem = char, 
-              class _Traits = std::char_traits<_Elem>, 
-              class _Alloc = std::allocator<_Elem>
-             >
-    static std::string getstrbits(const std::basic_string<_Elem, _Traits, _Alloc>& s) {
-        std::stringstream ret;
-        //const constexpr int digits = std::numeric_limits<_Elem>::digits + std::numeric_limits<_Elem>::is_signed;
-        for (auto c : s) 
-            ret << std::bitset<8>(c).to_string() << "_";
-        return ret.str();
-    }
+    Tester::addTest(Test<>(
+        4,
+        u8"Тестируем добавление элементов в список.",
+        // TODO тоже самое, что в тесте 2 ??
+        u8"Вручную создаем элементы и добавляем их в список.",
+        [] () -> bool {
+            using fedora::types::BasicType;
+            using fedora::types::List;
+            using fedora::types::Number;
 
-    static void clean() {
-        fedora::Utils::SingletonsCleaner *cleaner1 = fedora::Utils::SingletonsCleaner::GetInstance();
-        cleaner1->cleanThemAll();
-    }
-};
+            bool success = true;
+
+            std::shared_ptr<BasicType> num = std::make_shared<Number>(1.0);
+
+            std::shared_ptr<List> lst = std::make_shared<List>(num);
+
+            // Logger::logV(lst->eval());
+            if (lst->eval() != u8"[1.000000]"){
+                success = false;
+                Logger::logV(u8"Failed 6.1");
+                Logger::logV(lst->eval());
+            }
+
+            std::shared_ptr<BasicType> num2 = std::make_shared<Number>(32.0);
+
+            auto lst2 = List::addNewItemToTheBeginning(num2, lst);
+
+            // Logger::logV(lst2.eval());
+            if (lst2->eval() != u8"[32.000000 1.000000]"){
+                success = false;
+                Logger::logV(u8"Failed 6.2");
+                Logger::logV(lst2->eval());
+            }
+
+            auto lst25 = List::addNewItemToTheEnd(num2, lst2);
+
+            // Logger::logV(lst25.eval());
+            if (lst25->eval() != u8"[32.000000 1.000000 32.000000]"){
+                success = false;
+                Logger::logV(u8"Failed 6.3");
+                Logger::logV(lst25->eval());
+            }
+
+            List lst3;
+
+            //Logger::logV(lst3.eval());
+            if (lst3.eval() != u8"[]"){
+                success = false;
+                Logger::logV(u8"Failed 6.4");
+                Logger::logV(lst3.eval());
+            }
+
+            return success;
+
+            // if (success)
+            //     Logger::logV(u8"test 6 completed");
+            // else
+            //     Logger::logV(u8"test 6 failed");
+
+            // try {
+            //     throw exception::BuilderException(L"text", L"test()");
+            // } catch (exception::BuilderException e) {
+            //     e.what();
+            // }
+
+            //throw exception::BuilderException(L"text", L"test()");
+        }
+    ));
+
+    Tester::addTest(Test<>(
+        5,
+        u8"Тестируем создание функции и проверяем ее возвращаемое",
+        u8"Вручную создаем функцию с помощью токенов.",
+        [] () -> bool {
+            Settings *setting = Settings::GetInstance();
+            setting->setLogLevel(settings::LogLevel::LOG_WARNING);
+
+            parser::Token mLet = parser::Token(u8"let");
+            mLet.setType(parser::TokenType::FunctionDeclaration);
+
+            parser::Token mA = parser::Token(u8"a");
+            mA.setType(parser::TokenType::Name);
+
+            parser::Token mWhere = parser::Token(u8"where");
+            mWhere.setType(parser::TokenType::FunctionContextDeclaration);
+
+            parser::Token mB = parser::Token(u8"b");
+            mB.setType(parser::TokenType::Name);
+
+            parser::Token mReturns = parser::Token(u8"=");
+            mReturns.setType(parser::TokenType::FunctionReturnableDeclaration);
+
+            parser::Token mOne = parser::Token(u8"1");
+            mOne.setType(parser::TokenType::Number);
+
+
+            fedora::ContextBuilder builder = fedora::ContextBuilder();
+            fedora::AnalyzerStrategy analyzer = fedora::AnalyzerStrategy(builder);
+
+            analyzer.analyzeNext(mLet);
+            analyzer.analyzeNext(mA);
+            analyzer.analyzeNext(mWhere);
+
+            analyzer.analyzeNext(mLet);
+            analyzer.analyzeNext(mB);
+            analyzer.analyzeNext(mReturns);
+            analyzer.analyzeNext(mOne);
+
+            analyzer.analyzeNext(mReturns);
+            analyzer.analyzeNext(mOne);
+
+
+            if (builder.getPackage()->getContext()->count(mA.getData()) == 1 &&
+                (*(builder.getPackage()->getContext()))[mA.getData()]->getContext()->count(mB.getData()) == 1)
+                return true;
+            else
+                return false;
+        }
+    ));
+
+    Tester::addTest(Test<>(
+        6,
+        u8"Тестирование чтения и сборки настоящей программы.",
+        u8"Программа находится в файле programs/current_features.fe",
+        [] () -> bool {
+            using fedora::parser::Parser;
+            using fedora::parser::Utf8istream;
+            using fedora::parser::TokensHolder;
+
+            // тест реальной программы
+            Settings *setting = Settings::GetInstance();
+            setting->setLogLevel(settings::LogLevel::LOG_WARNING);
+
+    #if defined(__linux__) || defined(__APPLE__)
+            auto source = Utf8istream::fromFile(u8"./../programs/current_features.fe");
+    # elif defined(_WIN32)
+            auto source = Utf8istream::fromFile(u8"./../../programs/current_features.fe");
+    # endif
+            Parser parser = Parser(std::move(source));
+            TokensHolder tokensHolder = parser.parse();
+            fedora::ContextBuilder builder = fedora::ContextBuilder();
+            fedora::AnalyzerStrategy analyzer = fedora::AnalyzerStrategy(builder);
+            for (auto it = tokensHolder.begin(); it < tokensHolder.end(); ++it) {
+                analyzer.analyzeNext(*it);
+            }
+
+            setting->setLogLevel(settings::LogLevel::LOG_VERBOSE);
+
+            // logAllContext(builder.getPackage()->getContext());
+        
+            if (builder.getPackage()->getContext()->at(u8"a") != nullptr){
+                std::shared_ptr<fedora::context::Function> & list = builder.getPackage()->getContext()->at(u8"a");
+
+                using fef = fedora::context::FeFunction;
+                auto fe = dynamic_cast<fef *>(list.get());
+                // Logger::logV(fe->logRet());
+                if (fe->logRet() == u8"[1.000000 2.000000 \"🤡\"]")
+                    return true;
+                else
+                    return false;
+            } else {
+                return false;
+            }
+        }
+    ));
+
+    Tester::addTest(Test<>(
+        7,
+        u8"Тестирование конверсации string в u8string.",
+        u8"Протестированы символы аски, иероглифы и смайлик.",
+        [] () -> bool {
+            //Logger::logV(u8"😀");
+            // std::cout << ContextBuildTester::getstrbits<char8_t>(std::u8string(u8"¢")) << std::endl;
+            // std::cout << ContextBuildTester::getstrbits(std::string("¢")) << std::endl;
+            // std::cout << std::hex << (int)u8'ö' << std::endl;
+            // std::cout << std::hex << (int)'ö' << std::endl;
+
+            std::u8string data = u8"biba";
+            std::string result = StaticUtils::u8s2s(data);
+
+            if (TestUtils::getstrbits<char8_t>(data) != TestUtils::getstrbits<char>(result))
+                return false;
+
+            data = u8"öʧधᐇ";
+            result = StaticUtils::u8s2s(data);
+
+            if (TestUtils::getstrbits<char8_t>(data) != TestUtils::getstrbits<char>(result))
+                return false;
+
+            std::string data2 = "biba";
+            std::u8string result2 = StaticUtils::s2u8s(data2);
+
+            if (TestUtils::getstrbits<char>(data2) != TestUtils::getstrbits<char8_t>(result2))
+                return false;
+
+            data2 = "öʧधᐇ";
+            result2 = StaticUtils::s2u8s(data2);
+
+            if (TestUtils::getstrbits<char>(data2) != TestUtils::getstrbits<char8_t>(result2))
+                return false;
+
+            return true;
+        }
+    ));
+
+    Tester::addTest(Test<>(
+        8,
+        u8"Какой-то очень умный тест",
+        u8"Надо написать нормальное описание потом",
+        [] () -> bool {
+            fedora::ContextBuilder builder = TestUtils::genBuilder(u8"let fn = my_int(1 null \"yo\" 1 1)");
+
+            if (TestUtils::checkIfRetContains(builder, u8"fn", u8"my_int(1.000000 null \"yo\" 1.000000 1.000000)"))
+                return true;
+            else
+                return false;
+        }
+    ));
+
+    // шаблон, не трогать
+    // Tester::addTest(Test<>(
+    //     9,
+    //     u8"",
+    //     u8"",
+    //     [] () -> bool {
+            
+            
+    //     }
+    // ));
+}
 
 
 #endif //FEDORA_TEST_H
