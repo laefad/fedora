@@ -26,6 +26,9 @@ add_executable(fedora
         Fedora/Headers/Parser/Parser.h
 
         Fedora/Headers/Types/BasicType.h
+
+        Fedora/Headers/Context/ContextualComplement.h
+
         Fedora/Headers/Types/List.h
         Fedora/Headers/Types/Number.h
         Fedora/Headers/Types/String.h
@@ -72,6 +75,8 @@ add_executable(fedora
         Fedora/Source/Parser/ParserUtils.cpp
         Fedora/Source/Parser/Utf8istream.cpp
         Fedora/Source/Parser/Parser.cpp
+
+        Fedora/Source/Context/ContextualComplement.cpp
 
         Fedora/Source/Types/Null.cpp
         Fedora/Source/Types/List.cpp
