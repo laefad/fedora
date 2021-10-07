@@ -25,6 +25,8 @@ add_executable(fedora
         Fedora/Headers/Parser/Utf8istream.h
         Fedora/Headers/Parser/Parser.h
 
+        Fedora/Headers/Types/Type.h
+
         Fedora/Headers/Types/BasicType.h
 
         Fedora/Headers/Context/ContextualComplement.h

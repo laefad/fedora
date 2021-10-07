@@ -16,10 +16,7 @@ namespace fedora::context {
         return nullptr;
     }
 
-    std::shared_ptr<fedora::types::BasicType> Function::getBindedReturnbale(
-        fedora::types::FunCall::FunCallArguments arguments
-    ) const {
-        // TODO add realization or maybe delete this on basic class
+    const std::shared_ptr<Function::Arguments> Function::getArguments() const {
         return nullptr;
     }
 

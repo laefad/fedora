@@ -9,7 +9,7 @@ namespace fedora::context
     class FeFunction : public Function {
     protected:
         std::shared_ptr<fedora::types::BasicType> returnable;
-        std::vector<std::u8string> args;
+        Function::Arguments args;
         Context children;
     public:
         explicit FeFunction(
@@ -17,14 +17,11 @@ namespace fedora::context
             std::u8string name
         );
 
-        // TODO only for testing? maybe create TestFeFunction? 
-        std::u8string logRet() const;
-
-        //TODO подумать над возвратом частично решенных функций
-        virtual std::shared_ptr<fedora::types::BasicType> getBindedReturnbale(
-            fedora::types::FunCall::FunCallArguments arguments
-        ) const override;
+        virtual const std::shared_ptr<Function::Arguments> getArguments() const override;
 
         virtual const std::shared_ptr<Context> getContext() const override;
+
+        // TODO only for testing? maybe create TestFeFunction? 
+        std::u8string logRet() const;
     };
 } 

@@ -23,4 +23,15 @@ namespace fedora::context {
             this->context[key] = value;
         }
     }
+
+    ContextualComplement::Context ContextualComplement::createContext(
+        std::vector<std::u8string> names, 
+        std::vector<Argument> values
+    ) {
+        Context c = Context();
+        for (size_t i = 0; i < names.size(); ++i) {
+            c[names[i]] = values[i];
+        }
+        return c;
+    }
 }

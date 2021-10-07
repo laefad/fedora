@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 #include <map>
 
 #include "Types/BasicType.h"
@@ -19,7 +20,13 @@ namespace fedora::context {
         /// Возващает аргумент, если аргумента нет с таким именем, то возвращает nullptr
         Argument get(std::u8string argumentName);
 
+        /// Возвращает контекст 
+        Context getContext();
+
         /// Добавляет новый контекст к текущему, новые элементы могут перекрывать старые
         void addContext(Context context);
+
+        /// Создает контекст из названий аргументов и их значений
+        static Context createContext(std::vector<std::u8string> names, std::vector<Argument> values);
     };
 }

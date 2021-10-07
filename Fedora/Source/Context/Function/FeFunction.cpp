@@ -16,10 +16,8 @@ namespace fedora::context {
         return returnable->eval();
     }
 
-    std::shared_ptr<fedora::types::BasicType> FeFunction::getBindedReturnbale(
-        fedora::types::FunCall::FunCallArguments arguments
-    ) const {
-        //TODO !important add realization
+    const std::shared_ptr<Function::Arguments> FeFunction::getArguments() const {
+        return std::make_shared<Function::Arguments>(args);
     }
 
     const std::shared_ptr<Function::Context> FeFunction::getContext() const {

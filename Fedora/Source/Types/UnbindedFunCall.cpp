@@ -5,15 +5,16 @@
 namespace fedora {
     namespace types {
         UnbindedFunCall::UnbindedFunCall(
-                std::u8string functionName,
-                UnbindedFunCall::FunCallArguments args,
-                bool forced
-        ) :
-                FunCall(args, forced),
-                functionName(functionName) {}
+            std::u8string functionName,
+            UnbindedFunCall::FunCallArguments args,
+            bool forced
+        ):
+            FunCall(args, forced),
+            functionName(functionName) 
+        {}
 
         std::unique_ptr<BindedFunCall> UnbindedFunCall::bind(
-                std::shared_ptr<context::Function> function
+            std::shared_ptr<context::Function> function
         ) const {
             return std::make_unique<BindedFunCall>(function->find(functionName), args);
         }

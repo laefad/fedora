@@ -3,17 +3,10 @@
 #include <string>
 #include <memory>
 
+#include "Types/Type.h"
+
 namespace fedora {
     namespace types {
-
-        enum Type {
-            NUMBER,
-            STRING,
-            LIST,
-            FUN_CALL,
-            NULL_,
-        };
-
         /**
          * Base class for data type
          */
