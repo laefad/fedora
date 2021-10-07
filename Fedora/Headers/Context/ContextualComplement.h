@@ -18,5 +18,8 @@ namespace fedora::context {
 
         /// Возващает аргумент, если аргумента нет с таким именем, то возвращает nullptr
         Argument get(std::u8string argumentName);
+
+        /// Добавляет новый контекст к текущему, новые элементы могут перекрывать старые
+        void addContext(Context context);
     };
 }

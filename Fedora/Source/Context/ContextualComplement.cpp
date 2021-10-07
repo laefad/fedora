@@ -17,4 +17,10 @@ namespace fedora::context {
             return nullptr;
         }
     }
+
+    void ContextualComplement::addContext(Context context) {
+        for (auto [key, value] : context) {
+            this->context[key] = value;
+        }
+    }
 }
