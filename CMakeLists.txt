@@ -82,6 +82,7 @@ add_executable(fedora
         Fedora/Source/Types/List.cpp
         Fedora/Source/Types/Number.cpp
         Fedora/Source/Types/String.cpp
+        Fedora/Source/Types/Funcall.cpp
         Fedora/Source/Types/UnbindedFunCall.cpp
         Fedora/Source/Types/BindedFunCall.cpp
 
