@@ -3,14 +3,13 @@
 #include "Function.h"
 
 #include "Types/BasicType.h"
-#include "Arguments.h"
 
 namespace fedora::context
 {
     class FeFunction : public Function {
     protected:
         std::shared_ptr<fedora::types::BasicType> returnable;
-        std::unique_ptr<NamesOfArguments> args;
+        std::vector<std::u8string> args;
         Context children;
     public:
         explicit FeFunction(

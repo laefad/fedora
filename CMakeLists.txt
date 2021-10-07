@@ -47,7 +47,6 @@ add_executable(fedora
 
         Fedora/Headers/Stack/StackHolder.h
 
-        Fedora/Headers/Context/Function/Arguments.h
         Fedora/Headers/Context/Function/Function.h
         Fedora/Headers/Context/Function/FeFunction.h
         Fedora/Headers/Context/Function/BuiltinFunction.h
@@ -92,6 +91,7 @@ add_executable(fedora
         Fedora/Source/Analyzers/ReadName.cpp
         Fedora/Source/Analyzers/ReadAfterReturnableFunName.cpp
 
+        Fedora/Source/Context/Function/Function.cpp
         Fedora/Source/Context/Function/FeFunction.cpp
 
         Fedora/Source/Stack/StackHolder.cpp

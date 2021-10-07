@@ -9,7 +9,7 @@ namespace fedora::context {
         Function(std::move(parent), std::move(name)),
         children(Context()),
         returnable(nullptr),
-        args(std::make_unique<NamesOfArguments>())
+        args(std::vector<std::u8string>())
     {}
 
     std::u8string FeFunction::logRet() const {

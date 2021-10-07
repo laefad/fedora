@@ -96,8 +96,8 @@ namespace fedora {
                 returnable = std::move(r);
             }
 
-            void addArgName(const std::u8string &u8string) {
-                args->addStrToArgNames(u8string);
+            void addArgName(std::u8string u8string) {
+                args.push_back(std::move(u8string));
             }
 
             void setChildFunction(std::shared_ptr<Function> f, const std::u8string &name) {
