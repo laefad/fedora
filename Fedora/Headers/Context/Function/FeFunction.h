@@ -23,5 +23,9 @@ namespace fedora::context
 
         // TODO only for testing? maybe create TestFeFunction? 
         std::u8string logRet() const;
+
+        virtual std::shared_ptr<types::BasicType> call(
+            std::shared_ptr<ContextualComplement::Context> context
+        ) const;
     };
 } 

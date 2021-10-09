@@ -18,20 +18,36 @@ namespace fedora::context {
         }
     }
 
-    void ContextualComplement::addContext(Context context) {
-        for (auto [key, value] : context) {
+    ContextualComplement::Context ContextualComplement::getContext() {
+        return context;
+    }
+
+    void ContextualComplement::addContext(std::shared_ptr<Context> context) {
+        for (auto [key, value] : *context) {
             this->context[key] = value;
         }
     }
 
-    ContextualComplement::Context ContextualComplement::createContext(
+    std::shared_ptr<ContextualComplement::Context> ContextualComplement::createContext(
         std::vector<std::u8string> names, 
         std::vector<Argument> values
     ) {
-        Context c = Context();
+        auto c = std::make_shared<Context>();
         for (size_t i = 0; i < names.size(); ++i) {
-            c[names[i]] = values[i];
+            c->operator[](names[i]) = values[i];
         }
-        return c;
+        return std::move(c);
+    }
+
+    void ContextualComplement::addContextToElement(
+        std::shared_ptr<types::BasicType> elem,
+        std::shared_ptr<Context> context
+    ) {
+        using fedora::types::Type;
+        auto type = elem->type();
+
+        if (type == Type::LIST || type == Type::FUN_CALL) {
+            dynamic_cast<ContextualComplement *>(elem.get())->addContext(context);
+        }
     }
 }

@@ -84,20 +84,14 @@ namespace fedora::types {
     };
 
     std::shared_ptr<BasicType> List::getValue() {
-        if (value) {
-            auto type = value->type();
-            if (type == Type::FUN_CALL || type == Type::LIST) {
-                dynamic_cast<ContextualComplement *>(value.get())->addContext(context);
-            }
-        }
+        if (value)
+            ContextualComplement::addContextToElement(value, std::make_shared<Context>(context));
         return value;
     }
 
     std::shared_ptr<List> List::getNext() {
-        if (next) {
-            dynamic_cast<ContextualComplement *>(next.get())->addContext(context);
-        }
-
+        if (next)
+            ContextualComplement::addContextToElement(next, std::make_shared<Context>(context));
         return next;
     }
 }

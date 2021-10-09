@@ -17,6 +17,23 @@ namespace fedora {
             return std::make_unique<UnbindedFunCall>(function->getName(), args);
         }
 
+        std::shared_ptr<fedora::types::BasicType> BindedFunCall::execute() {
+            auto argumentsNames = function->getArguments();
+
+            if (argumentsNames->size() <= args.size()) {
+                addContext(ContextualComplement::createContext(
+                    *argumentsNames,
+                    args
+                ));
+
+                return function->call(
+                    std::make_shared<ContextualComplement::Context>(context)
+                );
+            } else {
+                return shared_from_this();
+            }
+        }
+
         std::u8string BindedFunCall::eval() {
             std::u8string buf(function->getName());
             buf += u8"(";

@@ -26,5 +26,9 @@ namespace fedora::context {
         virtual const std::shared_ptr<Function::Arguments> getArguments() const;
 
         virtual std::shared_ptr<Function> find(std::u8string name) const;
+
+        virtual std::shared_ptr<types::BasicType> call(
+            std::shared_ptr<ContextualComplement::Context> context
+        ) const = 0;
     };
 }

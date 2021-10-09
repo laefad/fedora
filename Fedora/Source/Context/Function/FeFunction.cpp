@@ -24,4 +24,11 @@ namespace fedora::context {
         return std::make_shared<Function::Context>(children);
     }
 
+    std::shared_ptr<types::BasicType> FeFunction::call(
+        std::shared_ptr<ContextualComplement::Context> context
+    ) const {
+        ContextualComplement::addContextToElement(returnable, context);
+        return returnable;
+    }
+
 }

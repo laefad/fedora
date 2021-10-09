@@ -24,9 +24,12 @@ namespace fedora::context {
         Context getContext();
 
         /// Добавляет новый контекст к текущему, новые элементы могут перекрывать старые
-        void addContext(Context context);
+        void addContext(std::shared_ptr<Context> context);
 
         /// Создает контекст из названий аргументов и их значений
-        static Context createContext(std::vector<std::u8string> names, std::vector<Argument> values);
+        static std::shared_ptr<Context> createContext(std::vector<std::u8string> names, std::vector<Argument> values);
+
+        /// Добавляем контекст к элементу, если он является контекстно-поддерживаемым типом
+        static void addContextToElement(std::shared_ptr<types::BasicType> elem, std::shared_ptr<Context> context);
     };
 }
