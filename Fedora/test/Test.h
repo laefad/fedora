@@ -64,14 +64,17 @@ class TestUtils {
         return ret.str();
     }
 
-    static fedora::ContextBuilder genBuilder(std::u8string code){
+    static fedora::ContextBuilder genBuilder(std::u8string code, bool verbose=false){
         using fedora::parser::Parser;
         using fedora::parser::Utf8istream;
         using fedora::parser::TokensHolder;
 
         // тест реальной программы
         Settings *setting = Settings::GetInstance();
-        setting->setLogLevel(settings::LogLevel::LOG_WARNING);
+        if (verbose)
+            setting->setLogLevel(settings::LogLevel::LOG_VERBOSE);
+        else
+            setting->setLogLevel(settings::LogLevel::LOG_WARNING);
 
         Parser parser = Parser(parser::Utf8istream::fromString(code));
         TokensHolder tokensHolder = parser.parse();
@@ -550,19 +553,30 @@ void TestingSetup::setup() {
 
     Tester::addTest(Test<>(
         8,
-        u8"Какой-то очень умный тест",
-        u8"Надо написать нормальное описание потом",
+        u8"Тестирование добавления аргументов в фанколл",
+        u8"Добавлены примитивные типы: нулл, числа и строка",
         [] () -> bool {
             fedora::ContextBuilder builder = TestUtils::genBuilder(u8"let fn = my_int(1 null \"yo\" 1 1)");
 
-            if (TestUtils::checkIfRetContains(builder, u8"fn", u8"my_int(1.000000 null \"yo\" 1.000000 1.000000)"))
-                return true;
-            else
-                return false;
+            return TestUtils::checkIfRetContains(builder, u8"fn", u8"my_int(1.000000 null \"yo\" 1.000000 1.000000)");
         }
     ));
 
-    // шаблон, не трогать
+    Tester::addTest(Test<>(
+        9,
+        u8"Вложенный список",
+        u8"В список можно добавить любые примитивые и продвинутые типы",
+        [] () -> bool {
+            Settings *setting = Settings::GetInstance();
+            setting->setLogLevel(settings::LogLevel::LOG_VERBOSE);
+
+            fedora::ContextBuilder builder = TestUtils::genBuilder(u8"let fn = [1 [null [my_int] my_str(1 2)[]]]", true);
+
+            return TestUtils::checkIfRetContains(builder, u8"fn", u8"my_int(1.000000 null \"yo\" 1.000000 1.000000)");
+        }
+    ));
+
+    // шаблон (база), не трогать
     // Tester::addTest(Test<>(
     //     9,
     //     u8"",
@@ -576,3 +590,84 @@ void TestingSetup::setup() {
 
 
 #endif //FEDORA_TEST_H
+
+// AYANAMI REI                           __.-"..--,__
+//                                __..---"  | _|    "-_\
+//                         __.---"          | V|::.-"-._D
+//                    _--"".-.._   ,,::::::'"\/""'-:-:/
+//               _.-""::_:_:::::'-8b---"            "'
+//            .-/  ::::<  |\::::::"\
+//            \/:::/::::'\\ |:::b::\
+//            /|::/:::/::::-::b:%b:\|
+//             \/::::d:|8:::b:"%%%%%\
+//             |\:b:dP:d.:::%%%%%"""-,
+//              \:\.V-/ _\b%P_   /  .-._
+//              '|T\   "%j d:::--\.(    "-.
+//              ::d<   -" d%|:::do%P"-:.   "-,
+//              |:I _    /%%%o::o8P    "\.    "\
+//               \8b     d%%%%%%P""-._ _ \::.    \
+//               \%%8  _./Y%%P/      .::'-oMMo    )
+//                 H"'|V  |  A:::...:odMMMMMM(  ./
+//                 H /_.--"JMMMMbo:d##########b/
+//              .-'o      dMMMMMMMMMMMMMMP""
+//            /" /       YMMMMMMMMM|
+//          /   .   .    "MMMMMMMM/
+//          :..::..:::..  MMMMMMM:|
+//           \:/ \::::::::JMMMP":/
+//            :Ao ':__.-'MMMP:::Y
+//            dMM"./:::::::::-.Y
+//           _|b::od8::/:YM::/
+//           I HMMMP::/:/"Y/"
+//            \'""'  '':|
+//             |    -::::\
+//             |  :-._ '::\
+//             |,.|    \ _:"o
+//             | d" /   " \_:\.
+//             ".Y. \       \::\
+//              \ \  \      MM\:Y
+//               Y \  |     MM \:b
+//               >\ Y      .MM  MM
+//               .IY L_    MP'  MP
+//               |  \:|   JM   JP
+//               |  :\|   MP   MM
+//               |  :::  JM'  JP|
+//               |  ':' JP   JM |
+//               L   : JP    MP |
+//               0   | Y    JM  |
+//               0   |     JP"  |
+//               0   |    JP    |
+//               m   |   JP     #
+//               I   |  JM"     Y
+//               l   |  MP     :"
+//               |\  :-       :|
+//               | | '.\      :|
+//               | | "| \     :|
+//                \    \ \    :|
+//                |  |  | \   :|
+//                |  |  |   \ :|
+//                |   \ \    | '.
+//                |    |:\   | :|
+//                \    |::\..|  :\
+//                 ". /::::::'  :||
+//                   :|::/:::|  /:\
+//                   | \/::|: \' ::|
+//                   |  :::||    ::|
+//                   |   ::||    ::|
+//                   |   ::||    ::|
+//                   |   ::||    ::|
+//                   |   ': |    .:|
+//                   |    : |    :|
+//                   |    : |    :|
+//                   |    :||   .:|
+//                   |   ::\   .:|
+//                  |    :::  .::|
+//                 /     ::|  :::|
+//              __/     .::|   ':|
+//     ...----""        ::/     ::
+//    /m_  AMm          '/     .:::
+//    ""MmmMMM#mmMMMMMMM"     .:::m
+//       """YMMM""""""P        ':mMI
+//                _'           _MMMM
+//            _.-"  mm   mMMMMMMMM"
+//           /      MMMMMMM""
+//           mmmmmmMMMM"
