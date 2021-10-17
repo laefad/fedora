@@ -23,6 +23,8 @@ namespace fedora::types {
             std::shared_ptr<context::Function> function
         ) const ;
 
+        virtual std::u8string getFunctionName() override;
+
         virtual std::u8string eval() override;
     };
 }

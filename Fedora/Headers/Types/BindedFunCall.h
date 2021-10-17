@@ -22,6 +22,8 @@ namespace fedora::types {
 
         virtual std::u8string eval() override;
 
+        virtual std::u8string getFunctionName() override;
+
         // Возвращает результат выполнения функции. 
         // Это либо простой тип, либо очередной funcall
         std::shared_ptr<fedora::types::BasicType> execute();

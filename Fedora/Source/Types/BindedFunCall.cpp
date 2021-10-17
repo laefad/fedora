@@ -34,6 +34,10 @@ namespace fedora {
             }
         }
 
+        std::u8string BindedFunCall::getFunctionName() {
+            return function->getName();
+        }
+
         std::u8string BindedFunCall::eval() {
             std::u8string buf(function->getName());
             buf += u8"(";

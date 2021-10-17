@@ -33,5 +33,9 @@ namespace fedora {
 
             return buf;
         }
+
+        std::u8string UnbindedFunCall::getFunctionName() {
+            return functionName;
+        }
     }
 }

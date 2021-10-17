@@ -30,6 +30,8 @@ namespace fedora::types {
 
         bool isForced();
 
+        virtual std::u8string getFunctionName() = 0;
+
     private:
         explicit FunCall();
     };
