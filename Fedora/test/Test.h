@@ -89,13 +89,14 @@ class TestUtils {
         return builder;
     }
 
-    static bool checkIfRetContains(fedora::ContextBuilder& builder, const std::u8string& funName, const std::u8string& contains){
+    static bool checkIfRetContains(fedora::ContextBuilder& builder, const std::u8string& funName, const std::u8string& contains, bool log=false){
         if (builder.getPackage()->getContext()->at(funName) != nullptr) {
             std::shared_ptr<fedora::context::Function> & list = builder.getPackage()->getContext()->at(funName);
 
             using fef = fedora::context::FeFunction;
             auto fe = dynamic_cast<fef *>(list.get());
-            // Logger::logV(fe->logRet());
+            if (log)
+             Logger::logV(fe->logRet());
             if (fe->logRet().find(contains) != std::u8string::npos)
                 return true;
             else
@@ -562,19 +563,33 @@ void TestingSetup::setup() {
         }
     ));
 
-    Tester::addTest(Test<>(
-        9,
-        u8"Вложенный список",
-        u8"В список можно добавить любые примитивые и продвинутые типы",
-        [] () -> bool {
-            Settings *setting = Settings::GetInstance();
-            setting->setLogLevel(settings::LogLevel::LOG_VERBOSE);
+    // Tester::addTest(Test<>(
+    //     9,
+    //     u8"Добавление списка как аргумент фанколла",
+    //     u8"В том числе рекурсивное",
+    //     [] () -> bool {
+    //         Settings *setting = Settings::GetInstance();
+    //         setting->setLogLevel(settings::LogLevel::LOG_VERBOSE);
 
-            fedora::ContextBuilder builder = TestUtils::genBuilder(u8"let fn = [1 [null [my_int] my_str(1 2)[]]]", true);
+    //         fedora::ContextBuilder builder = TestUtils::genBuilder(u8"let fn = my_fun(1 [] [ my_int(1 []) ])", true);
 
-            return TestUtils::checkIfRetContains(builder, u8"fn", u8"my_int(1.000000 null \"yo\" 1.000000 1.000000)");
-        }
-    ));
+    //         return TestUtils::checkIfRetContains(builder, u8"fn", u8"my_fun(1.000000 [] [my_int(1 [])])", true);
+    //     }
+    // ));
+
+    // Tester::addTest(Test<>(
+    //     10,
+    //     u8"Вложенный список",
+    //     u8"В список можно добавить любые примитивые и продвинутые типы",
+    //     [] () -> bool {
+    //         Settings *setting = Settings::GetInstance();
+    //         setting->setLogLevel(settings::LogLevel::LOG_VERBOSE);
+
+    //         fedora::ContextBuilder builder = TestUtils::genBuilder(u8"let fn = [1 [null [my_int] my_str(1 2)[]]]", true);
+
+    //         return TestUtils::checkIfRetContains(builder, u8"fn", u8"my_int(1.000000 null \"yo\" 1.000000 1.000000)");
+    //     }
+    // ));
 
     // шаблон (база), не трогать
     // Tester::addTest(Test<>(
