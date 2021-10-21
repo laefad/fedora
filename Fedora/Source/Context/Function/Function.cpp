@@ -16,12 +16,17 @@ namespace fedora::context {
         return nullptr;
     }
 
-    const std::shared_ptr<Function::Arguments> Function::getArguments() const {
+    std::shared_ptr<Function::Arguments> Function::getArguments() const {
         return nullptr;
     }
 
-    std::shared_ptr<Function> Function::find(std::u8string name) const {
-        // TODO add realization
-        return nullptr;
+    std::pair<std::shared_ptr<Function>, FunctionRelation> Function::find(
+        std::u8string name,
+        FunctionRelation filteredType
+    ) {
+        return std::make_pair(
+            nullptr, 
+            FunctionRelation::Any
+        );
     }
 }

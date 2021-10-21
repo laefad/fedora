@@ -18,7 +18,7 @@ namespace fedora::types {
             bool forced = false
         );
 
-        std::unique_ptr<UnbindedFunCall> unbind();
+        std::shared_ptr<UnbindedFunCall> unbind();
 
         virtual std::u8string eval() override;
 

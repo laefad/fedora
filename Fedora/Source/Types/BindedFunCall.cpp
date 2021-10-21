@@ -13,8 +13,8 @@ namespace fedora {
                 FunCall(args, forced),
                 function(std::move(function)) {};
 
-        std::unique_ptr<UnbindedFunCall> BindedFunCall::unbind() {
-            return std::make_unique<UnbindedFunCall>(function->getName(), args);
+        std::shared_ptr<UnbindedFunCall> BindedFunCall::unbind() {
+            return std::make_shared<UnbindedFunCall>(function->getName(), args);
         }
 
         std::shared_ptr<fedora::types::BasicType> BindedFunCall::execute() {

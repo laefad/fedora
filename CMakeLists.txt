@@ -7,6 +7,7 @@ include_directories(Fedora/Headers)
 
 add_executable(fedora
         Fedora/Headers/StaticUtils.h
+        Fedora/Headers/Context/Function/FunctionRelation.h
 
         Fedora/Headers/Utils/BasicSingleton.h
         Fedora/Headers/Utils/SettingsSingleton.h
@@ -100,6 +101,7 @@ add_executable(fedora
         Fedora/Source/Analyzers/ReadAfterReturnableFunName.cpp
 
         Fedora/Source/Context/Function/Function.cpp
+        Fedora/Source/Context/Function/BuiltinFunction.cpp
         Fedora/Source/Context/Function/FeFunction.cpp
 
         Fedora/Source/Stack/StackHolder.cpp

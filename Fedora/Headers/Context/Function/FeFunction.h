@@ -17,15 +17,20 @@ namespace fedora::context
             std::u8string name
         );
 
-        virtual const std::shared_ptr<Function::Arguments> getArguments() const override;
+        virtual std::shared_ptr<Function::Arguments> getArguments() const override;
 
         virtual const std::shared_ptr<Context> getContext() const override;
+
+        virtual std::pair<std::shared_ptr<Function>, FunctionRelation> find(
+            std::u8string name,
+            FunctionRelation filteredType = FunctionRelation::Any
+        ) override;
 
         // TODO only for testing? maybe create TestFeFunction? 
         std::u8string logRet() const;
 
         virtual std::shared_ptr<types::BasicType> call(
             std::shared_ptr<ContextualComplement::Context> context
-        ) const;
+        );
     };
 } 

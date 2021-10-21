@@ -19,7 +19,7 @@ namespace fedora::types {
         );
 
         // TODO add error 
-        std::unique_ptr<BindedFunCall> bind(
+        std::shared_ptr<BindedFunCall> bind(
             std::shared_ptr<context::Function> function
         ) const ;
 
