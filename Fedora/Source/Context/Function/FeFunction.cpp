@@ -16,6 +16,19 @@ namespace fedora::context {
         args(std::vector<std::u8string>())
     {}
 
+    FeFunction::FeFunction(
+        std::shared_ptr<Function> parent, 
+        std::u8string name,
+        std::shared_ptr<fedora::types::BasicType> returnable,
+        Function::Arguments args,
+        Context children
+    ): 
+        Function(std::move(parent), std::move(name)),
+        children(children),
+        returnable(returnable),
+        args(args)
+    {}
+
     std::u8string FeFunction::logRet() const {
         return returnable->eval();
     }

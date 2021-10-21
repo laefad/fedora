@@ -14,6 +14,14 @@ namespace fedora::context
     public:
         explicit FeFunction(
             std::shared_ptr<Function> parent, 
+            std::u8string name,
+            std::shared_ptr<fedora::types::BasicType> returnable,
+            Function::Arguments args,
+            Context children
+        );
+
+        explicit FeFunction(
+            std::shared_ptr<Function> parent, 
             std::u8string name
         );
 

@@ -10,6 +10,8 @@
 #include "Types/List.h"
 #include "Parser/Token.h"
 
+#include "Runtime.h"
+
 #include <bitset>
 #include <functional>
 #include <optional>
@@ -203,7 +205,7 @@ class ContextBuildTester {
 public:
     static void test() {
         Logger::logV(u8"Testing main fedora functions");
-        Tester::testing(/*true*/);
+        Tester::testing(true);
 
         // test1();
         // test10();
@@ -531,6 +533,42 @@ void TestingSetup::setup() {
                 return false;
         }
     ));
+
+    Tester::addTest(Test<>(
+        9,
+        u8"Тестирование рантайма",
+        u8"Надо написать нормальное описание потом",
+        [] () -> bool {
+            Settings::GetInstance()->setLogLevel(settings::LogLevel::LOG_ERROR);
+
+            auto code = u8"let main = log(\"228\")";
+            auto source = parser::Utf8istream::fromString(std::move(code));
+            auto parser = parser::Parser(std::move(source));
+            auto tokensHolder = parser.parse();
+            auto builder = fedora::ContextBuilder();
+            auto analyzer = fedora::AnalyzerStrategy(builder);
+            for (auto it = tokensHolder.begin(); it < tokensHolder.end(); ++it) {
+                analyzer.analyzeNext(*it);
+            }
+
+            auto sh = StackHolder();
+            sh.addForceCall(
+                StackHolder::Call(
+                    std::make_shared<types::UnbindedFunCall>(
+                        u8"main",
+                        types::UnbindedFunCall::FunCallArguments {
+                            std::make_shared<types::Null>()
+                        }
+                    )
+                )
+            );
+
+            Runtime::execute(sh, builder.getContext());
+
+            return true;
+        }
+    ));
+
 
     // шаблон, не трогать
     // Tester::addTest(Test<>(
