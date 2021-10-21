@@ -31,9 +31,16 @@ namespace fedora::context {
         std::u8string name,
         FunctionRelation filteredType
     ) {
-        return std::make_pair(
-            nullptr, 
-            FunctionRelation::Any
-        );
+        if (this->name == name) {
+            return std::make_pair(
+                shared_from_this(), 
+                FunctionRelation::Self
+            );  
+        } else {
+            return std::make_pair(
+                nullptr, 
+                FunctionRelation::Any
+            );   
+        }
     }
 }

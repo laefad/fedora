@@ -541,7 +541,7 @@ void TestingSetup::setup() {
         [] () -> bool {
             Settings::GetInstance()->setLogLevel(settings::LogLevel::LOG_ERROR);
 
-            auto code = u8"let main = log(\"228\")";
+            auto code = u8"let main = log(\"Ну как с Федорой обстоят вопросы?\")";
             auto source = parser::Utf8istream::fromString(std::move(code));
             auto parser = parser::Parser(std::move(source));
             auto tokensHolder = parser.parse();
@@ -563,7 +563,9 @@ void TestingSetup::setup() {
                 )
             );
 
-            Runtime::execute(sh, builder.getContext());
+            auto ctx = *builder.getContext();
+
+            Runtime::execute(sh, ctx);
 
             return true;
         }

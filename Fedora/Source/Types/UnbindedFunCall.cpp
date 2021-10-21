@@ -18,9 +18,9 @@ namespace fedora {
             std::shared_ptr<context::Function> function
         ) const {
             auto target = function->find(functionName);
-            if (target.first)
+            if (target.first) {
                 return std::make_shared<BindedFunCall>(target.first, args, forced);
-            else {
+            } else {
                 Logger::logE(u8"UnbindedFunCall::bind not found function [" +
                              functionName + 
                              u8"] in function [" +

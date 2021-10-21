@@ -12,6 +12,14 @@ namespace fedora::context {
         return name;
     }
 
+    std::shared_ptr<Function> Function::getParent() const {
+        return parent;
+    }
+
+    void Function::setParent(std::shared_ptr<Function> parent) {
+        this->parent = parent;
+    }
+
     const std::shared_ptr<Function::Context> Function::getContext() const {
         return nullptr;
     }

@@ -18,13 +18,19 @@ namespace fedora::context {
         explicit Function(std::shared_ptr<Function> parent, std::u8string name);
 
         /// Возвращает имя функции
-        std::u8string getName() const;
+        std::u8string getName() const; 
 
         /// Возвращает контекст функции
         virtual const std::shared_ptr<Context> getContext() const;
 
         /// Возвращает аргументы функции
         virtual std::shared_ptr<Function::Arguments> getArguments() const;
+
+        /// Возвращает родительскую функцию или nullptr
+        std::shared_ptr<Function> getParent() const;
+
+        /// Устанавливает родительскую функцию
+        void setParent(std::shared_ptr<Function> parent);
 
         /// Возвращает найденную функцию в контексте или nullptr, если ее нет 
         /// При этом FunctionRelation устанавливает соответственно приоритету

@@ -17,7 +17,7 @@
 namespace fedora {
     class Runtime {
     public:
-        static std::shared_ptr<context::Function::Context> getSTDContext() {
+        static context::Function::Context getSTDContext() {
             using fedora::context::BuiltinFunction;
             using fedora::context::ContextualComplement;
             using fedora::context::Function;
@@ -32,7 +32,7 @@ namespace fedora {
                 u8"+",
                 2,
                 [=] (std::shared_ptr<ContextualComplement::Context> ctx) {
-                    auto one = ctx->operator[](u8"_1");
+                    auto one = ctx->operator[](u8"_0");
                     auto two = ctx->operator[](u8"_1");
 
                     if (one->type() != two->type()) {
@@ -65,8 +65,8 @@ namespace fedora {
                 u8"log",
                 1,
                 [=] (std::shared_ptr<ContextualComplement::Context> ctx) {
-                    auto one = ctx->operator[](u8"_1");
-                    out(one);
+                    auto one = ctx->at(u8"_0");
+                    out(one->eval() + u8"\n");
                     return std::make_shared<Null>();
                 }
             );
@@ -74,7 +74,19 @@ namespace fedora {
             //add log
             context[u8"log"] = std::move(temp);
 
-            return std::make_shared<context::Function::Context>(context);
+            temp = std::make_shared<BuiltinFunction>(
+                u8"$",
+                0,
+                [=] (std::shared_ptr<ContextualComplement::Context> ctx) {
+                    //out(types::String().getImportantQuestion());
+                    return std::make_shared<types::String>(types::String(u8"").getImportantQuestion());
+                }
+            );
+    
+            //add IMPORANT QUESTION
+            context[u8"$"] = std::move(temp);
+
+            return std::move(context);
         }
     private:
 
@@ -82,18 +94,20 @@ namespace fedora {
             return static_cast<fedora::types::Number *>(b.get())->getValue();
         }
 
-        static void out(std::shared_ptr<types::BasicType> b) {
-            std::cout << StaticUtils::u8s2s(b->eval());
+        static void out(std::u8string str) {
+            std::cout << StaticUtils::u8s2s(str);
         }
 
     public:
         /// WE MODIFY CONTEXT!!!!!!!
-        static void execute(StackHolder sh, std::shared_ptr<context::Function::Context> context) {
+        static void execute(StackHolder sh, context::Function::Context context) {
             using fedora::context::FeFunction;
             using fedora::types::Null;
 
-            for (auto el : *getSTDContext()) {
-                context->operator[](el.first) = el.second;
+            auto std = getSTDContext();
+
+            for (auto [key, val] : std) {
+                context[key] = std::move(val);
             }
 
             auto root = std::make_shared<FeFunction>(
@@ -101,15 +115,24 @@ namespace fedora {
                 u8"__ROOT__",
                 std::make_shared<Null>(),
                 FeFunction::Arguments(),
-                std::move(*context)
+                context
             );
+
+            for (auto [key, val] : context) {
+                context[key]->setParent(root);
+            }
 
             using Call = StackHolder::Call;
             using BindedCall = std::shared_ptr<types::BindedFunCall>;
 
             for (const Call &call : sh.getData()) {
-                BindedCall bcall = call->bind(root);
-                bcall->execute();
+                types::BindedFunCall * bcall = call->bind(root).get();
+                auto res = bcall->execute();
+
+                while(res->type() == types::Type::FUN_CALL) {
+                    bcall = dynamic_cast<types::BindedFunCall *>(res.get());
+                    res = bcall->execute();
+                }
             }
         }
     };
