@@ -75,7 +75,7 @@ namespace fedora
         }
         else
         {
-            package->setChildFunction(functionDeclarator.getFunction(), functionDeclarator.getFunctionName());
+            context->operator[](functionDeclarator.getFunctionName()) = functionDeclarator.getFunction();
         }
     }
 

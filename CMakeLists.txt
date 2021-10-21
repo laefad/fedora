@@ -56,7 +56,6 @@ add_executable(fedora
         Fedora/Headers/Context/Function/Function.h
         Fedora/Headers/Context/Function/FeFunction.h
         Fedora/Headers/Context/Function/BuiltinFunction.h
-        Fedora/Headers/Context/Package.h
 
         Fedora/Headers/Builder/BuildableFunCall.h
         Fedora/Headers/Builder/ContextBuilder.h

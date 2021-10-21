@@ -8,6 +8,7 @@ namespace fedora {
         /**
          * BuildableFunction is an extension for Function to build it and make original Function clear
          */
+        // TODO создавать функцию на основе своих внутренних данных, а не даункастить!
         class BuildableFunction : public context::FeFunction {
             /**
              * flag, that says function context is fully declared

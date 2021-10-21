@@ -87,8 +87,8 @@ class TestUtils {
     }
 
     static bool checkIfRetContains(fedora::ContextBuilder& builder, const std::u8string& funName, const std::u8string& contains){
-        if (builder.getPackage()->getContext()->at(funName) != nullptr) {
-            std::shared_ptr<fedora::context::Function> & list = builder.getPackage()->getContext()->at(funName);
+        if (builder.getContext()->at(funName) != nullptr) {
+            std::shared_ptr<fedora::context::Function> & list = builder.getContext()->at(funName);
 
             using fef = fedora::context::FeFunction;
             auto fe = dynamic_cast<fef *>(list.get());
@@ -211,36 +211,6 @@ public:
 
 private:
 
-    // TODO он вообще еще актуален??
-    /**
-     * let a = 1
-     */
-    // static void test1() {
-    //     ContextBuilder builder = ContextBuilder();
-
-    //     Token mPure = Token(L"pure");
-    //     Token mLet = Token(L"let");
-    //     Token mA = Token(L"a");
-    //     Token mReturn = Token(L"=");
-    //     Token mOne = Token(L"1");
-
-    //     KeyWord mPure2 = Token(L"pure");
-    //     KeyWord mPure3 = KeyWord(mPure);
-
-    //     bool a = mPure == mPure2;
-    //     bool b = mPure2 == mPure;
-    //     bool c = mPure2 == mPure2;
-
-    //     builder.addFunctionDeclarationToken(mPure2);
-    //     builder.notifyWeGotLetToken();
-    //     builder.setFunctionName(mA);
-    //     builder.notifyWeSetReturnable();
-    //     auto num = mOne.getData();
-    //     builder.addReturnableNumber(num);
-    //     clean();
-    //     Logger::logV("test1 completed");
-    // }
-
     // TODO работает, но просто захламляет вывод в любом случае, ибо это тест на отображение 
     // static void test10() {
     //     Logger::logV(u8"------Error handling test----");
@@ -335,8 +305,8 @@ void TestingSetup::setup() {
             analyzer.analyzeNext(mReturns);
             analyzer.analyzeNext(mOne);
 
-            if (builder.getPackage()->getContext()->count(mA.getData()) == 1 &&
-                builder.getPackage()->getContext()->count(mB.getData()) == 1)
+            if (builder.getContext()->count(mA.getData()) == 1 &&
+                builder.getContext()->count(mB.getData()) == 1)
                 return true;
             else
                 return false;
@@ -455,8 +425,8 @@ void TestingSetup::setup() {
             analyzer.analyzeNext(mOne);
 
 
-            if (builder.getPackage()->getContext()->count(mA.getData()) == 1 &&
-                (*(builder.getPackage()->getContext()))[mA.getData()]->getContext()->count(mB.getData()) == 1)
+            if (builder.getContext()->count(mA.getData()) == 1 &&
+                (*(builder.getContext()))[mA.getData()]->getContext()->count(mB.getData()) == 1)
                 return true;
             else
                 return false;
@@ -493,8 +463,8 @@ void TestingSetup::setup() {
 
             // logAllContext(builder.getPackage()->getContext());
         
-            if (builder.getPackage()->getContext()->at(u8"a") != nullptr){
-                std::shared_ptr<fedora::context::Function> & list = builder.getPackage()->getContext()->at(u8"a");
+            if (builder.getContext()->at(u8"a") != nullptr){
+                std::shared_ptr<fedora::context::Function> & list = builder.getContext()->at(u8"a");
 
                 using fef = fedora::context::FeFunction;
                 auto fe = dynamic_cast<fef *>(list.get());
