@@ -214,59 +214,6 @@ public:
         // test1();
         // test10();
     }
-
-private:
-
-    // TODO он вообще еще актуален??
-    /**
-     * let a = 1
-     */
-    // static void test1() {
-    //     ContextBuilder builder = ContextBuilder();
-
-    //     Token mPure = Token(L"pure");
-    //     Token mLet = Token(L"let");
-    //     Token mA = Token(L"a");
-    //     Token mReturn = Token(L"=");
-    //     Token mOne = Token(L"1");
-
-    //     KeyWord mPure2 = Token(L"pure");
-    //     KeyWord mPure3 = KeyWord(mPure);
-
-    //     bool a = mPure == mPure2;
-    //     bool b = mPure2 == mPure;
-    //     bool c = mPure2 == mPure2;
-
-    //     builder.addFunctionDeclarationToken(mPure2);
-    //     builder.notifyWeGotLetToken();
-    //     builder.setFunctionName(mA);
-    //     builder.notifyWeSetReturnable();
-    //     auto num = mOne.getData();
-    //     builder.addReturnableNumber(num);
-    //     clean();
-    //     Logger::logV("test1 completed");
-    // }
-
-    // TODO работает, но просто захламляет вывод в любом случае, ибо это тест на отображение 
-    // static void test10() {
-    //     Logger::logV(u8"------Error handling test----");
-    //     try {
-    //         throw BuilderException(
-    //                     u8"You're trying to convert token to BasicType, but token is not a primitive type instance.",
-    //                     u8"ContextBuilder::t2Bt(const parser::Token&)");
-    //     } catch (BuilderException fe) {
-    //         Logger::logV(fe.whatu8());
-    //     }
-
-    //     try {
-    //         throw FException(u8"🅰  🅱  🅾  🅱  🅰");
-    //     } catch (FException fe) {
-    //         Logger::logV(fe.whatu8());
-    //     }
-
-    //     Logger::logV(u8"----Error handling test end---");
-    // }
-
 };
 
 
@@ -402,19 +349,6 @@ void TestingSetup::setup() {
             }
 
             return success;
-
-            // if (success)
-            //     Logger::logV(u8"test 6 completed");
-            // else
-            //     Logger::logV(u8"test 6 failed");
-
-            // try {
-            //     throw exception::BuilderException(L"text", L"test()");
-            // } catch (exception::BuilderException e) {
-            //     e.what();
-            // }
-
-            //throw exception::BuilderException(L"text", L"test()");
         }
     ));
 
@@ -482,11 +416,11 @@ void TestingSetup::setup() {
             Settings *setting = Settings::GetInstance();
             setting->setLogLevel(settings::LogLevel::LOG_WARNING);
 
-    #if defined(__linux__) || defined(__APPLE__)
+#if defined(__linux__) || defined(__APPLE__)
             auto source = Utf8istream::fromFile(u8"./../programs/current_features.fe");
-    # elif defined(_WIN32)
+# elif defined(_WIN32)
             auto source = Utf8istream::fromFile(u8"./../../programs/current_features.fe");
-    # endif
+# endif
             Parser parser = Parser(std::move(source));
             TokensHolder tokensHolder = parser.parse();
             fedora::ContextBuilder builder = fedora::ContextBuilder();
@@ -520,12 +454,6 @@ void TestingSetup::setup() {
         u8"Тестирование конверсации string в u8string.",
         u8"Протестированы символы аски, иероглифы и смайлик.",
         [] () -> bool {
-            //Logger::logV(u8"😀");
-            // std::cout << ContextBuildTester::getstrbits<char8_t>(std::u8string(u8"¢")) << std::endl;
-            // std::cout << ContextBuildTester::getstrbits(std::string("¢")) << std::endl;
-            // std::cout << std::hex << (int)u8'ö' << std::endl;
-            // std::cout << std::hex << (int)'ö' << std::endl;
-
             std::u8string data = u8"biba";
             std::string result = StaticUtils::u8s2s(data);
 
@@ -596,7 +524,7 @@ void TestingSetup::setup() {
     Tester::addTest(Test<>(
         11,
         u8"Тестирование рантайма",
-        u8"Надо написать нормальное описание потом",
+        u8"Тестирование простейшего кода федоры",
         [] () -> bool {
             Settings::GetInstance()->setLogLevel(settings::LogLevel::LOG_ERROR);
 
@@ -644,84 +572,3 @@ void TestingSetup::setup() {
 
 
 #endif //FEDORA_TEST_H
-
-// AYANAMI REI                           __.-"..--,__
-//                                __..---"  | _|    "-_\
-//                         __.---"          | V|::.-"-._D
-//                    _--"".-.._   ,,::::::'"\/""'-:-:/
-//               _.-""::_:_:::::'-8b---"            "'
-//            .-/  ::::<  |\::::::"\
-//            \/:::/::::'\\ |:::b::\
-//            /|::/:::/::::-::b:%b:\|
-//             \/::::d:|8:::b:"%%%%%\
-//             |\:b:dP:d.:::%%%%%"""-,
-//              \:\.V-/ _\b%P_   /  .-._
-//              '|T\   "%j d:::--\.(    "-.
-//              ::d<   -" d%|:::do%P"-:.   "-,
-//              |:I _    /%%%o::o8P    "\.    "\
-//               \8b     d%%%%%%P""-._ _ \::.    \
-//               \%%8  _./Y%%P/      .::'-oMMo    )
-//                 H"'|V  |  A:::...:odMMMMMM(  ./
-//                 H /_.--"JMMMMbo:d##########b/
-//              .-'o      dMMMMMMMMMMMMMMP""
-//            /" /       YMMMMMMMMM|
-//          /   .   .    "MMMMMMMM/
-//          :..::..:::..  MMMMMMM:|
-//           \:/ \::::::::JMMMP":/
-//            :Ao ':__.-'MMMP:::Y
-//            dMM"./:::::::::-.Y
-//           _|b::od8::/:YM::/
-//           I HMMMP::/:/"Y/"
-//            \'""'  '':|
-//             |    -::::\
-//             |  :-._ '::\
-//             |,.|    \ _:"o
-//             | d" /   " \_:\.
-//             ".Y. \       \::\
-//              \ \  \      MM\:Y
-//               Y \  |     MM \:b
-//               >\ Y      .MM  MM
-//               .IY L_    MP'  MP
-//               |  \:|   JM   JP
-//               |  :\|   MP   MM
-//               |  :::  JM'  JP|
-//               |  ':' JP   JM |
-//               L   : JP    MP |
-//               0   | Y    JM  |
-//               0   |     JP"  |
-//               0   |    JP    |
-//               m   |   JP     #
-//               I   |  JM"     Y
-//               l   |  MP     :"
-//               |\  :-       :|
-//               | | '.\      :|
-//               | | "| \     :|
-//                \    \ \    :|
-//                |  |  | \   :|
-//                |  |  |   \ :|
-//                |   \ \    | '.
-//                |    |:\   | :|
-//                \    |::\..|  :\
-//                 ". /::::::'  :||
-//                   :|::/:::|  /:\
-//                   | \/::|: \' ::|
-//                   |  :::||    ::|
-//                   |   ::||    ::|
-//                   |   ::||    ::|
-//                   |   ::||    ::|
-//                   |   ': |    .:|
-//                   |    : |    :|
-//                   |    : |    :|
-//                   |    :||   .:|
-//                   |   ::\   .:|
-//                  |    :::  .::|
-//                 /     ::|  :::|
-//              __/     .::|   ':|
-//     ...----""        ::/     ::
-//    /m_  AMm          '/     .:::
-//    ""MmmMMM#mmMMMMMMM"     .:::m
-//       """YMMM""""""P        ':mMI
-//                _'           _MMMM
-//            _.-"  mm   mMMMMMMMM"
-//           /      MMMMMMM""
-//           mmmmmmMMMM"
