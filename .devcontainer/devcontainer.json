@@ -17,7 +17,8 @@
 		"ms-vscode.cpptools",
 		"ms-vscode.cmake-tools",
 		"mhutchie.git-graph",
-		"gruntfuggly.todo-tree"
+		"gruntfuggly.todo-tree",
+		"omkov.vscode-ebnf"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
