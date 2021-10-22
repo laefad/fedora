@@ -2,36 +2,37 @@
 
 #include <utility>
 #include <vector>
+
 #include "BasicType.h"
+#include "Context/ContextualComplement.h"
 
-namespace fedora {
-    namespace types {
-        class FunCall : public types::BasicType {
-        public:
-            using FunCallArguments = std::vector<std::shared_ptr<fedora::types::BasicType>>;
-        protected:
-            // Массив аргументов функции, которая будет вызвана
-            FunCallArguments args;
-            bool forced;
-        protected:
-            explicit FunCall(FunCallArguments args, bool forced) :
-                    args(args),
-                    forced(forced)
-            {}
+namespace fedora::types {
+    class FunCall: public types::BasicType, public fedora::context::ContextualComplement {
+    public:
+        using FunCallArguments = std::vector<std::shared_ptr<fedora::types::BasicType>>;
+    protected:
+        // Массив аргументов функции, которая будет вызвана
+        FunCallArguments args;
+        bool forced;
+    protected:
+        explicit FunCall(
+            fedora::context::ContextualComplement::Context context,
+            FunCallArguments args,
+            bool forced
+        );
 
-        public:
-            virtual Type type() override {
-                return FUN_CALL;
-            }
+        explicit FunCall(FunCallArguments args, bool forced);
 
-            virtual std::u8string eval() = 0;
+    public:
+        virtual Type type() override;
 
-            bool isForced() {
-                return forced;
-            }
+        virtual std::u8string eval() = 0;
 
-        private:
-            explicit FunCall();
-        };
-    }
+        bool isForced();
+
+        virtual std::u8string getFunctionName() = 0;
+
+    private:
+        explicit FunCall();
+    };
 }

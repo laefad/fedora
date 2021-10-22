@@ -8,6 +8,7 @@ namespace fedora {
         /**
          * BuildableFunction is an extension for Function to build it and make original Function clear
          */
+        // TODO создавать функцию на основе своих внутренних данных, а не даункастить!
         class BuildableFunction : public context::FeFunction {
             /**
              * flag, that says function context is fully declared
@@ -96,8 +97,8 @@ namespace fedora {
                 returnable = std::move(r);
             }
 
-            void addArgName(const std::u8string &u8string) {
-                args->addStrToArgNames(u8string);
+            void addArgName(std::u8string u8string) {
+                args.push_back(std::move(u8string));
             }
 
             void setChildFunction(std::shared_ptr<Function> f, const std::u8string &name) {

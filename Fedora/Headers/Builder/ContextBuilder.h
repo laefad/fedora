@@ -6,7 +6,6 @@
 #include "Types/List.h"
 #include "Utils/BasicSingleton.h"
 #include "Context/Function/Function.h"
-#include "Context/Package.h"
 #include "Utils/Logger.h"
 #include "Parser/Token.h"
 #include "FunctionDeclarator.h"
@@ -48,7 +47,9 @@ namespace fedora {
         // TODO Заменить Function на Package с unique_ptr
         //std::shared_ptr<context::Function> currentContext;
         //std::shared_ptr<context::Function> currentFunction;
-        std::shared_ptr<context::Package> package;
+        //std::shared_ptr<context::Package> package;
+
+        std::shared_ptr<context::Function::Context> context;
 
         /// Function declaration utility
         builder::FunctionDeclarator functionDeclarator;
@@ -99,7 +100,7 @@ namespace fedora {
         ContextBuilder() :
                 functionDeclarator(nullptr),
                 //forceCallDeclarator(nullptr),
-                package(std::make_shared<context::Package>()),
+                context(std::make_shared<context::Function::Context>()),
                 stackHolder(StackHolder())
         {}
 
@@ -165,8 +166,8 @@ namespace fedora {
             return true;
         }
 
-        std::shared_ptr<context::Package> getPackage() {
-            return package;
+        std::shared_ptr<context::Function::Context> getContext() {
+            return context;
         }
     };
 }

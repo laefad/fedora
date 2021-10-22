@@ -1,52 +1,47 @@
 #pragma once
 
 #include <memory>
-#include <vector>
 #include <map>
 
 #include "Types/FunCall.h"
+#include "Context/Function/FunctionRelation.h"
 
-namespace fedora {
-    namespace context {
-        class Function : public std::enable_shared_from_this<Function> {
-        public:
-            using Context = std::map<std::u8string, std::shared_ptr<Function>>;
-        protected:
-            std::shared_ptr<Function> parent;
-            std::u8string name;
-        public:
-            explicit Function(std::shared_ptr<Function> parent, std::u8string name) : 
-                parent(std::move(parent)),
-                name(std::move(name))
-            {}
+namespace fedora::context {
+    class Function : public std::enable_shared_from_this<Function> {
+    public:
+        using Context = std::map<std::u8string, std::shared_ptr<Function>>;
+        using Arguments = std::vector<std::u8string>;
+    protected:
+        std::shared_ptr<Function> parent;
+        std::u8string name;
+    public:
+        explicit Function(std::shared_ptr<Function> parent, std::u8string name);
 
-            std::u8string getName() const {
-                return name;
-            }
+        /// Возвращает имя функции
+        std::u8string getName() const; 
 
-            // По умолчанию возвращаем пустой контекст
-            virtual const std::shared_ptr<Context> getContext() const {
-                return nullptr;
-            }
+        /// Возвращает контекст функции
+        virtual const std::shared_ptr<Context> getContext() const;
 
-            /**
-             * @brief Возвращает результат вызова функции с аргументами
-             * 
-             * @details   
-             * Возвращает результат выполнения функции, подставляя в него аргументы,
-             * либо возвращает новый вызов текущей функции, если аргументов недостаточно 
-             */
-            virtual std::shared_ptr<fedora::types::BasicType> getBindedReturnbale(
-                fedora::types::FunCall::FunCallArguments arguments
-            ) const {
-                // TODO add realization or maybe delete this on basic class
-                return nullptr;
-            }
+        /// Возвращает аргументы функции
+        virtual std::shared_ptr<Function::Arguments> getArguments() const;
 
-            // TODO add realization
-            virtual std::shared_ptr<Function> find(std::u8string name) const {
-                return nullptr;
-            }
-        };
-    }
+        /// Возвращает родительскую функцию или nullptr
+        std::shared_ptr<Function> getParent() const;
+
+        /// Устанавливает родительскую функцию
+        void setParent(std::shared_ptr<Function> parent);
+
+        /// Возвращает найденную функцию в контексте или nullptr, если ее нет 
+        /// При этом FunctionRelation устанавливает соответственно приоритету
+        virtual std::pair<std::shared_ptr<Function>, FunctionRelation> find(
+            std::u8string name,
+            FunctionRelation filteredType = FunctionRelation::Any
+        );
+
+        /// Вызывает функцию и возвращает простой тип или очередной вызов
+        virtual std::shared_ptr<types::BasicType> call(
+            std::shared_ptr<ContextualComplement::Context> context
+        ) = 0;
+    };
 }

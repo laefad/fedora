@@ -7,6 +7,7 @@ include_directories(Fedora/Headers)
 
 add_executable(fedora
         Fedora/Headers/StaticUtils.h
+        Fedora/Headers/Context/Function/FunctionRelation.h
 
         Fedora/Headers/Utils/BasicSingleton.h
         Fedora/Headers/Utils/SettingsSingleton.h
@@ -25,7 +26,12 @@ add_executable(fedora
         Fedora/Headers/Parser/Utf8istream.h
         Fedora/Headers/Parser/Parser.h
 
+        Fedora/Headers/Types/Type.h
+
         Fedora/Headers/Types/BasicType.h
+
+        Fedora/Headers/Context/ContextualComplement.h
+
         Fedora/Headers/Types/List.h
         Fedora/Headers/Types/Number.h
         Fedora/Headers/Types/String.h
@@ -47,11 +53,9 @@ add_executable(fedora
 
         Fedora/Headers/Stack/StackHolder.h
 
-        Fedora/Headers/Context/Function/Arguments.h
         Fedora/Headers/Context/Function/Function.h
         Fedora/Headers/Context/Function/FeFunction.h
         Fedora/Headers/Context/Function/BuiltinFunction.h
-        Fedora/Headers/Context/Package.h
 
         Fedora/Headers/Builder/BuildableFunCall.h
         Fedora/Headers/Builder/ContextBuilder.h
@@ -74,10 +78,13 @@ add_executable(fedora
         Fedora/Source/Parser/Utf8istream.cpp
         Fedora/Source/Parser/Parser.cpp
 
+        Fedora/Source/Context/ContextualComplement.cpp
+
         Fedora/Source/Types/Null.cpp
         Fedora/Source/Types/List.cpp
         Fedora/Source/Types/Number.cpp
         Fedora/Source/Types/String.cpp
+        Fedora/Source/Types/FunCall.cpp
         Fedora/Source/Types/UnbindedFunCall.cpp
         Fedora/Source/Types/BindedFunCall.cpp
 
@@ -92,6 +99,8 @@ add_executable(fedora
         Fedora/Source/Analyzers/ReadName.cpp
         Fedora/Source/Analyzers/ReadAfterReturnableFunName.cpp
 
+        Fedora/Source/Context/Function/Function.cpp
+        Fedora/Source/Context/Function/BuiltinFunction.cpp
         Fedora/Source/Context/Function/FeFunction.cpp
 
         Fedora/Source/Stack/StackHolder.cpp

@@ -10,6 +10,8 @@
 #include "Types/List.h"
 #include "Parser/Token.h"
 
+#include "Runtime.h"
+
 #include <bitset>
 #include <functional>
 #include <optional>
@@ -90,8 +92,8 @@ class TestUtils {
     }
 
     static bool checkIfRetContains(fedora::ContextBuilder& builder, const std::u8string& funName, const std::u8string& contains, bool log=false){
-        if (builder.getPackage()->getContext()->at(funName) != nullptr) {
-            std::shared_ptr<fedora::context::Function> & list = builder.getPackage()->getContext()->at(funName);
+        if (builder.getContext()->at(funName) != nullptr) {
+            std::shared_ptr<fedora::context::Function> & list = builder.getContext()->at(funName);
 
             using fef = fedora::context::FeFunction;
             auto fe = dynamic_cast<fef *>(list.get());
@@ -339,8 +341,8 @@ void TestingSetup::setup() {
             analyzer.analyzeNext(mReturns);
             analyzer.analyzeNext(mOne);
 
-            if (builder.getPackage()->getContext()->count(mA.getData()) == 1 &&
-                builder.getPackage()->getContext()->count(mB.getData()) == 1)
+            if (builder.getContext()->count(mA.getData()) == 1 &&
+                builder.getContext()->count(mB.getData()) == 1)
                 return true;
             else
                 return false;
@@ -459,8 +461,8 @@ void TestingSetup::setup() {
             analyzer.analyzeNext(mOne);
 
 
-            if (builder.getPackage()->getContext()->count(mA.getData()) == 1 &&
-                (*(builder.getPackage()->getContext()))[mA.getData()]->getContext()->count(mB.getData()) == 1)
+            if (builder.getContext()->count(mA.getData()) == 1 &&
+                (*(builder.getContext()))[mA.getData()]->getContext()->count(mB.getData()) == 1)
                 return true;
             else
                 return false;
@@ -497,8 +499,8 @@ void TestingSetup::setup() {
 
             // logAllContext(builder.getPackage()->getContext());
         
-            if (builder.getPackage()->getContext()->at(u8"a") != nullptr){
-                std::shared_ptr<fedora::context::Function> & list = builder.getPackage()->getContext()->at(u8"a");
+            if (builder.getContext()->at(u8"a") != nullptr){
+                std::shared_ptr<fedora::context::Function> & list = builder.getContext()->at(u8"a");
 
                 using fef = fedora::context::FeFunction;
                 auto fe = dynamic_cast<fef *>(list.get());
@@ -590,6 +592,43 @@ void TestingSetup::setup() {
     //         return TestUtils::checkIfRetContains(builder, u8"fn", u8"my_int(1.000000 null \"yo\" 1.000000 1.000000)");
     //     }
     // ));
+
+    Tester::addTest(Test<>(
+        11,
+        u8"Тестирование рантайма",
+        u8"Надо написать нормальное описание потом",
+        [] () -> bool {
+            Settings::GetInstance()->setLogLevel(settings::LogLevel::LOG_ERROR);
+
+            auto code = u8"let main = log(\"Ну как с Федорой обстоят вопросы?\")";
+            auto source = parser::Utf8istream::fromString(std::move(code));
+            auto parser = parser::Parser(std::move(source));
+            auto tokensHolder = parser.parse();
+            auto builder = fedora::ContextBuilder();
+            auto analyzer = fedora::AnalyzerStrategy(builder);
+            for (auto it = tokensHolder.begin(); it < tokensHolder.end(); ++it) {
+                analyzer.analyzeNext(*it);
+            }
+
+            auto sh = StackHolder();
+            sh.addForceCall(
+                StackHolder::Call(
+                    std::make_shared<types::UnbindedFunCall>(
+                        u8"main",
+                        types::UnbindedFunCall::FunCallArguments {
+                            std::make_shared<types::Null>()
+                        }
+                    )
+                )
+            );
+
+            auto ctx = *builder.getContext();
+
+            Runtime::execute(sh, ctx);
+
+            return true;
+        }
+    ));
 
     // шаблон (база), не трогать
     // Tester::addTest(Test<>(
