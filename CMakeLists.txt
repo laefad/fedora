@@ -18,6 +18,7 @@ add_executable(fedora
         Fedora/Headers/Exceptions/SettingsException.h
         Fedora/Headers/Exceptions/AnalyzerException.h
         Fedora/Headers/Exceptions/BuilderException.h
+        Fedora/Headers/Exceptions/Utf8istreamException.h
 
         Fedora/Headers/Parser/TokenType.h
         Fedora/Headers/Parser/Token.h

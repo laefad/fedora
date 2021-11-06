@@ -168,7 +168,7 @@ private:
             //     u8"Testing empty file parsing...", 
             //     Parser(std::move(source)),
             //     0);
-        } catch (ParserException e) {
+        } catch (Utf8istreamException e) {
             Logger::logV(u8"Test " + StaticUtils::i2u8s(3) + u8" completed");
         }
     }

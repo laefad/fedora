@@ -21,7 +21,7 @@ namespace fedora::parser {
         auto in = std::make_unique<std::ifstream>(path);
 
         if (!in->good())
-            throw ParserException(u8"Parser::makeFileParser - file [" + path.u8string() + u8"] doesn't exist.");
+            throw Utf8istreamException(u8"Utf8istream::fromFile - file [" + path.u8string() + u8"] doesn't exist.");
 
         return Utf8istream(std::move(in));
     }
@@ -45,7 +45,7 @@ namespace fedora::parser {
         } else if ((chr & 0b1111'1000) == 0b1111'0000) {
             return 4;
         } else {
-            throw new ParserException(u8"Utf8istream::amountOfBytesInCharsSequence bad byte.");
+            throw new Utf8istreamException(u8"Utf8istream::amountOfBytesInCharsSequence bad byte.");
         }
     }
 
@@ -59,27 +59,33 @@ namespace fedora::parser {
         return in->eof();
     }
 
-    // TODO !important PEEK DOESN't WORK CORRECT
     Utf8istream::Symbol Utf8istream::peek() {
-        // TODO add eof check
-        // auto buff = in->rdbuf();
-        // char8_t currentByte = buff->sgetc();
-        // // TODO check byte ??
+        auto buff = in->rdbuf();
 
-        // auto size = amountOfBytesInCharsSequence(currentByte);
-        // Logger::logV(u8"Peek size = " + StaticUtils::i2u8s(size));
-        // auto temp = new char [size];
-        // auto result = buff->sgetn(temp, size);
+        int byte = buff->sgetc();
+        if (byte == EOF) {
+            return Symbol();
+        }
 
-        // if (result != size)
-        //     throw new ParserException(u8"Utf8istream::peek buff->sgetn failed.");
-        // else
-        //     buff->sputn(temp, size);
-        //     //buff->gbump(-size);
+        char8_t currentByte = static_cast<char8_t>(byte);
+        auto size = amountOfBytesInCharsSequence(currentByte);
+
+        if (buff->in_avail() < size) {
+            return Symbol();
+        }
+
+        if (size == 1) {
+            return Symbol() + currentByte;
+        }
+
+        auto temp = new char [size];
+        auto result = buff->sgetn(temp, size);
+
+        for (auto i = 0; i < size; i++) {
+            buff->sungetc();
+        }
         
-        // return StaticUtils::s2u8s(temp);
-
-        return std::u8string() + ((char8_t)in->peek());
+        return StaticUtils::s2u8s(std::string(temp));
     }
 
     Utf8istream::Symbol Utf8istream::get() {
@@ -92,9 +98,14 @@ namespace fedora::parser {
 
             if (in->eof())
                 if (res.empty())
-                    return u8"";
+                    return Symbol();
+                else 
+                    throw Utf8istreamException(
+                        u8"Utf8istream::get, unfinished utf8 character, char_data = " + 
+                        res + 
+                        u8"]"
+                    );
 
-            // TODO try catch ?
             if (bytesInChar == 0) {
                 bytesInChar = amountOfBytesInCharsSequence(tmp);
             }
