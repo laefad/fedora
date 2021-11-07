@@ -43,7 +43,8 @@ class TestUtils {
             auto fe = dynamic_cast<fef *>(f.get());
 
             std::u8string res = u8"";
-            for (auto i = 0; i < level; ++i, res += u8"\t");
+            for (auto i = 0; i < level; ++i)
+                res += u8"\t";
             res += u8"[";
             res += name;
             res += u8"] => ";

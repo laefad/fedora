@@ -126,7 +126,7 @@ namespace fedora {
                 }
 
                 if (print_lines && line != t.getLine()) {
-                    buff += t.getLine();
+                    buff += StaticUtils::i2u8s(t.getLine());
                     buff += u8" | ";
                 }
 

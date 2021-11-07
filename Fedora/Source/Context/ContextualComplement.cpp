@@ -1,5 +1,6 @@
 
 #include "Context/ContextualComplement.h"
+#include <stdexcept>
 
 namespace fedora::context {
     ContextualComplement::ContextualComplement():
