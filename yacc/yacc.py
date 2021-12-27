@@ -5,6 +5,7 @@ import json
 EBNF of the syntax that this parser reads:
 
 ;; s-symbol         ::= "[^()\[\]= \n\t\r]+[^()\[\]=" \n\t\r]*" .
+;; s-name           ::= <s-symbol>+ .
 ;; s-float          ::= "[-+]?[0-9]+.[0-9]+(E[-+]?[0-9]+)?" .
 """
 
@@ -26,6 +27,11 @@ class Lex:
     def __str__(self):
         return str(self.data)
 
+class S_SYMBOL(Lex):
+    pass
+
+class S_NAME(Lex):
+    pass
 
 class FedoraLexer(Lexer):
     """Lexer. Splits the input string into tokens"""
@@ -33,7 +39,7 @@ class FedoraLexer(Lexer):
     ignore = ' \t'
 
     # Tokens
-    SYMBOL = r'[^()\[\]= \n\t\r]+[^()\[\]=" \n\t\r]*'   
+    NAME = r'[^()\[\]= \n\t\r]+[^()\[\]=" \n\t\r]*'   
     NUMBER = r'\d+'
 
     # Special symbols
@@ -67,7 +73,14 @@ class FedoraParser(Parser):
 
     @_('NAME')
     def expr(self, p):
+        print('s-name: '+str(p[0]))
         return p[0]
+
+    # @_('SYMBOL SYMBOL')
+    # def expr(self, p):
+    #     name = S_NAME(p[0]+p[1])
+    #     print('s-name: '+str(a.data))
+    #     return a
 
 if __name__ == '__main__':
     """The main function of the program.
