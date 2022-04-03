@@ -1,5 +1,7 @@
+from asyncio.log import logger
 from sly import Lexer, Parser
 import json
+import logging
 
 """
 EBNF of the syntax that this parser reads:
@@ -72,8 +74,11 @@ class FedoraParser(Parser):
         self.errors = True
 
     @_('NAME')
-    def expr(self, p):
-        print('s-name: '+str(p[0]))
+    def word(self, p):
+        """
+        Turns every sequence of characters into a word
+        """
+        logger.debug('s-name: '+str(p[0])+'to word')
         return p[0]
 
     # @_('SYMBOL SYMBOL')
@@ -87,6 +92,8 @@ if __name__ == '__main__':
  Reads the information from the file and translates the tree of paired objects first to serializable, and then to Json"""
     lexer = FedoraLexer()
     parser = FedoraParser()
+    
+    logging.basicConfig(level=logging.DEBUG)
 
     text = 'programs/new_syntax.fe'
     if text:
