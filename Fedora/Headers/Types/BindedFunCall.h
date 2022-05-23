@@ -1,7 +1,8 @@
 #pragma once
 
-#include "BasicType.h"
-#include "FunCall.h"
+#include "Types/BasicType.h"
+#include "Types/FunCall.h"
+
 #include "Context/Function/Function.h"
 
 namespace fedora::types {

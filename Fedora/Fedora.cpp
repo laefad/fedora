@@ -26,11 +26,11 @@ namespace fedora {
     let f a b => a + b
 
     Function{
-        context = *ptr        //указатель на базовые функции языка
-        selfContext = nullptr //Мы ничего не определяли внутри
-        returnable = <Rawcode>//Просто неспаршеная строка
-        args = {a: 0, b 1}    //хз пока как сделать аргументя, чтобы потом 
-                                их можно было заменить на конкретные значения
+        context = *ptr         // указатель на базовые функции языка
+        selfContext = nullptr  // Мы ничего не определяли внутри
+        returnable = <Rawcode> // Просто неспаршеная строка
+        args = {a: 0, b 1}     // хз пока как сделать аргменты, чтобы потом 
+                               // их можно было заменить на конкретные значения
     }
     */
 
@@ -44,7 +44,7 @@ const bool is_test = true;
 //};
 
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
     // Режим тестирования
     if (is_test) {
         Logger::logV(u8"lol");
@@ -65,13 +65,13 @@ int main(int argc, char *argv[]) {
         }
 
         // Инициализируем настройки
-        fedora::Settings *settings = fedora::Settings::GetInstance();
+        fedora::Settings* settings = fedora::Settings::GetInstance();
         settings->setLogLevel(fedora::settings::LOG_VERBOSE);
 
         // Получаем имя файла
         std::string path = argv[1];
         std::cout << "Args amount: " << argc << std::endl
-                  << "Path to file: " << path << std::endl;
+            << "Path to file: " << path << std::endl;
 
         fedora::ContextBuilder builder = fedora::ContextBuilder();
 
@@ -83,7 +83,7 @@ int main(int argc, char *argv[]) {
         //parser.readFile();
 
         // Clean singleton utils
-        fedora::Utils::SingletonsCleaner *cleaner = fedora::Utils::SingletonsCleaner::GetInstance();
+        fedora::Utils::SingletonsCleaner* cleaner = fedora::Utils::SingletonsCleaner::GetInstance();
         cleaner->cleanThemAll();
 
         return 0;

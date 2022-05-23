@@ -1,24 +1,20 @@
-
 #include "Types/Number.h"
+
 #include "StaticUtils.h"
 
-namespace fedora {
-    namespace types {
+namespace fedora::types {
+    Number::Number(double v) :
+            value(v) {}
 
-        Number::Number(double v) :
-                value(v) {}
+    Type Number::type() {
+        return types::NUMBER;
+    }
 
-        Type Number::type() {
-            return types::NUMBER;
-        }
+    std::u8string Number::eval() {
+        return StaticUtils::d2u8s(value);
+    }
 
-        std::u8string Number::eval() {
-            return StaticUtils::d2u8s(value);
-        }
-
-        double Number::getValue() const {
-            return value;
-        }
-
+    double Number::getValue() const {
+        return value;
     }
 }

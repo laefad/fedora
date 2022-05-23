@@ -4,8 +4,7 @@
 
 #include "Types/BasicType.h"
 
-namespace fedora::context
-{
+namespace fedora::context {
     class FeFunction : public Function {
     protected:
         std::shared_ptr<fedora::types::BasicType> returnable;
@@ -13,7 +12,7 @@ namespace fedora::context
         Context children;
     public:
         explicit FeFunction(
-            std::shared_ptr<Function> parent, 
+            std::shared_ptr<Function> parent,
             std::u8string name,
             std::shared_ptr<fedora::types::BasicType> returnable,
             Function::Arguments args,
@@ -21,7 +20,7 @@ namespace fedora::context
         );
 
         explicit FeFunction(
-            std::shared_ptr<Function> parent, 
+            std::shared_ptr<Function> parent,
             std::u8string name
         );
 
@@ -41,4 +40,4 @@ namespace fedora::context
             std::shared_ptr<ContextualComplement::Context> context
         );
     };
-} 
+}

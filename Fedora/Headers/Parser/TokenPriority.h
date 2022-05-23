@@ -1,12 +1,10 @@
 #pragma once
 
-namespace fedora {
-    namespace parser {
-        enum TokenPriority {
-            Whitespace,
-            Common,
-            KeyWord,
-            Delimeter
-        };
-    }
+namespace fedora::parser {
+    enum TokenPriority {
+        Whitespace,
+        Common,
+        KeyWord,
+        Delimeter
+    };
 }

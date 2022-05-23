@@ -5,7 +5,9 @@
 namespace fedora {
     class ParserException : public FException {
     protected:
-        std::u8string construct(std::u8string text) const {
+        std::u8string construct(
+            std::u8string text
+        ) const {
             std::u8string buf;
 
             buf += u8"ParserException";
@@ -17,6 +19,6 @@ namespace fedora {
 
     public:
         ParserException(std::u8string text) :
-                FException(construct(text)) {}
+            FException(construct(text)) {}
     };
 }

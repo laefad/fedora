@@ -4,6 +4,7 @@
 #include "Parser/ParserUtils.h"
 #include "Parser/TokensHolder.h"
 
+#include "Exceptions/Utf8istreamException.h"
 #include "Exceptions/ParserException.h"
 
 using namespace fedora;
@@ -12,16 +13,16 @@ using namespace fedora;
 
 #ifndef PRINT_DELLINE
 #define DELLINE 
-    const std::u8string delLine(u8" "); 
+const std::u8string delLine(u8" ");
 #else 
 #define DELLINE 
-    const std::u8string delLine(u8"\033[F\033[K");
+const std::u8string delLine(u8"\033[F\033[K");
 #endif
 
 #define INIT using fedora::parser::TokensHolder; \
         using fedora::parser::Parser; \
         DELLINE
-        
+
 
 #define BEFORE_LOG(header, about) \
 Logger::logV(header);\
@@ -70,10 +71,10 @@ private:
         std::u8string buf;
 
         for (parser::Token t : th) {
-            buf += t.getData(); 
+            buf += t.getData();
             buf += u8", ";
         }
-        
+
         return buf;
     }
 
@@ -81,32 +82,32 @@ private:
         std::u8string buf;
 
         for (parser::Token t : th) {
-            buf += t.getData(); 
+            buf += t.getData();
             buf += u8", ";
         }
-        
+
         return buf;
     }
 
     static void test0() {
         if (parser::ParserUtils::isIgnored(u8" "))
             Logger::logV(u8"test 0.1 complete");
-        else 
+        else
             Logger::logV(u8"test 0.1 failed");
 
         if (parser::ParserUtils::isIgnored(u8"\n"))
             Logger::logV(u8"test 0.2 complete");
-        else 
+        else
             Logger::logV(u8"test 0.2 failed");
 
         if (parser::ParserUtils::isIgnored(u8"\r"))
             Logger::logV(u8"test 0.3 complete");
-        else 
+        else
             Logger::logV(u8"test 0.3 failed");
-        
+
         if (parser::ParserUtils::isIgnored(u8"\t"))
             Logger::logV(u8"test 0.4 complete");
-        else 
+        else
             Logger::logV(u8"test 0.4 failed");
     }
 
@@ -139,24 +140,24 @@ private:
         //     Logger::logV(u8"Test 1.4 failed");
     }
 
-    static void test2() { 
+    static void test2() {
 #if defined(__linux__) || defined(__APPLE__)
         auto source = parser::Utf8istream::fromFile(u8"./../programs/tokensTest.fe");
 # elif defined(_WIN32) 
         auto source = parser::Utf8istream::fromFile(u8"./../../programs/tokensTest.fe");
 # endif
-        TEST(2, 
-             u8"Testing file parsing...", 
+        TEST(2,
+             u8"Testing file parsing...",
              Parser(std::move(source)),
              28);
     }
 
-    static void test3() { 
+    static void test3() {
         auto source = parser::Utf8istream::fromString(
             u8"let a = 89 let it be where let a = 0 = +(be it a)"
         );
-        TEST(3, 
-            u8"Testing string parsing...", 
+        TEST(3,
+            u8"Testing string parsing...",
             Parser(std::move(source)),
             19);
     }
@@ -176,7 +177,7 @@ private:
     static void test5() {
         INIT
 
-        Logger::logV(u8"Test 5\nTesting tokenolder get line...");
+            Logger::logV(u8"Test 5\nTesting tokenolder get line...");
 
 #if defined(__linux__) || defined(__APPLE__)
         auto source = parser::Utf8istream::fromFile(u8"./../programs/tokensTest.fe");
@@ -191,7 +192,7 @@ private:
         auto lines = tokensHolder.getLines(1, 1);
 
         if (lines.size() != 6) {
-            FAILED_LOG(u8"Test 5 failed: got " + 
+            FAILED_LOG(u8"Test 5 failed: got " +
                     StaticUtils::s2u8s(std::to_string(lines.size())) + u8" tokens, but expected 6.");
 
             PRINT_TOKENS_FROM_TOKENHOLDER(lines);

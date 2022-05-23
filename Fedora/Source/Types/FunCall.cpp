@@ -1,4 +1,3 @@
-
 #include "Types/FunCall.h"
 
 namespace fedora::types {
@@ -6,13 +5,13 @@ namespace fedora::types {
         fedora::context::ContextualComplement::Context context,
         FunCallArguments args,
         bool forced
-    ):
+    ) :
         ContextualComplement(context),
         args(args),
         forced(forced)
     {}
 
-    FunCall::FunCall(FunCallArguments args, bool forced):
+    FunCall::FunCall(FunCallArguments args, bool forced) :
         ContextualComplement(),
         args(args),
         forced(forced)
@@ -26,7 +25,7 @@ namespace fedora::types {
         return forced;
     }
 
-    FunCall::FunCall():
+    FunCall::FunCall() :
         args(FunCall::FunCallArguments()),
         forced(false)
     {}

@@ -3,7 +3,8 @@
 #include <vector>
 
 #include "Exceptions/SettingsException.h"
-#include "BasicSingleton.h"
+
+#include "Utils/BasicSingleton.h"
 
 /**
  * Settings class
@@ -27,7 +28,7 @@ namespace fedora {
         }
 
         /// Main instance
-        static Settings *instance;
+        static Settings* instance;
 
         /// How logs are detailed
         settings::LogLevel logLevel;
@@ -39,13 +40,13 @@ namespace fedora {
     public:
 
         /// Singleton can't be copied
-        Settings(Settings &other) = delete;
+        Settings(Settings& other) = delete;
 
         /// Singletons should not be assignable.
-        void operator=(const Settings &) = delete;
+        void operator=(const Settings&) = delete;
 
         /// Singleton instance getter
-        static Settings *GetInstance();
+        static Settings* GetInstance();
 
         /// Log level Setter
         void setLogLevel(settings::LogLevel l);

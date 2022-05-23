@@ -3,12 +3,12 @@
 #include "FException.h"
 
 namespace fedora {
-
     class AnalyzerException : public FException {
     protected:
         std::u8string construct(std::u8string file,
-                                std::u8string func, 
-                                std::u8string text) const {
+                                std::u8string func,
+                                std::u8string text
+        ) const {
             std::u8string buf;
 
             buf += u8"AnalyzerException";
@@ -27,7 +27,7 @@ namespace fedora {
 
     public:
         AnalyzerException(std::u8string text, std::u8string file, std::u8string func) :
-                FException(std::move(construct(file, func, text)))
+            FException(std::move(construct(file, func, text)))
         {}
     };
 }

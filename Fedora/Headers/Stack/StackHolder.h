@@ -11,7 +11,7 @@ namespace fedora {
         std::vector<Call> calls;
 
     public:
-        explicit StackHolder():
+        explicit StackHolder() :
             calls(std::vector<Call>())
         {}
 
@@ -19,7 +19,7 @@ namespace fedora {
             calls.push_back(newForceCall);
         }
 
-        std::vector<Call> getData(){
+        std::vector<Call> getData() {
             return calls;
         }
 

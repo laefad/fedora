@@ -1,15 +1,11 @@
-//
-// Created on 28.07.2021.
-//
-
 #include "Utils/SettingsSingleton.h"
 
 namespace fedora {
     /// Initializing
-    Settings *Settings::instance = nullptr;
+    Settings* Settings::instance = nullptr;
 
     /// Simple instance getter
-    Settings *Settings::GetInstance() {
+    Settings* Settings::GetInstance() {
         if (instance == nullptr) {
             instance = new Settings();
             instance->addToCleaner();

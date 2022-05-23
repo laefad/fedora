@@ -44,10 +44,10 @@ namespace fedora {
          *
          * @note redeclare utilities each time we get new context //TODO ВЫнести утилиты и контекст в приват абстрактного билдера и наследовать этот класс от него. Но мб это не нужно делать. Посмотрим, как будет выглядеть сборщик без этого
          */
-        // TODO Заменить Function на Package с unique_ptr
-        //std::shared_ptr<context::Function> currentContext;
-        //std::shared_ptr<context::Function> currentFunction;
-        //std::shared_ptr<context::Package> package;
+         // TODO Заменить Function на Package с unique_ptr
+         //std::shared_ptr<context::Function> currentContext;
+         //std::shared_ptr<context::Function> currentFunction;
+         //std::shared_ptr<context::Package> package;
 
         std::shared_ptr<context::Function::Context> context;
 
@@ -98,15 +98,15 @@ namespace fedora {
         std::shared_ptr<builder::BuildableFunCall> currentFunCall = nullptr;
     public:
         ContextBuilder() :
-                functionDeclarator(nullptr),
-                //forceCallDeclarator(nullptr),
-                context(std::make_shared<context::Function::Context>()),
-                stackHolder(StackHolder())
+            functionDeclarator(nullptr),
+            //forceCallDeclarator(nullptr),
+            context(std::make_shared<context::Function::Context>()),
+            stackHolder(StackHolder())
         {}
 
         ~ContextBuilder() = default;
 
-        static std::shared_ptr<types::BasicType> t2Bt(const parser::Token &);
+        static std::shared_ptr<types::BasicType> t2Bt(const parser::Token&);
 
         // ------- F U N C T I O N   D E C L A R A T I O N -------
         /**
@@ -116,14 +116,14 @@ namespace fedora {
          * pure let a = 1 <- "pure" will be added via this method
          *
          */
-        void addFunctionDeclarationToken(parser::Token &);
+        void addFunctionDeclarationToken(parser::Token&);
 
         /**
          * This funtion creates new fedora function object. It will be placed to context in ContextBuilder::setFunctionName
          */
         void notifyWeGotLetToken();
-        
-        void setFunctionName(parser::Token const &);
+
+        void setFunctionName(parser::Token const&);
 
         void notifyWeSetReturnable();
 
@@ -133,11 +133,11 @@ namespace fedora {
         /// set NULL_ as returnable
         void addReturnableNull();
 
-        void addReturnableNumber(std::u8string const &);
+        void addReturnableNumber(std::u8string const&);
 
-        void addReturnableString(std::u8string const &);
+        void addReturnableString(std::u8string const&);
 
-        void addReturnableFunCall(std::u8string const &);
+        void addReturnableFunCall(std::u8string const&);
 
         // ------- L I S T   S T U F F -------
 
@@ -145,24 +145,24 @@ namespace fedora {
 
         void endList();
 
-        void addSimpleTypeInList(const parser::Token &t);
+        void addSimpleTypeInList(const parser::Token& t);
 
-        void addFunCallInList(const parser::Token &);
+        void addFunCallInList(const parser::Token&);
 
         // ------- C A L L   A R G U M E N T S -------
 
-        void addPrimitiveAsCallArgument(const parser::Token &);
+        void addPrimitiveAsCallArgument(const parser::Token&);
 
         // ------- F O R C E   C A L L -------
 
         void notifyWeStartForceCall();
 
-        void addArgumentName(parser::Token const &);
+        void addArgumentName(parser::Token const&);
 
-        void setForceName(std::u8string const &);
+        void setForceName(std::u8string const&);
         // TODO Добавить режим заполнения: функция, фанколл и проверять, своевременно ли вызван метод
 
-        bool isCurrentFunctionForced(parser::Token &) {
+        bool isCurrentFunctionForced(parser::Token&) {
             return true;
         }
 

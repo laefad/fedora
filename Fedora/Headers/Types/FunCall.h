@@ -3,7 +3,7 @@
 #include <utility>
 #include <vector>
 
-#include "BasicType.h"
+#include "Types/BasicType.h"
 #include "Context/ContextualComplement.h"
 
 namespace fedora::types {

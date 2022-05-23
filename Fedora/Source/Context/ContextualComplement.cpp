@@ -1,13 +1,13 @@
-
-#include "Context/ContextualComplement.h"
 #include <stdexcept>
 
+#include "Context/ContextualComplement.h"
+
 namespace fedora::context {
-    ContextualComplement::ContextualComplement():
+    ContextualComplement::ContextualComplement() :
         context(Context())
     {}
 
-    ContextualComplement::ContextualComplement(Context context):
+    ContextualComplement::ContextualComplement(Context context) :
         context(context)
     {}
 
@@ -30,7 +30,7 @@ namespace fedora::context {
     }
 
     std::shared_ptr<ContextualComplement::Context> ContextualComplement::createContext(
-        std::vector<std::u8string> names, 
+        std::vector<std::u8string> names,
         std::vector<Argument> values
     ) {
         auto c = std::make_shared<Context>();
@@ -48,7 +48,7 @@ namespace fedora::context {
         auto type = elem->type();
 
         if (type == Type::LIST || type == Type::FUN_CALL) {
-            dynamic_cast<ContextualComplement *>(elem.get())->addContext(context);
+            dynamic_cast<ContextualComplement*>(elem.get())->addContext(context);
         }
     }
 }

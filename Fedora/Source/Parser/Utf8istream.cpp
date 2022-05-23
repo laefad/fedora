@@ -1,15 +1,15 @@
-
 #include <fstream>
 #include <sstream>
 
+#include "Exceptions/Utf8istreamException.h"
+
 #include "Parser/Utf8istream.h"
-#include "Exceptions/ParserException.h"
 
 #include "Utils/Logger.h"
 
 namespace fedora::parser {
 
-    Utf8istream::Utf8istream(std::unique_ptr<std::istream> in):
+    Utf8istream::Utf8istream(std::unique_ptr<std::istream> in) :
         in(std::move(in))
     {}
 
@@ -78,13 +78,13 @@ namespace fedora::parser {
             return Symbol() + currentByte;
         }
 
-        auto temp = new char [size];
+        auto temp = new char[size];
         auto result = buff->sgetn(temp, size);
 
         for (auto i = 0; i < size; i++) {
             buff->sungetc();
         }
-        
+
         return StaticUtils::s2u8s(std::string(temp));
     }
 
@@ -99,10 +99,10 @@ namespace fedora::parser {
             if (in->eof())
                 if (res.empty())
                     return Symbol();
-                else 
+                else
                     throw Utf8istreamException(
-                        u8"Utf8istream::get, unfinished utf8 character, char_data = " + 
-                        res + 
+                        u8"Utf8istream::get, unfinished utf8 character, char_data = " +
+                        res +
                         u8"]"
                     );
 

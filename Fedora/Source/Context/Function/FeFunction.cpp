@@ -1,5 +1,5 @@
-
 #include "Context/Function/FeFunction.h"
+
 #include "Types/UnbindedFunCall.h"
 #include "Types/BindedFunCall.h"
 
@@ -7,9 +7,9 @@
 
 namespace fedora::context {
     FeFunction::FeFunction(
-        std::shared_ptr<Function> parent, 
+        std::shared_ptr<Function> parent,
         std::u8string name
-    ): 
+    ) :
         Function(std::move(parent), std::move(name)),
         children(Context()),
         returnable(nullptr),
@@ -17,12 +17,12 @@ namespace fedora::context {
     {}
 
     FeFunction::FeFunction(
-        std::shared_ptr<Function> parent, 
+        std::shared_ptr<Function> parent,
         std::u8string name,
         std::shared_ptr<fedora::types::BasicType> returnable,
         Function::Arguments args,
         Context children
-    ): 
+    ) :
         Function(std::move(parent), std::move(name)),
         children(children),
         returnable(returnable),
@@ -56,7 +56,7 @@ namespace fedora::context {
             }
         } else {
             return std::make_pair(
-                nullptr, 
+                nullptr,
                 FunctionRelation::Any
             );
         }
@@ -65,33 +65,33 @@ namespace fedora::context {
         if (filteredType == FunctionRelation::Self || filteredType == FunctionRelation::Any) {
             if (name == this->name) {
                 return std::make_pair(
-                    shared_from_this(), 
+                    shared_from_this(),
                     FunctionRelation::Self
                 );
             }
         } else {
             return std::make_pair(
-                nullptr, 
+                nullptr,
                 FunctionRelation::Any
             );
         }
 
         //find subling
-        if (parent && 
-            (filteredType == FunctionRelation::Subling || 
-             filteredType == FunctionRelation::Any
-            )
+        if (parent &&
+            (filteredType == FunctionRelation::Subling ||
+                filteredType == FunctionRelation::Any
+                )
         ) {
             return parent->find(name, FunctionRelation::Child);
         } else {
             return std::make_pair(
-                nullptr, 
+                nullptr,
                 FunctionRelation::Any
             );
         }
 
         //find parent
-        if (filteredType == FunctionRelation::Parent || 
+        if (filteredType == FunctionRelation::Parent ||
             filteredType == FunctionRelation::Any
         ) {
             if (parent) {
@@ -103,13 +103,13 @@ namespace fedora::context {
             }
         } else {
             return std::make_pair(
-                nullptr, 
+                nullptr,
                 FunctionRelation::Any
             );
         }
 
         return std::make_pair(
-            nullptr, 
+            nullptr,
             FunctionRelation::Any
         );
 
@@ -121,9 +121,9 @@ namespace fedora::context {
         using types::Type;
         using types::UnbindedFunCall;
         using types::BindedFunCall;
-        
+
         if (returnable->type() == Type::FUN_CALL) {
-            auto ufc = static_cast<UnbindedFunCall *>(returnable.get());
+            auto ufc = static_cast<UnbindedFunCall*>(returnable.get());
 
             auto requiredName = ufc->getFunctionName();
 
@@ -132,7 +132,7 @@ namespace fedora::context {
             if (target.first) {
                 return ufc->bind(target.first);
             }
-            
+
             // find in args
             for (auto [key, value] : *context) {
                 if (key == requiredName) {
@@ -144,13 +144,15 @@ namespace fedora::context {
             target = find(requiredName);
             if (target.first) {
                 return ufc->bind(target.first);
-            } 
+            }
 
-            fedora::Logger::logE(u8"FeFunction::call not found function [" +
-                         requiredName + 
-                         u8"] in function [" +
-                         getName() +
-                         u8"]");
+            fedora::Logger::logE(
+                u8"FeFunction::call not found function [" +
+                requiredName +
+                u8"] in function [" +
+                getName() +
+                u8"]"
+            );
             // TODO throw RUNTIME ERROR
             throw std::exception();
         }

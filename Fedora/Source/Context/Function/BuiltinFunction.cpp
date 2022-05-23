@@ -1,5 +1,5 @@
-
 #include "Context/Function/BuiltinFunction.h"
+
 #include "StaticUtils.h"
 
 namespace fedora::context {
@@ -8,7 +8,7 @@ namespace fedora::context {
         std::u8string name,
         size_t argumentsAmount,
         std::function<std::shared_ptr<types::BasicType>(std::shared_ptr<ContextualComplement::Context>)> f
-    ): 
+    ) :
         Function(nullptr, std::move(name)),
         argumentsAmount(argumentsAmount),
         f(f)
@@ -33,14 +33,14 @@ namespace fedora::context {
     ) {
         if (this->name == name) {
             return std::make_pair(
-                shared_from_this(), 
+                shared_from_this(),
                 FunctionRelation::Self
-            );  
+            );
         } else {
             return std::make_pair(
-                nullptr, 
+                nullptr,
                 FunctionRelation::Any
-            );   
+            );
         }
     }
 }

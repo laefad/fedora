@@ -1,21 +1,20 @@
-
 #include "Types/List.h"
 
 namespace fedora::types {
 
-    List::List():
+    List::List() :
         ContextualComplement(),
-        value(nullptr), 
-        next(nullptr) 
+        value(nullptr),
+        next(nullptr)
     {}
 
-    List::List(std::shared_ptr<BasicType> v):
+    List::List(std::shared_ptr<BasicType> v) :
         ContextualComplement(),
         value(std::move(v)),
         next(nullptr)
     {}
 
-    List::List(std::shared_ptr<BasicType> v, std::shared_ptr<List> lst):
+    List::List(std::shared_ptr<BasicType> v, std::shared_ptr<List> lst) :
         ContextualComplement(),
         value(std::move(v)),
         next(lst)
@@ -25,14 +24,14 @@ namespace fedora::types {
         fedora::context::ContextualComplement::Context context,
         std::shared_ptr<BasicType> v,
         std::shared_ptr<List> lst
-    ):
+    ) :
         ContextualComplement(context),
         value(std::move(v)),
         next(lst)
     {}
 
     std::shared_ptr<List> List::addNewItemToTheBeginning(
-        std::shared_ptr<BasicType> v, 
+        std::shared_ptr<BasicType> v,
         std::shared_ptr<List> lst
     ) {
         return std::make_shared<List>(std::move(v), std::move(lst));
@@ -46,7 +45,7 @@ namespace fedora::types {
         auto new_lst = head;
         auto next = lst->next;
 
-        while(next) {
+        while (next) {
             new_lst->next = std::make_shared<List>(next->value);
             new_lst = new_lst->next;
             next = next->next;
@@ -71,7 +70,7 @@ namespace fedora::types {
             buff += value->eval();
 
         while (next) {
-            if (next->value!= nullptr){
+            if (next->value != nullptr) {
                 buff += u8' ';
                 buff += next->value->eval();
             }

@@ -4,44 +4,42 @@
 
 #include "Parser/Token.h"
 
-namespace fedora {
-    namespace parser {
+namespace fedora::parser {
+    /**
+     * @brief Это класс, который будет хранить в себе все спаршеные токены
+     */
+    class TokensHolder {
+    private:
+        std::vector<Token> tokens;
+    public:
+        using container = std::vector<Token>;
+        using iterator = container::iterator;
+        using const_iterator = container::const_iterator;
+
+        // TODO переместить в cpp
+        iterator begin() { return tokens.begin(); }
+
+        iterator end() { return tokens.end(); }
+
+        const_iterator begin() const { return tokens.begin(); }
+
+        const_iterator end() const { return tokens.end(); }
+
+    public:
+        explicit TokensHolder();
+
         /**
-         * @brief Это класс, который будет хранить в себе все спаршеные токены
+         * Add token to tokens list
+         *
+         * @param a - token to add
          */
-        class TokensHolder {
-        private:
-            std::vector<Token> tokens;
-        public:
-            using container = std::vector<Token>;
-            using iterator = container::iterator;
-            using const_iterator = container::const_iterator;
+        void add(const Token& a);
 
-            // TODO переместить в cpp
-            iterator begin() { return tokens.begin(); }
+        /**
+         * @return вектор токенов, с линиями принадлежащими отрезку [line-range; line+range]
+         */
+        std::vector<Token> getLines(size_t line, size_t range = 2);
 
-            iterator end() { return tokens.end(); }
-
-            const_iterator begin() const { return tokens.begin(); }
-
-            const_iterator end() const { return tokens.end(); }
-
-        public:
-            explicit TokensHolder();
-
-            /**
-             * Add token to tokens list
-             *
-             * @param a - token to add
-             */
-            void add(const Token &a);
-
-            /**
-             * @return вектор токенов, с линиями принадлежащими отрезку [line-range; line+range]
-             */
-            std::vector<Token> getLines(size_t line, size_t range = 2);
-
-            size_t size();
-        };
-    }
+        size_t size();
+    };
 }

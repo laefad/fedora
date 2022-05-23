@@ -1,7 +1,8 @@
 #pragma once
 
-#include "BasicType.h"
-#include "FunCall.h"
+#include "Types/BasicType.h"
+#include "Types/FunCall.h"
+
 #include "Context/Function/Function.h"
 
 namespace fedora::types {
@@ -15,13 +16,13 @@ namespace fedora::types {
         explicit UnbindedFunCall(
                 std::u8string functionName,
                 FunCallArguments args,
-                bool forced = false 
+                bool forced = false
         );
 
         // TODO add error 
         std::shared_ptr<BindedFunCall> bind(
             std::shared_ptr<context::Function> function
-        ) const ;
+        ) const;
 
         virtual std::u8string getFunctionName() override;
 

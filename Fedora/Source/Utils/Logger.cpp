@@ -1,14 +1,14 @@
-
 #include <iostream>
 
 #include "Utils/Logger.h"
+
 #include "StaticUtils.h"
 
 namespace fedora {
 
-    void Logger::log(const std::u8string &msg, fedora::settings::LogLevel logLevel) {
+    void Logger::log(const std::u8string& msg, fedora::settings::LogLevel logLevel) {
         // Get settings
-        fedora::Settings *settings = fedora::Settings::GetInstance();
+        fedora::Settings* settings = fedora::Settings::GetInstance();
 
         // Get logLevel from settings
         fedora::settings::LogLevel settingsLogLevel = settings->getLogLevel();
@@ -22,15 +22,15 @@ namespace fedora {
         }
     }
 
-    void Logger::logV(const std::u8string &msg) {
+    void Logger::logV(const std::u8string& msg) {
         log(msg, fedora::settings::LOG_VERBOSE);
     }
 
-    void Logger::logW(const std::u8string &msg) {
+    void Logger::logW(const std::u8string& msg) {
         log(msg, fedora::settings::LOG_WARNING);
     }
 
-    void Logger::logE(const std::u8string &msg) {
+    void Logger::logE(const std::u8string& msg) {
         log(msg, fedora::settings::LOG_ERROR);
     }
 

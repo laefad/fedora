@@ -1,42 +1,40 @@
-
-#include <Parser/Token.h>
 #include <string>
 
-namespace fedora {
-    namespace parser {
-        Token::Token(std::u8string data, size_t line, TokenType tokenType) :
-                data(std::move(data)),
-                line(line),
-                tokenType(tokenType) {}
+#include "Parser/Token.h"
 
-        Token::Token(std::u8string data, TokenType tokenType) :
-                Token(data, 0, tokenType) {}
+namespace fedora::parser {
+    Token::Token(std::u8string data, size_t line, TokenType tokenType) :
+        data(std::move(data)),
+        line(line),
+        tokenType(tokenType) {}
 
-        Token::Token(std::u8string data, size_t line) :
-                Token(data, line, TokenType::None) {}
+    Token::Token(std::u8string data, TokenType tokenType) :
+        Token(data, 0, tokenType) {}
 
-        Token::Token(std::u8string data) :
-                Token(data, 0, TokenType::None) {}
+    Token::Token(std::u8string data, size_t line) :
+        Token(data, line, TokenType::None) {}
 
-        std::u8string const &Token::getData() const {
-            return data;
-        }
+    Token::Token(std::u8string data) :
+        Token(data, 0, TokenType::None) {}
 
-        size_t Token::getLine() const {
-            return line;
-        }
+    std::u8string const& Token::getData() const {
+        return data;
+    }
 
-        TokenType Token::getType() const {
-            return tokenType;
-        }
+    size_t Token::getLine() const {
+        return line;
+    }
 
-        void Token::setType(TokenType type) {
-            tokenType = type;
-        }
+    TokenType Token::getType() const {
+        return tokenType;
+    }
 
-        /// TODO add tokenType comparsion
-        bool operator==(Token const &lhs, Token const &rhs) {
-            return lhs.data == rhs.data;
-        }
+    void Token::setType(TokenType type) {
+        tokenType = type;
+    }
+
+    /// TODO add tokenType comparsion
+    bool operator==(Token const& lhs, Token const& rhs) {
+        return lhs.data == rhs.data;
     }
 }

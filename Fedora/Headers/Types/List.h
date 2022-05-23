@@ -2,11 +2,10 @@
 
 #include <utility>
 
-#include "BasicType.h"
+#include "Types/BasicType.h"
 #include "Context/ContextualComplement.h"
 
 namespace fedora::types {
-
     class List : public BasicType, public fedora::context::ContextualComplement {
     protected:
         std::shared_ptr<BasicType> value;
@@ -28,7 +27,7 @@ namespace fedora::types {
          * @return the new List
          */
         static std::shared_ptr<List> addNewItemToTheBeginning(
-            std::shared_ptr<BasicType> v, 
+            std::shared_ptr<BasicType> v,
             std::shared_ptr<List> lst
         );
 
@@ -37,7 +36,7 @@ namespace fedora::types {
          * @param v - the new item
          * @param n - the old list (it won't be changed)
          * @return the new List
-         * 
+         *
          * @details
          * Мы копируем указатели на данные, мы не создаем новые данные, но создаем список с нуля
          */
@@ -56,5 +55,4 @@ namespace fedora::types {
         /// Возвращает следующий элемент списка
         std::shared_ptr<List> getNext();
     };
-
 }

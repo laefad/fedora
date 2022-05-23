@@ -1,7 +1,3 @@
-//
-// Created  on 31.07.2021.
-//
-
 #pragma once
 
 namespace fedora {
@@ -37,10 +33,10 @@ namespace fedora {
 
     public:
         /// Singleton can't be copied
-        BasicSingleton(BasicSingleton &other) = delete;
+        BasicSingleton(BasicSingleton& other) = delete;
 
         /// Singletons should not be assignable.
-        void operator=(const BasicSingleton &) = delete;
+        void operator=(const BasicSingleton&) = delete;
 
         virtual void cleanFields() = 0;
 

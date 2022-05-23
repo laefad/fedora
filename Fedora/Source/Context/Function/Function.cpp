@@ -1,9 +1,8 @@
-
 #include "Context/Function/Function.h"
 
 namespace fedora::context {
-    
-    Function::Function(std::shared_ptr<Function> parent, std::u8string name):
+
+    Function::Function(std::shared_ptr<Function> parent, std::u8string name) :
         parent(std::move(parent)),
         name(std::move(name))
     {}
@@ -33,7 +32,7 @@ namespace fedora::context {
         FunctionRelation filteredType
     ) {
         return std::make_pair(
-            nullptr, 
+            nullptr,
             FunctionRelation::Any
         );
     }

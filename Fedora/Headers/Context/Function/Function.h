@@ -18,7 +18,7 @@ namespace fedora::context {
         explicit Function(std::shared_ptr<Function> parent, std::u8string name);
 
         /// Возвращает имя функции
-        std::u8string getName() const; 
+        std::u8string getName() const;
 
         /// Возвращает контекст функции
         virtual const std::shared_ptr<Context> getContext() const;

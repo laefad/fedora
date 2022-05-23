@@ -31,22 +31,24 @@ namespace fedora {
             auto temp = std::make_shared<BuiltinFunction>(
                 u8"+",
                 2,
-                [=] (std::shared_ptr<ContextualComplement::Context> ctx) {
+                [=](std::shared_ptr<ContextualComplement::Context> ctx) {
                     auto one = ctx->operator[](u8"_0");
                     auto two = ctx->operator[](u8"_1");
 
                     if (one->type() != two->type()) {
-                        Logger::logE(u8"\'+\' function accept two arguments with different types : " +
-                         one->eval() + 
-                         u8", " +
-                         two->eval());
+                        Logger::logE(
+                            u8"\'+\' function accept two arguments with different types : " +
+                            one->eval() +
+                            u8", " +
+                            two->eval()
+                        );
                         // TODO throw RUNTIME ERROR
                         throw std::exception();
                     }
 
                     switch (one->type())
                     {
-                    case Type::NUMBER :
+                    case Type::NUMBER:
                         return std::make_shared<Number>(
                             getValueFromNumber(one) + getValueFromNumber(two)
                         );
@@ -64,7 +66,7 @@ namespace fedora {
             temp = std::make_shared<BuiltinFunction>(
                 u8"log",
                 1,
-                [=] (std::shared_ptr<ContextualComplement::Context> ctx) {
+                [=](std::shared_ptr<ContextualComplement::Context> ctx) {
                     auto one = ctx->at(u8"_0");
                     out(one->eval() + u8"\n");
                     return std::make_shared<Null>();
@@ -77,12 +79,12 @@ namespace fedora {
             temp = std::make_shared<BuiltinFunction>(
                 u8"$",
                 0,
-                [=] (std::shared_ptr<ContextualComplement::Context> ctx) {
+                [=](std::shared_ptr<ContextualComplement::Context> ctx) {
                     //out(types::String().getImportantQuestion());
                     return std::make_shared<types::String>(types::String(u8"").getImportantQuestion());
                 }
             );
-    
+
             //add IMPORANT QUESTION
             context[u8"$"] = std::move(temp);
 
@@ -91,7 +93,7 @@ namespace fedora {
     private:
 
         static double getValueFromNumber(std::shared_ptr<types::BasicType> b) {
-            return static_cast<fedora::types::Number *>(b.get())->getValue();
+            return static_cast<fedora::types::Number*>(b.get())->getValue();
         }
 
         static void out(std::u8string str) {
@@ -125,12 +127,12 @@ namespace fedora {
             using Call = StackHolder::Call;
             using BindedCall = std::shared_ptr<types::BindedFunCall>;
 
-            for (const Call &call : sh.getData()) {
-                types::BindedFunCall * bcall = call->bind(root).get();
+            for (const Call& call : sh.getData()) {
+                types::BindedFunCall* bcall = call->bind(root).get();
                 auto res = bcall->execute();
 
-                while(res->type() == types::Type::FUN_CALL) {
-                    bcall = dynamic_cast<types::BindedFunCall *>(res.get());
+                while (res->type() == types::Type::FUN_CALL) {
+                    bcall = dynamic_cast<types::BindedFunCall*>(res.get());
                     res = bcall->execute();
                 }
             }

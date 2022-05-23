@@ -6,7 +6,9 @@ namespace fedora {
     class SettingsException : public FException {
     protected:
         // TODO Конкретизировать ошибку
-        std::u8string construct(std::u8string text) const {
+        std::u8string construct(
+            std::u8string text
+        ) const {
             std::u8string buf;
 
             buf += u8"SettingsException\n";
@@ -18,6 +20,6 @@ namespace fedora {
 
     public:
         explicit SettingsException(std::u8string text) :
-                FException(std::move(construct(text))) {}
+            FException(std::move(construct(text))) {}
     };
 }

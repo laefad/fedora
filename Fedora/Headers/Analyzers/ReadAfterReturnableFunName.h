@@ -1,11 +1,9 @@
 #include "Analyzers/AnalyticBasic.h"
 
-namespace fedora {
-    namespace analytic {
-        class ReadAfterReturnableFunName : public AnalyticBasic {
-            std::shared_ptr<AnalyticBasic> analyzeToken(parser::Token const &, ContextBuilder &) override;
+namespace fedora::analytic {
+    class ReadAfterReturnableFunName : public AnalyticBasic {
+        std::shared_ptr<AnalyticBasic> analyzeToken(parser::Token const&, ContextBuilder&) override;
 
-            std::u8string getClassFileName() override;
-        };
-    }
+        std::u8string getClassFileName() override;
+    };
 }
