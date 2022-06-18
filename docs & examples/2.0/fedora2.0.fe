@@ -1,0 +1,44 @@
+# новая структура комментариев позволяет оканчивать комментарии концом строки
+# отделение аргументов скобочками
+# указание типов через двоеточие 
+# введение системы типов
+# введение операторов для данных типов 
+
+let main(x: number, y: number) = log(x + y) 
+
+type loggableNumber extends number where 
+    operator log = log(this.structure)
+
+let main2(x: loggableNumber) = x log 
+
+interface loggable where 
+    methods where 
+        log
+
+type animal where 
+    structure where
+        name: string
+
+type monkey extends animal implements loggable where
+    structure where 
+        age: number
+
+    operators where 
+        die?() = this.age > 10
+        reproduce(another: monkey) = monkey("baby", 0)
+    
+    methods where 
+        say() = log(this.name)
+        # Implementation macros here 
+        log() = log(this)
+
+let main3() where
+    let m1 = monkey("one", 8)
+    let m2 = monkey("two", 5)
+= (m1 reproduce m2).log()
+
+# Bin tree  
+generic(T) type Tree where 
+    structure where
+        value: T
+        nodes: typeof(this) []

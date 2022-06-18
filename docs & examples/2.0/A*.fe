@@ -1,0 +1,25 @@
+
+interface Vector2 where 
+    structure where
+        x: int
+        y: int
+
+interface Node where 
+    structure where 
+        parent: Node
+        position: Vector2
+        g: int
+        h: int
+        walkable: bool
+        opened: bool
+        closed: bool
+
+interface Heuristic where
+    methods where
+        getHeuristic(dx: double, dy: double) -> double  
+
+type EuclideanHeuristic implements Heuristic where 
+    methods where
+        getHeuristic(dx: double, dy: double) -> double = sqrt(dx * dx, dy * dy)
+
+...

@@ -1,0 +1,19 @@
+# Вводится строка X, затем строка Y. 
+# Вернуть первый индекс, с которого Y полностью входит в X. 
+# Если вхождений нет, вернуть -1
+
+let substring(str: string, pattern: string) -> int where
+    let helper(ix: int, px: int) where 
+
+    = if( 
+        (str.len <= ix) or (pattern.len <= px)
+        , -1
+        , if(
+            str.getChar(ix) == pattern.getChar(px)
+            , 
+        )
+    )
+    
+    if(str.getChar(ix) == pattern.getChar(px),
+        
+= ...
