@@ -6,14 +6,14 @@
 
 let main(x: number, y: number) = log(x + y) 
 
-type loggableNumber extends number where 
+interface loggable where 
+    operators where 
+        log -> null
+
+type loggableNumber extends number implements loggable where 
     operator log = log(this.structure)
 
 let main2(x: loggableNumber) = x log 
-
-interface loggable where 
-    methods where 
-        log
 
 type animal where 
     structure where
@@ -24,18 +24,13 @@ type monkey extends animal implements loggable where
         age: number
 
     operators where 
-        die?() = this.age > 10
-        reproduce(another: monkey) = monkey("baby", 0)
-    
-    methods where 
-        say() = log(this.name)
-        # Implementation macros here 
-        log() = log(this)
+        die?() -> bool = this.age > 10
+        reproduce(another: monkey) -> monkey = monkey("baby", 0)
 
 let main3() where
     let m1 = monkey("one", 8)
     let m2 = monkey("two", 5)
-= (m1 reproduce m2).log()
+= (m1 reproduce m2) log
 
 # Bin tree  
 generic(T) type Tree where 
