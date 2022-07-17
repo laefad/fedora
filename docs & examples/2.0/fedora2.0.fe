@@ -24,6 +24,7 @@ type monkey extends animal implements loggable where
         age: number
 
     operators where 
+        log() -> null = log(this.structure) 
         die?() -> bool = this.age > 10
         reproduce(another: monkey) -> monkey = monkey("baby", 0)
 
